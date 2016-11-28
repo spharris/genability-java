@@ -12,60 +12,60 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PriceChange {
-	private String changeName;	
-	private DateTime changeDateTime;
-	private BigDecimal rateAmount;	
-	private BigDecimal relativePriceIndex;
-	private BigDecimal accuracy;
-	private List<TariffRateChangePeriod> rateChangePeriods;
-	
+  private String changeName;
+  private DateTime changeDateTime;
+  private BigDecimal rateAmount;
+  private BigDecimal relativePriceIndex;
+  private BigDecimal accuracy;
+  private List<TariffRateChangePeriod> rateChangePeriods;
 
-	public String getChangeName() {
-        return changeName;
-    }
 
-	public void setChangeName(String changeName) {
-        this.changeName = changeName;
-    }
+  public String getChangeName() {
+    return changeName;
+  }
 
-	public DateTime getChangeDateTime() {
-      return changeDateTime;
-    }
+  public void setChangeName(String changeName) {
+    this.changeName = changeName;
+  }
 
-	public void setChangeDateTime(DateTime changeDateTime) {
-      this.changeDateTime = changeDateTime;
-    }
-	
-	public BigDecimal getRateAmount() {
-		return rateAmount;
-	}
+  public DateTime getChangeDateTime() {
+    return changeDateTime;
+  }
 
-	public void setRateAmount(BigDecimal rateAmount) {
-		this.rateAmount = rateAmount;
-	}
+  public void setChangeDateTime(DateTime changeDateTime) {
+    this.changeDateTime = changeDateTime;
+  }
 
-	public BigDecimal getRelativePriceIndex() {
-        return relativePriceIndex;
-    }
+  public BigDecimal getRateAmount() {
+    return rateAmount;
+  }
 
-	public void setRelativePriceIndex(BigDecimal relativePriceIndex) {
-        this.relativePriceIndex = relativePriceIndex;
-    }
+  public void setRateAmount(BigDecimal rateAmount) {
+    this.rateAmount = rateAmount;
+  }
 
-	public BigDecimal getAccuracy() {
-        return accuracy;
-    }
+  public BigDecimal getRelativePriceIndex() {
+    return relativePriceIndex;
+  }
 
-	public void setAccuracy(BigDecimal accuracy) {
-        this.accuracy = accuracy;
-    }
+  public void setRelativePriceIndex(BigDecimal relativePriceIndex) {
+    this.relativePriceIndex = relativePriceIndex;
+  }
 
-	public List<TariffRateChangePeriod> getRateChangePeriods() {
-		return rateChangePeriods;
-	}
+  public BigDecimal getAccuracy() {
+    return accuracy;
+  }
 
-	public void setRateChangePeriods(List<TariffRateChangePeriod> rateChangePeriods) {
-		this.rateChangePeriods = rateChangePeriods;
-	}
+  public void setAccuracy(BigDecimal accuracy) {
+    this.accuracy = accuracy;
+  }
+
+  public List<TariffRateChangePeriod> getRateChangePeriods() {
+    return rateChangePeriods;
+  }
+
+  public void setRateChangePeriods(List<TariffRateChangePeriod> rateChangePeriods) {
+    this.rateChangePeriods = rateChangePeriods;
+  }
 
 }

@@ -9,93 +9,93 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class GetLsesRequest extends AbstractGetNRequest implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private String accountId;
+  private String accountId;
 
-	private String zipCode;
+  private String zipCode;
 
-	private String[] serviceTypes;
+  private String[] serviceTypes;
 
-	private String[] residentialServiceTypes;
+  private String[] residentialServiceTypes;
 
-	private String[] commercialServiceTypes;
+  private String[] commercialServiceTypes;
 
-	private String[] industrialServiceTypes;
+  private String[] industrialServiceTypes;
 
-	private String[] transportationServiceTypes;
+  private String[] transportationServiceTypes;
 
-	public String getAccountId() {
-		return accountId;
-	}
+  public String getAccountId() {
+    return accountId;
+  }
 
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
+  }
 
-	public String getZipCode() {
-      return zipCode;
-    }
+  public String getZipCode() {
+    return zipCode;
+  }
 
-	public void setZipCode(String zipCode) {
-      this.zipCode = zipCode;
-    }
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
+  }
 
-	public String[] getServiceTypes() {
-      return serviceTypes;
-    }
+  public String[] getServiceTypes() {
+    return serviceTypes;
+  }
 
-	public void setServiceTypes(String[] serviceTypes) {
-      this.serviceTypes = serviceTypes;
-    }
+  public void setServiceTypes(String[] serviceTypes) {
+    this.serviceTypes = serviceTypes;
+  }
 
-	public String[] getResidentialServiceTypes() {
-      return residentialServiceTypes;
-    }
+  public String[] getResidentialServiceTypes() {
+    return residentialServiceTypes;
+  }
 
-	public void setResidentialServiceTypes(String[] residentialServiceTypes) {
-      this.residentialServiceTypes = residentialServiceTypes;
-    }
+  public void setResidentialServiceTypes(String[] residentialServiceTypes) {
+    this.residentialServiceTypes = residentialServiceTypes;
+  }
 
-	public String[] getCommercialServiceTypes() {
-      return commercialServiceTypes;
-    }
+  public String[] getCommercialServiceTypes() {
+    return commercialServiceTypes;
+  }
 
-	public void setCommercialServiceTypes(String[] commercialServiceTypes) {
-      this.commercialServiceTypes = commercialServiceTypes;
-    }
+  public void setCommercialServiceTypes(String[] commercialServiceTypes) {
+    this.commercialServiceTypes = commercialServiceTypes;
+  }
 
-	public String[] getIndustrialServiceTypes() {
-      return industrialServiceTypes;
-    }
+  public String[] getIndustrialServiceTypes() {
+    return industrialServiceTypes;
+  }
 
-	public void setIndustrialServiceTypes(String[] industrialServiceTypes) {
-      this.industrialServiceTypes = industrialServiceTypes;
-    }
+  public void setIndustrialServiceTypes(String[] industrialServiceTypes) {
+    this.industrialServiceTypes = industrialServiceTypes;
+  }
 
-	public String[] getTransportationServiceTypes() {
-      return transportationServiceTypes;
-    }
+  public String[] getTransportationServiceTypes() {
+    return transportationServiceTypes;
+  }
 
-	public void setTransportationServiceTypes(String[] transportationServiceTypes) {
-      this.transportationServiceTypes = transportationServiceTypes;
-    }
+  public void setTransportationServiceTypes(String[] transportationServiceTypes) {
+    this.transportationServiceTypes = transportationServiceTypes;
+  }
 
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
 
-		List<NameValuePair> qparams = super.getQueryParams();
-		addParam(qparams,"accountId",accountId);
-		addParam(qparams,"zipCode",zipCode);
-		addParam(qparams,"serviceTypes",serviceTypes);
-		addParam(qparams,"residentialServiceTypes",residentialServiceTypes);
-		addParam(qparams,"commercialServiceTypes",commercialServiceTypes);
-		addParam(qparams,"industrialServiceTypes",industrialServiceTypes);
-		addParam(qparams,"transportationServiceTypes",transportationServiceTypes);
-		
-		return qparams;
-		
-	}	
-	
+    List<NameValuePair> qparams = super.getQueryParams();
+    addParam(qparams, "accountId", accountId);
+    addParam(qparams, "zipCode", zipCode);
+    addParam(qparams, "serviceTypes", serviceTypes);
+    addParam(qparams, "residentialServiceTypes", residentialServiceTypes);
+    addParam(qparams, "commercialServiceTypes", commercialServiceTypes);
+    addParam(qparams, "industrialServiceTypes", industrialServiceTypes);
+    addParam(qparams, "transportationServiceTypes", transportationServiceTypes);
+
+    return qparams;
+
+  }
+
 }

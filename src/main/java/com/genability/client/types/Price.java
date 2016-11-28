@@ -12,136 +12,134 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Price {
-	
-	public static final String REST_TYPE = "TariffRateSummary";
 
-	private Long tariffId;
-	private ChargeType chargeType;
-	private String quantityKey;
-	private DateTime fromDateTime;
-	private DateTime toDateTime;
-	private BigDecimal rateAmount;
-	private BigDecimal relativePriceIndex;
-	private String currency;
-	private List<PriceChange> priceChanges;
-	private List<TariffRateChangePeriod> rateChangePeriods;
+  public static final String REST_TYPE = "TariffRateSummary";
 
-	public Long getTariffId() {
-		return tariffId;
-	}
+  private Long tariffId;
+  private ChargeType chargeType;
+  private String quantityKey;
+  private DateTime fromDateTime;
+  private DateTime toDateTime;
+  private BigDecimal rateAmount;
+  private BigDecimal relativePriceIndex;
+  private String currency;
+  private List<PriceChange> priceChanges;
+  private List<TariffRateChangePeriod> rateChangePeriods;
 
-	public void setTariffId(Long tariffId) {
-		this.tariffId = tariffId;
-	}
+  public Long getTariffId() {
+    return tariffId;
+  }
 
-	public ChargeType getChargeType() {
-        return chargeType;
-    }
+  public void setTariffId(Long tariffId) {
+    this.tariffId = tariffId;
+  }
 
-	public void setChargeType(ChargeType chargeType) {
-        this.chargeType = chargeType;
-    }
+  public ChargeType getChargeType() {
+    return chargeType;
+  }
 
-	/**
-	 * When not null, the Property that defines
-	 * the type of quantity this rate applies to.
-	 * @return The return value.
-	 */
-	public String getQuantityKey() {
-        return quantityKey;
-    }
+  public void setChargeType(ChargeType chargeType) {
+    this.chargeType = chargeType;
+  }
 
-	public void setQuantityKey(String quantityKey) {
-        this.quantityKey = quantityKey;
-    }
+  /**
+   * When not null, the Property that defines the type of quantity this rate applies to.
+   * 
+   * @return The return value.
+   */
+  public String getQuantityKey() {
+    return quantityKey;
+  }
 
-	/**
-	 * The starting date and time for this Price summary.
-	 * 
-	 * @return The return value.
-	 */
-	public DateTime getFromDateTime() {
-		return fromDateTime;
-	}
+  public void setQuantityKey(String quantityKey) {
+    this.quantityKey = quantityKey;
+  }
 
-	public void setFromDateTime(DateTime fromDateTime) {
-		this.fromDateTime = fromDateTime;
-	}
+  /**
+   * The starting date and time for this Price summary.
+   * 
+   * @return The return value.
+   */
+  public DateTime getFromDateTime() {
+    return fromDateTime;
+  }
 
-	/**
-	 * The ending date and time for this Price summary.
-	 * 
-	 * @return The return value.
-	 */
-	public DateTime getToDateTime() {
-		return toDateTime;
-	}
+  public void setFromDateTime(DateTime fromDateTime) {
+    this.fromDateTime = fromDateTime;
+  }
 
-	public void setToDateTime(DateTime toDateTime) {
-		this.toDateTime = toDateTime;
-	}
-	
-	/**
-	 * Currently all prices are returned in USD.
-	 * 
-	 * @return The return value.
-	 */
-	public String getCurrency() {
-		return currency;
-	}
+  /**
+   * The ending date and time for this Price summary.
+   * 
+   * @return The return value.
+   */
+  public DateTime getToDateTime() {
+    return toDateTime;
+  }
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
+  public void setToDateTime(DateTime toDateTime) {
+    this.toDateTime = toDateTime;
+  }
 
-	/**
-	 * The charge amount in dollars for
-	 * this Tariff at the time passed in.
-	 * 
-	 * @return The return value.
-	 */
-	public BigDecimal getRateAmount() {
-        return rateAmount;
-    }
+  /**
+   * Currently all prices are returned in USD.
+   * 
+   * @return The return value.
+   */
+  public String getCurrency() {
+    return currency;
+  }
 
-	public void setRateAmount(BigDecimal rateAmount) {
-        this.rateAmount = rateAmount;
-    }
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
 
-	/**
-	 * The relative price of this rateAmount compared to other rate
-	 * amounts in this summary. This is useful for change in price
-	 * notifications. The highest price will have an RPI of 1.0.
-	 * 
-	 * @return The return value.
-	 */
-	public BigDecimal getRelativePriceIndex() {
-        return relativePriceIndex;
-    }
+  /**
+   * The charge amount in dollars for this Tariff at the time passed in.
+   * 
+   * @return The return value.
+   */
+  public BigDecimal getRateAmount() {
+    return rateAmount;
+  }
 
-	public void setRelativePriceIndex(BigDecimal relativePriceIndex) {
-        this.relativePriceIndex = relativePriceIndex;
-    }
+  public void setRateAmount(BigDecimal rateAmount) {
+    this.rateAmount = rateAmount;
+  }
 
-	/**
-	 * List of all the price changes within the specified time period
-	 * 
-	 * @return The return value.
-	 */
-	public List<PriceChange> getPriceChanges() {
-		return priceChanges;
-	}
+  /**
+   * The relative price of this rateAmount compared to other rate amounts in this summary. This is
+   * useful for change in price notifications. The highest price will have an RPI of 1.0.
+   * 
+   * @return The return value.
+   */
+  public BigDecimal getRelativePriceIndex() {
+    return relativePriceIndex;
+  }
 
-	public void setPriceChanges(List<PriceChange> priceChanges) {
-		this.priceChanges = priceChanges;
-	}
+  public void setRelativePriceIndex(BigDecimal relativePriceIndex) {
+    this.relativePriceIndex = relativePriceIndex;
+  }
 
-	public List<TariffRateChangePeriod> getRateChangePeriods() {
-		return rateChangePeriods;
-	}
+  /**
+   * List of all the price changes within the specified time period
+   * 
+   * @return The return value.
+   */
+  public List<PriceChange> getPriceChanges() {
+    return priceChanges;
+  }
 
-	public void setRateChangePeriods(List<TariffRateChangePeriod> rateChangePeriods) {
-		this.rateChangePeriods = rateChangePeriods;
-	}
-	
+  public void setPriceChanges(List<PriceChange> priceChanges) {
+    this.priceChanges = priceChanges;
+  }
+
+  public List<TariffRateChangePeriod> getRateChangePeriods() {
+    return rateChangePeriods;
+  }
+
+  public void setRateChangePeriods(List<TariffRateChangePeriod> rateChangePeriods) {
+    this.rateChangePeriods = rateChangePeriods;
+  }
+
 }

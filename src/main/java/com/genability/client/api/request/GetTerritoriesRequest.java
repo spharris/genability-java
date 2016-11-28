@@ -9,160 +9,160 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class GetTerritoriesRequest extends AbstractGetNRequest implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 * Private member variable for LseId.
-	 */
-	private Long lseId;
+  /**
+   * Private member variable for LseId.
+   */
+  private Long lseId;
 
-	/**
-	 * private member variable for MasterTariffId.
-	 */
-	private Long masterTariffId;
+  /**
+   * private member variable for MasterTariffId.
+   */
+  private Long masterTariffId;
 
-	/**
-	 * private member variable for UsageTypes
-	 */
-	private String[] usageTypes;
-	
-	/**
-	 * private member variable for containsItemType.
-	 */
-	private String containsItemType;
+  /**
+   * private member variable for UsageTypes
+   */
+  private String[] usageTypes;
 
-	/**
-	 * private member variable for containsItemValue.
-	 */
-	private String containsItemValue;
-	
-	/**
-	 * Private member variable for populating Territory Items.
-	 */
-	private Boolean populateItems;
+  /**
+   * private member variable for containsItemType.
+   */
+  private String containsItemType;
 
-	/**
-	 * Private member variable for populating Territory Lses.
-	 */
-	private Boolean populateLses;
+  /**
+   * private member variable for containsItemValue.
+   */
+  private String containsItemValue;
 
-	/**
-	 * @return the lseId
-	 */
-	public Long getLseId() {
-		return lseId;
-	}
+  /**
+   * Private member variable for populating Territory Items.
+   */
+  private Boolean populateItems;
 
-	/**
-	 * @param lseId the lseId to set
-	 */
-	public void setLseId(Long lseId) {
-		this.lseId = lseId;
-	}
+  /**
+   * Private member variable for populating Territory Lses.
+   */
+  private Boolean populateLses;
 
-	/**
-	 * @return the masterTariffId
-	 */
-	public Long getMasterTariffId() {
-		return masterTariffId;
-	}
+  /**
+   * @return the lseId
+   */
+  public Long getLseId() {
+    return lseId;
+  }
 
-	/**
-	 * @param masterTariffId the masterTariffId to set
-	 */
-	public void setMasterTariffId(Long masterTariffId) {
-		this.masterTariffId = masterTariffId;
-	}
+  /**
+   * @param lseId the lseId to set
+   */
+  public void setLseId(Long lseId) {
+    this.lseId = lseId;
+  }
 
-	/**
-	 * @return the usageTypes
-	 */
-	public String[] getUsageTypes() {
-		return usageTypes;
-	}
+  /**
+   * @return the masterTariffId
+   */
+  public Long getMasterTariffId() {
+    return masterTariffId;
+  }
 
-	/**
-	 * @param usageTypes the usageTypes to set
-	 */
-	public void setUsageTypes(String[] usageTypes) {
-		this.usageTypes = usageTypes;
-	}
+  /**
+   * @param masterTariffId the masterTariffId to set
+   */
+  public void setMasterTariffId(Long masterTariffId) {
+    this.masterTariffId = masterTariffId;
+  }
 
-	/**
-	 * @return the containsItemType
-	 */
-	public String getContainsItemType() {
-		return containsItemType;
-	}
+  /**
+   * @return the usageTypes
+   */
+  public String[] getUsageTypes() {
+    return usageTypes;
+  }
 
-	/**
-	 * @param containsItemType the containsItemType to set
-	 */
-	public void setContainsItemType(String containsItemType) {
-		this.containsItemType = containsItemType;
-	}
+  /**
+   * @param usageTypes the usageTypes to set
+   */
+  public void setUsageTypes(String[] usageTypes) {
+    this.usageTypes = usageTypes;
+  }
 
-	/**
-	 * @return the containsItemValue
-	 */
-	public String getContainsItemValue() {
-		return containsItemValue;
-	}
+  /**
+   * @return the containsItemType
+   */
+  public String getContainsItemType() {
+    return containsItemType;
+  }
 
-	/**
-	 * @param containsItemValue the containsItemValue to set
-	 */
-	public void setContainsItemValue(String containsItemValue) {
-		this.containsItemValue = containsItemValue;
-	}
+  /**
+   * @param containsItemType the containsItemType to set
+   */
+  public void setContainsItemType(String containsItemType) {
+    this.containsItemType = containsItemType;
+  }
 
-	/**
-	 * @return the populateItems
-	 */
-	public Boolean getPopulateItems() {
-		return populateItems;
-	}
+  /**
+   * @return the containsItemValue
+   */
+  public String getContainsItemValue() {
+    return containsItemValue;
+  }
 
-	/**
-	 * @param populateItems the populateItems to set
-	 */
-	public void setPopulateItems(Boolean populateItems) {
-		this.populateItems = populateItems;
-	}
+  /**
+   * @param containsItemValue the containsItemValue to set
+   */
+  public void setContainsItemValue(String containsItemValue) {
+    this.containsItemValue = containsItemValue;
+  }
 
-	/**
-	 * @return the populateLses
-	 */
-	public Boolean getPopulateLses() {
-		return populateLses;
-	}
+  /**
+   * @return the populateItems
+   */
+  public Boolean getPopulateItems() {
+    return populateItems;
+  }
 
-	/**
-	 * @param populateLses the populateLses to set
-	 */
-	public void setPopulateLses(Boolean populateLses) {
-		this.populateLses = populateLses;
-	}
+  /**
+   * @param populateItems the populateItems to set
+   */
+  public void setPopulateItems(Boolean populateItems) {
+    this.populateItems = populateItems;
+  }
 
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
+  /**
+   * @return the populateLses
+   */
+  public Boolean getPopulateLses() {
+    return populateLses;
+  }
 
-		List<NameValuePair> qparams = super.getQueryParams();
+  /**
+   * @param populateLses the populateLses to set
+   */
+  public void setPopulateLses(Boolean populateLses) {
+    this.populateLses = populateLses;
+  }
 
-		addParam(qparams,"populateItems",populateItems);
-		addParam(qparams,"populateLses",populateLses);
-		addParam(qparams,"lseId",lseId);
-		addParam(qparams,"masterTariffId",masterTariffId);
-		addParam(qparams,"containsItemType",containsItemType);
-		addParam(qparams,"containsItemValue",containsItemValue);
-		addParam(qparams,"usageType",usageTypes);
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
 
-		return qparams;
+    List<NameValuePair> qparams = super.getQueryParams();
 
-	}
-	
+    addParam(qparams, "populateItems", populateItems);
+    addParam(qparams, "populateLses", populateLses);
+    addParam(qparams, "lseId", lseId);
+    addParam(qparams, "masterTariffId", masterTariffId);
+    addParam(qparams, "containsItemType", containsItemType);
+    addParam(qparams, "containsItemValue", containsItemValue);
+    addParam(qparams, "usageType", usageTypes);
+
+    return qparams;
+
+  }
+
 }

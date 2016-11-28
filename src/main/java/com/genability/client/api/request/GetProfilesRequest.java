@@ -9,59 +9,57 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class GetProfilesRequest extends AbstractGetNRequest implements Serializable {
 
-	/**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-    
-    /**
-	 * Private member variable for accountId.
-	 */
-	private String accountId;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 * Private member variable for providerAccountId.
-	 */
-	private String providerAccountId;
+  /**
+   * Private member variable for accountId.
+   */
+  private String accountId;
 
-	/**
-	 * @return the accountId
-	 */
-	public String getAccountId() {
-		return accountId;
-	}
+  /**
+   * Private member variable for providerAccountId.
+   */
+  private String providerAccountId;
 
-	/**
-	 * @param accountId The accountId.
-	 *            the accountId to set
-	 */
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
+  /**
+   * @return the accountId
+   */
+  public String getAccountId() {
+    return accountId;
+  }
 
-	/**
-	 * @return providerAccountId
-	 */
-	public String getProviderAccountId() {
-		return providerAccountId;
-	}
+  /**
+   * @param accountId The accountId. the accountId to set
+   */
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
+  }
 
-	/**
-	 * @param providerAccountId The providerAccountId.
-	 *            the providerAccountId to set
-	 */
-	public void setProviderAccountId(String providerAccountId) {
-		this.providerAccountId = providerAccountId;
-	}
-	
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
-		List<NameValuePair> qparams = super.getQueryParams();
-		addParam(qparams, "accountId", accountId);
-		addParam(qparams, "providerAccountId", providerAccountId);
-		return qparams;
-		
-	}
-	
+  /**
+   * @return providerAccountId
+   */
+  public String getProviderAccountId() {
+    return providerAccountId;
+  }
+
+  /**
+   * @param providerAccountId The providerAccountId. the providerAccountId to set
+   */
+  public void setProviderAccountId(String providerAccountId) {
+    this.providerAccountId = providerAccountId;
+  }
+
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
+    List<NameValuePair> qparams = super.getQueryParams();
+    addParam(qparams, "accountId", accountId);
+    addParam(qparams, "providerAccountId", providerAccountId);
+    return qparams;
+
+  }
+
 }

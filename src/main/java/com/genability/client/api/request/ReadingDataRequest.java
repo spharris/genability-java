@@ -8,35 +8,35 @@ import org.apache.http.NameValuePair;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.ReadingData;
 
-public class ReadingDataRequest extends AbstractRequest implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class ReadingDataRequest extends AbstractRequest implements Serializable {
+  private static final long serialVersionUID = 1L;
 
-	private String usageProfileId;
-	private List<ReadingData> readings;
+  private String usageProfileId;
+  private List<ReadingData> readings;
 
-	public String getUsageProfileId() {
-		return usageProfileId;
-	}
+  public String getUsageProfileId() {
+    return usageProfileId;
+  }
 
-	public void setUsageProfileId(String profileId) {
-		this.usageProfileId = profileId;
-	}
-	
-	public List<ReadingData> getReadings() {
-		return readings;
-	}
+  public void setUsageProfileId(String profileId) {
+    this.usageProfileId = profileId;
+  }
 
-	public void setReadings(List<ReadingData> readings) {
-		this.readings = readings;
-	}
+  public List<ReadingData> getReadings() {
+    return readings;
+  }
 
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
-		List<NameValuePair> qparams = super.getQueryParams();
-		
-		addParam(qparams, "usageProfileId", usageProfileId);
+  public void setReadings(List<ReadingData> readings) {
+    this.readings = readings;
+  }
 
-		return qparams;
-	}
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
+    List<NameValuePair> qparams = super.getQueryParams();
+
+    addParam(qparams, "usageProfileId", usageProfileId);
+
+    return qparams;
+  }
 }

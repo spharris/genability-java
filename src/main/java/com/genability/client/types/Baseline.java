@@ -1,212 +1,212 @@
 package com.genability.client.types;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Baseline {
 
-	public static final String REST_TYPE = "Baseline";
+  public static final String REST_TYPE = "Baseline";
 
-	private String baselineId;
-	private BuildingType buildingType;
-	private Territory climateZone;
+  private String baselineId;
+  private BuildingType buildingType;
+  private Territory climateZone;
 
-	// As of 2014/08/26, factors returned are:
-	//   annualConsumption
-	//   buildingArea
-	//   meanAnnualConsumption
-	//   meanBuildingArea
-	//   meanIntensity
-	//   monthlyConsumption
-	//   peakDemand
-	//   uberAnnualConsumption
-	private Map<String, BigDecimal> factors = new HashMap<String, BigDecimal>();
+  // As of 2014/08/26, factors returned are:
+  // annualConsumption
+  // buildingArea
+  // meanAnnualConsumption
+  // meanBuildingArea
+  // meanIntensity
+  // monthlyConsumption
+  // peakDemand
+  // uberAnnualConsumption
+  private Map<String, BigDecimal> factors = new HashMap<String, BigDecimal>();
 
-	private int measureDuration;
-	private String measureUnit;
-	private String measureValue;
-	private BaselineMeasure[] measures;
-	private String name;
-	private PropertyData[] properties;
-	private ServiceType serviceType;
-	private String sourceId;
-	private int startDay;
-	private Coordinates location;
+  private int measureDuration;
+  private String measureUnit;
+  private String measureValue;
+  private BaselineMeasure[] measures;
+  private String name;
+  private PropertyData[] properties;
+  private ServiceType serviceType;
+  private String sourceId;
+  private int startDay;
+  private Coordinates location;
 
-	@JsonIgnoreProperties(ignoreUnknown = true)
-	public static class BuildingType {
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public static class BuildingType {
 
-		private CustomerClass customerClass;
-		private String description;
-		private String id;
-		private String name;
-		private String buildingClass;
+    private CustomerClass customerClass;
+    private String description;
+    private String id;
+    private String name;
+    private String buildingClass;
 
-		public CustomerClass getCustomerClass() {
-			return customerClass;
-		}
+    public CustomerClass getCustomerClass() {
+      return customerClass;
+    }
 
-		public void setCustomerClass(final CustomerClass customerClass) {
-			this.customerClass = customerClass;
-		}
+    public void setCustomerClass(final CustomerClass customerClass) {
+      this.customerClass = customerClass;
+    }
 
-		public String getDescription() {
-			return description;
-		}
+    public String getDescription() {
+      return description;
+    }
 
-		public void setDescription(final String description) {
-			this.description = description;
-		}
+    public void setDescription(final String description) {
+      this.description = description;
+    }
 
-		public String getId() {
-			return id;
-		}
+    public String getId() {
+      return id;
+    }
 
-		public void setId(final String id) {
-			this.id = id;
-		}
+    public void setId(final String id) {
+      this.id = id;
+    }
 
-		public String getName() {
-			return name;
-		}
+    public String getName() {
+      return name;
+    }
 
-		public void setName(final String name) {
-			this.name = name;
-		}
-		
-		public String getBuildingClass() {
-			return buildingClass;
-		}
+    public void setName(final String name) {
+      this.name = name;
+    }
 
-		public void setBuildingClass(final String buildingClass) {
-			this.buildingClass = buildingClass;
-		}
-	}
+    public String getBuildingClass() {
+      return buildingClass;
+    }
 
-	public String getBaselineId() {
-		return baselineId;
-	}
+    public void setBuildingClass(final String buildingClass) {
+      this.buildingClass = buildingClass;
+    }
+  }
 
-	public void setBaselineId(final String baselineId) {
-		this.baselineId = baselineId;
-	}
+  public String getBaselineId() {
+    return baselineId;
+  }
 
-	public BuildingType getBuildingType() {
-		return buildingType;
-	}
+  public void setBaselineId(final String baselineId) {
+    this.baselineId = baselineId;
+  }
 
-	public void setBuildingType(final BuildingType buildingType) {
-		this.buildingType = buildingType;
-	}
+  public BuildingType getBuildingType() {
+    return buildingType;
+  }
 
-	public Territory getClimateZone() {
-		return climateZone;
-	}
+  public void setBuildingType(final BuildingType buildingType) {
+    this.buildingType = buildingType;
+  }
 
-	public void setClimateZone(final Territory climateZone) {
-		this.climateZone = climateZone;
-	}
+  public Territory getClimateZone() {
+    return climateZone;
+  }
 
-	public Map<String, BigDecimal> getFactors() {
-		return factors;
-	}
+  public void setClimateZone(final Territory climateZone) {
+    this.climateZone = climateZone;
+  }
 
-	public void setFactors(final Map<String, BigDecimal> factors) {
-		this.factors = factors;
-	}
-	
-	public int getMeasureDuration() {
-		return measureDuration;
-	}
+  public Map<String, BigDecimal> getFactors() {
+    return factors;
+  }
 
-	public void setMeasureDuration(final int measureDuration) {
-		this.measureDuration = measureDuration;
-	}
+  public void setFactors(final Map<String, BigDecimal> factors) {
+    this.factors = factors;
+  }
 
-	public String getMeasureUnit() {
-		return measureUnit;
-	}
+  public int getMeasureDuration() {
+    return measureDuration;
+  }
 
-	public void setMeasureUnit(final String measureUnit) {
-		this.measureUnit = measureUnit;
-	}
+  public void setMeasureDuration(final int measureDuration) {
+    this.measureDuration = measureDuration;
+  }
 
-	public String getMeasureValue() {
-		return measureValue;
-	}
+  public String getMeasureUnit() {
+    return measureUnit;
+  }
 
-	public void setMeasureValue(final String measureValue) {
-		this.measureValue = measureValue;
-	}
+  public void setMeasureUnit(final String measureUnit) {
+    this.measureUnit = measureUnit;
+  }
 
-	public BaselineMeasure[] getMeasures() {
-		return measures;
-	}
-	
-	@JsonIgnore
-	public List<BaselineMeasure> getMeasuresList() {
-		return Arrays.asList(measures);
-	}
+  public String getMeasureValue() {
+    return measureValue;
+  }
 
-	public void setMeasures(final BaselineMeasure[] measures) {
-		this.measures = measures;
-	}
+  public void setMeasureValue(final String measureValue) {
+    this.measureValue = measureValue;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public BaselineMeasure[] getMeasures() {
+    return measures;
+  }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+  @JsonIgnore
+  public List<BaselineMeasure> getMeasuresList() {
+    return Arrays.asList(measures);
+  }
 
-	public PropertyData[] getProperties() {
-		return properties;
-	}
+  public void setMeasures(final BaselineMeasure[] measures) {
+    this.measures = measures;
+  }
 
-	public void setProperties(final PropertyData[] properties) {
-		this.properties = properties;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public ServiceType getServiceType() {
-		return serviceType;
-	}
+  public void setName(final String name) {
+    this.name = name;
+  }
 
-	public void setServiceType(final ServiceType serviceType) {
-		this.serviceType = serviceType;
-	}
+  public PropertyData[] getProperties() {
+    return properties;
+  }
 
-	public String getSourceId() {
-		return sourceId;
-	}
+  public void setProperties(final PropertyData[] properties) {
+    this.properties = properties;
+  }
 
-	public void setSourceId(final String sourceId) {
-		this.sourceId = sourceId;
-	}
+  public ServiceType getServiceType() {
+    return serviceType;
+  }
 
-	public int getStartDay() {
-		return startDay;
-	}
+  public void setServiceType(final ServiceType serviceType) {
+    this.serviceType = serviceType;
+  }
 
-	public void setStartDay(final int startDay) {
-		this.startDay = startDay;
-	}
+  public String getSourceId() {
+    return sourceId;
+  }
 
-	public Coordinates getLocation() {
-		return location;
-	}
+  public void setSourceId(final String sourceId) {
+    this.sourceId = sourceId;
+  }
 
-	public void setLocation(Coordinates location) {
-		this.location = location;
-	}
+  public int getStartDay() {
+    return startDay;
+  }
+
+  public void setStartDay(final int startDay) {
+    this.startDay = startDay;
+  }
+
+  public Coordinates getLocation() {
+    return location;
+  }
+
+  public void setLocation(Coordinates location) {
+    this.location = location;
+  }
 }

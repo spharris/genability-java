@@ -10,191 +10,191 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class PropertyKey {
 
-	public static final String REST_TYPE = "PropertyKey";
-	
-	private String keyName;	
-	private String displayName;
-	private String description;
-	
-	private String family;
-	private String keyspace;	
-	private DataType dataType;
-	private String resourceType;
+  public static final String REST_TYPE = "PropertyKey";
 
-	private String quantityUnit;
-	private String formulaDetail;
+  private String keyName;
+  private String displayName;
+  private String description;
 
-	private Integer lookbackIntervalQuantity;
-	private Integer lookbackQuantity;
-	private String lookbackPeriod;
-	private Long lookbackTimeOfUseId;
-	private Integer lookbackSeasonId;
+  private String family;
+  private String keyspace;
+  private DataType dataType;
+  private String resourceType;
 
-	private Long entityId;
-	private String entityName;
-	private String entityType;
+  private String quantityUnit;
+  private String formulaDetail;
 
-	private Privacy privacy;	
-	private List<Choice> choices;	
-	private List<PropertyLookup> lookups;
+  private Integer lookbackIntervalQuantity;
+  private Integer lookbackQuantity;
+  private String lookbackPeriod;
+  private Long lookbackTimeOfUseId;
+  private Integer lookbackSeasonId;
 
-	public String getKeyName() {
-		return keyName;
-	}
+  private Long entityId;
+  private String entityName;
+  private String entityType;
 
-	public void setKeyName(final String keyName) {
-		this.keyName = keyName;
-	}
+  private Privacy privacy;
+  private List<Choice> choices;
+  private List<PropertyLookup> lookups;
 
-	public String getDisplayName() {
-		return displayName;
-	}
+  public String getKeyName() {
+    return keyName;
+  }
 
-	public void setDisplayName(final String displayName) {
-		this.displayName = displayName;
-	}
+  public void setKeyName(final String keyName) {
+    this.keyName = keyName;
+  }
 
-	public String getFamily() {
-		return family;
-	}
+  public String getDisplayName() {
+    return displayName;
+  }
 
-	public void setFamily(final String family) {
-		this.family = family;
-	}
+  public void setDisplayName(final String displayName) {
+    this.displayName = displayName;
+  }
 
-	public String getKeyspace() {
-		return keyspace;
-	}
+  public String getFamily() {
+    return family;
+  }
 
-	public void setKeyspace(final String keyspace) {
-		this.keyspace = keyspace;
-	}
+  public void setFamily(final String family) {
+    this.family = family;
+  }
 
-	public String getDescription() {
-		return description;
-	}
+  public String getKeyspace() {
+    return keyspace;
+  }
 
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+  public void setKeyspace(final String keyspace) {
+    this.keyspace = keyspace;
+  }
 
-	public DataType getDataType() {
-		return dataType;
-	}
+  public String getDescription() {
+    return description;
+  }
 
-	public void setDataType(final DataType dataType) {
-		this.dataType = dataType;
-	}
+  public void setDescription(final String description) {
+    this.description = description;
+  }
 
-	public String getResourceType() {
-		return resourceType;
-	}
+  public DataType getDataType() {
+    return dataType;
+  }
 
-	public void setResourceType(final String resourceType) {
-		this.resourceType = resourceType;
-	}
+  public void setDataType(final DataType dataType) {
+    this.dataType = dataType;
+  }
 
-	public String getQuantityUnit() {
-		return quantityUnit;
-	}
+  public String getResourceType() {
+    return resourceType;
+  }
 
-	public void setQuantityUnit(final String quantityUnit) {
-		this.quantityUnit = quantityUnit;
-	}
+  public void setResourceType(final String resourceType) {
+    this.resourceType = resourceType;
+  }
 
-	public String getFormulaDetail() {
-		return formulaDetail;
-	}
+  public String getQuantityUnit() {
+    return quantityUnit;
+  }
 
-	public void setFormulaDetail(final String formulaDetail) {
-		this.formulaDetail = formulaDetail;
-	}
+  public void setQuantityUnit(final String quantityUnit) {
+    this.quantityUnit = quantityUnit;
+  }
 
-	public Integer getLookbackIntervalQuantity() {
-		return lookbackIntervalQuantity;
-	}
+  public String getFormulaDetail() {
+    return formulaDetail;
+  }
 
-	public void setLookbackIntervalQuantity(final Integer lookbackIntervalQuantity) {
-		this.lookbackIntervalQuantity = lookbackIntervalQuantity;
-	}
+  public void setFormulaDetail(final String formulaDetail) {
+    this.formulaDetail = formulaDetail;
+  }
 
-	public Integer getLookbackQuantity() {
-		return lookbackQuantity;
-	}
+  public Integer getLookbackIntervalQuantity() {
+    return lookbackIntervalQuantity;
+  }
 
-	public void setLookbackQuantity(final Integer lookbackQuantity) {
-		this.lookbackQuantity = lookbackQuantity;
-	}
+  public void setLookbackIntervalQuantity(final Integer lookbackIntervalQuantity) {
+    this.lookbackIntervalQuantity = lookbackIntervalQuantity;
+  }
 
-	public String getLookbackPeriod() {
-		return lookbackPeriod;
-	}
+  public Integer getLookbackQuantity() {
+    return lookbackQuantity;
+  }
 
-	public void setLookbackPeriod(final String lookbackPeriod) {
-		this.lookbackPeriod = lookbackPeriod;
-	}
+  public void setLookbackQuantity(final Integer lookbackQuantity) {
+    this.lookbackQuantity = lookbackQuantity;
+  }
 
-	public Long getLookbackTimeOfUseId() {
-		return lookbackTimeOfUseId;
-	}
+  public String getLookbackPeriod() {
+    return lookbackPeriod;
+  }
 
-	public void setLookbackTimeOfUseId(final Long lookbackTimeOfUseId) {
-		this.lookbackTimeOfUseId = lookbackTimeOfUseId;
-	}
+  public void setLookbackPeriod(final String lookbackPeriod) {
+    this.lookbackPeriod = lookbackPeriod;
+  }
 
-	public Integer getLookbackSeasonId() {
-		return lookbackSeasonId;
-	}
+  public Long getLookbackTimeOfUseId() {
+    return lookbackTimeOfUseId;
+  }
 
-	public void setLookbackSeasonId(final Integer lookbackSeasonId) {
-		this.lookbackSeasonId = lookbackSeasonId;
-	}
+  public void setLookbackTimeOfUseId(final Long lookbackTimeOfUseId) {
+    this.lookbackTimeOfUseId = lookbackTimeOfUseId;
+  }
 
-	public Long getEntityId() {
-		return entityId;
-	}
+  public Integer getLookbackSeasonId() {
+    return lookbackSeasonId;
+  }
 
-	public void setEntityId(final Long entityId) {
-		this.entityId = entityId;
-	}
+  public void setLookbackSeasonId(final Integer lookbackSeasonId) {
+    this.lookbackSeasonId = lookbackSeasonId;
+  }
 
-	public String getEntityName() {
-		return entityName;
-	}
+  public Long getEntityId() {
+    return entityId;
+  }
 
-	public void setEntityName(final String entityName) {
-		this.entityName = entityName;
-	}
+  public void setEntityId(final Long entityId) {
+    this.entityId = entityId;
+  }
 
-	public String getEntityType() {
-		return entityType;
-	}
+  public String getEntityName() {
+    return entityName;
+  }
 
-	public void setEntityType(final String entityType) {
-		this.entityType = entityType;
-	}
+  public void setEntityName(final String entityName) {
+    this.entityName = entityName;
+  }
 
-	public Privacy getPrivacy() {
-		return privacy;
-	}
+  public String getEntityType() {
+    return entityType;
+  }
 
-	public void setPrivacy(final Privacy privacy) {
-		this.privacy = privacy;
-	}
+  public void setEntityType(final String entityType) {
+    this.entityType = entityType;
+  }
 
-	public List<Choice> getChoices() {
-		return choices;
-	}
+  public Privacy getPrivacy() {
+    return privacy;
+  }
 
-	public void setChoices(final List<Choice> choices) {
-		this.choices = choices;
-	}
+  public void setPrivacy(final Privacy privacy) {
+    this.privacy = privacy;
+  }
 
-	public List<PropertyLookup> getLookups() {
-		return lookups;
-	}
+  public List<Choice> getChoices() {
+    return choices;
+  }
 
-	public void setLookups(final List<PropertyLookup> lookups) {
-		this.lookups = lookups;
-	}
+  public void setChoices(final List<Choice> choices) {
+    this.choices = choices;
+  }
+
+  public List<PropertyLookup> getLookups() {
+    return lookups;
+  }
+
+  public void setLookups(final List<PropertyLookup> lookups) {
+    this.lookups = lookups;
+  }
 }

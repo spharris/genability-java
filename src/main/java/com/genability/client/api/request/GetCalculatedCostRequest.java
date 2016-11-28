@@ -21,270 +21,267 @@ import com.genability.client.types.TariffRate;
 public class GetCalculatedCostRequest extends AbstractRequest implements Serializable {
 
 
-	/**
-	 * Private member variable serialVersionUID
-	 */
-	private static final long serialVersionUID = 1L;
-	private DateTime fromDateTime;
-	private DateTime toDateTime;
-	private Long masterTariffId;
-	private Long tariffRateId;
-	private String profileId;
-	private List<PropertyData> tariffInputs;
-	private String accuracy;
-	private String accountId;
-	private String providerAccountId;
-	private Boolean billingPeriod;
-	private Boolean useMostRecentUsageData;
-	private Boolean includeDefaultProfile;
-	private Boolean minimums;
-	private BigDecimal dataFactor;
-	private String zipCode;
-	private Long territoryId;
-	private DateTime tariffEffectiveOn;
+  /**
+   * Private member variable serialVersionUID
+   */
+  private static final long serialVersionUID = 1L;
+  private DateTime fromDateTime;
+  private DateTime toDateTime;
+  private Long masterTariffId;
+  private Long tariffRateId;
+  private String profileId;
+  private List<PropertyData> tariffInputs;
+  private String accuracy;
+  private String accountId;
+  private String providerAccountId;
+  private Boolean billingPeriod;
+  private Boolean useMostRecentUsageData;
+  private Boolean includeDefaultProfile;
+  private Boolean minimums;
+  private BigDecimal dataFactor;
+  private String zipCode;
+  private Long territoryId;
+  private DateTime tariffEffectiveOn;
 
-	/**
-	 * Private member variable detailLevel
-	 * Possible values are: ALL, TOTAL, CHARGE_TYPE, RATE
-	 * Default is ALL if not specified.
-	 */
-	private DetailLevel detailLevel;
+  /**
+   * Private member variable detailLevel Possible values are: ALL, TOTAL, CHARGE_TYPE, RATE Default
+   * is ALL if not specified.
+   */
+  private DetailLevel detailLevel;
 
-	/**
-	 * Private member variable groupBy
-	 * Possible values are: YEAR, MONTH, etc
-	 * Default is no grouping if not specified.
-	 */
-	private GroupBy groupBy;
-	
-
-	private List<TariffRate> rateInputs;
-
-	public GetCalculatedCostRequest() {
+  /**
+   * Private member variable groupBy Possible values are: YEAR, MONTH, etc Default is no grouping if
+   * not specified.
+   */
+  private GroupBy groupBy;
 
 
-	}
+  private List<TariffRate> rateInputs;
 
-	public DateTime getFromDateTime() {
-		return fromDateTime;
-	}
+  public GetCalculatedCostRequest() {
 
-	public void setFromDateTime(DateTime fromDate) {
-		fromDateTime = fromDate;
-	}
 
-	public DateTime getToDateTime() {
-		return toDateTime;
-	}
+  }
 
-	public void setToDateTime(DateTime toDate) {
-		toDateTime = toDate;
-	}
+  public DateTime getFromDateTime() {
+    return fromDateTime;
+  }
 
-	
-	@JsonInclude(Include.NON_NULL)
-	public Long getMasterTariffId() {
-		return masterTariffId;
-	}
-	
-	/**
-	 * The ID of the tariff to calculate for. Only needs to be set when
-	 * not running against an account, or if you want to override the
-	 * accounts tariff.
-	 * 
-	 * @param masterTariffId The masterTariffId to set
-	 */
-	public void setMasterTariffId(Long masterTariffId) {
-		this.masterTariffId = masterTariffId;
-	}
+  public void setFromDateTime(DateTime fromDate) {
+    fromDateTime = fromDate;
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public Long getTariffRateId() {
-		return tariffRateId;
-	}
+  public DateTime getToDateTime() {
+    return toDateTime;
+  }
 
-	public void setTariffRateId(Long tariffRateId_) {
-		this.tariffRateId = tariffRateId_;
-	}
-	
-	@JsonInclude(Include.NON_NULL)
-	public String getAccountId() {
-		return accountId;
-	}
+  public void setToDateTime(DateTime toDate) {
+    toDateTime = toDate;
+  }
 
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
 
-	@JsonInclude(Include.NON_NULL)
-	public String getProviderAccountId() {
-    	return providerAccountId;
+  @JsonInclude(Include.NON_NULL)
+  public Long getMasterTariffId() {
+    return masterTariffId;
+  }
+
+  /**
+   * The ID of the tariff to calculate for. Only needs to be set when not running against an
+   * account, or if you want to override the accounts tariff.
+   * 
+   * @param masterTariffId The masterTariffId to set
+   */
+  public void setMasterTariffId(Long masterTariffId) {
+    this.masterTariffId = masterTariffId;
+  }
+
+  @JsonInclude(Include.NON_NULL)
+  public Long getTariffRateId() {
+    return tariffRateId;
+  }
+
+  public void setTariffRateId(Long tariffRateId_) {
+    this.tariffRateId = tariffRateId_;
+  }
+
+  @JsonInclude(Include.NON_NULL)
+  public String getAccountId() {
+    return accountId;
+  }
+
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
+  }
+
+  @JsonInclude(Include.NON_NULL)
+  public String getProviderAccountId() {
+    return providerAccountId;
+  }
+
+  public void setProviderAccountId(String providerAccountId) {
+    this.providerAccountId = providerAccountId;
+  }
+
+
+  @JsonInclude(Include.NON_NULL)
+  public String getProfileId() {
+    return profileId;
+  }
+
+  public void setProfileId(String profileId) {
+    this.profileId = profileId;
+  }
+
+  @JsonInclude(Include.NON_NULL)
+  public DetailLevel getDetailLevel() {
+    return detailLevel;
+  }
+
+  public void setDetailLevel(DetailLevel detailLevel) {
+    this.detailLevel = detailLevel;
+  }
+
+  @JsonInclude(Include.NON_NULL)
+  public GroupBy getGroupBy() {
+    return groupBy;
+  }
+
+  public void setGroupBy(GroupBy groupBy) {
+    this.groupBy = groupBy;
+  }
+
+  @JsonInclude(Include.NON_NULL)
+  public String getAccuracy() {
+    return accuracy;
+  }
+
+  public void setAccuracy(String accuracy) {
+    this.accuracy = accuracy;
+  }
+
+  public List<PropertyData> getTariffInputs() {
+    return tariffInputs;
+  }
+
+  public void setTariffInputs(List<PropertyData> tariffInputs) {
+    this.tariffInputs = tariffInputs;
+  }
+
+  public void addTariffInput(PropertyData tariffInput) {
+    if (tariffInputs == null) {
+      tariffInputs = new ArrayList<PropertyData>();
     }
+    tariffInputs.add(tariffInput);
+  }
 
-	public void setProviderAccountId(String providerAccountId) {
-    	this.providerAccountId = providerAccountId;
+  public void addTariffInputs(Collection<PropertyData> tariffInputs) {
+    if (this.tariffInputs == null) {
+      this.tariffInputs = new ArrayList<PropertyData>();
     }
+    this.tariffInputs.addAll(tariffInputs);
+  }
 
+  public List<TariffRate> getRateInputs() {
+    return rateInputs;
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public String getProfileId() {
-		return profileId;
-	}
+  public void setRateInputs(List<TariffRate> rateInputs) {
+    this.rateInputs = rateInputs;
+  }
 
-	public void setProfileId(String profileId) {
-		this.profileId = profileId;
-	}
-
-	@JsonInclude(Include.NON_NULL)
-	public DetailLevel getDetailLevel() {
-		return detailLevel;
-	}
-
-	public void setDetailLevel(DetailLevel detailLevel) {
-		this.detailLevel = detailLevel;
-	}
-
-	@JsonInclude(Include.NON_NULL)
-	public GroupBy getGroupBy() {
-		return groupBy;
-	}
-
-	public void setGroupBy(GroupBy groupBy) {
-		this.groupBy = groupBy;
-	}
-
-	@JsonInclude(Include.NON_NULL)
-	public String getAccuracy() {
-		return accuracy;
-	}
-
-	public void setAccuracy(String accuracy) {
-		this.accuracy = accuracy;
-	}
-
-	public List<PropertyData> getTariffInputs() {
-		return tariffInputs;
-	}
-
-	public void setTariffInputs(List<PropertyData> tariffInputs) {
-		this.tariffInputs = tariffInputs;
-	}
-
-	public void addTariffInput(PropertyData tariffInput) {
-		if (tariffInputs == null) {
-			tariffInputs = new ArrayList<PropertyData>();
-		}
-		tariffInputs.add(tariffInput);
-	}
-	
-	public void addTariffInputs(Collection<PropertyData> tariffInputs) {
-		if (this.tariffInputs == null) {
-			this.tariffInputs = new ArrayList<PropertyData>();
-		}
-		this.tariffInputs.addAll(tariffInputs);
-	}
-
-	public List<TariffRate> getRateInputs() {
-        return rateInputs;
+  public void addRateInput(TariffRate rateInput) {
+    if (rateInputs == null) {
+      rateInputs = new ArrayList<TariffRate>();
     }
-	
-	public void setRateInputs(List<TariffRate> rateInputs) {
-        this.rateInputs = rateInputs;
+    rateInputs.add(rateInput);
+  }
+
+  public void addRateInputs(Collection<TariffRate> rateInputs) {
+    if (this.rateInputs == null) {
+      this.rateInputs = new ArrayList<TariffRate>();
     }
-	
-	public void addRateInput(TariffRate rateInput) {
-		if (rateInputs == null) {
-			rateInputs = new ArrayList<TariffRate>();
-		}
-		rateInputs.add(rateInput);
-	}
-	
-	public void addRateInputs(Collection<TariffRate> rateInputs) {
-		if (this.rateInputs == null) {
-			this.rateInputs = new ArrayList<TariffRate>();
-		}
-		this.rateInputs.addAll(rateInputs);
-	}
+    this.rateInputs.addAll(rateInputs);
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public Boolean getBillingPeriod() {
-      return billingPeriod;
-    }
+  @JsonInclude(Include.NON_NULL)
+  public Boolean getBillingPeriod() {
+    return billingPeriod;
+  }
 
-	public void setBillingPeriod(Boolean billingPeriod) {
-      this.billingPeriod = billingPeriod;
-    }
-	
-	@JsonInclude(Include.NON_NULL)
-	public Boolean getIncludeDefaultProfile() {
-		return includeDefaultProfile;
-	}
+  public void setBillingPeriod(Boolean billingPeriod) {
+    this.billingPeriod = billingPeriod;
+  }
 
-	public void setIncludeDefaultProfile(Boolean includeDefaultProfile) {
-		this.includeDefaultProfile = includeDefaultProfile;
-	}
+  @JsonInclude(Include.NON_NULL)
+  public Boolean getIncludeDefaultProfile() {
+    return includeDefaultProfile;
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public Boolean getUseMostRecentUsageData() {
-		return useMostRecentUsageData;
-	}
+  public void setIncludeDefaultProfile(Boolean includeDefaultProfile) {
+    this.includeDefaultProfile = includeDefaultProfile;
+  }
 
-	public void setUseMostRecentUsageData(Boolean useMostRecentUsageData) {
-		this.useMostRecentUsageData = useMostRecentUsageData;
-	}
+  @JsonInclude(Include.NON_NULL)
+  public Boolean getUseMostRecentUsageData() {
+    return useMostRecentUsageData;
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public Boolean getMinimums() {
-		return minimums;
-	}
+  public void setUseMostRecentUsageData(Boolean useMostRecentUsageData) {
+    this.useMostRecentUsageData = useMostRecentUsageData;
+  }
 
-	public void setMinimums(Boolean minimums) {
-		this.minimums = minimums;
-	}
+  @JsonInclude(Include.NON_NULL)
+  public Boolean getMinimums() {
+    return minimums;
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public BigDecimal getDataFactor() {
-		return dataFactor;
-	}
+  public void setMinimums(Boolean minimums) {
+    this.minimums = minimums;
+  }
 
-	public void setDataFactor(BigDecimal dataFactor) {
-		this.dataFactor = dataFactor;
-	}
+  @JsonInclude(Include.NON_NULL)
+  public BigDecimal getDataFactor() {
+    return dataFactor;
+  }
 
-	public String getZipCode() {
-		return zipCode;
-	}
+  public void setDataFactor(BigDecimal dataFactor) {
+    this.dataFactor = dataFactor;
+  }
 
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
+  public String getZipCode() {
+    return zipCode;
+  }
 
-	public Long getTerritoryId() {
-		return territoryId;
-	}
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
+  }
 
-	public void setTerritoryId(Long territoryId) {
-		this.territoryId = territoryId;
-	}
+  public Long getTerritoryId() {
+    return territoryId;
+  }
 
-	public DateTime getTariffEffectiveOn() {
-		return tariffEffectiveOn;
-	}
+  public void setTerritoryId(Long territoryId) {
+    this.territoryId = territoryId;
+  }
 
-	public void setTariffEffectiveOn(DateTime tariffEffectiveOn) {
-		this.tariffEffectiveOn = tariffEffectiveOn;
-	}
+  public DateTime getTariffEffectiveOn() {
+    return tariffEffectiveOn;
+  }
 
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
-		
-		List<NameValuePair> qparams = super.getQueryParams();
-		addParam(qparams,"masterTariffId",masterTariffId);
-		addParam(qparams, "fromDateTime", fromDateTime);
-		addParam(qparams, "toDateTime", toDateTime);
-		addParam(qparams,"betaPopulateAssumptions",true);
-		return qparams;
-		
-	}	
+  public void setTariffEffectiveOn(DateTime tariffEffectiveOn) {
+    this.tariffEffectiveOn = tariffEffectiveOn;
+  }
+
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
+
+    List<NameValuePair> qparams = super.getQueryParams();
+    addParam(qparams, "masterTariffId", masterTariffId);
+    addParam(qparams, "fromDateTime", fromDateTime);
+    addParam(qparams, "toDateTime", toDateTime);
+    addParam(qparams, "betaPopulateAssumptions", true);
+    return qparams;
+
+  }
 }

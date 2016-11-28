@@ -10,52 +10,49 @@ import com.genability.client.types.Response;
 
 public class CalendarService extends BaseService {
 
-	private static final TypeReference<Response<Calendar>> CALENDAR_RESPONSE_TYPEREF = new TypeReference<Response<Calendar>>() {
-	};
-	private static final TypeReference<Response<CalendarEventDate>> CALENDAR_DATES_RESPONSE_TYPEREF = new TypeReference<Response<CalendarEventDate>>() {
-	};
+  private static final TypeReference<Response<Calendar>> CALENDAR_RESPONSE_TYPEREF =
+      new TypeReference<Response<Calendar>>() {};
+  private static final TypeReference<Response<CalendarEventDate>> CALENDAR_DATES_RESPONSE_TYPEREF =
+      new TypeReference<Response<CalendarEventDate>>() {};
 
-	private static final String CALENDAR_URI = "/public/calendars";
+  private static final String CALENDAR_URI = "/public/calendars";
 
-	public Response<Calendar> getCalendar(GetCalendarRequest request) {
-		if (log.isDebugEnabled())
-			log.debug("getCalendar called");
+  public Response<Calendar> getCalendar(GetCalendarRequest request) {
+    if (log.isDebugEnabled()) log.debug("getCalendar called");
 
-		String uri = CALENDAR_URI;
-		if (request.getCalendarId() != null) {
-			uri += "/" + request.getCalendarId();
-		}
-		Response<Calendar> response = this.callGet(uri, request.getQueryParams(), CALENDAR_RESPONSE_TYPEREF);
+    String uri = CALENDAR_URI;
+    if (request.getCalendarId() != null) {
+      uri += "/" + request.getCalendarId();
+    }
+    Response<Calendar> response =
+        this.callGet(uri, request.getQueryParams(), CALENDAR_RESPONSE_TYPEREF);
 
-		if (log.isDebugEnabled())
-			log.debug("getCalendar completed");
+    if (log.isDebugEnabled()) log.debug("getCalendar completed");
 
-		return response;
-	}
+    return response;
+  }
 
-	public Response<Calendar> getCalendars(GetCalendarsRequest request) {
-		if (log.isDebugEnabled())
-			log.debug("getCalendars called");
+  public Response<Calendar> getCalendars(GetCalendarsRequest request) {
+    if (log.isDebugEnabled()) log.debug("getCalendars called");
 
-		Response<Calendar> response = this.callGet(CALENDAR_URI, request.getQueryParams(), CALENDAR_RESPONSE_TYPEREF);
+    Response<Calendar> response =
+        this.callGet(CALENDAR_URI, request.getQueryParams(), CALENDAR_RESPONSE_TYPEREF);
 
-		if (log.isDebugEnabled())
-			log.debug("getCalendars completed");
+    if (log.isDebugEnabled()) log.debug("getCalendars completed");
 
-		return response;
-	}
+    return response;
+  }
 
-	public Response<CalendarEventDate> getCalendarEventDates(GetCalendarDatesRequest request) {
-		
-		if (log.isDebugEnabled())
-			log.debug("getCalendarEventDates called");
-	
-		Response<CalendarEventDate> response = this.callGet(CALENDAR_URI + "/dates", request.getQueryParams(), CALENDAR_DATES_RESPONSE_TYPEREF);
+  public Response<CalendarEventDate> getCalendarEventDates(GetCalendarDatesRequest request) {
 
-		if (log.isDebugEnabled())
-			log.debug("getCalendarEventDates completed");
+    if (log.isDebugEnabled()) log.debug("getCalendarEventDates called");
 
-		return response;
-	}
+    Response<CalendarEventDate> response = this.callGet(CALENDAR_URI + "/dates",
+        request.getQueryParams(), CALENDAR_DATES_RESPONSE_TYPEREF);
+
+    if (log.isDebugEnabled()) log.debug("getCalendarEventDates completed");
+
+    return response;
+  }
 
 }

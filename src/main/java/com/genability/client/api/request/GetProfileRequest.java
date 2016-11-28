@@ -11,125 +11,125 @@ import com.genability.client.types.ClipBy;
 import com.genability.client.types.GroupBy;
 
 public class GetProfileRequest extends AbstractGetNRequest implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	private String profileId;
-	private String providerProfileId;
+  private static final long serialVersionUID = 1L;
 
-	private DateTime fromDateTime;
-	private DateTime toDateTime;
+  private String profileId;
+  private String providerProfileId;
 
-	private Boolean populateReadings;
-	private Boolean populateBaseline;
+  private DateTime fromDateTime;
+  private DateTime toDateTime;
 
-	private Boolean deriveDemand;
-	private Boolean deriveConsumption;
-	private Long demandInterval;
+  private Boolean populateReadings;
+  private Boolean populateBaseline;
 
-	private GroupBy groupBy;
-	private ClipBy clipBy;
+  private Boolean deriveDemand;
+  private Boolean deriveConsumption;
+  private Long demandInterval;
+
+  private GroupBy groupBy;
+  private ClipBy clipBy;
 
 
-	public String getProfileId() {
-		return profileId;
-	}
+  public String getProfileId() {
+    return profileId;
+  }
 
-	public void setProfileId(String profileId) {
-		this.profileId = profileId;
-	}
+  public void setProfileId(String profileId) {
+    this.profileId = profileId;
+  }
 
-	public void setFromDateTime(DateTime fromDateTime) {
-		this.fromDateTime = fromDateTime;
-	}
+  public void setFromDateTime(DateTime fromDateTime) {
+    this.fromDateTime = fromDateTime;
+  }
 
-	public DateTime getFromDateTime() {
-		return fromDateTime;
-	}
+  public DateTime getFromDateTime() {
+    return fromDateTime;
+  }
 
-	public void setToDateTime(DateTime toDateTime) {
-		this.toDateTime = toDateTime;
-	}
+  public void setToDateTime(DateTime toDateTime) {
+    this.toDateTime = toDateTime;
+  }
 
-	public DateTime getToDateTime() {
-		return toDateTime;
-	}
+  public DateTime getToDateTime() {
+    return toDateTime;
+  }
 
-	public Boolean getPopulateReadings() {
-		return populateReadings;
-	}
+  public Boolean getPopulateReadings() {
+    return populateReadings;
+  }
 
-	public void setPopulateReadings(Boolean populateReadings) {
-		this.populateReadings = populateReadings;
-	}
-	
-	public Boolean getPopulateBaseline() {
-		return populateBaseline;
-	}
+  public void setPopulateReadings(Boolean populateReadings) {
+    this.populateReadings = populateReadings;
+  }
 
-	public void setPopulateBaseline(Boolean populateBaseline) {
-		this.populateBaseline = populateBaseline;
-	}
+  public Boolean getPopulateBaseline() {
+    return populateBaseline;
+  }
 
-	public Boolean getDeriveDemand() {
-		return deriveDemand;
-	}
+  public void setPopulateBaseline(Boolean populateBaseline) {
+    this.populateBaseline = populateBaseline;
+  }
 
-	public void setDeriveDemand(Boolean deriveDemand) {
-		this.deriveDemand = deriveDemand;
-	}
+  public Boolean getDeriveDemand() {
+    return deriveDemand;
+  }
 
-	public Boolean getDeriveConsumption() {
-		return deriveConsumption;
-	}
+  public void setDeriveDemand(Boolean deriveDemand) {
+    this.deriveDemand = deriveDemand;
+  }
 
-	public void setDeriveConsumption(Boolean deriveConsumption) {
-		this.deriveConsumption = deriveConsumption;
-	}
+  public Boolean getDeriveConsumption() {
+    return deriveConsumption;
+  }
 
-	public Long getDemandInterval() {
-		return demandInterval;
-	}
+  public void setDeriveConsumption(Boolean deriveConsumption) {
+    this.deriveConsumption = deriveConsumption;
+  }
 
-	public void setDemandInterval(Long demandInterval) {
-		this.demandInterval = demandInterval;
-	}
+  public Long getDemandInterval() {
+    return demandInterval;
+  }
 
-	public GroupBy getGroupBy() {
-		return groupBy;
-	}
+  public void setDemandInterval(Long demandInterval) {
+    this.demandInterval = demandInterval;
+  }
 
-	public void setGroupBy(GroupBy groupBy) {
-		this.groupBy = groupBy;
-	}
+  public GroupBy getGroupBy() {
+    return groupBy;
+  }
 
-	public ClipBy getClipBy() {
-		return clipBy;
-	}
+  public void setGroupBy(GroupBy groupBy) {
+    this.groupBy = groupBy;
+  }
 
-	public void setClipBy(ClipBy clipBy) {
-		this.clipBy = clipBy;
-	}
+  public ClipBy getClipBy() {
+    return clipBy;
+  }
 
-	public String getProviderProfileId() {
-		return providerProfileId;
-	}
+  public void setClipBy(ClipBy clipBy) {
+    this.clipBy = clipBy;
+  }
 
-	public void setProviderProfileId(String providerProfileId) {
-		this.providerProfileId = providerProfileId;
-	}
+  public String getProviderProfileId() {
+    return providerProfileId;
+  }
 
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
-		List<NameValuePair> qparams = super.getQueryParams();
-		
-		addParam(qparams,"fromDateTime", fromDateTime);
-		addParam(qparams,"toDateTime",toDateTime);
-		addParam(qparams,"populateReadings",populateReadings);
-		addParam(qparams,"populateBaseline",populateBaseline);
-		addParam(qparams,"groupBy",groupBy);
-		addParam(qparams,"clipBy",clipBy);
-		return qparams;
-	}
+  public void setProviderProfileId(String providerProfileId) {
+    this.providerProfileId = providerProfileId;
+  }
+
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
+    List<NameValuePair> qparams = super.getQueryParams();
+
+    addParam(qparams, "fromDateTime", fromDateTime);
+    addParam(qparams, "toDateTime", toDateTime);
+    addParam(qparams, "populateReadings", populateReadings);
+    addParam(qparams, "populateBaseline", populateBaseline);
+    addParam(qparams, "groupBy", groupBy);
+    addParam(qparams, "clipBy", clipBy);
+    return qparams;
+  }
 }

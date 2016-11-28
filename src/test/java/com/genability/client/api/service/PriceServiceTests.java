@@ -7,50 +7,49 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import com.genability.client.api.request.GetPriceRequest;
-import com.genability.client.api.service.PriceService;
 import com.genability.client.types.Price;
 import com.genability.client.types.PriceChange;
 import com.genability.client.types.Response;
 
 public class PriceServiceTests extends BaseServiceTests {
 
-	private static PriceService priceService = genabilityClient.getPriceService();
-	
-	@Test
-	public void testGetPrice() {
+  private static PriceService priceService = genabilityClient.getPriceService();
 
-		GetPriceRequest request = new GetPriceRequest();
+  @Test
+  public void testGetPrice() {
 
-		request.setMasterTariffId(520l);//PGE residential tariff
-		request.setFromDateTime(DateTime.now());
-		request.setToDateTime(request.getFromDateTime().plusDays(1));
+    GetPriceRequest request = new GetPriceRequest();
 
-		Response<Price> restResponse = priceService.getPrice(request);
+    request.setMasterTariffId(520l);// PGE residential tariff
+    request.setFromDateTime(DateTime.now());
+    request.setToDateTime(request.getFromDateTime().plusDays(1));
 
-		assertNotNull("restResponse null", restResponse);
-		assertEquals("bad status", Response.STATUS_SUCCESS, restResponse.getStatus());
-		assertEquals("bad type",Price.REST_TYPE,restResponse.getType());
-		assertNotNull("results null",restResponse.getResults());
+    Response<Price> restResponse = priceService.getPrice(request);
 
-		for(Price price : restResponse.getResults()) {
+    assertNotNull("restResponse null", restResponse);
+    assertEquals("bad status", Response.STATUS_SUCCESS, restResponse.getStatus());
+    assertEquals("bad type", Price.REST_TYPE, restResponse.getType());
+    assertNotNull("results null", restResponse.getResults());
 
-			assertNotNull("price null",price);
+    for (Price price : restResponse.getResults()) {
+
+      assertNotNull("price null", price);
 
 
-			if(price.getPriceChanges() != null ) {
+      if (price.getPriceChanges() != null) {
 
-				for(PriceChange priceChange : price.getPriceChanges()) {
+        for (PriceChange priceChange : price.getPriceChanges()) {
 
-					log.debug("Price Change " + priceChange.getChangeName());
+          log.debug("Price Change " + priceChange.getChangeName());
 
-					assertNotNull("priceChange null",priceChange);
+          assertNotNull("priceChange null", priceChange);
 
-				}
-			}
+        }
+      }
 
-		}
+    }
 
-	}
+  }
 
 
 }

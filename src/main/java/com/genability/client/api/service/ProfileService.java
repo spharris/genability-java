@@ -3,7 +3,6 @@ package com.genability.client.api.service;
 import java.text.MessageFormat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import com.genability.client.api.request.DeleteProfileRequest;
 import com.genability.client.api.request.GetProfileRequest;
 import com.genability.client.api.request.GetProfilesRequest;
@@ -14,161 +13,147 @@ import com.genability.client.types.Response;
 
 
 public class ProfileService extends BaseService {
-	
-    private static final TypeReference<Response<Profile>> PROFILE_RESPONSE_TYPEREF = new TypeReference<Response<Profile>>() {};
-	private static final TypeReference<Response<ReadingData>> READING_DATA_RESPONSE_TYPEREF = new TypeReference<Response<ReadingData>>() {
-	};
 
-	/**
-	 * Calls the REST service to get a Profile based on the arguments passed in.
-	 * 
-	 * @param request The request.
-	 * @return The return value.
-	 */
-	public Response<Profile> getProfile(GetProfileRequest request) {
-		
-		if(log.isDebugEnabled()) log.debug("getProfile called");
+  private static final TypeReference<Response<Profile>> PROFILE_RESPONSE_TYPEREF =
+      new TypeReference<Response<Profile>>() {};
+  private static final TypeReference<Response<ReadingData>> READING_DATA_RESPONSE_TYPEREF =
+      new TypeReference<Response<ReadingData>>() {};
 
-		// Set uri based on if providerProfileId was used
-		String uri = "v1/profiles";
-		if (request.getProviderProfileId() != null
-				&& request.getProviderProfileId().length() != 0) {
+  /**
+   * Calls the REST service to get a Profile based on the arguments passed in.
+   * 
+   * @param request The request.
+   * @return The return value.
+   */
+  public Response<Profile> getProfile(GetProfileRequest request) {
 
-			uri += "/pid/" + request.getProviderProfileId();
+    if (log.isDebugEnabled()) log.debug("getProfile called");
 
-		} else if (request.getProfileId() != null
-				&& request.getProfileId().length() != 0) {
+    // Set uri based on if providerProfileId was used
+    String uri = "v1/profiles";
+    if (request.getProviderProfileId() != null && request.getProviderProfileId().length() != 0) {
 
-			uri += "/" + request.getProfileId();
-		}
+      uri += "/pid/" + request.getProviderProfileId();
 
-		Response<Profile> response = this.callGet(uri,
-				request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
+    } else if (request.getProfileId() != null && request.getProfileId().length() != 0) {
 
-		if (log.isDebugEnabled())
-			log.debug("getProfile completed");
+      uri += "/" + request.getProfileId();
+    }
 
-		return response;
+    Response<Profile> response =
+        this.callGet(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
 
-	}
+    if (log.isDebugEnabled()) log.debug("getProfile completed");
 
-	/**
-	 * Calls the REST service to get Profiles based on the arguments passed in.
-	 * 
-	 * @param request The request.
-	 * @return The return value.
-	 */
-	public Response<Profile> getProfiles(GetProfilesRequest request) {
-		
-		if(log.isDebugEnabled()) log.debug("getProfiles called");
-		
-		String uri = "v1/profiles";
-		
-		Response<Profile> response = this.callGet(
-				uri,
-				request.getQueryParams(),
-				PROFILE_RESPONSE_TYPEREF);
-		
-		if(log.isDebugEnabled()) log.debug("getProfiles completed");
-		
-		return response;
-		
-	}
-	
-	public Response<Profile> addProfile(Profile profile) {
+    return response;
 
-		if (log.isDebugEnabled())
-			log.debug("addProfile called");
+  }
 
-		Response<Profile> response = this.callPost("v1/usage/profiles",
-				profile, PROFILE_RESPONSE_TYPEREF);
+  /**
+   * Calls the REST service to get Profiles based on the arguments passed in.
+   * 
+   * @param request The request.
+   * @return The return value.
+   */
+  public Response<Profile> getProfiles(GetProfilesRequest request) {
 
-		if (log.isDebugEnabled())
-			log.debug("addProfile completed");
+    if (log.isDebugEnabled()) log.debug("getProfiles called");
 
-		return response;
+    String uri = "v1/profiles";
 
-	}
+    Response<Profile> response =
+        this.callGet(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
 
-	public Response<Profile> updateProfile(Profile profile) {
+    if (log.isDebugEnabled()) log.debug("getProfiles completed");
 
-		if (log.isDebugEnabled())
-			log.debug("updateProfile called");
+    return response;
 
-		String uri = "v1/profiles";
+  }
 
-		Response<Profile> response = this.callPut(uri, profile,
-				PROFILE_RESPONSE_TYPEREF);
+  public Response<Profile> addProfile(Profile profile) {
 
-		if (log.isDebugEnabled())
-			log.debug("updateProfile completed");
+    if (log.isDebugEnabled()) log.debug("addProfile called");
 
-		return response;
+    Response<Profile> response =
+        this.callPost("v1/usage/profiles", profile, PROFILE_RESPONSE_TYPEREF);
 
-	}
+    if (log.isDebugEnabled()) log.debug("addProfile completed");
 
-	/**
-	 * Calls the REST service to delete a Profile based on the arguments passed in.
-	 * 
-	 * @param request The request.
-	 * @return The return value.
-	 */
-	public Response<Profile> deleteProfile(DeleteProfileRequest request) {
-		if(log.isDebugEnabled()) log.debug("deleteProfile called");
+    return response;
 
-		String profileId = request.getProfileId();
+  }
 
-		if (profileId == null || profileId.isEmpty()) {
-			throw new GenabilityException("profileId must be set");
-		}
+  public Response<Profile> updateProfile(Profile profile) {
 
-		String uri = "v1/profiles/" + profileId;
+    if (log.isDebugEnabled()) log.debug("updateProfile called");
 
-		Response<Profile> response = this.callDelete(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
+    String uri = "v1/profiles";
 
-		if (log.isDebugEnabled()) log.debug("deleteProfile completed");
+    Response<Profile> response = this.callPut(uri, profile, PROFILE_RESPONSE_TYPEREF);
 
-		return response;
-	}
+    if (log.isDebugEnabled()) log.debug("updateProfile completed");
 
-	public Response<ReadingData> updateReadings(ReadingDataRequest request) {
+    return response;
 
-		if (log.isDebugEnabled())
-			log.debug("updateReadings called");
+  }
 
-		String uri = "v1/profiles/{0}/readings";
+  /**
+   * Calls the REST service to delete a Profile based on the arguments passed in.
+   * 
+   * @param request The request.
+   * @return The return value.
+   */
+  public Response<Profile> deleteProfile(DeleteProfileRequest request) {
+    if (log.isDebugEnabled()) log.debug("deleteProfile called");
 
-		if (request.getUsageProfileId() != null) {
-			uri = MessageFormat.format(uri, request.getUsageProfileId());
-		}
+    String profileId = request.getProfileId();
 
-		Response<ReadingData> response = this.callPut(uri, request,
-				READING_DATA_RESPONSE_TYPEREF);
+    if (profileId == null || profileId.isEmpty()) {
+      throw new GenabilityException("profileId must be set");
+    }
 
-		if (log.isDebugEnabled())
-			log.debug("updateReadings completed");
+    String uri = "v1/profiles/" + profileId;
 
-		return response;
+    Response<Profile> response =
+        this.callDelete(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
 
-	}
+    if (log.isDebugEnabled()) log.debug("deleteProfile completed");
 
-	public Response<ReadingData> addReadings(ReadingDataRequest request) {
+    return response;
+  }
 
-		if (log.isDebugEnabled())
-			log.debug("addReadings called");
+  public Response<ReadingData> updateReadings(ReadingDataRequest request) {
 
-		String uri = "v1/profiles/{0}/readings";
+    if (log.isDebugEnabled()) log.debug("updateReadings called");
 
-		if (request.getUsageProfileId() != null) {
-			uri = MessageFormat.format(uri, request.getUsageProfileId());
-		}
+    String uri = "v1/profiles/{0}/readings";
 
-		Response<ReadingData> response = this.callPost(uri, request,
-				READING_DATA_RESPONSE_TYPEREF);
+    if (request.getUsageProfileId() != null) {
+      uri = MessageFormat.format(uri, request.getUsageProfileId());
+    }
 
-		if (log.isDebugEnabled())
-			log.debug("addReadings completed");
+    Response<ReadingData> response = this.callPut(uri, request, READING_DATA_RESPONSE_TYPEREF);
 
-		return response;
-	}
+    if (log.isDebugEnabled()) log.debug("updateReadings completed");
+
+    return response;
+
+  }
+
+  public Response<ReadingData> addReadings(ReadingDataRequest request) {
+
+    if (log.isDebugEnabled()) log.debug("addReadings called");
+
+    String uri = "v1/profiles/{0}/readings";
+
+    if (request.getUsageProfileId() != null) {
+      uri = MessageFormat.format(uri, request.getUsageProfileId());
+    }
+
+    Response<ReadingData> response = this.callPost(uri, request, READING_DATA_RESPONSE_TYPEREF);
+
+    if (log.isDebugEnabled()) log.debug("addReadings completed");
+
+    return response;
+  }
 }

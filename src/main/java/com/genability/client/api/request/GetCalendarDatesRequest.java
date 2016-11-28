@@ -2,91 +2,91 @@ package com.genability.client.api.request;
 
 import org.joda.time.DateTime;
 
-public class GetCalendarDatesRequest extends AbstractRequest{
-private DateTime fromDateTime;
-	
-	private DateTime toDateTime;
+public class GetCalendarDatesRequest extends AbstractRequest {
+  private DateTime fromDateTime;
 
-	/**
-	 * Private member variable for Locale.
-	 */
-	private String locale;
-	
-	/**
-	 * Private member variable for CalendarEventTypeFlags.
-	 */
-	private String[] calendarEventTypes;
-	
-	/**
-	 * Private member variable for DateDefinitionTypeFlags.
-	 */
-	private String[] dateDefinitionTypes;
+  private DateTime toDateTime;
 
-	/**
-	 * Private member variable for calendarId.
-	 */
-	private Long calendarId;
-	
-	/**
-	 * Private member variable for LseId.
-	 */
-	private Long lseId;
+  /**
+   * Private member variable for Locale.
+   */
+  private String locale;
 
-	public DateTime getFromDateTime() {
-		return fromDateTime;
-	}
+  /**
+   * Private member variable for CalendarEventTypeFlags.
+   */
+  private String[] calendarEventTypes;
 
-	public void setFromDateTime(DateTime fromDateTime) {
-		this.fromDateTime = fromDateTime;
-	}
+  /**
+   * Private member variable for DateDefinitionTypeFlags.
+   */
+  private String[] dateDefinitionTypes;
 
-	public DateTime getToDateTime() {
-		return toDateTime;
-	}
+  /**
+   * Private member variable for calendarId.
+   */
+  private Long calendarId;
 
-	public void setToDateTime(DateTime toDateTime) {
-		this.toDateTime = toDateTime;
-	}
+  /**
+   * Private member variable for LseId.
+   */
+  private Long lseId;
 
-	public String getLocale() {
-		return locale;
-	}
+  public DateTime getFromDateTime() {
+    return fromDateTime;
+  }
 
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
+  public void setFromDateTime(DateTime fromDateTime) {
+    this.fromDateTime = fromDateTime;
+  }
 
-	public String[] getCalendarEventTypes() {
-		return calendarEventTypes;
-	}
+  public DateTime getToDateTime() {
+    return toDateTime;
+  }
 
-	public void setCalendarEventTypes(String[] calendarEventTypes) {
-		this.calendarEventTypes = calendarEventTypes;
-	}
+  public void setToDateTime(DateTime toDateTime) {
+    this.toDateTime = toDateTime;
+  }
 
-	public String[] getDateDefinitionTypes() {
-		return dateDefinitionTypes;
-	}
+  public String getLocale() {
+    return locale;
+  }
 
-	public void setDateDefinitionTypes(String[] dateDefinitionTypes) {
-		this.dateDefinitionTypes = dateDefinitionTypes;
-	}
+  public void setLocale(String locale) {
+    this.locale = locale;
+  }
 
-	public Long getCalendarId() {
-		return calendarId;
-	}
+  public String[] getCalendarEventTypes() {
+    return calendarEventTypes;
+  }
 
-	public void setCalendarId(Long calendarId) {
-		this.calendarId = calendarId;
-	}
+  public void setCalendarEventTypes(String[] calendarEventTypes) {
+    this.calendarEventTypes = calendarEventTypes;
+  }
 
-	public Long getLseId() {
-		return lseId;
-	}
+  public String[] getDateDefinitionTypes() {
+    return dateDefinitionTypes;
+  }
 
-	public void setLseId(Long lseId) {
-		this.lseId = lseId;
-	}
-	
+  public void setDateDefinitionTypes(String[] dateDefinitionTypes) {
+    this.dateDefinitionTypes = dateDefinitionTypes;
+  }
+
+  public Long getCalendarId() {
+    return calendarId;
+  }
+
+  public void setCalendarId(Long calendarId) {
+    this.calendarId = calendarId;
+  }
+
+  public Long getLseId() {
+    return lseId;
+  }
+
+  public void setLseId(Long lseId) {
+    this.lseId = lseId;
+  }
+
 
 }

@@ -13,173 +13,176 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PropertyData {
-	
-	public static final String REST_TYPE = "PropertyData";
-	
-	protected String keyName;
-	protected String source;
 
-	protected DateTime fromDateTime;	
-	protected DateTime toDateTime;	
-	protected String period;
+  public static final String REST_TYPE = "PropertyData";
 
-	protected String unit;	
-	protected String dataValue;
+  protected String keyName;
+  protected String source;
 
-    /**
-     * A multiplier. This can be used, for instance, to see the effect of a 10% increase in electricity usage
-     * on costs - in that case, the propertyInput for the profileId would include a dataFactor of 1.1 (for 110%).
-     */
-    protected BigDecimal dataFactor;
+  protected DateTime fromDateTime;
+  protected DateTime toDateTime;
+  protected String period;
 
-    /**
-     * How accurately known in percent this PropertyData is, from 0 (totally unknown) to 100 (totally accurate).
-     * For instance, we may guess a customer's tariff and assign it an accuracy of, eg, 80, but if the customer
-     * has specified their tariff or we know it from a bill, we assign it an accuracy of 100. (Optional)
-     */
-	protected BigDecimal accuracy;
+  protected String unit;
+  protected String dataValue;
 
-    /**
-     * For a Savings Analysis that compares two scenarios, which scenarios (cases) this PropertyData applies to.
-     * Possibilities are "before", "after", and "solar". If more than one, join with commas. Eg "after,solar".
-     */
-	protected String scenarios;
-	protected DataType dataType;
+  /**
+   * A multiplier. This can be used, for instance, to see the effect of a 10% increase in
+   * electricity usage on costs - in that case, the propertyInput for the profileId would include a
+   * dataFactor of 1.1 (for 110%).
+   */
+  protected BigDecimal dataFactor;
 
-	protected Long duration;
-	private String operator;
-	
-	public PropertyData() {}
+  /**
+   * How accurately known in percent this PropertyData is, from 0 (totally unknown) to 100 (totally
+   * accurate). For instance, we may guess a customer's tariff and assign it an accuracy of, eg, 80,
+   * but if the customer has specified their tariff or we know it from a bill, we assign it an
+   * accuracy of 100. (Optional)
+   */
+  protected BigDecimal accuracy;
 
-	public void setKeyName(String keyName) {
-		this.keyName = keyName;
-	}
-	
-	public String getKeyName() {
-		return keyName;
-	}
-	
-	public DateTime getFromDateTime() {
-		return fromDateTime;
-	}
+  /**
+   * For a Savings Analysis that compares two scenarios, which scenarios (cases) this PropertyData
+   * applies to. Possibilities are "before", "after", and "solar". If more than one, join with
+   * commas. Eg "after,solar".
+   */
+  protected String scenarios;
+  protected DataType dataType;
 
-	public void setFromDateTime(DateTime fromDate) {
-		this.fromDateTime = fromDate;
-	}
+  protected Long duration;
+  private String operator;
 
-	public DateTime getToDateTime() {
-		return toDateTime;
-	}
+  public PropertyData() {}
 
-	public void setToDateTime(DateTime toDate) {
-		this.toDateTime = toDate;
-	}
+  public void setKeyName(String keyName) {
+    this.keyName = keyName;
+  }
 
-	public void setPeriod(String period) {
-		this.period = period;
-	}
+  public String getKeyName() {
+    return keyName;
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public String getPeriod() {
-		return period;
-	}
-	
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
+  public DateTime getFromDateTime() {
+    return fromDateTime;
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public String getUnit() {
-		return unit;
-	}
+  public void setFromDateTime(DateTime fromDate) {
+    this.fromDateTime = fromDate;
+  }
 
-	public void setDataValue(String dataValue) {
-		this.dataValue = dataValue;
-	}
+  public DateTime getToDateTime() {
+    return toDateTime;
+  }
 
-	@JsonIgnore
-	public void setDataValue(Number dataValue) {
-		this.dataValue = dataValue != null ? dataValue.toString() : null;
-	}
+  public void setToDateTime(DateTime toDate) {
+    this.toDateTime = toDate;
+  }
 
-	@JsonIgnore
-	public void setDataValue(Enum<?> dataValue) {
-		this.dataValue = dataValue != null ? dataValue.name() : null;
-	}
+  public void setPeriod(String period) {
+    this.period = period;
+  }
 
-	@JsonIgnore
-	public void setDataValue(DateTime dataValue) {
-		this.dataValue = dataValue != null ? dataValue.toString() : null;
-	}
+  @JsonInclude(Include.NON_NULL)
+  public String getPeriod() {
+    return period;
+  }
 
-	@JsonIgnore
-	public void setDataValue(Boolean dataValue) {
-		this.dataValue = dataValue != null ? Boolean.toString(dataValue) : null;
-	}
+  public void setUnit(String unit) {
+    this.unit = unit;
+  }
 
-	@JsonProperty("dataValue")
-	@JsonInclude(Include.NON_NULL)
-	public String getDataValue() {
-		return dataValue;
-	}
+  @JsonInclude(Include.NON_NULL)
+  public String getUnit() {
+    return unit;
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public BigDecimal getDataFactor() {
-		return dataFactor;
-	}
+  public void setDataValue(String dataValue) {
+    this.dataValue = dataValue;
+  }
 
-	public void setDataFactor(BigDecimal dataFactor) {
-		this.dataFactor = dataFactor;
-	}
+  @JsonIgnore
+  public void setDataValue(Number dataValue) {
+    this.dataValue = dataValue != null ? dataValue.toString() : null;
+  }
 
-	public void setAccuracy(BigDecimal accuracy) {
-		this.accuracy = accuracy;
-	}
-	
-	@JsonInclude(Include.NON_NULL)
-	public BigDecimal getAccuracy() {
-		return accuracy;
-	}
+  @JsonIgnore
+  public void setDataValue(Enum<?> dataValue) {
+    this.dataValue = dataValue != null ? dataValue.name() : null;
+  }
 
-	@JsonInclude(Include.NON_NULL)
-	public String getScenarios() {
-		return scenarios;
+  @JsonIgnore
+  public void setDataValue(DateTime dataValue) {
+    this.dataValue = dataValue != null ? dataValue.toString() : null;
+  }
 
-	}
+  @JsonIgnore
+  public void setDataValue(Boolean dataValue) {
+    this.dataValue = dataValue != null ? Boolean.toString(dataValue) : null;
+  }
 
-	public void setScenarios(String scenarios) {
-                this.scenarios = scenarios;
-	}
+  @JsonProperty("dataValue")
+  @JsonInclude(Include.NON_NULL)
+  public String getDataValue() {
+    return dataValue;
+  }
 
-	public void setDataType(DataType dataType) {
-		this.dataType = dataType;
-	}
+  @JsonInclude(Include.NON_NULL)
+  public BigDecimal getDataFactor() {
+    return dataFactor;
+  }
 
-	public DataType getDataType() {
-		return dataType;
-	}
+  public void setDataFactor(BigDecimal dataFactor) {
+    this.dataFactor = dataFactor;
+  }
 
-	public Long getDuration() {
-		return duration;
-	}
+  public void setAccuracy(BigDecimal accuracy) {
+    this.accuracy = accuracy;
+  }
 
-	public void setDuration(Long duration) {
-		this.duration = duration;
-	}
+  @JsonInclude(Include.NON_NULL)
+  public BigDecimal getAccuracy() {
+    return accuracy;
+  }
 
-	public String getSource() {
-		return source;
-	}
+  @JsonInclude(Include.NON_NULL)
+  public String getScenarios() {
+    return scenarios;
 
-	public void setSource(String source) {
-		this.source = source;
-	}
+  }
 
-	public String getOperator() {
-		return operator;
-	}
+  public void setScenarios(String scenarios) {
+    this.scenarios = scenarios;
+  }
 
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
+  public void setDataType(DataType dataType) {
+    this.dataType = dataType;
+  }
+
+  public DataType getDataType() {
+    return dataType;
+  }
+
+  public Long getDuration() {
+    return duration;
+  }
+
+  public void setDuration(Long duration) {
+    this.duration = duration;
+  }
+
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  public String getOperator() {
+    return operator;
+  }
+
+  public void setOperator(String operator) {
+    this.operator = operator;
+  }
 }

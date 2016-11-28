@@ -21,144 +21,144 @@ import com.genability.client.api.service.TypicalService;
 
 public class GenabilityClient {
 
-	private String appId;
-	private String appKey;
-	private String restApiServer;
-	private ObjectMapper mapper;
-	private HttpClient httpClient;
-	private boolean requestCompression = false;
+  private String appId;
+  private String appKey;
+  private String restApiServer;
+  private ObjectMapper mapper;
+  private HttpClient httpClient;
+  private boolean requestCompression = false;
 
-	public GenabilityClient() {}
+  public GenabilityClient() {}
 
-	public GenabilityClient(String appId, String appKey) {
-		this.appId = appId;
-		this.appKey = appKey;
-	}
+  public GenabilityClient(String appId, String appKey) {
+    this.appId = appId;
+    this.appKey = appKey;
+  }
 
-	public GenabilityClient(String appId, String appKey, String restApiServer) {
-		this.appId = appId;
-		this.appKey = appKey;
-		this.restApiServer = restApiServer;
-	}
+  public GenabilityClient(String appId, String appKey, String restApiServer) {
+    this.appId = appId;
+    this.appKey = appKey;
+    this.restApiServer = restApiServer;
+  }
 
-	public String getAppId() {
-		return appId;
-	}
+  public String getAppId() {
+    return appId;
+  }
 
-	public void setAppId(String appId) {
-		this.appId = appId;
-	}
+  public void setAppId(String appId) {
+    this.appId = appId;
+  }
 
-	public String getAppKey() {
-		return appKey;
-	}
+  public String getAppKey() {
+    return appKey;
+  }
 
-	public void setAppKey(String appKey) {
-		this.appKey = appKey;
-	}
+  public void setAppKey(String appKey) {
+    this.appKey = appKey;
+  }
 
-	public String getRestApiServer() {
-		return restApiServer;
-	}
+  public String getRestApiServer() {
+    return restApiServer;
+  }
 
-	public void setRestApiServer(String restApiServer) {
-		this.restApiServer = restApiServer;
-	}
+  public void setRestApiServer(String restApiServer) {
+    this.restApiServer = restApiServer;
+  }
 
-	public ObjectMapper getMapper() {
-		return mapper;
-	}
+  public ObjectMapper getMapper() {
+    return mapper;
+  }
 
-	public void setMapper(ObjectMapper mapper) {
-		this.mapper = mapper;
-	}
+  public void setMapper(ObjectMapper mapper) {
+    this.mapper = mapper;
+  }
 
-	public HttpClient getHttpClient() {
-		return httpClient;
-	}
+  public HttpClient getHttpClient() {
+    return httpClient;
+  }
 
-	public void setHttpClient(HttpClient httpClient) {
-		this.httpClient = httpClient;
-	}
+  public void setHttpClient(HttpClient httpClient) {
+    this.httpClient = httpClient;
+  }
 
-	public boolean getRequestCompression() {
-		return requestCompression;
-	}
-	
-	public void setRequestCompression(boolean requestCompression) {
-		this.requestCompression = requestCompression;
-	}
-	
-	protected <S extends BaseService> S initializeService(S service) {
-		service.setAppId(appId);
-		service.setAppKey(appKey);
-		service.setRequestCompression(requestCompression);
+  public boolean getRequestCompression() {
+    return requestCompression;
+  }
 
-		if (restApiServer != null) {
-			service.setRestApiServer(restApiServer);
-		}
-		if (mapper != null) {
-			service.setMapper(mapper);
-		}
-		if (httpClient != null) {
-			service.setHttpClient(httpClient);
-		}
-		return service;
-	}
+  public void setRequestCompression(boolean requestCompression) {
+    this.requestCompression = requestCompression;
+  }
 
-	public AccountService getAccountService() {
-		return initializeService(new AccountService());
-	}
+  protected <S extends BaseService> S initializeService(S service) {
+    service.setAppId(appId);
+    service.setAppKey(appKey);
+    service.setRequestCompression(requestCompression);
 
-	public BulkUploadService getBulkUploadService() {
-		return initializeService(new BulkUploadService());
-	}
+    if (restApiServer != null) {
+      service.setRestApiServer(restApiServer);
+    }
+    if (mapper != null) {
+      service.setMapper(mapper);
+    }
+    if (httpClient != null) {
+      service.setHttpClient(httpClient);
+    }
+    return service;
+  }
 
-	public CalculateService getCalculateService() {
-		return initializeService(new CalculateService());
-	}
+  public AccountService getAccountService() {
+    return initializeService(new AccountService());
+  }
 
-	public LseService getLseService() {
-		return initializeService(new LseService());
-	}
+  public BulkUploadService getBulkUploadService() {
+    return initializeService(new BulkUploadService());
+  }
 
-	public PriceService getPriceService() {
-		return initializeService(new PriceService());
-	}
+  public CalculateService getCalculateService() {
+    return initializeService(new CalculateService());
+  }
 
-	public ProfileService getProfileService() {
-		return initializeService(new ProfileService());
-	}
+  public LseService getLseService() {
+    return initializeService(new LseService());
+  }
 
-	public AccountAnalysisService getAccountAnalysisService() {
-		return initializeService(new AccountAnalysisService());
-	}
+  public PriceService getPriceService() {
+    return initializeService(new PriceService());
+  }
 
-	public TariffService getTariffService() {
-		return initializeService(new TariffService());
-	}
+  public ProfileService getProfileService() {
+    return initializeService(new ProfileService());
+  }
 
-	public PropertyService getPropertyService() {
-		return initializeService(new PropertyService());
-	}
+  public AccountAnalysisService getAccountAnalysisService() {
+    return initializeService(new AccountAnalysisService());
+  }
 
-	public CalendarService getCalendarService() {
-		return initializeService(new CalendarService());
-	}
+  public TariffService getTariffService() {
+    return initializeService(new TariffService());
+  }
 
-	public TypicalService getTypicalService() {
-		return initializeService(new TypicalService());
-	}
+  public PropertyService getPropertyService() {
+    return initializeService(new PropertyService());
+  }
 
-	public TerritoryService getTerritoryService() {
-		return initializeService(new TerritoryService());
-	}
+  public CalendarService getCalendarService() {
+    return initializeService(new CalendarService());
+  }
 
-	public TimeOfUseService getTimeOfUseService() {
-		return initializeService(new TimeOfUseService());
-	}
+  public TypicalService getTypicalService() {
+    return initializeService(new TypicalService());
+  }
 
-	public IncentiveService getIncentiveService() {
-		return initializeService(new IncentiveService());
-	}
+  public TerritoryService getTerritoryService() {
+    return initializeService(new TerritoryService());
+  }
+
+  public TimeOfUseService getTimeOfUseService() {
+    return initializeService(new TimeOfUseService());
+  }
+
+  public IncentiveService getIncentiveService() {
+    return initializeService(new IncentiveService());
+  }
 }

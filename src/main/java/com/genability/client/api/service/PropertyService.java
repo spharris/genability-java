@@ -11,70 +11,77 @@ import com.genability.client.types.Response;
 
 public class PropertyService extends BaseService {
 
-	private static final TypeReference<Response<PropertyKey>> PROPERTY_RESPONSE_TYPEREF = new TypeReference<Response<PropertyKey>>() {};
-	
-	private static final TypeReference<Response<PropertyLookup>> PROPERTY_LOOKUP_RESPONSE_TYPEREF = new TypeReference<Response<PropertyLookup>>() {};
-	
-	private static final TypeReference<Response<PropertyLookupStats>> PROPERTY_LOOKUP_STATS_RESPONSE_TYPEREF = new TypeReference<Response<PropertyLookupStats>>() {};
+  private static final TypeReference<Response<PropertyKey>> PROPERTY_RESPONSE_TYPEREF =
+      new TypeReference<Response<PropertyKey>>() {};
 
-	
-	public Response<PropertyKey> getPropertyKey(GetPropertyKeyRequest request) {
-		
-		if(log.isDebugEnabled()) log.debug("getPropertyKey called");
+  private static final TypeReference<Response<PropertyLookup>> PROPERTY_LOOKUP_RESPONSE_TYPEREF =
+      new TypeReference<Response<PropertyLookup>>() {};
 
-		String uri = "public/properties";
-		if (request.getKeyName() != null && request.getKeyName().length() !=0) {
-			uri += "/" + request.getKeyName();
-		}
-		Response<PropertyKey> response = this.callGet(uri,request.getQueryParams(),PROPERTY_RESPONSE_TYPEREF);
-		
-		if(log.isDebugEnabled()) log.debug("getPropertyKey completed");
-		
-		return response;
-		
-	}
+  private static final TypeReference<Response<PropertyLookupStats>> PROPERTY_LOOKUP_STATS_RESPONSE_TYPEREF =
+      new TypeReference<Response<PropertyLookupStats>>() {};
 
-	public Response<PropertyKey> getPropertyKeys(GetPropertyKeysRequest request) {
-		
-		if(log.isDebugEnabled()) log.debug("getPropertyKeys called");
 
-		String uri = "public/properties";
+  public Response<PropertyKey> getPropertyKey(GetPropertyKeyRequest request) {
 
-		Response<PropertyKey> response = this.callGet(uri,request.getQueryParams(),PROPERTY_RESPONSE_TYPEREF);
-		
-		if(log.isDebugEnabled()) log.debug("getPropertyKeys completed");
-		
-		return response;
-	}
+    if (log.isDebugEnabled()) log.debug("getPropertyKey called");
 
-	public Response<PropertyLookup> getPropertyLookups(GetPropertyLookupsRequest request) {
-		
-		if(log.isDebugEnabled()) log.debug("getPropertyLookups called");
+    String uri = "public/properties";
+    if (request.getKeyName() != null && request.getKeyName().length() != 0) {
+      uri += "/" + request.getKeyName();
+    }
+    Response<PropertyKey> response =
+        this.callGet(uri, request.getQueryParams(), PROPERTY_RESPONSE_TYPEREF);
 
-		String uri = "public/properties/lookups";
+    if (log.isDebugEnabled()) log.debug("getPropertyKey completed");
 
-		Response<PropertyLookup> response = this.callGet(uri,request.getQueryParams(),PROPERTY_LOOKUP_RESPONSE_TYPEREF);
-		
-		if(log.isDebugEnabled()) log.debug("getPropertyLookups completed");
-		
-		return response;
-	}
+    return response;
 
-	public Response<PropertyLookupStats> getPropertyStats(String propertyKeyName) {
-		
-		if(log.isDebugEnabled()) log.debug("getPropertyStats called");
+  }
 
-		String uri = "public/properties";
-		if (propertyKeyName != null && propertyKeyName.length() !=0) {
-			uri += "/" + propertyKeyName + "/stats";
-		}
+  public Response<PropertyKey> getPropertyKeys(GetPropertyKeysRequest request) {
 
-		Response<PropertyLookupStats> response = this.callGet(uri,null,PROPERTY_LOOKUP_STATS_RESPONSE_TYPEREF);
-		
-		if(log.isDebugEnabled()) log.debug("getPropertyStats completed");
-		
-		return response;
-	}
+    if (log.isDebugEnabled()) log.debug("getPropertyKeys called");
+
+    String uri = "public/properties";
+
+    Response<PropertyKey> response =
+        this.callGet(uri, request.getQueryParams(), PROPERTY_RESPONSE_TYPEREF);
+
+    if (log.isDebugEnabled()) log.debug("getPropertyKeys completed");
+
+    return response;
+  }
+
+  public Response<PropertyLookup> getPropertyLookups(GetPropertyLookupsRequest request) {
+
+    if (log.isDebugEnabled()) log.debug("getPropertyLookups called");
+
+    String uri = "public/properties/lookups";
+
+    Response<PropertyLookup> response =
+        this.callGet(uri, request.getQueryParams(), PROPERTY_LOOKUP_RESPONSE_TYPEREF);
+
+    if (log.isDebugEnabled()) log.debug("getPropertyLookups completed");
+
+    return response;
+  }
+
+  public Response<PropertyLookupStats> getPropertyStats(String propertyKeyName) {
+
+    if (log.isDebugEnabled()) log.debug("getPropertyStats called");
+
+    String uri = "public/properties";
+    if (propertyKeyName != null && propertyKeyName.length() != 0) {
+      uri += "/" + propertyKeyName + "/stats";
+    }
+
+    Response<PropertyLookupStats> response =
+        this.callGet(uri, null, PROPERTY_LOOKUP_STATS_RESPONSE_TYPEREF);
+
+    if (log.isDebugEnabled()) log.debug("getPropertyStats completed");
+
+    return response;
+  }
 
 
 }

@@ -15,225 +15,225 @@ import com.genability.client.types.ServiceType;
 import com.genability.client.types.TariffType;
 
 public class GetTariffsRequest extends AbstractGetNRequest implements Serializable {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private Long lseId;
-	private Long masterTariffId;
-	private DateTime effectiveOn;
-	private LocalDate openOn;
-	private DateTime fromDateTime;
-	private DateTime toDateTime;
-	private Boolean isActive;
-	private CustomerClass[] customerClasses;
-	private TariffType[] tariffTypes;
-	private ServiceType[] serviceTypes;
-	private ChargeType[] chargeTypes;
-	private String zipCode;
-	private Boolean populateRates;
-	private Boolean populateProperties;
-	private String accountId;
-	private BigDecimal consumption;
-	private BigDecimal demand;
-	private Boolean hasNetMetering;
-	private Boolean hasTieredRates;
-	private Boolean hasContractedRates;
-	private Boolean hasTimeOfUseRates;
+  private Long lseId;
+  private Long masterTariffId;
+  private DateTime effectiveOn;
+  private LocalDate openOn;
+  private DateTime fromDateTime;
+  private DateTime toDateTime;
+  private Boolean isActive;
+  private CustomerClass[] customerClasses;
+  private TariffType[] tariffTypes;
+  private ServiceType[] serviceTypes;
+  private ChargeType[] chargeTypes;
+  private String zipCode;
+  private Boolean populateRates;
+  private Boolean populateProperties;
+  private String accountId;
+  private BigDecimal consumption;
+  private BigDecimal demand;
+  private Boolean hasNetMetering;
+  private Boolean hasTieredRates;
+  private Boolean hasContractedRates;
+  private Boolean hasTimeOfUseRates;
 
-	public Long getLseId() {
-		return lseId;
-	}
+  public Long getLseId() {
+    return lseId;
+  }
 
-	public void setLseId(Long lseId) {
-		this.lseId = lseId;
-	}
+  public void setLseId(Long lseId) {
+    this.lseId = lseId;
+  }
 
-	public Long getMasterTariffId() {
-		return masterTariffId;
-	}
+  public Long getMasterTariffId() {
+    return masterTariffId;
+  }
 
-	public void setMasterTariffId(Long masterTariffId) {
-		this.masterTariffId = masterTariffId;
-	}
+  public void setMasterTariffId(Long masterTariffId) {
+    this.masterTariffId = masterTariffId;
+  }
 
-	public CustomerClass[] getCustomerClasses() {
-		return customerClasses;
-	}
+  public CustomerClass[] getCustomerClasses() {
+    return customerClasses;
+  }
 
-	public void setCustomerClasses(CustomerClass... customerClasses) {
-		this.customerClasses = customerClasses;
-	}
+  public void setCustomerClasses(CustomerClass... customerClasses) {
+    this.customerClasses = customerClasses;
+  }
 
-	public TariffType[] getTariffTypes() {
-		return tariffTypes;
-	}
+  public TariffType[] getTariffTypes() {
+    return tariffTypes;
+  }
 
-	public void setTariffTypes(TariffType... tariffTypes) {
-		this.tariffTypes = tariffTypes;
-	}
+  public void setTariffTypes(TariffType... tariffTypes) {
+    this.tariffTypes = tariffTypes;
+  }
 
-	public ChargeType[] getChargeTypes() {
-        return chargeTypes;
-    }
+  public ChargeType[] getChargeTypes() {
+    return chargeTypes;
+  }
 
-	public void setChargeTypes(ChargeType... chargeTypes) {
-        this.chargeTypes = chargeTypes;
-    }
+  public void setChargeTypes(ChargeType... chargeTypes) {
+    this.chargeTypes = chargeTypes;
+  }
 
-	public ServiceType[] getServiceTypes() {
-        return serviceTypes;
-    }
+  public ServiceType[] getServiceTypes() {
+    return serviceTypes;
+  }
 
-	public void setServiceTypes(ServiceType... serviceTypes) {
-        this.serviceTypes = serviceTypes;
-    }
+  public void setServiceTypes(ServiceType... serviceTypes) {
+    this.serviceTypes = serviceTypes;
+  }
 
-	public String getZipCode() {
-		return zipCode;
-	}
+  public String getZipCode() {
+    return zipCode;
+  }
 
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
+  }
 
-	public DateTime getEffectiveOn() {
-		return effectiveOn;
-	}
+  public DateTime getEffectiveOn() {
+    return effectiveOn;
+  }
 
-	public void setEffectiveOn(DateTime effectiveOn) {
-		this.effectiveOn = effectiveOn;
-	}
-	
-	public LocalDate getOpenOn() {
-		return openOn;
-	}
+  public void setEffectiveOn(DateTime effectiveOn) {
+    this.effectiveOn = effectiveOn;
+  }
 
-	public void setOpenOn(LocalDate openOn) {
-		this.openOn = openOn;
-	}
+  public LocalDate getOpenOn() {
+    return openOn;
+  }
 
-	public DateTime getFromDateTime() {
-		return fromDateTime;
-	}
+  public void setOpenOn(LocalDate openOn) {
+    this.openOn = openOn;
+  }
 
-	public void setFromDateTime(DateTime fromDateTime) {
-		this.fromDateTime = fromDateTime;
-	}
+  public DateTime getFromDateTime() {
+    return fromDateTime;
+  }
 
-	public DateTime getToDateTime() {
-		return toDateTime;
-	}
+  public void setFromDateTime(DateTime fromDateTime) {
+    this.fromDateTime = fromDateTime;
+  }
 
-	public void setToDateTime(DateTime toDateTime) {
-		this.toDateTime = toDateTime;
-	}
+  public DateTime getToDateTime() {
+    return toDateTime;
+  }
 
-	public Boolean getIsActive() {
-      return isActive;
-    }
+  public void setToDateTime(DateTime toDateTime) {
+    this.toDateTime = toDateTime;
+  }
 
-	public void setIsActive(Boolean isActive) {
-      this.isActive = isActive;
-    }
+  public Boolean getIsActive() {
+    return isActive;
+  }
 
-	public String getAccountId() {
-		return accountId;
-	}
+  public void setIsActive(Boolean isActive) {
+    this.isActive = isActive;
+  }
 
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
+  public String getAccountId() {
+    return accountId;
+  }
 
-	public Boolean getPopulateProperties() {
-		return populateProperties;
-	}
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
+  }
 
-	public void setPopulateProperties(Boolean populateProperties) {
-		this.populateProperties = populateProperties;
-	}
+  public Boolean getPopulateProperties() {
+    return populateProperties;
+  }
 
-	public Boolean getPopulateRates() {
-		return populateRates;
-	}
+  public void setPopulateProperties(Boolean populateProperties) {
+    this.populateProperties = populateProperties;
+  }
 
-	public void setPopulateRates(Boolean populateRates) {
-		this.populateRates = populateRates;
-	}
-	
-	public BigDecimal getConsumption() {
-    	return consumption;
-    }
+  public Boolean getPopulateRates() {
+    return populateRates;
+  }
 
-	public void setConsumption(BigDecimal consumption) {
-    	this.consumption = consumption;
-    }
+  public void setPopulateRates(Boolean populateRates) {
+    this.populateRates = populateRates;
+  }
 
-	public BigDecimal getDemand() {
-    	return demand;
-    }
+  public BigDecimal getConsumption() {
+    return consumption;
+  }
 
-	public void setDemand(BigDecimal demand) {
-    	this.demand = demand;
-    }
+  public void setConsumption(BigDecimal consumption) {
+    this.consumption = consumption;
+  }
 
-	public Boolean getHasNetMetering() {
-    	return hasNetMetering;
-    }
+  public BigDecimal getDemand() {
+    return demand;
+  }
 
-	public void setHasNetMetering(Boolean hasNetMetering) {
-    	this.hasNetMetering = hasNetMetering;
-    }
+  public void setDemand(BigDecimal demand) {
+    this.demand = demand;
+  }
 
-	public Boolean getHasContractedRates() {
-      return hasContractedRates;
-    }
+  public Boolean getHasNetMetering() {
+    return hasNetMetering;
+  }
 
-	public void setHasContractedRates(Boolean hasContractedRates) {
-      this.hasContractedRates = hasContractedRates;
-    }
+  public void setHasNetMetering(Boolean hasNetMetering) {
+    this.hasNetMetering = hasNetMetering;
+  }
 
-	public Boolean getHasTieredRates() {
-      return hasTieredRates;
-    }
+  public Boolean getHasContractedRates() {
+    return hasContractedRates;
+  }
 
-	public void setHasTieredRates(Boolean hasTieredRates) {
-      this.hasTieredRates = hasTieredRates;
-	}
+  public void setHasContractedRates(Boolean hasContractedRates) {
+    this.hasContractedRates = hasContractedRates;
+  }
 
-	public Boolean getHasTimeOfUseRates() {
-      return hasTimeOfUseRates;
-    }
+  public Boolean getHasTieredRates() {
+    return hasTieredRates;
+  }
 
-	public void setHasTimeOfUseRates(Boolean hasTimeOfUseRates) {
-      this.hasTimeOfUseRates = hasTimeOfUseRates;
-    }
+  public void setHasTieredRates(Boolean hasTieredRates) {
+    this.hasTieredRates = hasTieredRates;
+  }
 
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
-		List<NameValuePair> qparams = super.getQueryParams();
+  public Boolean getHasTimeOfUseRates() {
+    return hasTimeOfUseRates;
+  }
 
-		addParam(qparams,"lseId",lseId);
-		addParam(qparams,"masterTariffId",masterTariffId);
-		addParam(qparams,"effectiveOn",effectiveOn);
-		addParam(qparams,"fromDateTime",fromDateTime);
-		addParam(qparams,"toDateTime",toDateTime);
-		addParam(qparams,"isActive",isActive);
-		addParam(qparams,"customerClasses",customerClasses);
-		addParam(qparams,"tariffTypes",tariffTypes);
-		addParam(qparams,"serviceTypes",serviceTypes);
-		addParam(qparams,"chargeTypes",chargeTypes);
-		addParam(qparams,"zipCode",zipCode);
-		addParam(qparams,"populateProperties",populateProperties);
-		addParam(qparams,"populateRates",populateRates);
-		addParam(qparams,"accountId",accountId);
-		addParam(qparams,"consumption",consumption);
-		addParam(qparams,"demand",demand);
-		addParam(qparams,"hasNetMetering",hasNetMetering);
-		addParam(qparams,"hasTieredRates",hasTieredRates);
-		addParam(qparams,"hasContractedRates",hasContractedRates);
-		addParam(qparams,"hasTimeOfUseRates",hasTimeOfUseRates);
-		addParam(qparams,"openOn", openOn);
+  public void setHasTimeOfUseRates(Boolean hasTimeOfUseRates) {
+    this.hasTimeOfUseRates = hasTimeOfUseRates;
+  }
 
-		return qparams;
-	}
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
+    List<NameValuePair> qparams = super.getQueryParams();
+
+    addParam(qparams, "lseId", lseId);
+    addParam(qparams, "masterTariffId", masterTariffId);
+    addParam(qparams, "effectiveOn", effectiveOn);
+    addParam(qparams, "fromDateTime", fromDateTime);
+    addParam(qparams, "toDateTime", toDateTime);
+    addParam(qparams, "isActive", isActive);
+    addParam(qparams, "customerClasses", customerClasses);
+    addParam(qparams, "tariffTypes", tariffTypes);
+    addParam(qparams, "serviceTypes", serviceTypes);
+    addParam(qparams, "chargeTypes", chargeTypes);
+    addParam(qparams, "zipCode", zipCode);
+    addParam(qparams, "populateProperties", populateProperties);
+    addParam(qparams, "populateRates", populateRates);
+    addParam(qparams, "accountId", accountId);
+    addParam(qparams, "consumption", consumption);
+    addParam(qparams, "demand", demand);
+    addParam(qparams, "hasNetMetering", hasNetMetering);
+    addParam(qparams, "hasTieredRates", hasTieredRates);
+    addParam(qparams, "hasContractedRates", hasContractedRates);
+    addParam(qparams, "hasTimeOfUseRates", hasTimeOfUseRates);
+    addParam(qparams, "openOn", openOn);
+
+    return qparams;
+  }
 }

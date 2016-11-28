@@ -12,134 +12,134 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class PropertyLookup {
 
-	public static final String REST_TYPE = "PropertyLookup";
-	
-	private Long lookupId;
-	private String propertyKey;
-	private String subPropertyKey;
-	private LocalDateTime fromDateTime;
-	private LocalDateTime forecastDateTime;
-	private LocalDateTime toDateTime;
-	private BigDecimal value;
-	private BigDecimal bestValue;
-	private BigDecimal bestAccuracy;
-	private BigDecimal actualValue;
-	private BigDecimal lseForecastValue;
-	private BigDecimal lseForecastAccuracy;
-	private BigDecimal forecastValue;
-	private BigDecimal forecastAccuracy;
+  public static final String REST_TYPE = "PropertyLookup";
 
-	public Long getLookupId() {
-		return lookupId;
-	}
+  private Long lookupId;
+  private String propertyKey;
+  private String subPropertyKey;
+  private LocalDateTime fromDateTime;
+  private LocalDateTime forecastDateTime;
+  private LocalDateTime toDateTime;
+  private BigDecimal value;
+  private BigDecimal bestValue;
+  private BigDecimal bestAccuracy;
+  private BigDecimal actualValue;
+  private BigDecimal lseForecastValue;
+  private BigDecimal lseForecastAccuracy;
+  private BigDecimal forecastValue;
+  private BigDecimal forecastAccuracy;
 
-	public void setLookupId(Long lookupId) {
-		this.lookupId = lookupId;
-	}
+  public Long getLookupId() {
+    return lookupId;
+  }
 
-	public String getPropertyKey() {
-		return propertyKey;
-	}
+  public void setLookupId(Long lookupId) {
+    this.lookupId = lookupId;
+  }
 
-	public void setPropertyKey(String propertyKey) {
-		this.propertyKey = propertyKey;
-	}
+  public String getPropertyKey() {
+    return propertyKey;
+  }
 
-	public String getSubPropertyKey() {
-		return subPropertyKey;
-	}
+  public void setPropertyKey(String propertyKey) {
+    this.propertyKey = propertyKey;
+  }
 
-	public void setSubPropertyKey(String subPropertyKey) {
-		this.subPropertyKey = subPropertyKey;
-	}
+  public String getSubPropertyKey() {
+    return subPropertyKey;
+  }
 
-	public LocalDateTime getFromDateTime() {
-		return fromDateTime;
-	}
+  public void setSubPropertyKey(String subPropertyKey) {
+    this.subPropertyKey = subPropertyKey;
+  }
 
-	public void setFromDateTime(LocalDateTime fromDateTime) {
-		this.fromDateTime = fromDateTime;
-	}
+  public LocalDateTime getFromDateTime() {
+    return fromDateTime;
+  }
 
-	public LocalDateTime getForecastDateTime() {
-		return forecastDateTime;
-	}
+  public void setFromDateTime(LocalDateTime fromDateTime) {
+    this.fromDateTime = fromDateTime;
+  }
 
-	public void setForecastDateTime(LocalDateTime forecastDateTime) {
-		this.forecastDateTime = forecastDateTime;
-	}
+  public LocalDateTime getForecastDateTime() {
+    return forecastDateTime;
+  }
 
-	public LocalDateTime getToDateTime() {
-		return toDateTime;
-	}
+  public void setForecastDateTime(LocalDateTime forecastDateTime) {
+    this.forecastDateTime = forecastDateTime;
+  }
 
-	public void setToDateTime(LocalDateTime toDateTime) {
-		this.toDateTime = toDateTime;
-	}
+  public LocalDateTime getToDateTime() {
+    return toDateTime;
+  }
 
-	public BigDecimal getValue() {
-		return value;
-	}
+  public void setToDateTime(LocalDateTime toDateTime) {
+    this.toDateTime = toDateTime;
+  }
 
-	public void setValue(BigDecimal value) {
-		this.value = value;
-	}
+  public BigDecimal getValue() {
+    return value;
+  }
 
-	public BigDecimal getLseForecastValue() {
-		return lseForecastValue;
-	}
+  public void setValue(BigDecimal value) {
+    this.value = value;
+  }
 
-	public void setLseForecastValue(BigDecimal lseForecastValue) {
-		this.lseForecastValue = lseForecastValue;
-	}
+  public BigDecimal getLseForecastValue() {
+    return lseForecastValue;
+  }
 
-	public BigDecimal getLseForecastAccuracy() {
-		return lseForecastAccuracy;
-	}
+  public void setLseForecastValue(BigDecimal lseForecastValue) {
+    this.lseForecastValue = lseForecastValue;
+  }
 
-	public void setLseForecastAccuracy(BigDecimal lseForecastAccuracy) {
-		this.lseForecastAccuracy = lseForecastAccuracy;
-	}
+  public BigDecimal getLseForecastAccuracy() {
+    return lseForecastAccuracy;
+  }
 
-	public BigDecimal getForecastValue() {
-		return forecastValue;
-	}
+  public void setLseForecastAccuracy(BigDecimal lseForecastAccuracy) {
+    this.lseForecastAccuracy = lseForecastAccuracy;
+  }
 
-	public void setForecastValue(BigDecimal forecastValue) {
-		this.forecastValue = forecastValue;
-	}
+  public BigDecimal getForecastValue() {
+    return forecastValue;
+  }
 
-	public BigDecimal getForecastAccuracy() {
-		return forecastAccuracy;
-	}
+  public void setForecastValue(BigDecimal forecastValue) {
+    this.forecastValue = forecastValue;
+  }
 
-	public void setForecastAccuracy(BigDecimal forecastAccuracy) {
-		this.forecastAccuracy = forecastAccuracy;
-	}
+  public BigDecimal getForecastAccuracy() {
+    return forecastAccuracy;
+  }
 
-	public BigDecimal getBestValue() {
-		return bestValue;
-	}
+  public void setForecastAccuracy(BigDecimal forecastAccuracy) {
+    this.forecastAccuracy = forecastAccuracy;
+  }
 
-	public void setBestValue(BigDecimal bestValue) {
-		this.bestValue = bestValue;
-	}
+  public BigDecimal getBestValue() {
+    return bestValue;
+  }
 
-	public BigDecimal getBestAccuracy() {
-		return bestAccuracy;
-	}
+  public void setBestValue(BigDecimal bestValue) {
+    this.bestValue = bestValue;
+  }
 
-	public void setBestAccuracy(BigDecimal bestAccuracy) {
-		this.bestAccuracy = bestAccuracy;
-	}
+  public BigDecimal getBestAccuracy() {
+    return bestAccuracy;
+  }
 
-	public BigDecimal getActualValue() {
-		return actualValue;
-	}
+  public void setBestAccuracy(BigDecimal bestAccuracy) {
+    this.bestAccuracy = bestAccuracy;
+  }
 
-	public void setActualValue(BigDecimal actualValue) {
-		this.actualValue = actualValue;
-	}
+  public BigDecimal getActualValue() {
+    return actualValue;
+  }
+
+  public void setActualValue(BigDecimal actualValue) {
+    this.actualValue = actualValue;
+  }
 
 
 }

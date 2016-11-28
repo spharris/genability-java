@@ -12,227 +12,227 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CalculatedCostItem {
 
-	private Long tariffRateId;
-    private Long tariffRateBandId;
-    private Long seasonId;
-    private Long touId;
+  private Long tariffRateId;
+  private Long tariffRateBandId;
+  private Long seasonId;
+  private Long touId;
 
-    private String rateGroupName;
-    private String rateName;
-    private BigDecimal rateAmount;
-    private BigDecimal rateProration;
-    private RateUnit rateType;
-    private Integer rateSequenceNumber;
+  private String rateGroupName;
+  private String rateName;
+  private BigDecimal rateAmount;
+  private BigDecimal rateProration;
+  private RateUnit rateType;
+  private Integer rateSequenceNumber;
 
-	private ChargeType chargeType;
-	private String chargeClass;
-    
-    private DateTime fromDateTime;
-    private DateTime toDateTime;
+  private ChargeType chargeType;
+  private String chargeClass;
 
-    private String quantityKey;
-    private Double itemQuantity;
-    private BigDecimal cost;
-    private BigDecimal tierLowerLimit;
-    private BigDecimal tierUpperLimit;
+  private DateTime fromDateTime;
+  private DateTime toDateTime;
 
-	private String family;
-	private String formula;
-	private DateTime demandInterval;
-	private Integer duration;
+  private String quantityKey;
+  private Double itemQuantity;
+  private BigDecimal cost;
+  private BigDecimal tierLowerLimit;
+  private BigDecimal tierUpperLimit;
 
-	private String period;
-	
+  private String family;
+  private String formula;
+  private DateTime demandInterval;
+  private Integer duration;
 
-	public Long getTariffRateId() {
-		return tariffRateId;
-	}
+  private String period;
 
-	public void setTariffRateId(Long tariffRateId) {
-		this.tariffRateId = tariffRateId;
-	}
 
-	public Long getTariffRateBandId() {
-		return tariffRateBandId;
-	}
+  public Long getTariffRateId() {
+    return tariffRateId;
+  }
 
-	public void setTariffRateBandId(Long tariffRateBandId) {
-		this.tariffRateBandId = tariffRateBandId;
-	}
+  public void setTariffRateId(Long tariffRateId) {
+    this.tariffRateId = tariffRateId;
+  }
 
-	public String getRateGroupName() {
-		return rateGroupName;
-	}
+  public Long getTariffRateBandId() {
+    return tariffRateBandId;
+  }
 
-	public void setRateGroupName(String rateGroupName) {
-		this.rateGroupName = rateGroupName;
-	}
+  public void setTariffRateBandId(Long tariffRateBandId) {
+    this.tariffRateBandId = tariffRateBandId;
+  }
 
-	public String getRateName() {
-		return rateName;
-	}
+  public String getRateGroupName() {
+    return rateGroupName;
+  }
 
-	public void setRateName(String rateName) {
-		this.rateName = rateName;
-	}
+  public void setRateGroupName(String rateGroupName) {
+    this.rateGroupName = rateGroupName;
+  }
 
-	public DateTime getFromDateTime() {
-		return fromDateTime;
-	}
+  public String getRateName() {
+    return rateName;
+  }
 
-	public void setFromDateTime(DateTime fromDateTime) {
-		this.fromDateTime = fromDateTime;
-	}
+  public void setRateName(String rateName) {
+    this.rateName = rateName;
+  }
 
-	public DateTime getToDateTime() {
-		return toDateTime;
-	}
+  public DateTime getFromDateTime() {
+    return fromDateTime;
+  }
 
-	public void setToDateTime(DateTime toDateTime) {
-		this.toDateTime = toDateTime;
-	}
+  public void setFromDateTime(DateTime fromDateTime) {
+    this.fromDateTime = fromDateTime;
+  }
 
-	public RateUnit getRateType() {
-		return rateType;
-	}
+  public DateTime getToDateTime() {
+    return toDateTime;
+  }
 
-	public void setRateType(RateUnit rateType) {
-		this.rateType = rateType;
-	}
+  public void setToDateTime(DateTime toDateTime) {
+    this.toDateTime = toDateTime;
+  }
 
-	public ChargeType getChargeType() {
-		return chargeType;
-	}
+  public RateUnit getRateType() {
+    return rateType;
+  }
 
-	public void setChargeType(ChargeType chargeType) {
-		this.chargeType = chargeType;
-	}
+  public void setRateType(RateUnit rateType) {
+    this.rateType = rateType;
+  }
 
-	public String getFamily() {
-		return family;
-	}
+  public ChargeType getChargeType() {
+    return chargeType;
+  }
 
-	public void setFamily(String family) {
-		this.family = family;
-	}
+  public void setChargeType(ChargeType chargeType) {
+    this.chargeType = chargeType;
+  }
 
-	public String getQuantityKey() {
-		return quantityKey;
-	}
+  public String getFamily() {
+    return family;
+  }
 
-	public void setQuantityKey(String quantityKey) {
-		this.quantityKey = quantityKey;
-	}
+  public void setFamily(String family) {
+    this.family = family;
+  }
 
-	public Double getItemQuantity() {
-		return itemQuantity;
-	}
+  public String getQuantityKey() {
+    return quantityKey;
+  }
 
-	public void setItemQuantity(Double itemQuantity) {
-		this.itemQuantity = itemQuantity;
-	}
+  public void setQuantityKey(String quantityKey) {
+    this.quantityKey = quantityKey;
+  }
 
-	public String getPeriod() {
-		return period;
-	}
+  public Double getItemQuantity() {
+    return itemQuantity;
+  }
 
-	public void setPeriod(String period) {
-		this.period = period;
-	}
+  public void setItemQuantity(Double itemQuantity) {
+    this.itemQuantity = itemQuantity;
+  }
 
-	public BigDecimal getCost() {
-		return cost;
-	}
+  public String getPeriod() {
+    return period;
+  }
 
-	public void setCost(BigDecimal cost) {
-		this.cost = cost;
-	}
+  public void setPeriod(String period) {
+    this.period = period;
+  }
 
-	public BigDecimal getRateAmount() {
-		return rateAmount;
-	}
+  public BigDecimal getCost() {
+    return cost;
+  }
 
-	public void setRateAmount(BigDecimal rateAmount) {
-		this.rateAmount = rateAmount;
-	}
-	
-	public BigDecimal getRateProration() {
-		return rateProration;
-	}
+  public void setCost(BigDecimal cost) {
+    this.cost = cost;
+  }
 
-	public void setRateProration(BigDecimal rateProration) {
-		this.rateProration = rateProration;
-	}
-    
-	public String getFormula() {
-		return formula;
-	}
+  public BigDecimal getRateAmount() {
+    return rateAmount;
+  }
 
-	public void setFormula(String formula) {
-		this.formula = formula;
-	}
+  public void setRateAmount(BigDecimal rateAmount) {
+    this.rateAmount = rateAmount;
+  }
 
-	public DateTime getDemandInterval() {
-		return demandInterval;
-	}
+  public BigDecimal getRateProration() {
+    return rateProration;
+  }
 
-	public void setDemandInterval(DateTime demandInterval) {
-		this.demandInterval = demandInterval;
-	}
+  public void setRateProration(BigDecimal rateProration) {
+    this.rateProration = rateProration;
+  }
 
-	public Integer getDuration() {
-		return duration;
-	}
+  public String getFormula() {
+    return formula;
+  }
 
-	public void setDuration(Integer duration) {
-		this.duration = duration;
-	}
+  public void setFormula(String formula) {
+    this.formula = formula;
+  }
 
-	public Long getSeasonId() {
-		return seasonId;
-	}
+  public DateTime getDemandInterval() {
+    return demandInterval;
+  }
 
-	public void setSeasonId(Long seasonId) {
-		this.seasonId = seasonId;
-	}
+  public void setDemandInterval(DateTime demandInterval) {
+    this.demandInterval = demandInterval;
+  }
 
-	public Long getTouId() {
-		return touId;
-	}
+  public Integer getDuration() {
+    return duration;
+  }
 
-	public void setTouId(Long touId) {
-		this.touId = touId;
-	}
+  public void setDuration(Integer duration) {
+    this.duration = duration;
+  }
 
-	public Integer getRateSequenceNumber() {
-		return rateSequenceNumber;
-	}
+  public Long getSeasonId() {
+    return seasonId;
+  }
 
-	public void setRateSequenceNumber(Integer rateSequenceNumber) {
-		this.rateSequenceNumber = rateSequenceNumber;
-	}
+  public void setSeasonId(Long seasonId) {
+    this.seasonId = seasonId;
+  }
 
-	public String getChargeClass() {
-		return chargeClass;
-	}
+  public Long getTouId() {
+    return touId;
+  }
 
-	public void setChargeClass(String chargeClass) {
-		this.chargeClass = chargeClass;
-	}
+  public void setTouId(Long touId) {
+    this.touId = touId;
+  }
 
-	public BigDecimal getTierLowerLimit() {
-		return tierLowerLimit;
-	}
+  public Integer getRateSequenceNumber() {
+    return rateSequenceNumber;
+  }
 
-	public void setTierLowerLimit(BigDecimal tierLowerLimit) {
-		this.tierLowerLimit = tierLowerLimit;
-	}
+  public void setRateSequenceNumber(Integer rateSequenceNumber) {
+    this.rateSequenceNumber = rateSequenceNumber;
+  }
 
-	public BigDecimal getTierUpperLimit() {
-		return tierUpperLimit;
-	}
+  public String getChargeClass() {
+    return chargeClass;
+  }
 
-	public void setTierUpperLimit(BigDecimal tierUpperLimit) {
-		this.tierUpperLimit = tierUpperLimit;
-	}
+  public void setChargeClass(String chargeClass) {
+    this.chargeClass = chargeClass;
+  }
+
+  public BigDecimal getTierLowerLimit() {
+    return tierLowerLimit;
+  }
+
+  public void setTierLowerLimit(BigDecimal tierLowerLimit) {
+    this.tierLowerLimit = tierLowerLimit;
+  }
+
+  public BigDecimal getTierUpperLimit() {
+    return tierUpperLimit;
+  }
+
+  public void setTierUpperLimit(BigDecimal tierUpperLimit) {
+    this.tierUpperLimit = tierUpperLimit;
+  }
 }

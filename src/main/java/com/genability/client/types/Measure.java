@@ -10,140 +10,141 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Measure {
 
-	/**
-	 * private member variable for QuantityUnit.
-	 */
-	private String quantityUnit;
+  /**
+   * private member variable for QuantityUnit.
+   */
+  private String quantityUnit;
 
-	/**
-	 * private member variable for QuantityAmount.
-	 */
-	private BigDecimal quantityAmount;
+  /**
+   * private member variable for QuantityAmount.
+   */
+  private BigDecimal quantityAmount;
 
-	/**
-	 * private member variable for QuantitySum.
-	 */
-	private BigDecimal quantitySum;
+  /**
+   * private member variable for QuantitySum.
+   */
+  private BigDecimal quantitySum;
 
-	/**
-	 * private member variable for QuantityAccuracy.
-	 */
-	private BigDecimal quantityAccuracy;
+  /**
+   * private member variable for QuantityAccuracy.
+   */
+  private BigDecimal quantityAccuracy;
 
-	/**
-	 * private member variable for RateAmount.
-	 */
-	private BigDecimal rateAmount;
+  /**
+   * private member variable for RateAmount.
+   */
+  private BigDecimal rateAmount;
 
-	/**
-	 * private member variable for RateAccuracy.
-	 */
-	private BigDecimal rateAccuracy;
+  /**
+   * private member variable for RateAccuracy.
+   */
+  private BigDecimal rateAccuracy;
 
-	/**
-	 * private member variable for CostAmount.
-	 */
-	private BigDecimal costAmount;
+  /**
+   * private member variable for CostAmount.
+   */
+  private BigDecimal costAmount;
 
-	/**
-	 * private member variable for CostAccuracy.
-	 */
-	private BigDecimal costAccuracy;
+  /**
+   * private member variable for CostAccuracy.
+   */
+  private BigDecimal costAccuracy;
 
-	public Measure() {
+  public Measure() {
 
-	}
+  }
 
-	public Measure(String quantityUnit) {
+  public Measure(String quantityUnit) {
 
-		this.quantityUnit = quantityUnit;
+    this.quantityUnit = quantityUnit;
 
-	}
+  }
 
-	public Measure(String quantityUnit, BigDecimal quantityAmount) {
+  public Measure(String quantityUnit, BigDecimal quantityAmount) {
 
-		this.quantityUnit = quantityUnit;
-		this.quantityAmount = quantityAmount;
+    this.quantityUnit = quantityUnit;
+    this.quantityAmount = quantityAmount;
 
-	}
+  }
 
-	public Measure(Measure measure) {
+  public Measure(Measure measure) {
 
-		this.quantityUnit = measure.getQuantityUnit();
-		this.quantityAmount = measure.getQuantityAmount();
-		
-	}
-	public String toString() {
-		try {
-			return String.format("<%s %s>", quantityAmount, quantityUnit);
-		} catch (Exception e) {
-			return super.toString();
-		}
-	}
+    this.quantityUnit = measure.getQuantityUnit();
+    this.quantityAmount = measure.getQuantityAmount();
 
-	public String getQuantityUnit() {
-		return quantityUnit;
-	}
+  }
 
-	public void setQuantityUnit(String quantityUnit) {
-		this.quantityUnit = quantityUnit;
-	}
+  public String toString() {
+    try {
+      return String.format("<%s %s>", quantityAmount, quantityUnit);
+    } catch (Exception e) {
+      return super.toString();
+    }
+  }
 
-	public BigDecimal getQuantityAmount() {
-		return quantityAmount;
-	}
+  public String getQuantityUnit() {
+    return quantityUnit;
+  }
 
-	public void setQuantityAmount(BigDecimal quantityAmount) {
-		this.quantityAmount = quantityAmount;
-	}
+  public void setQuantityUnit(String quantityUnit) {
+    this.quantityUnit = quantityUnit;
+  }
 
-	public BigDecimal getQuantitySum() {
-		return quantitySum;
-	}
+  public BigDecimal getQuantityAmount() {
+    return quantityAmount;
+  }
 
-	public void setQuantitySum(BigDecimal quantitySum) {
-		this.quantitySum = quantitySum;
-	}
+  public void setQuantityAmount(BigDecimal quantityAmount) {
+    this.quantityAmount = quantityAmount;
+  }
 
-	public BigDecimal getQuantityAccuracy() {
-		return quantityAccuracy;
-	}
+  public BigDecimal getQuantitySum() {
+    return quantitySum;
+  }
 
-	public void setQuantityAccuracy(BigDecimal quantityAccuracy) {
-		this.quantityAccuracy = quantityAccuracy;
-	}
+  public void setQuantitySum(BigDecimal quantitySum) {
+    this.quantitySum = quantitySum;
+  }
 
-	public BigDecimal getRateAmount() {
-		return rateAmount;
-	}
+  public BigDecimal getQuantityAccuracy() {
+    return quantityAccuracy;
+  }
 
-	public void setRateAmount(BigDecimal rateAmount) {
-		this.rateAmount = rateAmount;
-	}
+  public void setQuantityAccuracy(BigDecimal quantityAccuracy) {
+    this.quantityAccuracy = quantityAccuracy;
+  }
 
-	public BigDecimal getRateAccuracy() {
-		return rateAccuracy;
-	}
+  public BigDecimal getRateAmount() {
+    return rateAmount;
+  }
 
-	public void setRateAccuracy(BigDecimal rateAccuracy) {
-		this.rateAccuracy = rateAccuracy;
-	}
+  public void setRateAmount(BigDecimal rateAmount) {
+    this.rateAmount = rateAmount;
+  }
 
-	public BigDecimal getCostAmount() {
-		return costAmount;
-	}
+  public BigDecimal getRateAccuracy() {
+    return rateAccuracy;
+  }
 
-	public void setCostAmount(BigDecimal costAmount) {
-		this.costAmount = costAmount;
-	}
+  public void setRateAccuracy(BigDecimal rateAccuracy) {
+    this.rateAccuracy = rateAccuracy;
+  }
 
-	public BigDecimal getCostAccuracy() {
-		return costAccuracy;
-	}
+  public BigDecimal getCostAmount() {
+    return costAmount;
+  }
 
-	public void setCostAccuracy(BigDecimal costAccuracy) {
-		this.costAccuracy = costAccuracy;
-	}
+  public void setCostAmount(BigDecimal costAmount) {
+    this.costAmount = costAmount;
+  }
+
+  public BigDecimal getCostAccuracy() {
+    return costAccuracy;
+  }
+
+  public void setCostAccuracy(BigDecimal costAccuracy) {
+    this.costAccuracy = costAccuracy;
+  }
 
 
 }

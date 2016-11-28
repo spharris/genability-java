@@ -10,181 +10,181 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class GetTariffRequest extends AbstractRequest implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	private Long masterTariffId;
+  private static final long serialVersionUID = 1L;
 
-	private String accountId;
+  private Long masterTariffId;
 
-	private Boolean populateProperties;
+  private String accountId;
 
-	private Boolean populateRates;
+  private Boolean populateProperties;
 
-	private Boolean populateDocuments;
+  private Boolean populateRates;
 
-	private DateTime effectiveOn;
+  private Boolean populateDocuments;
 
-	private Boolean applicableRatesOnly;
+  private DateTime effectiveOn;
 
-	private Boolean applyContractedRates;
+  private Boolean applicableRatesOnly;
 
-	private Boolean lookupVariableRates;
-	
-	private Boolean bundleRates;
+  private Boolean applyContractedRates;
 
-	private DateTime fromDateTime;
-	private DateTime toDateTime;
-	
-	private Long territoryId;
+  private Boolean lookupVariableRates;
 
-	public Long getTerritoryId() {
-		return territoryId;
-	}
+  private Boolean bundleRates;
 
+  private DateTime fromDateTime;
+  private DateTime toDateTime;
 
-	public void setTerritoryId(Long territoryId) {
-		this.territoryId = territoryId;
-	}
+  private Long territoryId;
+
+  public Long getTerritoryId() {
+    return territoryId;
+  }
 
 
-	public Long getMasterTariffId() {
-		return masterTariffId;
-	}
+  public void setTerritoryId(Long territoryId) {
+    this.territoryId = territoryId;
+  }
 
 
-	public void setMasterTariffId(Long masterTariffId) {
-		this.masterTariffId = masterTariffId;
-	}
+  public Long getMasterTariffId() {
+    return masterTariffId;
+  }
 
 
-	public String getAccountId() {
-		return accountId;
-	}
+  public void setMasterTariffId(Long masterTariffId) {
+    this.masterTariffId = masterTariffId;
+  }
 
 
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
+  public String getAccountId() {
+    return accountId;
+  }
 
 
-	public Boolean getPopulateProperties() {
-		return populateProperties;
-	}
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
+  }
 
 
-	public void setPopulateProperties(Boolean populateProperties) {
-		this.populateProperties = populateProperties;
-	}
+  public Boolean getPopulateProperties() {
+    return populateProperties;
+  }
 
 
-	public Boolean getPopulateRates() {
-		return populateRates;
-	}
+  public void setPopulateProperties(Boolean populateProperties) {
+    this.populateProperties = populateProperties;
+  }
 
 
-	public void setPopulateRates(Boolean populateRates) {
-		this.populateRates = populateRates;
-	}
+  public Boolean getPopulateRates() {
+    return populateRates;
+  }
 
 
-	public Boolean getPopulateDocuments() {
-		return populateDocuments;
-	}
+  public void setPopulateRates(Boolean populateRates) {
+    this.populateRates = populateRates;
+  }
 
 
-	public void setPopulateDocuments(Boolean populateDocuments) {
-		this.populateDocuments = populateDocuments;
-	}
+  public Boolean getPopulateDocuments() {
+    return populateDocuments;
+  }
 
 
-	public DateTime getEffectiveOn() {
-		return effectiveOn;
-	}
+  public void setPopulateDocuments(Boolean populateDocuments) {
+    this.populateDocuments = populateDocuments;
+  }
 
 
-	public void setEffectiveOn(DateTime effectiveOn) {
-		this.effectiveOn = effectiveOn;
-	}
+  public DateTime getEffectiveOn() {
+    return effectiveOn;
+  }
 
 
-	public Boolean getApplicableRatesOnly() {
-		return applicableRatesOnly;
-	}
+  public void setEffectiveOn(DateTime effectiveOn) {
+    this.effectiveOn = effectiveOn;
+  }
 
 
-	public void setApplicableRatesOnly(Boolean applicableRatesOnly) {
-		this.applicableRatesOnly = applicableRatesOnly;
-	}
+  public Boolean getApplicableRatesOnly() {
+    return applicableRatesOnly;
+  }
 
 
-	public Boolean getApplyContractedRates() {
-		return applyContractedRates;
-	}
+  public void setApplicableRatesOnly(Boolean applicableRatesOnly) {
+    this.applicableRatesOnly = applicableRatesOnly;
+  }
 
 
-	public void setApplyContractedRates(Boolean applyContractedRates) {
-		this.applyContractedRates = applyContractedRates;
-	}
+  public Boolean getApplyContractedRates() {
+    return applyContractedRates;
+  }
 
 
-	public Boolean getLookupVariableRates() {
-		return lookupVariableRates;
-	}
+  public void setApplyContractedRates(Boolean applyContractedRates) {
+    this.applyContractedRates = applyContractedRates;
+  }
 
 
-	public void setLookupVariableRates(Boolean lookupVariableRates) {
-		this.lookupVariableRates = lookupVariableRates;
-	}
+  public Boolean getLookupVariableRates() {
+    return lookupVariableRates;
+  }
 
 
-	public Boolean getBundleRates() {
-		return bundleRates;
-	}
+  public void setLookupVariableRates(Boolean lookupVariableRates) {
+    this.lookupVariableRates = lookupVariableRates;
+  }
 
 
-	public void setBundleRates(Boolean bundleRates) {
-		this.bundleRates = bundleRates;
-	}
+  public Boolean getBundleRates() {
+    return bundleRates;
+  }
 
-        public DateTime getFromDateTime() {
-                return fromDateTime;
-        }
 
-        public void setFromDateTime(DateTime fromDateTime) {
-                this.fromDateTime = fromDateTime;
-        }
+  public void setBundleRates(Boolean bundleRates) {
+    this.bundleRates = bundleRates;
+  }
 
-        public DateTime getToDateTime() {
-                return toDateTime;
-        }
+  public DateTime getFromDateTime() {
+    return fromDateTime;
+  }
 
-        public void setToDateTime(DateTime toDateTime) {
-                this.toDateTime = toDateTime;
-        }
+  public void setFromDateTime(DateTime fromDateTime) {
+    this.fromDateTime = fromDateTime;
+  }
 
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
+  public DateTime getToDateTime() {
+    return toDateTime;
+  }
 
-		List<NameValuePair> qparams = super.getQueryParams();
+  public void setToDateTime(DateTime toDateTime) {
+    this.toDateTime = toDateTime;
+  }
 
-		addParam(qparams, "accountId", accountId);
-		addParam(qparams, "populateProperties", populateProperties);
-		addParam(qparams, "populateRates", populateRates);
-		addParam(qparams, "populateDocuments", populateDocuments);
-		addParam(qparams, "effectiveOn", effectiveOn);
-		addParam(qparams,"applicableRatesOnly", applicableRatesOnly);
-		addParam(qparams, "applyContractedRates", applyContractedRates);
-		addParam(qparams, "lookupVariableRates", lookupVariableRates);
-		addParam(qparams, "bundleRates", bundleRates);
-		addParam(qparams, "fromDateTime", fromDateTime);
-		addParam(qparams, "toDateTime", toDateTime);
-		addParam(qparams, "territoryId", territoryId);
-		
-		return qparams;
-		
-	}
-	
-	
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
+
+    List<NameValuePair> qparams = super.getQueryParams();
+
+    addParam(qparams, "accountId", accountId);
+    addParam(qparams, "populateProperties", populateProperties);
+    addParam(qparams, "populateRates", populateRates);
+    addParam(qparams, "populateDocuments", populateDocuments);
+    addParam(qparams, "effectiveOn", effectiveOn);
+    addParam(qparams, "applicableRatesOnly", applicableRatesOnly);
+    addParam(qparams, "applyContractedRates", applyContractedRates);
+    addParam(qparams, "lookupVariableRates", lookupVariableRates);
+    addParam(qparams, "bundleRates", bundleRates);
+    addParam(qparams, "fromDateTime", fromDateTime);
+    addParam(qparams, "toDateTime", toDateTime);
+    addParam(qparams, "territoryId", territoryId);
+
+    return qparams;
+
+  }
+
+
 
 }

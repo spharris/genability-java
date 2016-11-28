@@ -10,74 +10,69 @@ import com.genability.client.types.Territory;
 
 
 public class LseService extends BaseService {
-	
-    private static final TypeReference<Response<Territory>> TERRITORY_RESPONSE_TYPEREF = new TypeReference<Response<Territory>>() {};
-    private static final TypeReference<Response<Lse>> LSE_RESPONSE_TYPEREF = new TypeReference<Response<Lse>>() {};
 
-	/**
-	 * Calls the REST service to get a list of tariffs based on the arguments passed in.
-	 * 
-	 * @param request The request.
-	 * @return The return value.
-	 */
-	public Response<Territory> getTerritories(GetTerritoriesRequest request) {
-		
-		if(log.isDebugEnabled()) log.debug("getTerritories called");
-		
-		Response<Territory> response = this.callGet(
-				"public/territories", 
-				request.getQueryParams(),
-				TERRITORY_RESPONSE_TYPEREF);
-		
-		if(log.isDebugEnabled()) log.debug("getTerritories completed");
-		
-		return response;
-		
-	}
+  private static final TypeReference<Response<Territory>> TERRITORY_RESPONSE_TYPEREF =
+      new TypeReference<Response<Territory>>() {};
+  private static final TypeReference<Response<Lse>> LSE_RESPONSE_TYPEREF =
+      new TypeReference<Response<Lse>>() {};
 
-	/**
-	 * Calls the REST service to get the LSE requested
-	 * 
-	 * @param request The request.
-	 * @return The return value.
-	 */
-	public Response<Lse> getLse(GetLseRequest request) {
-		
-		if(log.isDebugEnabled()) log.debug("getLse called");
-		
-		String uri = "public/lses";
-		if (request.getLseId() != null) {
-			uri += "/" + request.getLseId();
-		}
+  /**
+   * Calls the REST service to get a list of tariffs based on the arguments passed in.
+   * 
+   * @param request The request.
+   * @return The return value.
+   */
+  public Response<Territory> getTerritories(GetTerritoriesRequest request) {
 
-		Response<Lse> response = this.callGet(
-				uri, 
-				request.getQueryParams(),
-				LSE_RESPONSE_TYPEREF);
-		
-		if(log.isDebugEnabled()) log.debug("getLse completed");
-		
-		return response;
-		
-	}
+    if (log.isDebugEnabled()) log.debug("getTerritories called");
 
-	/**
-	 * Calls the REST service to get a list of LSEs based on the arguments passed in.
-	 * 
-	 * @param request The request.
-	 * @return The return value.
-	 */
-	public Response<Lse> getLses(GetLsesRequest request) {
-		
-		if(log.isDebugEnabled()) log.debug("getLses called");
-		
-		Response<Lse> response = this.callGet(
-				"public/lses", 
-				request.getQueryParams(),
-				LSE_RESPONSE_TYPEREF);
-		
-		if(log.isDebugEnabled()) log.debug("getLses completed");
-		
-		return response;
-	}
+    Response<Territory> response =
+        this.callGet("public/territories", request.getQueryParams(), TERRITORY_RESPONSE_TYPEREF);
+
+    if (log.isDebugEnabled()) log.debug("getTerritories completed");
+
+    return response;
+
+  }
+
+  /**
+   * Calls the REST service to get the LSE requested
+   * 
+   * @param request The request.
+   * @return The return value.
+   */
+  public Response<Lse> getLse(GetLseRequest request) {
+
+    if (log.isDebugEnabled()) log.debug("getLse called");
+
+    String uri = "public/lses";
+    if (request.getLseId() != null) {
+      uri += "/" + request.getLseId();
+    }
+
+    Response<Lse> response = this.callGet(uri, request.getQueryParams(), LSE_RESPONSE_TYPEREF);
+
+    if (log.isDebugEnabled()) log.debug("getLse completed");
+
+    return response;
+
+  }
+
+  /**
+   * Calls the REST service to get a list of LSEs based on the arguments passed in.
+   * 
+   * @param request The request.
+   * @return The return value.
+   */
+  public Response<Lse> getLses(GetLsesRequest request) {
+
+    if (log.isDebugEnabled()) log.debug("getLses called");
+
+    Response<Lse> response =
+        this.callGet("public/lses", request.getQueryParams(), LSE_RESPONSE_TYPEREF);
+
+    if (log.isDebugEnabled()) log.debug("getLses completed");
+
+    return response;
+  }
 }

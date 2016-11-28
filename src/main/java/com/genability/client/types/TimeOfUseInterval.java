@@ -6,68 +6,68 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TimeOfUseInterval {
-	
-	private Long touGroupId_;
-	private Long touId_;
-	private TimeOfUseType touType;
-	private String touName_;
-	private DateTime fromDateTime_;
-	private DateTime toDateTime_;
-	private Long calendarId_;
 
-	public Long getTouGroupId() {
-		return touGroupId_;
-	}
+  private Long touGroupId_;
+  private Long touId_;
+  private TimeOfUseType touType;
+  private String touName_;
+  private DateTime fromDateTime_;
+  private DateTime toDateTime_;
+  private Long calendarId_;
 
-	public void setTouGroupId(Long touGroupId) {
-		this.touGroupId_ = touGroupId;
-	}
+  public Long getTouGroupId() {
+    return touGroupId_;
+  }
 
-	public Long getTouId() {
-		return touId_;
-	}
+  public void setTouGroupId(Long touGroupId) {
+    this.touGroupId_ = touGroupId;
+  }
 
-	public void setTouId(Long touId) {
-		this.touId_ = touId;
-	}
+  public Long getTouId() {
+    return touId_;
+  }
 
-	public TimeOfUseType getTouType() {
-		return touType;
-	}
+  public void setTouId(Long touId) {
+    this.touId_ = touId;
+  }
 
-	public void setTouType(TimeOfUseType touType) {
-		this.touType = touType;
-	}
+  public TimeOfUseType getTouType() {
+    return touType;
+  }
 
-	public String getTouName() {
-		return touName_;
-	}
+  public void setTouType(TimeOfUseType touType) {
+    this.touType = touType;
+  }
 
-	public void setTouName(String touName) {
-		this.touName_ = touName;
-	}
+  public String getTouName() {
+    return touName_;
+  }
 
-	public DateTime getFromDateTime() {
-		return fromDateTime_;
-	}
+  public void setTouName(String touName) {
+    this.touName_ = touName;
+  }
 
-	public void setFromDateTime(DateTime fromDateTime) {
-		this.fromDateTime_ = fromDateTime;
-	}
+  public DateTime getFromDateTime() {
+    return fromDateTime_;
+  }
 
-	public DateTime getToDateTime() {
-		return toDateTime_;
-	}
+  public void setFromDateTime(DateTime fromDateTime) {
+    this.fromDateTime_ = fromDateTime;
+  }
 
-	public void setToDateTime(DateTime toDateTime) {
-		this.toDateTime_ = toDateTime;
-	}
+  public DateTime getToDateTime() {
+    return toDateTime_;
+  }
 
-	public void setCalendarId(Long calendarId) {
-		this.calendarId_ = calendarId;
-	}
+  public void setToDateTime(DateTime toDateTime) {
+    this.toDateTime_ = toDateTime;
+  }
 
-	public Long getCalendarId() {
-		return calendarId_;
-	}
+  public void setCalendarId(Long calendarId) {
+    this.calendarId_ = calendarId;
+  }
+
+  public Long getCalendarId() {
+    return calendarId_;
+  }
 }

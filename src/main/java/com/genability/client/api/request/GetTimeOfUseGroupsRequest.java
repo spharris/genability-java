@@ -8,24 +8,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class GetTimeOfUseGroupsRequest extends AbstractGetNRequest {
 
-	private Long lseId;
-	
-	public void setLseId(final Long lseId) {
-		this.lseId = lseId;
-	}
-	
-	public Long getlseId() {
-		return lseId;
-	}
-	
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
-		List<NameValuePair> qparams = super.getQueryParams();
+  private Long lseId;
 
-		addParam(qparams, "lseId", lseId);
+  public void setLseId(final Long lseId) {
+    this.lseId = lseId;
+  }
 
-		return qparams;
-	}
-	
+  public Long getlseId() {
+    return lseId;
+  }
+
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
+    List<NameValuePair> qparams = super.getQueryParams();
+
+    addParam(qparams, "lseId", lseId);
+
+    return qparams;
+  }
+
 }

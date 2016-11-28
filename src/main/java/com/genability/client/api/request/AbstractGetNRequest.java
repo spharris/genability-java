@@ -8,116 +8,116 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.SortOrder;
 
 public abstract class AbstractGetNRequest extends AbstractRequest {
-	
-	
-	private Integer pageStart;
-
-	private Integer pageCount;
-
-	protected String search;
-	
-	protected String searchOn;
-
-	protected Boolean startsWith;
-
-	protected Boolean endsWith;
-	
-	protected Boolean isRegex;
-	
-    protected String sortOn;
-    
-    protected SortOrder sortOrder;
 
 
-	public void setPageStart(Integer pageStart) {
-		this.pageStart = pageStart;
-	}
+  private Integer pageStart;
 
-	public Integer getPageStart() {
-		return pageStart;
-	}
+  private Integer pageCount;
 
-	public void setPageCount(Integer pageCount) {
-		this.pageCount = pageCount;
-	}
-	
-	public String getSearch() {
-		return search;
-	}
+  protected String search;
 
-	public void setSearch(String search) {
-		this.search = search;
-	}
+  protected String searchOn;
 
-	public String getSearchOn() {
-		return searchOn;
-	}
+  protected Boolean startsWith;
 
-	public void setSearchOn(String searchOn) {
-		this.searchOn = searchOn;
-	}
-	
-	public Boolean getStartsWith() {
-		return startsWith;
-	}
+  protected Boolean endsWith;
 
-	public void setStartsWith(Boolean startsWithWildCard) {
-		this.startsWith = startsWithWildCard;
-	}
+  protected Boolean isRegex;
 
-	public Boolean getEndsWith() {
-		return endsWith;
-	}
+  protected String sortOn;
 
-	public void setEndsWith(Boolean endsWith) {
-		this.endsWith = endsWith;
-	}
+  protected SortOrder sortOrder;
 
-	public Boolean getIsRegex() {
-		return isRegex;
-	}
 
-	public void setIsRegex(Boolean isRegex) {
-		this.isRegex = isRegex;
-	}
-	
-	public Integer getPageCount() {
-		return pageCount;
-	}
+  public void setPageStart(Integer pageStart) {
+    this.pageStart = pageStart;
+  }
 
-	public String getSortOn() {
-		return sortOn;
-	}
+  public Integer getPageStart() {
+    return pageStart;
+  }
 
-	public void setSortOn(String sortOn) {
-		this.sortOn = sortOn;
-	}
+  public void setPageCount(Integer pageCount) {
+    this.pageCount = pageCount;
+  }
 
-	public SortOrder getSortOrder() {
-		return sortOrder;
-	}
+  public String getSearch() {
+    return search;
+  }
 
-	public void setSortOrder(SortOrder sortOrder) {
-		this.sortOrder = sortOrder;
-	}
+  public void setSearch(String search) {
+    this.search = search;
+  }
 
-	@Override
-	@JsonIgnore
-	public List<NameValuePair> getQueryParams() {
-		
-		List<NameValuePair> qparams = super.getQueryParams();
-		addParam(qparams, "pageStart", pageStart);
-		addParam(qparams, "pageCount", pageCount);
-		addParam(qparams, "search", search);
-		addParam(qparams, "searchOn", searchOn);
-		addParam(qparams, "startsWith", startsWith);
-		addParam(qparams, "endsWith", endsWith);
-		addParam(qparams, "isRegex", isRegex);
-		addParam(qparams, "sortOn", sortOn);
-		addParam(qparams, "sortOrder", sortOrder == null ? null : sortOrder.getValue());
+  public String getSearchOn() {
+    return searchOn;
+  }
 
-		return qparams;
-		
-	}
+  public void setSearchOn(String searchOn) {
+    this.searchOn = searchOn;
+  }
+
+  public Boolean getStartsWith() {
+    return startsWith;
+  }
+
+  public void setStartsWith(Boolean startsWithWildCard) {
+    this.startsWith = startsWithWildCard;
+  }
+
+  public Boolean getEndsWith() {
+    return endsWith;
+  }
+
+  public void setEndsWith(Boolean endsWith) {
+    this.endsWith = endsWith;
+  }
+
+  public Boolean getIsRegex() {
+    return isRegex;
+  }
+
+  public void setIsRegex(Boolean isRegex) {
+    this.isRegex = isRegex;
+  }
+
+  public Integer getPageCount() {
+    return pageCount;
+  }
+
+  public String getSortOn() {
+    return sortOn;
+  }
+
+  public void setSortOn(String sortOn) {
+    this.sortOn = sortOn;
+  }
+
+  public SortOrder getSortOrder() {
+    return sortOrder;
+  }
+
+  public void setSortOrder(SortOrder sortOrder) {
+    this.sortOrder = sortOrder;
+  }
+
+  @Override
+  @JsonIgnore
+  public List<NameValuePair> getQueryParams() {
+
+    List<NameValuePair> qparams = super.getQueryParams();
+    addParam(qparams, "pageStart", pageStart);
+    addParam(qparams, "pageCount", pageCount);
+    addParam(qparams, "search", search);
+    addParam(qparams, "searchOn", searchOn);
+    addParam(qparams, "startsWith", startsWith);
+    addParam(qparams, "endsWith", endsWith);
+    addParam(qparams, "isRegex", isRegex);
+    addParam(qparams, "sortOn", sortOn);
+    addParam(qparams, "sortOrder", sortOrder == null ? null : sortOrder.getValue());
+
+    return qparams;
+
+  }
 
 }

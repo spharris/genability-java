@@ -7,31 +7,31 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TimeOfUseGroup {
 
-	private Long touGroupId;
-	private Long lseId;
-	private List<TimeOfUse> timeOfUses;
+  private Long touGroupId;
+  private Long lseId;
+  private List<TimeOfUse> timeOfUses;
 
-	public Long getTouGroupId() {
-		return touGroupId;
-	}
+  public Long getTouGroupId() {
+    return touGroupId;
+  }
 
-	public void setTouGroupId(Long timeOfUseGroupId) {
-		touGroupId = timeOfUseGroupId;
-	}
-	
-	public Long getLseId() {
-		return lseId;
-	}
+  public void setTouGroupId(Long timeOfUseGroupId) {
+    touGroupId = timeOfUseGroupId;
+  }
 
-	public void setLseId(Long lseId) {
-		this.lseId = lseId;
-	}
+  public Long getLseId() {
+    return lseId;
+  }
 
-	public List<TimeOfUse> getTimeOfUses() {
-		return timeOfUses;
-	}
+  public void setLseId(Long lseId) {
+    this.lseId = lseId;
+  }
 
-	public void setTimeOfUses(List<TimeOfUse> timeOfUses) {
-		this.timeOfUses = timeOfUses;
-	}
+  public List<TimeOfUse> getTimeOfUses() {
+    return timeOfUses;
+  }
+
+  public void setTimeOfUses(List<TimeOfUse> timeOfUses) {
+    this.timeOfUses = timeOfUses;
+  }
 }

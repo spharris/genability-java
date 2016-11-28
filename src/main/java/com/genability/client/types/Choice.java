@@ -10,35 +10,35 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Choice {
 
-	private String displayValue;
-	
-	private String dataValue;
+  private String displayValue;
 
-	private BigDecimal likelihood;
+  private String dataValue;
 
-	public String getDisplayValue() {
-		return displayValue;
-	}
+  private BigDecimal likelihood;
 
-	public void setDisplayValue(String displayValue) {
-		this.displayValue = displayValue;
-	}
+  public String getDisplayValue() {
+    return displayValue;
+  }
 
-	public String getDataValue() {
-		return dataValue;
-	}
+  public void setDisplayValue(String displayValue) {
+    this.displayValue = displayValue;
+  }
 
-	public void setDataValue(String dataValue) {
-		this.dataValue = dataValue;
-	}
+  public String getDataValue() {
+    return dataValue;
+  }
 
-	public BigDecimal getLikelihood() {
-		return likelihood;
-	}
+  public void setDataValue(String dataValue) {
+    this.dataValue = dataValue;
+  }
 
-	public void setLikelihood(BigDecimal likelihood) {
-		this.likelihood = likelihood;
-	}
-	
-	
+  public BigDecimal getLikelihood() {
+    return likelihood;
+  }
+
+  public void setLikelihood(BigDecimal likelihood) {
+    this.likelihood = likelihood;
+  }
+
+
 }

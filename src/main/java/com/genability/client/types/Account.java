@@ -7,187 +7,184 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.genability.client.types.PropertyData;
-import com.genability.client.types.Tariff;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
 public class Account {
-	public static final String REST_TYPE = "Account";
-	
-	private String accountId;
-	private String providerAccountId;
-	private String accountName;
+  public static final String REST_TYPE = "Account";
 
-	private String customerOrgId;
-	private String customerOrgName;	
-	private CustomerClass customerClass;	
-	private String owner;
+  private String accountId;
+  private String providerAccountId;
+  private String accountName;
 
-	private AccountStatus status;
-	private AccountType type;
-	private Address address;
+  private String customerOrgId;
+  private String customerOrgName;
+  private CustomerClass customerClass;
+  private String owner;
 
-	private List<Tariff> tariffs;	
-	private Map<String, PropertyData> properties;
+  private AccountStatus status;
+  private AccountType type;
+  private Address address;
 
-	/**
-	 * @return the accountId
-	 */
-	public String getAccountId() {
-		return accountId;
-	}
+  private List<Tariff> tariffs;
+  private Map<String, PropertyData> properties;
 
-	/**
-	 * @param accountId the accountId to set
-	 */
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
+  /**
+   * @return the accountId
+   */
+  public String getAccountId() {
+    return accountId;
+  }
 
-	/**
-	 * @return the providerAccountId
-	 */
-	public String getProviderAccountId() {
-		return providerAccountId;
-	}
+  /**
+   * @param accountId the accountId to set
+   */
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
+  }
 
-	/**
-	 * @param providerAccountId the providerAccountId to set
-	 */
-	public void setProviderAccountId(String providerAccountId) {
-		this.providerAccountId = providerAccountId;
-	}
+  /**
+   * @return the providerAccountId
+   */
+  public String getProviderAccountId() {
+    return providerAccountId;
+  }
 
-	/**
-	 * @return the accountName
-	 */
-	public String getAccountName() {
-		return accountName;
-	}
+  /**
+   * @param providerAccountId the providerAccountId to set
+   */
+  public void setProviderAccountId(String providerAccountId) {
+    this.providerAccountId = providerAccountId;
+  }
 
-	/**
-	 * @param accountName the accountName to set
-	 */
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
+  /**
+   * @return the accountName
+   */
+  public String getAccountName() {
+    return accountName;
+  }
 
-	/**
-	 * @return the customerOrgId
-	 */
-	public String getCustomerOrgId() {
-		return customerOrgId;
-	}
+  /**
+   * @param accountName the accountName to set
+   */
+  public void setAccountName(String accountName) {
+    this.accountName = accountName;
+  }
 
-	/**
-	 * @param customerOrgId the customerOrgId to set
-	 */
-	public void setCustomerOrgId(String customerOrgId) {
-		this.customerOrgId = customerOrgId;
-	}
+  /**
+   * @return the customerOrgId
+   */
+  public String getCustomerOrgId() {
+    return customerOrgId;
+  }
 
-	/**
-	 * @return the customerOrgName
-	 */
-	public String getCustomerOrgName() {
-		return customerOrgName;
-	}
+  /**
+   * @param customerOrgId the customerOrgId to set
+   */
+  public void setCustomerOrgId(String customerOrgId) {
+    this.customerOrgId = customerOrgId;
+  }
 
-	/**
-	 * @param customerOrgName the customerOrgName to set
-	 */
-	public void setCustomerOrgName(String customerOrgName) {
-		this.customerOrgName = customerOrgName;
-	}
+  /**
+   * @return the customerOrgName
+   */
+  public String getCustomerOrgName() {
+    return customerOrgName;
+  }
 
-	@Deprecated
-	public String getOwner() {
-      return owner;
+  /**
+   * @param customerOrgName the customerOrgName to set
+   */
+  public void setCustomerOrgName(String customerOrgName) {
+    this.customerOrgName = customerOrgName;
+  }
+
+  @Deprecated
+  public String getOwner() {
+    return owner;
+  }
+
+  @Deprecated
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
+  /**
+   * @return the status
+   */
+  public AccountStatus getStatus() {
+    return status;
+  }
+
+  /**
+   * @param status the status to set
+   */
+  public void setStatus(AccountStatus status) {
+    this.status = status;
+  }
+
+  public AccountType getType() {
+    return type;
+  }
+
+  public void setType(AccountType type) {
+    this.type = type;
+  }
+
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
+  }
+
+  public Map<String, PropertyData> getProperties() {
+    return properties;
+  }
+
+  public void setProperties(Map<String, PropertyData> properties) {
+    this.properties = properties;
+  }
+
+  public PropertyData getProperty(String key) {
+    if (this.properties == null) {
+      return null;
     }
-	
-	@Deprecated
-	public void setOwner(String owner) {
-      this.owner = owner;
-    }
-	
-	/**
-	 * @return the status
-	 */
-	public AccountStatus getStatus() {
-		return status;
-	}
+    return this.properties.get(key);
+  }
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(AccountStatus status) {
-		this.status = status;
-	}
+  public void setProperty(PropertyData value) {
+    this.setProperty(value.getKeyName(), value);
+  }
 
-	public AccountType getType() {
-      return type;
+  public void setProperty(String key, PropertyData value) {
+    if (this.properties == null) {
+      this.properties = new HashMap<String, PropertyData>();
     }
-	
-	public void setType(AccountType type) {
-      this.type = type;
-    }
-	
-	public Address getAddress() {
-      return address;
-    }
-	
-	public void setAddress(Address address) {
-      this.address = address;
-    }
-	
-	public Map<String, PropertyData> getProperties() {
-		return properties;
-	}
+    this.properties.put(key, value);
+  }
 
-	public void setProperties(Map<String, PropertyData> properties) {
-		this.properties = properties;
-	}	
-	
-	public PropertyData getProperty(String key) {
-	    if (this.properties == null) {
-	      return null;
-	    }
-	    return this.properties.get(key);
-	}
+  /**
+   * @return the tariffs
+   */
+  public List<Tariff> getTariffs() {
+    return tariffs;
+  }
 
-	public void setProperty(PropertyData value) {
-	    this.setProperty(value.getKeyName(), value);
-	}
+  /**
+   * @param tariffs The tariffs. the tariffs to set
+   */
+  public void setTariffs(List<Tariff> tariffs) {
+    this.tariffs = tariffs;
+  }
 
-	public void setProperty(String key, PropertyData value) {
-	    if (this.properties == null) {
-	      this.properties = new HashMap<String, PropertyData>();
-	    }
-	    this.properties.put(key, value);
-	}
+  public CustomerClass getCustomerClass() {
+    return customerClass;
+  }
 
-	/**
-	 * @return the tariffs
-	 */
-	public List<Tariff> getTariffs() {
-		return tariffs;
-	}
+  public void setCustomerClass(CustomerClass customerClass) {
+    this.customerClass = customerClass;
+  }
 
-	/**
-	 * @param tariffs The tariffs.
-	 *            the tariffs to set
-	 */
-	public void setTariffs(List<Tariff> tariffs) {
-		this.tariffs = tariffs;
-	}
-	
-	public CustomerClass getCustomerClass() {
-      return customerClass;
-    }
-	
-	public void setCustomerClass(CustomerClass customerClass) {
-      this.customerClass = customerClass;
-    }
-	
 }

@@ -10,32 +10,32 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SeasonGroup {
 
-	private Long lseId;
-	private Long seasonGroupId;
-	private List<Season> seasons;
+  private Long lseId;
+  private Long seasonGroupId;
+  private List<Season> seasons;
 
-	public Long getLseId() {
-		return lseId;
-	}
+  public Long getLseId() {
+    return lseId;
+  }
 
-	public void setLseId(final Long lseId) {
-		this.lseId = lseId;
-	}
+  public void setLseId(final Long lseId) {
+    this.lseId = lseId;
+  }
 
-	public Long getSeasonGroupId() {
-		return seasonGroupId;
-	}
+  public Long getSeasonGroupId() {
+    return seasonGroupId;
+  }
 
-	public void setSeasonGroupId(final Long seasonGroupId) {
-		this.seasonGroupId = seasonGroupId;
-	}
+  public void setSeasonGroupId(final Long seasonGroupId) {
+    this.seasonGroupId = seasonGroupId;
+  }
 
-	public List<Season> getSeasons() {
-		return seasons;
-	}
+  public List<Season> getSeasons() {
+    return seasons;
+  }
 
-	public void setSeasons(final List<Season> seasons) {
-		this.seasons = seasons;
-	}
+  public void setSeasons(final List<Season> seasons) {
+    this.seasons = seasons;
+  }
 
 }

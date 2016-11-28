@@ -9,68 +9,68 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TerritoryLse {
-	private Long lseId;
-	private String lseName;
+  private Long lseId;
+  private String lseName;
 
-	private Boolean distribution;
-	private Boolean supplierResidential;
-	private Boolean supplierGeneral;
-	private BigDecimal residentialCoverage;
-	private BigDecimal generalCoverage;
-	
-	public Long getLseId() {
-		return lseId;
-	}
+  private Boolean distribution;
+  private Boolean supplierResidential;
+  private Boolean supplierGeneral;
+  private BigDecimal residentialCoverage;
+  private BigDecimal generalCoverage;
 
-	public void setLseId(Long lseId) {
-		this.lseId = lseId;
-	}
+  public Long getLseId() {
+    return lseId;
+  }
 
-	public String getLseName() {
-		return lseName;
-	}
+  public void setLseId(Long lseId) {
+    this.lseId = lseId;
+  }
 
-	public void setLseName(String lseName) {
-		this.lseName = lseName;
-	}
+  public String getLseName() {
+    return lseName;
+  }
 
-	public Boolean getDistribution() {
-		return distribution;
-	}
+  public void setLseName(String lseName) {
+    this.lseName = lseName;
+  }
 
-	public void setDistribution(Boolean distribution) {
-		this.distribution = distribution;
-	}
+  public Boolean getDistribution() {
+    return distribution;
+  }
 
-	public Boolean getSupplierResidential() {
-		return supplierResidential;
-	}
+  public void setDistribution(Boolean distribution) {
+    this.distribution = distribution;
+  }
 
-	public void setSupplierResidential(Boolean supplierResidential) {
-		this.supplierResidential = supplierResidential;
-	}
+  public Boolean getSupplierResidential() {
+    return supplierResidential;
+  }
 
-	public Boolean getSupplierGeneral() {
-		return supplierGeneral;
-	}
+  public void setSupplierResidential(Boolean supplierResidential) {
+    this.supplierResidential = supplierResidential;
+  }
 
-	public void setSupplierGeneral(Boolean supplierGeneral) {
-		this.supplierGeneral = supplierGeneral;
-	}
+  public Boolean getSupplierGeneral() {
+    return supplierGeneral;
+  }
 
-	public BigDecimal getResidentialCoverage() {
-		return residentialCoverage;
-	}
+  public void setSupplierGeneral(Boolean supplierGeneral) {
+    this.supplierGeneral = supplierGeneral;
+  }
 
-	public void setResidentialCoverage(BigDecimal residentialCoverage) {
-		this.residentialCoverage = residentialCoverage;
-	}
+  public BigDecimal getResidentialCoverage() {
+    return residentialCoverage;
+  }
 
-	public BigDecimal getGeneralCoverage() {
-		return generalCoverage;
-	}
+  public void setResidentialCoverage(BigDecimal residentialCoverage) {
+    this.residentialCoverage = residentialCoverage;
+  }
 
-	public void setGeneralCoverage(BigDecimal generalCoverage) {
-		this.generalCoverage = generalCoverage;
-	}
+  public BigDecimal getGeneralCoverage() {
+    return generalCoverage;
+  }
+
+  public void setGeneralCoverage(BigDecimal generalCoverage) {
+    this.generalCoverage = generalCoverage;
+  }
 }

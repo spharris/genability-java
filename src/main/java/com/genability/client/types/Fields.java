@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Fields {
 
-	DEFAULT("std"), MIN("min"), EXT("ext");
+  DEFAULT("std"), MIN("min"), EXT("ext");
 
 
   private final String value;
@@ -24,23 +24,23 @@ public enum Fields {
   }
 
 
-	private static final Map<String, Fields> LOOKUP;
+  private static final Map<String, Fields> LOOKUP;
 
-	static {
-		final Map<String, Fields> _lookup = new HashMap<String, Fields>();
-		for (Fields fields : Fields.values()) {
-			_lookup.put(fields.getValue(), fields);
-		}
-		LOOKUP = Collections.unmodifiableMap(_lookup);
-	}
+  static {
+    final Map<String, Fields> _lookup = new HashMap<String, Fields>();
+    for (Fields fields : Fields.values()) {
+      _lookup.put(fields.getValue(), fields);
+    }
+    LOOKUP = Collections.unmodifiableMap(_lookup);
+  }
 
   @JsonCreator
   public static Fields forValue(String value) {
-  	Fields fields = LOOKUP.get(value.toLowerCase());
-  	if (fields == null) {
-  		fields = Fields.valueOf(value);
-  	}
-  	return fields;
+    Fields fields = LOOKUP.get(value.toLowerCase());
+    if (fields == null) {
+      fields = Fields.valueOf(value);
+    }
+    return fields;
   }
 
 }

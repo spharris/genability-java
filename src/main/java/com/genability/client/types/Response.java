@@ -12,68 +12,67 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Response<T> implements Serializable {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public static final String STATUS_SUCCESS = "success";
-	public static final String STATUS_ERROR = "error";
-	public static final String HTTP_HEADER_X_ERROR_DETAIL = "X-Error-Detail";
+  public static final String STATUS_SUCCESS = "success";
+  public static final String STATUS_ERROR = "error";
+  public static final String HTTP_HEADER_X_ERROR_DETAIL = "X-Error-Detail";
 
-	private String status;
-	private String type;
-	private List<T> results;
-	
-	private Integer pageStart;
-	private Integer pageCount;
-	private Integer count;
+  private String status;
+  private String type;
+  private List<T> results;
 
-	public Response() {
-	}
+  private Integer pageStart;
+  private Integer pageCount;
+  private Integer count;
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+  public Response() {}
 
-	public String getStatus() {
-		return status;
-	}
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-	public void setCount(Integer count) {
-		this.count = count;
-	}
+  public String getStatus() {
+    return status;
+  }
 
-	public Integer getCount() {
-		return count;
-	}
+  public void setCount(Integer count) {
+    this.count = count;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public Integer getCount() {
+    return count;
+  }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+  public String getType() {
+    return type;
+  }
 
-	public List<T> getResults() {
-		return results;
-	}
+  public void setType(String type) {
+    this.type = type;
+  }
 
-	public void setResults(List<T> results) {
-		this.results = results;
-	}
+  public List<T> getResults() {
+    return results;
+  }
 
-	public Integer getPageCount() {
-		return pageCount;
-	}
-	
-	public void setPageCount(final Integer pageLength) {
-		this.pageCount = pageLength;
-	}
-	
-	public Integer getPageStart() {
-		return pageStart;
-	}
-	
-	public void setPageStart(Integer pageStart) {
-		this.pageStart = pageStart;
-	}
+  public void setResults(List<T> results) {
+    this.results = results;
+  }
+
+  public Integer getPageCount() {
+    return pageCount;
+  }
+
+  public void setPageCount(final Integer pageLength) {
+    this.pageCount = pageLength;
+  }
+
+  public Integer getPageStart() {
+    return pageStart;
+  }
+
+  public void setPageStart(Integer pageStart) {
+    this.pageStart = pageStart;
+  }
 }
