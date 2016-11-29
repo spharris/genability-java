@@ -294,6 +294,8 @@ public class BaseService {
     } catch (IOException e) {
       log.error("IOException", e);
       throw new GenabilityException(e);
+    } finally {
+      request.releaseConnection();
     }
   }
 

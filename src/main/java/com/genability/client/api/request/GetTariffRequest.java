@@ -1,190 +1,73 @@
 package com.genability.client.api.request;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetTariffRequest extends AbstractRequest implements Serializable {
+@AutoValue
+public abstract class GetTariffRequest {
 
-  private static final long serialVersionUID = 1L;
-
-  private Long masterTariffId;
-
-  private String accountId;
-
-  private Boolean populateProperties;
-
-  private Boolean populateRates;
-
-  private Boolean populateDocuments;
-
-  private DateTime effectiveOn;
-
-  private Boolean applicableRatesOnly;
-
-  private Boolean applyContractedRates;
-
-  private Boolean lookupVariableRates;
-
-  private Boolean bundleRates;
-
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-
-  private Long territoryId;
-
-  public Long getTerritoryId() {
-    return territoryId;
+  GetTariffRequest() {}
+  
+  public abstract @Nullable Long getMasterTariffId();
+  public abstract @Nullable String getAccountId();
+  public abstract @Nullable Boolean getPopulateProperties();
+  public abstract @Nullable Boolean getPopulateRates();
+  public abstract @Nullable Boolean getPopulateDocuments();
+  public abstract @Nullable DateTime getEffectiveOn();
+  public abstract @Nullable Boolean getApplicableRatesOnly();
+  public abstract @Nullable Boolean getApplyContractedRates();
+  public abstract @Nullable Boolean getLookupVariableRates();
+  public abstract @Nullable Boolean getBundleRates();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable Long getTerritoryId();
+  
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetTariffRequest.Builder();
   }
 
-
-  public void setTerritoryId(Long territoryId) {
-    this.territoryId = territoryId;
+  @AutoValue.Builder
+  public static abstract class Builder {
+    
+    public abstract Builder setTerritoryId(@Nullable Long territoryId);
+    public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
+    public abstract Builder setAccountId(@Nullable String accountId);
+    public abstract Builder setPopulateProperties(@Nullable Boolean populateProperties);
+    public abstract Builder setPopulateRates(@Nullable Boolean populateRates);
+    public abstract Builder setPopulateDocuments(@Nullable Boolean populateDocuments);
+    public abstract Builder setEffectiveOn(@Nullable DateTime effectiveOn);
+    public abstract Builder setApplicableRatesOnly(@Nullable Boolean applicableRatesOnly);
+    public abstract Builder setApplyContractedRates(@Nullable Boolean applyContractedRates);
+    public abstract Builder setLookupVariableRates(@Nullable Boolean lookupVariableRates);
+    public abstract Builder setBundleRates(@Nullable Boolean bundleRates);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    
+    public abstract GetTariffRequest build();
   }
 
-
-  public Long getMasterTariffId() {
-    return masterTariffId;
-  }
-
-
-  public void setMasterTariffId(Long masterTariffId) {
-    this.masterTariffId = masterTariffId;
-  }
-
-
-  public String getAccountId() {
-    return accountId;
-  }
-
-
-  public void setAccountId(String accountId) {
-    this.accountId = accountId;
-  }
-
-
-  public Boolean getPopulateProperties() {
-    return populateProperties;
-  }
-
-
-  public void setPopulateProperties(Boolean populateProperties) {
-    this.populateProperties = populateProperties;
-  }
-
-
-  public Boolean getPopulateRates() {
-    return populateRates;
-  }
-
-
-  public void setPopulateRates(Boolean populateRates) {
-    this.populateRates = populateRates;
-  }
-
-
-  public Boolean getPopulateDocuments() {
-    return populateDocuments;
-  }
-
-
-  public void setPopulateDocuments(Boolean populateDocuments) {
-    this.populateDocuments = populateDocuments;
-  }
-
-
-  public DateTime getEffectiveOn() {
-    return effectiveOn;
-  }
-
-
-  public void setEffectiveOn(DateTime effectiveOn) {
-    this.effectiveOn = effectiveOn;
-  }
-
-
-  public Boolean getApplicableRatesOnly() {
-    return applicableRatesOnly;
-  }
-
-
-  public void setApplicableRatesOnly(Boolean applicableRatesOnly) {
-    this.applicableRatesOnly = applicableRatesOnly;
-  }
-
-
-  public Boolean getApplyContractedRates() {
-    return applyContractedRates;
-  }
-
-
-  public void setApplyContractedRates(Boolean applyContractedRates) {
-    this.applyContractedRates = applyContractedRates;
-  }
-
-
-  public Boolean getLookupVariableRates() {
-    return lookupVariableRates;
-  }
-
-
-  public void setLookupVariableRates(Boolean lookupVariableRates) {
-    this.lookupVariableRates = lookupVariableRates;
-  }
-
-
-  public Boolean getBundleRates() {
-    return bundleRates;
-  }
-
-
-  public void setBundleRates(Boolean bundleRates) {
-    this.bundleRates = bundleRates;
-  }
-
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    addParam(qparams, "accountId", accountId);
-    addParam(qparams, "populateProperties", populateProperties);
-    addParam(qparams, "populateRates", populateRates);
-    addParam(qparams, "populateDocuments", populateDocuments);
-    addParam(qparams, "effectiveOn", effectiveOn);
-    addParam(qparams, "applicableRatesOnly", applicableRatesOnly);
-    addParam(qparams, "applyContractedRates", applyContractedRates);
-    addParam(qparams, "lookupVariableRates", lookupVariableRates);
-    addParam(qparams, "bundleRates", bundleRates);
-    addParam(qparams, "fromDateTime", fromDateTime);
-    addParam(qparams, "toDateTime", toDateTime);
-    addParam(qparams, "territoryId", territoryId);
-
-    return qparams;
-
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return new QueryParamsBuilder()
+        .addParam("accountId", getAccountId())
+        .addParam("populateProperties", getPopulateProperties())
+        .addParam("populateRates", getPopulateRates())
+        .addParam("populateDocuments", getPopulateDocuments())
+        .addParam("effectiveOn", getEffectiveOn())
+        .addParam("applicableRatesOnly", getApplicableRatesOnly())
+        .addParam("applyContractedRates", getApplyContractedRates())
+        .addParam("lookupVariableRates", getLookupVariableRates())
+        .addParam("bundleRates", getBundleRates())
+        .addParam("fromDateTime", getFromDateTime())
+        .addParam("toDateTime", getToDateTime())
+        .addParam("territoryId", getTerritoryId())
+        .build();
   }
-
-
-
 }

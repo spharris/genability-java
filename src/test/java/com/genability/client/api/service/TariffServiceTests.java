@@ -6,11 +6,17 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.GetTariffRequest;
 import com.genability.client.api.request.GetTariffsRequest;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.CustomerClass;
 import com.genability.client.types.Response;
 import com.genability.client.types.SortOrder;
@@ -18,33 +24,41 @@ import com.genability.client.types.Tariff;
 import com.genability.client.types.TariffRate;
 import com.genability.client.types.TariffRateBand;
 import com.genability.client.types.TariffType;
+import com.google.inject.Guice;
 
-public class TariffServiceTests extends BaseServiceTests {
+@RunWith(JUnit4.class)
+public class TariffServiceTests {
 
-  private static TariffService tariffService = genabilityClient.getTariffService();
-
-
+  @Inject private TariffService tariffService;
+  
+  @Before
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
+  }
+  
   @Test
-  public void testGetTariff() {
+  public void testGetTariff() throws Exception {
 
     String testCase = "Case 1 - call to get SCE's D Domestic tariff";
-    GetTariffRequest request = new GetTariffRequest();
-    request.setMasterTariffId(447L);
+    GetTariffRequest request = GetTariffRequest.builder()
+        .setMasterTariffId(447L)
+        .build();
     callGetTariff(testCase, request);
 
   }
 
   @Test
-  public void testGetTariffWithVariableRates() {
+  public void testGetTariffWithVariableRates() throws Exception {
 
     String testCase = "Check that variable rates are returned";
     String variableRateKey = "peakShavingVASchedule1";
-    GetTariffRequest request = new GetTariffRequest();
-    request.setPopulateRates(true);
-    request.setLookupVariableRates(true);
-    request.setFromDateTime(new DateTime("2014-12-10"));
-    request.setToDateTime(new DateTime("2014-12-15"));
-    request.setMasterTariffId(122L);
+    GetTariffRequest request = GetTariffRequest.builder()
+        .setPopulateRates(true)
+        .setLookupVariableRates(true)
+        .setFromDateTime(new DateTime("2014-12-10"))
+        .setToDateTime(new DateTime("2014-12-15"))
+        .setMasterTariffId(122L)
+        .build();
 
     Tariff tariff = callGetTariff(testCase, request);
 
@@ -67,7 +81,7 @@ public class TariffServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testGetTariffs() {
+  public void testGetTariffs() throws Exception {
 
     GetTariffsRequest request = new GetTariffsRequest();
 
@@ -100,7 +114,7 @@ public class TariffServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void getTariffsWithAfterTax() {
+  public void getTariffsWithAfterTax() throws Exception {
     String testCase = "Get tariffs with AFTER_TAX charge class";
 
     GetTariffsRequest request = new GetTariffsRequest();
@@ -110,9 +124,9 @@ public class TariffServiceTests extends BaseServiceTests {
     callGetTariffs(testCase, request);
   }
 
-  public void callGetTariffs(String testCase, GetTariffsRequest request) {
+  public void callGetTariffs(String testCase, GetTariffsRequest request) throws Exception {
 
-    Response<Tariff> restResponse = tariffService.getTariffs(request);
+    Response<Tariff> restResponse = tariffService.getTariffs(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", Response.STATUS_SUCCESS, restResponse.getStatus());
@@ -129,9 +143,9 @@ public class TariffServiceTests extends BaseServiceTests {
 
   }
 
-  public Tariff callGetTariff(String testCase, GetTariffRequest request) {
+  public Tariff callGetTariff(String testCase, GetTariffRequest request) throws Exception {
 
-    Response<Tariff> restResponse = tariffService.getTariff(request);
+    Response<Tariff> restResponse = tariffService.getTariff(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", Response.STATUS_SUCCESS, restResponse.getStatus());

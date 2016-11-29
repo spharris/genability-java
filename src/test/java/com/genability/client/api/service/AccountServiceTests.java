@@ -3,25 +3,41 @@ package com.genability.client.api.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static com.google.common.collect.Iterables.getOnlyElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.DeleteAccountRequest;
 import com.genability.client.api.request.GetAccountRatesRequest;
 import com.genability.client.api.request.GetAccountRequest;
 import com.genability.client.api.request.GetAccountsRequest;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Account;
 import com.genability.client.types.Address;
 import com.genability.client.types.PropertyData;
 import com.genability.client.types.Response;
 import com.genability.client.types.Tariff;
 import com.genability.client.types.TariffRate;
+import com.google.inject.Guice;
 
+@RunWith(JUnit4.class)
 public class AccountServiceTests extends BaseServiceTests {
 
+  //@Inject private AccountService accountService;
+  
+  @Before
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
+  }
+  
   @Test
   public void testAddAccount() {
     // test
@@ -29,11 +45,12 @@ public class AccountServiceTests extends BaseServiceTests {
     newAccount.setAccountName("Java Client Lib Test Add Account - CAN DELETE");
 
     // call add account helper method
-    newAccount = addAccount(newAccount);
+    Response<Account> accountResponse = accountService.addAccount(newAccount);
 
     // delete account so we keep things clean
-    deleteAccount(newAccount.getAccountId());
-
+    DeleteAccountRequest dar = new DeleteAccountRequest();
+    dar.setAccountId(getOnlyElement(accountResponse.getResults()).getAccountId());
+    accountService.deleteAccount(dar);
   }
 
   @Test

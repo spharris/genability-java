@@ -12,3 +12,5 @@ target
 
 
 /bin/*
+/.apt_generated/
+.factorypath
