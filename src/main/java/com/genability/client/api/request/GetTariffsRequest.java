@@ -16,6 +16,7 @@ import com.genability.client.types.ServiceType;
 import com.genability.client.types.TariffType;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 @AutoValue
 public abstract class GetTariffsRequest extends AbstractGetNRequest2 {
@@ -29,10 +30,10 @@ public abstract class GetTariffsRequest extends AbstractGetNRequest2 {
   public abstract @Nullable DateTime getFromDateTime();
   public abstract @Nullable DateTime getToDateTime();
   public abstract @Nullable Boolean getIsActive();
-  public abstract @Nullable ImmutableList<CustomerClass> getCustomerClasses();
-  public abstract @Nullable ImmutableList<TariffType> getTariffTypes();
-  public abstract @Nullable ImmutableList<ServiceType> getServiceTypes();
-  public abstract @Nullable ImmutableList<ChargeType> getChargeTypes();
+  public abstract @Nullable ImmutableSet<CustomerClass> getCustomerClasses();
+  public abstract @Nullable ImmutableSet<TariffType> getTariffTypes();
+  public abstract @Nullable ImmutableSet<ServiceType> getServiceTypes();
+  public abstract @Nullable ImmutableSet<ChargeType> getChargeTypes();
   public abstract @Nullable String getZipCode();
   public abstract @Nullable Boolean getPopulateRates();
   public abstract @Nullable Boolean getPopulateProperties();
@@ -61,13 +62,13 @@ public abstract class GetTariffsRequest extends AbstractGetNRequest2 {
     public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
     public abstract Builder setIsActive(@Nullable Boolean isActive);
     public abstract Builder setCustomerClasses(@Nullable CustomerClass... customerClasses);
-    public abstract Builder setCustomerClasses(@Nullable ImmutableList<CustomerClass> customerClasses);
+    public abstract Builder setCustomerClasses(@Nullable ImmutableSet<CustomerClass> customerClasses);
     public abstract Builder setTariffTypes(@Nullable TariffType... tariffTypes);
-    public abstract Builder setTariffTypes(@Nullable ImmutableList<TariffType> tariffTypes);
+    public abstract Builder setTariffTypes(@Nullable ImmutableSet<TariffType> tariffTypes);
     public abstract Builder setServiceTypes(@Nullable ServiceType... serviceTypes);
-    public abstract Builder setServiceTypes(@Nullable ImmutableList<ServiceType> serviceTypes);
+    public abstract Builder setServiceTypes(@Nullable ImmutableSet<ServiceType> serviceTypes);
     public abstract Builder setChargeTypes(@Nullable ChargeType... chargeTypes);
-    public abstract Builder setChargeTypes(@Nullable ImmutableList<ChargeType> chargeTypes);
+    public abstract Builder setChargeTypes(@Nullable ImmutableSet<ChargeType> chargeTypes);
     public abstract Builder setZipCode(@Nullable String zipCode);
     public abstract Builder setPopulateRates(@Nullable Boolean populateRates);
     public abstract Builder setPopulateProperties(@Nullable Boolean populateProperties);

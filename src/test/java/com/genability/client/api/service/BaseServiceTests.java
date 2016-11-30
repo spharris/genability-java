@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,10 +140,11 @@ public class BaseServiceTests {
 
     addAccount.setProperties(properties);
 
-    Tariff tariff = new Tariff();
-    tariff.setMasterTariffId(521l);
-    DateTime effDate = new DateTime(2012, 2, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    tariff.setEffectiveDate(effDate.toString());
+    Tariff tariff = Tariff.builder()
+        .setMasterTariffId(512L)
+        .setEffectiveDate(new LocalDate(2012, 2, 1))
+        .build();
+    
     List<Tariff> tariffs = new ArrayList<Tariff>();
     tariffs.add(tariff);
     addAccount.setTariffs(tariffs);

@@ -3,423 +3,138 @@ package com.genability.client.types;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.genability.client.util.EnumUtil;
+import javax.annotation.Nullable;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)
-public class Tariff {
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.genability.client.util.EnumUtil;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Tariff.Builder.class)
+public abstract class Tariff {
   public static final String REST_TYPE = "Tariff";
 
-  private Long tariffId;
-  private Long masterTariffId;
-  private String tariffCode;
-  private String tariffName;
-  private String tariffBookName;
-  private Long lseId;
-  private String lseName;
-  private String lseCode;
-  private ServiceType serviceType;
-  private Long priorTariffId;
-  private Long distributionLseId;
-  private TariffType tariffType;
-  private CustomerClass customerClass;
-  private Integer customerCount;
-  private BigDecimal customerLikelihood;
-  private String customerCountSource;
-  private Long territoryId;
-  private String effectiveDate;
-  private String endDate;
-  private String closedDate;
-  private String timeZone;
-  private String effectiveOnRule;
-
-  /**
-   * private member variable for BillingPeriod. the default value is MONTHLY
-   */
-  private Period billingPeriod;
-
-  private String currency;
-  private ChargeType[] chargeTypes;
-
-  /**
-   * private member variable for ChargePeriod. the default value is MONTHLY
-   */
-  private String chargePeriod;
-
-  /**
-   * private member variable for minimum monthly consumption required to be eligible for this tariff
-   */
-  private BigDecimal minMonthlyConsumption;
-
-  /**
-   * private member variable for maximum monthly consumption required to be eligible for this tariff
-   */
-  private BigDecimal maxMonthlyConsumption;
-
-  /**
-   * private member variable for minimum monthly demand required to be eligible for this tariff
-   */
-  private BigDecimal minMonthlyDemand;
-
-  /**
-   * private member variable for maximum monthly demand required to be eligible for this tariff
-   */
-  private BigDecimal maxMonthlyDemand;
-
-  private Boolean hasTimeOfUseRates;
-  private Boolean hasTieredRates;
-  private Boolean hasContractedRates;
-
-  /**
-   * private member variable for whether this tariff has additional eligibility criteria, specified
-   * by tariff properties
-   */
-  private Boolean hasTariffApplicability;
-
-  /**
-   * private member variable for whether this tariff has additional eligibility criteria, specified
-   * by tariff properties
-   */
-  private Boolean hasRateApplicability;
-
-  private Boolean hasNetMetering;
-  private Boolean isActive;
-  private String privacy;
-  private List<TariffProperty> properties;
-  private List<TariffRate> rates;
-
-  public Long getTariffId() {
-    return tariffId;
-  }
-
-  public void setTariffId(Long tariffId) {
-    this.tariffId = tariffId;
-  }
-
-  public Long getMasterTariffId() {
-    return masterTariffId;
-  }
-
-  public void setMasterTariffId(Long masterTariffId) {
-    this.masterTariffId = masterTariffId;
-  }
-
-  public Long getPriorTariffId() {
-    return priorTariffId;
-  }
-
-  public void setPriorTariffId(Long priorTariffId) {
-    this.priorTariffId = priorTariffId;
-  }
-
-  public Long getLseId() {
-    return lseId;
-  }
-
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
-
-  public String getLseName() {
-    return lseName;
-  }
-
-  public void setLseName(String lseName) {
-    this.lseName = lseName;
-  }
-
-  public String getLseCode() {
-    return lseCode;
-  }
-
-  public void setLseCode(final String lseCode) {
-    this.lseCode = lseCode;
-  }
-
-  public Long getDistributionLseId() {
-    return distributionLseId;
-  }
-
-  public void setDistributionLseId(Long distributionLseId) {
-    this.distributionLseId = distributionLseId;
-  }
-
-  public String getTariffCode() {
-    return tariffCode;
-  }
-
-  public void setTariffCode(String tariffCode) {
-    this.tariffCode = tariffCode;
-  }
-
-  public String getTariffName() {
-    return tariffName;
-  }
-
-  public void setTariffName(String tariffName) {
-    this.tariffName = tariffName;
-  }
-
-  public String getTariffBookName() {
-    return tariffBookName;
-  }
-
-  public void setTariffBookName(String tariffBookName) {
-    this.tariffBookName = tariffBookName;
-  }
-
-  public TariffType getTariffType() {
-    return tariffType;
-  }
-
-  public void setTariffType(TariffType tariffType) {
-    this.tariffType = tariffType;
-  }
-
-  public Period getBillingPeriod() {
-    return billingPeriod;
-  }
-
-  public void setBillingPeriod(Period billingPeriod) {
-    this.billingPeriod = billingPeriod;
-  }
-
-  public CustomerClass getCustomerClass() {
-    return customerClass;
-  }
-
-  public void setCustomerClass(CustomerClass customerClass) {
-    this.customerClass = customerClass;
-  }
-
-  public Long getTerritoryId() {
-    return territoryId;
-  }
-
-  public void setTerritoryId(Long territoryId) {
-    this.territoryId = territoryId;
-  }
-
-  public String getEffectiveDate() {
-    return effectiveDate;
-  }
-
-  public void setEffectiveDate(String effectiveDate) {
-    this.effectiveDate = effectiveDate;
-  }
-
-  public String getEndDate() {
-    return endDate;
-  }
-
-  public void setEndDate(String endDate) {
-    this.endDate = endDate;
-  }
-
-  public String getClosedDate() {
-    return closedDate;
-  }
-
-  public void setClosedDate(String closedDate) {
-    this.closedDate = closedDate;
-  }
-
-  public String getTimeZone() {
-    return timeZone;
-  }
-
-  public void setTimeZone(String timeZone) {
-    this.timeZone = timeZone;
-  }
-
-  public Boolean getIsActive() {
-    return isActive;
-  }
-
-  public void setIsActive(Boolean isActive) {
-    this.isActive = isActive;
-  }
-
-  public String getCurrency() {
-    return currency;
-  }
-
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
-
-  public BigDecimal getMinMonthlyConsumption() {
-    return minMonthlyConsumption;
-  }
-
-  public void setMinMonthlyConsumption(BigDecimal minMonthlyConsumption) {
-    this.minMonthlyConsumption = minMonthlyConsumption;
-  }
-
-  public BigDecimal getMaxMonthlyConsumption() {
-    return maxMonthlyConsumption;
-  }
-
-  public void setMaxMonthlyConsumption(BigDecimal maxMonthlyConsumption) {
-    this.maxMonthlyConsumption = maxMonthlyConsumption;
-  }
-
-  public BigDecimal getMinMonthlyDemand() {
-    return minMonthlyDemand;
-  }
-
-  public void setMinMonthlyDemand(BigDecimal minMonthlyDemand) {
-    this.minMonthlyDemand = minMonthlyDemand;
-  }
-
-  public BigDecimal getMaxMonthlyDemand() {
-    return maxMonthlyDemand;
-  }
-
-  public void setMaxMonthlyDemand(BigDecimal maxMonthlyDemand) {
-    this.maxMonthlyDemand = maxMonthlyDemand;
-  }
-
-  public Boolean getHasNetMetering() {
-    return hasNetMetering;
-  }
-
-  public void setHasNetMetering(Boolean hasNetMetering) {
-    this.hasNetMetering = hasNetMetering;
-  }
-
-  public ServiceType getServiceType() {
-    return serviceType;
-  }
-
-  public void setServiceType(ServiceType serviceType) {
-    this.serviceType = serviceType;
-  }
-
-  public Integer getCustomerCount() {
-    return customerCount;
-  }
-
-  public void setCustomerCount(Integer customerCount) {
-    this.customerCount = customerCount;
-  }
-
-  public BigDecimal getCustomerLikelihood() {
-    return customerLikelihood;
-  }
-
-  public void setCustomerLikelihood(BigDecimal customerLikelihood) {
-    this.customerLikelihood = customerLikelihood;
-  }
-
-  public String getCustomerCountSource() {
-    return customerCountSource;
-  }
-
-  public void setCustomerCountSource(String customerCountSource) {
-    this.customerCountSource = customerCountSource;
-  }
-
-  @JsonIgnore
-  public ChargeType[] getChargeTypes() {
-    return chargeTypes;
-  }
-
-  public void setChargeTypes(ChargeType... chargeTypes) {
-    this.chargeTypes = chargeTypes;
-  }
-
+  @JsonIgnore public abstract @Nullable ImmutableSet<ChargeType> getChargeTypes();
   @JsonProperty("chargeTypes")
-  public String getChargeTypesAsString() {
-    return EnumUtil.enumListString(chargeTypes);
+  public String getChargeTypesString() {
+    return EnumUtil.enumListString(getChargeTypes());
   }
 
-  public void setChargeTypesAsString(String chargeTypesStr) {
-    this.chargeTypes = EnumUtil.parseEnumList(chargeTypesStr, ChargeType.class);
+  public abstract @Nullable Long getTariffId();
+  public abstract @Nullable Long getMasterTariffId();
+  public abstract @Nullable String getTariffCode();
+  public abstract @Nullable String getTariffName();
+  public abstract @Nullable String getTariffBookName();
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable String getLseName();
+  public abstract @Nullable String getLseCode();
+  public abstract @Nullable ServiceType getServiceType();
+  public abstract @Nullable Long getPriorTariffId();
+  public abstract @Nullable Long getDistributionLseId();
+  public abstract @Nullable TariffType getTariffType();
+  public abstract @Nullable CustomerClass getCustomerClass();
+  public abstract @Nullable Integer getCustomerCount();
+  public abstract @Nullable BigDecimal getCustomerLikelihood();
+  public abstract @Nullable String getCustomerCountSource();
+  public abstract @Nullable Long getTerritoryId();
+  public abstract @Nullable LocalDate getEffectiveDate();
+  public abstract @Nullable LocalDate getEndDate();
+  public abstract @Nullable LocalDate getClosedDate();
+  public abstract @Nullable DateTimeZone getTimeZone();
+  public abstract @Nullable String getEffectiveOnRule();
+  public abstract @Nullable Period getBillingPeriod();
+  public abstract @Nullable String getCurrency();
+  public abstract @Nullable String getChargePeriod();
+  public abstract @Nullable BigDecimal getMinMonthlyConsumption();
+  public abstract @Nullable BigDecimal getMaxMonthlyConsumption();
+  public abstract @Nullable BigDecimal getMinMonthlyDemand();
+  public abstract @Nullable BigDecimal getMaxMonthlyDemand();
+  public abstract @Nullable Boolean getHasTimeOfUseRates();
+  public abstract @Nullable Boolean getHasTieredRates();
+  public abstract @Nullable Boolean getHasContractedRates();
+  public abstract @Nullable Boolean getHasTariffApplicability();
+  public abstract @Nullable Boolean getHasRateApplicability();
+  public abstract @Nullable Boolean getHasNetMetering();
+  public abstract @Nullable Boolean getIsActive();
+  public abstract @Nullable String getPrivacy();
+  public abstract @Nullable ImmutableList<TariffProperty> getProperties();
+  public abstract @Nullable ImmutableList<TariffRate> getRates();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Tariff.Builder();
   }
 
-  public String getChargePeriod() {
-    return chargePeriod;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public void setChargePeriod(String chargePeriod) {
-    this.chargePeriod = chargePeriod;
-  }
+    @JsonIgnore public abstract Builder setChargeTypes(
+        @Nullable ImmutableSet<ChargeType> chargeTypes);
+    @JsonIgnore public abstract Builder setChargeTypes(@Nullable ChargeType... chargeTypes);
+    @JsonProperty("chargeTypes")
+    public Builder setChargeTypesString(String chargeTypes) {
+      setChargeTypes(EnumUtil.parseEnumList(chargeTypes, ChargeType.class));
+      return this;
+    }
 
-  public Boolean getHasTimeOfUseRates() {
-    return hasTimeOfUseRates;
-  }
+    @JsonIgnore public abstract Builder setTimeZone(@Nullable DateTimeZone timeZone);
+    @JsonProperty("timeZone")
+    public Builder setTimeZoneString(@Nullable String timeZone) {
+      if (timeZone != null) {
+        setTimeZone(DateTimeZone.forID(timeZone));
+      }
+      
+      return this;
+    }
+    
+    public abstract Builder setTariffId(@Nullable Long tariffId);
+    public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
+    public abstract Builder setTariffCode(@Nullable String tariffCode);
+    public abstract Builder setTariffName(@Nullable String tariffName);
+    public abstract Builder setTariffBookName(@Nullable String tariffBookName);
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setLseName(@Nullable String lseName);
+    public abstract Builder setLseCode(@Nullable String lseCode);
+    public abstract Builder setServiceType(@Nullable ServiceType serviceType);
+    public abstract Builder setPriorTariffId(@Nullable Long priorTariffId);
+    public abstract Builder setDistributionLseId(@Nullable Long distributionLseId);
+    public abstract Builder setTariffType(@Nullable TariffType tariffType);
+    public abstract Builder setCustomerClass(@Nullable CustomerClass customerClass);
+    public abstract Builder setCustomerCount(@Nullable Integer customerCount);
+    public abstract Builder setCustomerLikelihood(@Nullable BigDecimal customerLikelihood);
+    public abstract Builder setCustomerCountSource(@Nullable String customerCountSource);
+    public abstract Builder setTerritoryId(@Nullable Long territoryId);
+    public abstract Builder setEffectiveDate(@Nullable LocalDate effectiveDate);
+    public abstract Builder setEndDate(@Nullable LocalDate endDate);
+    public abstract Builder setClosedDate(@Nullable LocalDate closedDate);
+    public abstract Builder setEffectiveOnRule(@Nullable String effectiveOnRule);
+    public abstract Builder setBillingPeriod(@Nullable Period billingPeriod);
+    public abstract Builder setCurrency(@Nullable String currency);
+    public abstract Builder setChargePeriod(@Nullable String chargePeriod);
+    public abstract Builder setMinMonthlyConsumption(@Nullable BigDecimal minMonthlyConsumption);
+    public abstract Builder setMaxMonthlyConsumption(@Nullable BigDecimal maxMonthlyConsumption);
+    public abstract Builder setMinMonthlyDemand(@Nullable BigDecimal minMonthlyDemand);
+    public abstract Builder setMaxMonthlyDemand(@Nullable BigDecimal maxMonthlyDemand);
+    public abstract Builder setHasTimeOfUseRates(@Nullable Boolean hasTimeOfUseRates);
+    public abstract Builder setHasTieredRates(@Nullable Boolean hasTieredRates);
+    public abstract Builder setHasContractedRates(@Nullable Boolean hasContractedRates);
+    public abstract Builder setHasTariffApplicability(@Nullable Boolean hasTariffApplicability);
+    public abstract Builder setHasRateApplicability(@Nullable Boolean hasRateApplicability);
+    public abstract Builder setHasNetMetering(@Nullable Boolean hasNetMetering);
+    public abstract Builder setIsActive(@Nullable Boolean isActive);
+    public abstract Builder setPrivacy(@Nullable String privacy);
+    public abstract Builder setProperties(@Nullable List<TariffProperty> properties);
+    public abstract Builder setRates(@Nullable List<TariffRate> rates);
 
-  public void setHasTimeOfUseRates(Boolean hasTimeOfUseRates) {
-    this.hasTimeOfUseRates = hasTimeOfUseRates;
-  }
-
-  public Boolean getHasTieredRates() {
-    return hasTieredRates;
-  }
-
-  public void setHasTieredRates(Boolean hasTieredRates) {
-    this.hasTieredRates = hasTieredRates;
-  }
-
-  public Boolean getHasContractedRates() {
-    return hasContractedRates;
-  }
-
-  public void setHasContractedRates(Boolean hasContractedRates) {
-    this.hasContractedRates = hasContractedRates;
-  }
-
-  public Boolean getHasTariffApplicability() {
-    return hasTariffApplicability;
-  }
-
-  public void setHasTariffApplicability(Boolean hasTariffApplicability) {
-    this.hasTariffApplicability = hasTariffApplicability;
-  }
-
-  public Boolean getHasRateApplicability() {
-    return hasRateApplicability;
-  }
-
-  public void setHasRateApplicability(Boolean hasRateApplicability) {
-    this.hasRateApplicability = hasRateApplicability;
-  }
-
-  public List<TariffProperty> getProperties() {
-    return properties;
-  }
-
-  public void setProperties(List<TariffProperty> properties) {
-    this.properties = properties;
-  }
-
-  public List<TariffRate> getRates() {
-    return rates;
-  }
-
-  public void setRates(List<TariffRate> rates) {
-    this.rates = rates;
-  }
-
-  public String getPrivacy() {
-    return privacy;
-  }
-
-  public void setPrivacy(String privacy) {
-    this.privacy = privacy;
-  }
-
-  public String getEffectiveOnRule() {
-    return effectiveOnRule;
-  }
-
-  public void setEffectiveOnRule(String effectiveOnRule) {
-    this.effectiveOnRule = effectiveOnRule;
+    public abstract Tariff build();
   }
 }

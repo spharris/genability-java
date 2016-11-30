@@ -43,7 +43,6 @@ import com.genability.client.api.service.LseService;
 import com.genability.client.api.service.PriceService;
 import com.genability.client.api.service.ProfileService;
 import com.genability.client.api.service.PropertyService;
-import com.genability.client.api.service.TariffService;
 import com.genability.client.api.service.TerritoryService;
 import com.genability.client.api.service.TimeOfUseService;
 import com.genability.client.api.service.TypicalService;

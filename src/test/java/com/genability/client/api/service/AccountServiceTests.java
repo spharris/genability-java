@@ -1,14 +1,12 @@
 package com.genability.client.api.service;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static com.google.common.collect.Iterables.getOnlyElement;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -276,8 +274,9 @@ public class AccountServiceTests extends BaseServiceTests {
     addAccount.setAccountName("Java Client Lib Test Interview Account - CAN DELETE");
 
     // set tariff
-    Tariff tariff = new Tariff();
-    tariff.setMasterTariffId(512l);
+    Tariff tariff = Tariff.builder()
+        .setMasterTariffId(512L)
+        .build();
     List<Tariff> tariffs = new ArrayList<Tariff>();
     tariffs.add(tariff);
     addAccount.setTariffs(tariffs);
@@ -307,8 +306,9 @@ public class AccountServiceTests extends BaseServiceTests {
     account.setAccountName("Java Client Lib Test Interview Account - CAN DELETE");
 
     // set tariff
-    Tariff tariff = new Tariff();
-    tariff.setMasterTariffId(512l);
+    Tariff tariff = Tariff.builder()
+        .setMasterTariffId(512L)
+        .build();
     List<Tariff> tariffs = new ArrayList<Tariff>();
     tariffs.add(tariff);
     account.setTariffs(tariffs);
