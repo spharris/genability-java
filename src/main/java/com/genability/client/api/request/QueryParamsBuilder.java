@@ -50,4 +50,14 @@ final class QueryParamsBuilder {
     
     return this;
   }
+  
+  QueryParamsBuilder addParam(String paramName, Iterable<?> paramValues) {
+    if (paramValues != null) {
+      for (Object value : paramValues) {
+        builder.add(new BasicNameValuePair(paramName, value.toString()));
+      }
+    }
+    
+    return this;
+  }
 }

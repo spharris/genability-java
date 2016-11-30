@@ -38,13 +38,11 @@ public class TariffServiceTests {
   
   @Test
   public void testGetTariff() throws Exception {
-
     String testCase = "Case 1 - call to get SCE's D Domestic tariff";
     GetTariffRequest request = GetTariffRequest.builder()
         .setMasterTariffId(447L)
         .build();
     callGetTariff(testCase, request);
-
   }
 
   @Test
@@ -83,43 +81,47 @@ public class TariffServiceTests {
   @Test
   public void testGetTariffs() throws Exception {
 
-    GetTariffsRequest request = new GetTariffsRequest();
+    GetTariffsRequest request = GetTariffsRequest.builder().build();
 
     String testCase = "Case 1 - simple unparameterized call";
     callGetTariffs(testCase, request);
 
     testCase = "Case 2 - find by zipcode";
-    request.setZipCode("94105");
+    request = request.toBuilder().setZipCode("94105").build();
     callGetTariffs(testCase, request);
 
     testCase = "Case 3 - include the properties populated";
-    request.setPopulateProperties(Boolean.TRUE);
+    request = request.toBuilder().setPopulateProperties(Boolean.TRUE).build();
     callGetTariffs(testCase, request);
 
     testCase = "Case 4 - explicit effective on";
-    request.setEffectiveOn(new DateTime(DateTime.now().getYear() - 1, 11, 11, 1, 0, 0, 0));
+    request = request.toBuilder()
+        .setEffectiveOn(new DateTime(DateTime.now().getYear() - 1, 11, 11, 1, 0, 0, 0))
+        .build();
     callGetTariffs(testCase, request);
 
     testCase = "Case 5 - common scenario, active residential tariffs for a zipcode";
-    request = new GetTariffsRequest();
-    request.setCustomerClasses(CustomerClass.RESIDENTIAL);
-    request.setTariffTypes(TariffType.DEFAULT, TariffType.ALTERNATIVE);
-    request.setEffectiveOn(DateTime.now());
-    request.setZipCode("94105");
-    request.setSortOn("tariffType");
-    request.setSortOrder(SortOrder.DESCENDING); // so default tariffs come before alternative
-    request.setPopulateProperties(true);// so you know what properties it will take to run a calc
-    callGetTariffs(testCase, request);
+    request = GetTariffsRequest.builder()
+        .setCustomerClasses(CustomerClass.RESIDENTIAL)
+        .setTariffTypes(TariffType.DEFAULT, TariffType.ALTERNATIVE)
+        .setEffectiveOn(DateTime.now())
+        .setZipCode("94105")
+        .setSortOn("tariffType")
+        .setSortOrder(SortOrder.DESCENDING) // so default tariffs come before alternative
+        .setPopulateProperties(true)// so you know what properties it will take to run a calc
+        .build();
 
+    callGetTariffs(testCase, request);
   }
 
   @Test
   public void getTariffsWithAfterTax() throws Exception {
     String testCase = "Get tariffs with AFTER_TAX charge class";
 
-    GetTariffsRequest request = new GetTariffsRequest();
-    request.setPopulateRates(true);
-    request.setZipCode("95818");
+    GetTariffsRequest request = GetTariffsRequest.builder()
+        .setPopulateRates(true)
+        .setZipCode("95818")
+        .build();
 
     callGetTariffs(testCase, request);
   }

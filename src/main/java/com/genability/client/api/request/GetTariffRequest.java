@@ -6,11 +6,12 @@ import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 @AutoValue
-public abstract class GetTariffRequest {
+public abstract class GetTariffRequest extends AbstractRequest2 {
 
   GetTariffRequest() {}
   
@@ -30,11 +31,12 @@ public abstract class GetTariffRequest {
   
   public abstract Builder toBuilder();
   public static Builder builder() {
-    return new AutoValue_GetTariffRequest.Builder();
+    return new AutoValue_GetTariffRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
   @AutoValue.Builder
-  public static abstract class Builder {
+  public abstract static class Builder extends AbstractRequest2.Builder<Builder> {
     
     public abstract Builder setTerritoryId(@Nullable Long territoryId);
     public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
@@ -53,9 +55,10 @@ public abstract class GetTariffRequest {
     public abstract GetTariffRequest build();
   }
 
+  @Override
   @JsonIgnore
   public ImmutableList<NameValuePair> getQueryParams() {
-    return new QueryParamsBuilder()
+    return getBaseQueryParams()
         .addParam("accountId", getAccountId())
         .addParam("populateProperties", getPopulateProperties())
         .addParam("populateRates", getPopulateRates())
