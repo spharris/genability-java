@@ -427,14 +427,13 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
     request.setPropertyInputs(properties);
 
     List<TariffRate> tariffRates = new ArrayList<TariffRate>();
-    TariffRate tariffRate = new TariffRate();
-    tariffRate.setChargeType(ChargeType.FIXED_PRICE);
-    tariffRate.setScenarios("solar");
-    TariffRateBand rateBand = new TariffRateBand();
-    rateBand.setRateAmount(BigDecimal.valueOf(137.05));
-    List<TariffRateBand> rateBands = new ArrayList<TariffRateBand>();
-    rateBands.add(rateBand);
-    tariffRate.setRateBands(rateBands);
+    TariffRate tariffRate = TariffRate.builder()
+        .setChargeType(ChargeType.FIXED_PRICE)
+        .setScenarios("solar")
+        .setRateBands(TariffRateBand.builder()
+          .setRateAmount(BigDecimal.valueOf(137.05))
+          .build())
+        .build();
     tariffRates.add(tariffRate);
 
     request.setRateInputs(tariffRates);

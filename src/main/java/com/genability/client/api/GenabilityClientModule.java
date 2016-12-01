@@ -26,7 +26,7 @@ import com.google.inject.Key;
 public final class GenabilityClientModule extends AbstractModule {
 
   private static final String DEFAULT_SERVER_ADDRESS = "https://api.genability.com";
-  private static final int DEFAULT_THREAD_COUNT = 5;
+  private static final int DEFAULT_THREAD_COUNT = 5 ;
   
   private final String appId;
   private final String appKey;

@@ -1,7 +1,8 @@
 package com.genability.client.types;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -20,6 +21,7 @@ import com.google.common.collect.ImmutableSet;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Tariff.Builder.class)
 public abstract class Tariff {
+
   public static final String REST_TYPE = "Tariff";
 
   @JsonIgnore public abstract @Nullable ImmutableSet<ChargeType> getChargeTypes();
@@ -86,6 +88,7 @@ public abstract class Tariff {
       return this;
     }
 
+    // TODO: DateTimeZone deserializer
     @JsonIgnore public abstract Builder setTimeZone(@Nullable DateTimeZone timeZone);
     @JsonProperty("timeZone")
     public Builder setTimeZoneString(@Nullable String timeZone) {
@@ -132,9 +135,29 @@ public abstract class Tariff {
     public abstract Builder setHasNetMetering(@Nullable Boolean hasNetMetering);
     public abstract Builder setIsActive(@Nullable Boolean isActive);
     public abstract Builder setPrivacy(@Nullable String privacy);
-    public abstract Builder setProperties(@Nullable List<TariffProperty> properties);
-    public abstract Builder setRates(@Nullable List<TariffRate> rates);
+    
+    @JsonIgnore
+    public abstract Builder setProperties(@Nullable TariffProperty... properties);
+    
+    @JsonProperty("properties")
+    public abstract Builder setProperties(@Nullable Iterable<TariffProperty> properties);
+    
+    @JsonIgnore
+    public abstract Builder setRates(@Nullable TariffRate... rates);
+    
+    @JsonProperty("rates")
+    public abstract Builder setRates(@Nullable Iterable<TariffRate> rates);
 
-    public abstract Tariff build();
+    protected abstract ImmutableSet<ChargeType> getChargeTypes();
+    protected abstract ImmutableList<TariffProperty> getProperties();
+    protected abstract ImmutableList<TariffRate> getRates();
+    protected abstract Tariff autoBuild();
+    
+    public Tariff build() {
+      setChargeTypes(firstNonNull(getChargeTypes(), ImmutableSet.of()));
+      setProperties(firstNonNull(getProperties(), ImmutableList.of()));
+      setRates(firstNonNull(getRates (), ImmutableList.of()));
+      return autoBuild();
+    }
   }
 }

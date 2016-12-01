@@ -1,281 +1,112 @@
 package com.genability.client.types;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.google.common.base.MoreObjects.firstNonNull;
+
+import javax.annotation.Nullable;
 
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.genability.client.util.EnumUtil;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TariffRate {
-
-  private Long tariffRateId;
-  private Long tariffId;
-  private Long riderId;
-  private Long masterTariffRateId;
-  private Integer tariffSequenceNumber;
-  private Integer tariffBookSequenceNumber;
-  private String rateGroupName;
-  private String tariffBookRateGroupName;
-  private String rateName;
-  private String tariffBookRateName;
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-  private Territory territory;
-  private Season season;
-  private TimeOfUse timeOfUse;
-  private ChargeType chargeType;
-  private ChargeClass[] chargeClass;
-  private Period chargePeriod;
-  private TransactionType transactionType;
-  private String quantityKey;
-  private String applicabilityKey;
-  private String variableLimitKey;
-  private String variableRateKey;
-  private String variableFactorKey;
-  private String variableRateSubKey;
-  private List<TariffRateBand> rateBands;
-  private String scenarios;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_TariffRate.Builder.class)
+public abstract class TariffRate {
 
   public static final String REST_TYPE = "TariffRate";
 
-  public Long getTariffRateId() {
-    return tariffRateId;
+  public abstract @Nullable Long getTariffRateId();
+  public abstract @Nullable Long getTariffId();
+  public abstract @Nullable Long getRiderId();
+  public abstract @Nullable Long getMasterTariffRateId();
+  public abstract @Nullable Integer getTariffSequenceNumber();
+  public abstract @Nullable Integer getTariffBookSequenceNumber();
+  public abstract @Nullable String getRateGroupName();
+  public abstract @Nullable String getTariffBookRateGroupName();
+  public abstract @Nullable String getRateName();
+  public abstract @Nullable String getTariffBookRateName();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable Territory getTerritory();
+  public abstract @Nullable Season getSeason();
+  public abstract @Nullable TimeOfUse getTimeOfUse();
+  public abstract @Nullable ChargeType getChargeType();
+  public abstract @Nullable ImmutableSet<ChargeClass> getChargeClass();
+  public abstract @Nullable Period getChargePeriod();
+  public abstract @Nullable TransactionType getTransactionType();
+  public abstract @Nullable String getQuantityKey();
+  public abstract @Nullable String getApplicabilityKey();
+  public abstract @Nullable String getVariableLimitKey();
+  public abstract @Nullable String getVariableRateKey();
+  public abstract @Nullable String getVariableFactorKey();
+  public abstract @Nullable String getVariableRateSubKey();
+  public abstract @Nullable ImmutableList<TariffRateBand> getRateBands();
+  public abstract @Nullable String getScenarios();
+  
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_TariffRate.Builder();
   }
-
-  public void setTariffRateId(Long tariffRateId) {
-    this.tariffRateId = tariffRateId;
-  }
-
-  public Long getTariffId() {
-    return tariffId;
-  }
-
-  public void setTariffId(Long tariffId) {
-    this.tariffId = tariffId;
-  }
-
-  public Long getRiderId() {
-    return riderId;
-  }
-
-  public void setRiderId(Long riderId) {
-    this.riderId = riderId;
-  }
-
-  public Long getMasterTariffRateId() {
-    return masterTariffRateId;
-  }
-
-  public void setMasterTariffRateId(Long masterTariffRateId) {
-    this.masterTariffRateId = masterTariffRateId;
-  }
-
-  public Integer getTariffSequenceNumber() {
-    return tariffSequenceNumber;
-  }
-
-  public void setTariffSequenceNumber(Integer tariffSequenceNumber) {
-    this.tariffSequenceNumber = tariffSequenceNumber;
-  }
-
-  public Integer getTariffBookSequenceNumber() {
-    return tariffBookSequenceNumber;
-  }
-
-  public void setTariffBookSequenceNumber(Integer tariffBookSequenceNumber) {
-    this.tariffBookSequenceNumber = tariffBookSequenceNumber;
-  }
-
-  public String getRateGroupName() {
-    return rateGroupName;
-  }
-
-  public void setRateGroupName(String rateGroupName) {
-    this.rateGroupName = rateGroupName;
-  }
-
-  public String getTariffBookRateGroupName() {
-    return tariffBookRateGroupName;
-  }
-
-  public void setTariffBookRateGroupName(String tariffBookRateGroupName) {
-    this.tariffBookRateGroupName = tariffBookRateGroupName;
-  }
-
-  public String getRateName() {
-    return rateName;
-  }
-
-  public void setRateName(String rateName) {
-    this.rateName = rateName;
-  }
-
-  public String getTariffBookRateName() {
-    return tariffBookRateName;
-  }
-
-  public void setTariffBookRateName(String tariffBookRateName) {
-    this.tariffBookRateName = tariffBookRateName;
-  }
-
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  public Territory getTerritory() {
-    return territory;
-  }
-
-  public void setTerritory(Territory territory) {
-    this.territory = territory;
-  }
-
-  public Season getSeason() {
-    return season;
-  }
-
-  public void setSeason(Season season) {
-    this.season = season;
-  }
-
-  public TimeOfUse getTimeOfUse() {
-    return timeOfUse;
-  }
-
-  public void setTimeOfUse(TimeOfUse timeOfUse) {
-    this.timeOfUse = timeOfUse;
-  }
-
-  public ChargeType getChargeType() {
-    return chargeType;
-  }
-
-  public void setChargeType(ChargeType chargeType) {
-    this.chargeType = chargeType;
-  }
-
-  @JsonIgnore
-  public ChargeClass[] getChargeClass() {
-    return chargeClass;
-  }
-
-  public void setChargeClass(ChargeClass... chargeClass) {
-    this.chargeClass = chargeClass;
-  }
-
-  @JsonProperty("chargeClass")
-  public String getChargeClassAsString() {
-    return EnumUtil.enumListString(chargeClass);
-  }
-
-  public void setChargeClassAsString(String chargeClassStr) {
-    this.chargeClass = EnumUtil.parseEnumList(chargeClassStr, ChargeClass.class);
-  }
-
-  public Period getChargePeriod() {
-    return chargePeriod;
-  }
-
-  public void setChargePeriod(Period chargePeriod) {
-    this.chargePeriod = chargePeriod;
-  }
-
-  public TransactionType getTransactionType() {
-    return transactionType;
-  }
-
-  public void setTransactionType(TransactionType transactionType) {
-    this.transactionType = transactionType;
-  }
-
-  public String getQuantityKey() {
-    return quantityKey;
-  }
-
-  public void setQuantityKey(String quantityKey) {
-    this.quantityKey = quantityKey;
-  }
-
-  public String getApplicabilityKey() {
-    return applicabilityKey;
-  }
-
-  public void setApplicabilityKey(String applicabilityKey) {
-    this.applicabilityKey = applicabilityKey;
-  }
-
-  public String getVariableLimitKey() {
-    return variableLimitKey;
-  }
-
-  public void setVariableLimitKey(String variableLimitKey) {
-    this.variableLimitKey = variableLimitKey;
-  }
-
-  public String getVariableRateKey() {
-    return variableRateKey;
-  }
-
-  public void setVariableRateKey(String variableRateKey) {
-    this.variableRateKey = variableRateKey;
-  }
-
-  public String getVariableRateSubKey() {
-    return variableRateSubKey;
-  }
-
-  public void setVariableRateSubKey(String variableRateSubKey) {
-    this.variableRateSubKey = variableRateSubKey;
-  }
-
-  public String getVariableFactorKey() {
-    return variableFactorKey;
-  }
-
-  public void setVariableFactorKey(String variableFactorKey) {
-    this.variableFactorKey = variableFactorKey;
-  }
-
-  public List<TariffRateBand> getRateBands() {
-    return rateBands;
-  }
-
-  public void setRateBands(List<TariffRateBand> rateBands) {
-    this.rateBands = rateBands;
-  }
-
-  public void addRateBand(TariffRateBand rateBand) {
-    if (this.rateBands == null) {
-      this.rateBands = new ArrayList<TariffRateBand>();
+  
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
+    
+    @JsonIgnore public abstract Builder setChargeClass(
+        @Nullable ImmutableSet<ChargeClass> chargeClass);
+    @JsonIgnore public abstract Builder setChargeClass(@Nullable ChargeClass... chargeClass);
+    @JsonProperty("chargeClass")
+    public Builder setChargeClassString(String chargeClass) {
+      setChargeClass(EnumUtil.parseEnumList(chargeClass, ChargeClass.class));
+      return this;
     }
-    this.rateBands.add(rateBand);
-  }
-
-  public String getScenarios() {
-    return scenarios;
-  }
-
-  public void setScenarios(final String scenarios) {
-    this.scenarios = scenarios;
+    
+    public abstract Builder setTariffRateId(@Nullable Long tariffRateId);
+    public abstract Builder setTariffId(@Nullable Long tariffId);
+    public abstract Builder setRiderId(@Nullable Long riderId);
+    public abstract Builder setMasterTariffRateId(@Nullable Long masterTariffRateId);
+    public abstract Builder setTariffSequenceNumber(@Nullable Integer tariffSequenceNumber);
+    public abstract Builder setTariffBookSequenceNumber(@Nullable Integer tariffBookSequenceNumber);
+    public abstract Builder setRateGroupName(@Nullable String rateGroupName);
+    public abstract Builder setTariffBookRateGroupName(@Nullable String tariffBookRateGroupName);
+    public abstract Builder setRateName(@Nullable String rateName);
+    public abstract Builder setTariffBookRateName(@Nullable String tariffBookRateName);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setTerritory(@Nullable Territory territory);
+    public abstract Builder setSeason(@Nullable Season season);
+    public abstract Builder setTimeOfUse(@Nullable TimeOfUse timeOfUse);
+    public abstract Builder setChargeType(@Nullable ChargeType chargeType);
+    public abstract Builder setChargePeriod(@Nullable Period chargePeriod);
+    public abstract Builder setTransactionType(@Nullable TransactionType transactionType);
+    public abstract Builder setQuantityKey(@Nullable String quantityKey);
+    public abstract Builder setApplicabilityKey(@Nullable String applicabilityKey);
+    public abstract Builder setVariableLimitKey(@Nullable String variableLimitKey);
+    public abstract Builder setVariableRateKey(@Nullable String variableRateKey);
+    public abstract Builder setVariableFactorKey(@Nullable String variableFactorKey);
+    public abstract Builder setVariableRateSubKey(@Nullable String variableRateSubKey);
+    public abstract Builder setScenarios(@Nullable String scenarios);
+    
+    @JsonIgnore
+    public abstract Builder setRateBands(@Nullable TariffRateBand... rateBands);
+    
+    @JsonProperty("rateBands")
+    public abstract Builder setRateBands(@Nullable Iterable<TariffRateBand> rateBands);
+    
+    protected abstract ImmutableSet<ChargeClass> getChargeClass();
+    protected abstract ImmutableList<TariffRateBand> getRateBands();
+    protected abstract TariffRate autoBuild();
+    
+    public TariffRate build() {
+      setChargeClass(firstNonNull(getChargeClass(), ImmutableSet.of()));
+      setRateBands(firstNonNull(getRateBands(), ImmutableList.of()));
+      return autoBuild();
+    }
   }
 }
