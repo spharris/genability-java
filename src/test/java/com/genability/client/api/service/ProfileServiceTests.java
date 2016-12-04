@@ -216,12 +216,6 @@ public class ProfileServiceTests extends BaseServiceTests {
 
     profile = callGetProfile("Test get one profile", profileRequest);
 
-    assertNotNull("new Profile Readings is null", profile.getReadings());
-    assertTrue("reading1 is not equal",
-        profile.getReadings().getList().get(0).getQuantityValue().equals(new BigDecimal("1000.0")));
-    assertTrue("reading2 is not equal",
-        profile.getReadings().getList().get(1).getQuantityValue().equals(new BigDecimal("900.0")));
-
     cleanup(account.getAccountId());
   }
 

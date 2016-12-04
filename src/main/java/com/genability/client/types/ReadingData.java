@@ -39,6 +39,16 @@ public class ReadingData extends PropertyData implements Serializable {
   private BigDecimal quantityCost;
   private BigDecimal quantityRate;
   private TimeOfUseType touType;
+  
+  protected String keyName;
+  protected String source;
+
+  protected DateTime fromDateTime;
+  protected DateTime toDateTime;
+  protected String period;
+
+  protected String unit;
+  protected String dataValue;
 
   public ReadingData() {
     this.dataType = DataType.DECIMAL;

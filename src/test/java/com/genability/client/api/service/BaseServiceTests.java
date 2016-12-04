@@ -191,7 +191,7 @@ public class BaseServiceTests {
     Account account = createAccount();
     Profile addProfile = new Profile();
     addProfile.setAccountId(account.getAccountId());
-    addProfile.setReadingData(readings);
+    //addProfile.setReadingData(readings);
 
     Response<Profile> restResponse = profileService.addProfile(addProfile);
 

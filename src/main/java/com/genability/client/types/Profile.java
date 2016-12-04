@@ -23,9 +23,8 @@ public class Profile implements Serializable {
   private Source source;
   private List<ReadingDataSummary> readingDataSummaries;
   private List<ReadingData> readingData;
+  private List<IntervalInfo> intervals;
   private List<BaselineMeasure> baselineMeasures;
-  private PagedList<IntervalInfo> intervals;
-  private PagedList<ReadingData> readings;
   private Map<String, PropertyData> properties;
   // private PagedList<Bill> bills; // TODO: implement this
 
@@ -95,6 +94,22 @@ public class Profile implements Serializable {
     this.source = source;
   }
 
+  public List<ReadingData> getReadingData() {
+    return readingData;
+  }
+
+  public void setReadingData(List<ReadingData> readingData) {
+    this.readingData = readingData;
+  }
+
+  public List<IntervalInfo> getIntervals() {
+    return intervals;
+  }
+
+  public void setIntervals(List<IntervalInfo> intervals) {
+    this.intervals = intervals;
+  }
+
   public List<ReadingDataSummary> getReadingDataSummaries() {
     return readingDataSummaries;
   }
@@ -103,36 +118,12 @@ public class Profile implements Serializable {
     this.readingDataSummaries = readingDataSummaries;
   }
 
-  public List<ReadingData> getReadingData() {
-    return readingData;
-  }
-
-  public void setReadingData(final List<ReadingData> readingData) {
-    this.readingData = readingData;
-  }
-
   public List<BaselineMeasure> getBaselineMeasures() {
     return baselineMeasures;
   }
 
   public void setBaselineMeasures(final List<BaselineMeasure> baselineMeasures) {
     this.baselineMeasures = baselineMeasures;
-  }
-
-  public PagedList<ReadingData> getReadings() {
-    return readings;
-  }
-
-  public void setReadings(final PagedList<ReadingData> readings) {
-    this.readings = readings;
-  }
-
-  public PagedList<IntervalInfo> getIntervals() {
-    return intervals;
-  }
-
-  public void setIntervals(final PagedList<IntervalInfo> intervals) {
-    this.intervals = intervals;
   }
 
   public String getAccountId() {
