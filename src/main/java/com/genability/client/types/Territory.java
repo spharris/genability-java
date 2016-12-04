@@ -1,4 +1,4 @@
-package com.genability.client.types;
+ package com.genability.client.types;
 
 import java.util.List;
 

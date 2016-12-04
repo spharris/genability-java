@@ -20,7 +20,7 @@ public abstract class Profile {
   public abstract @Nullable ImmutableList<BaselineMeasure> getBaselineMeasures();
   public abstract @Nullable Integer getDataStatus();
   public abstract @Nullable String getDescription();
-  public abstract @Nullable ImmutableList<IntervalInfo> getIntervals();
+  public abstract @Nullable PagedList<IntervalInfo> getIntervals();
   public abstract @Nullable Boolean getIsDefault();
   public abstract @Nullable String getMeterId();
   public abstract @Nullable String getProfileId();
@@ -29,6 +29,7 @@ public abstract class Profile {
   public abstract @Nullable String getProviderAccountId();
   public abstract @Nullable String getProviderProfileId();
   public abstract @Nullable ImmutableList<ReadingData> getReadingData();
+  public abstract @Nullable PagedList<ReadingData> getReadings();
   public abstract @Nullable ImmutableList<ReadingDataSummary> getReadingDataSummaries();
   public abstract @Nullable String getServiceTypes();
   public abstract @Nullable Source getSource();
@@ -45,6 +46,7 @@ public abstract class Profile {
     public abstract Builder setAccountId(@Nullable String accountId);
     public abstract Builder setDataStatus(@Nullable Integer dataStatus);
     public abstract Builder setDescription(@Nullable String description);
+    public abstract Builder setIntervals(@Nullable PagedList<IntervalInfo> intervals);
     public abstract Builder setIsDefault(@Nullable Boolean isDefault);
     public abstract Builder setMeterId(@Nullable String meterId);
     public abstract Builder setProfileId(@Nullable String profileId);
@@ -52,6 +54,7 @@ public abstract class Profile {
     public abstract Builder setProperties(@Nullable ImmutableMap<String, PropertyData> properties);
     public abstract Builder setProviderAccountId(@Nullable String providerAccountId);
     public abstract Builder setProviderProfileId(@Nullable String providerProfileId);
+    public abstract Builder setReadings(@Nullable PagedList<ReadingData> readings);
     public abstract Builder setServiceTypes(@Nullable String serviceTypes);
     public abstract Builder setSource(@Nullable Source source);
 
@@ -59,13 +62,7 @@ public abstract class Profile {
     public abstract Builder setBaselineMeasures(@Nullable BaselineMeasure... baselineMeasures);
 
     @JsonProperty("baselineMeasures")
-    public abstract Builder setBaselineMeasures(@Nullable ImmutableList<BaselineMeasure> baselineMeasures);
-
-    @JsonIgnore
-    public abstract Builder setIntervals(@Nullable IntervalInfo... intervals);
-
-    @JsonProperty("intervals")
-    public abstract Builder setIntervals(@Nullable ImmutableList<IntervalInfo> intervals);
+    public abstract Builder setBaselineMeasures(@Nullable ImmutableList<BaselineMeasure> baselineMeasures);    
 
     @JsonIgnore
     public abstract Builder setReadingData(@Nullable ReadingData... readingData);
@@ -80,7 +77,6 @@ public abstract class Profile {
     public abstract Builder setReadingDataSummaries(@Nullable ImmutableList<ReadingDataSummary> readingDataSummaries);
 
     protected abstract ImmutableList<BaselineMeasure> getBaselineMeasures();
-    protected abstract ImmutableList<IntervalInfo> getIntervals();
     protected abstract ImmutableMap<String, PropertyData> getProperties();
     protected abstract ImmutableList<ReadingData> getReadingData();
     protected abstract ImmutableList<ReadingDataSummary> getReadingDataSummaries();
@@ -88,7 +84,6 @@ public abstract class Profile {
 
     public Profile build() {
       setBaselineMeasures(firstNonNull(getBaselineMeasures(), ImmutableList.of()));
-      setIntervals(firstNonNull(getIntervals(), ImmutableList.of()));
       setProperties(firstNonNull(getProperties(), ImmutableMap.of()));
       setReadingData(firstNonNull(getReadingData(), ImmutableList.of()));
       setReadingDataSummaries(firstNonNull(getReadingDataSummaries(), ImmutableList.of()));

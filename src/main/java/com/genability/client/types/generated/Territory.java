@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.genability.client.types.TerritoryType;
+import com.genability.client.util.EnumUtil;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -17,6 +18,11 @@ import com.google.common.collect.ImmutableSet;
 @JsonDeserialize(builder = AutoValue_Territory.Builder.class)
 public abstract class Territory {
 
+  @JsonProperty("itemTypes")
+  public String getItemTypesAsString() {
+    return EnumUtil.enumListString(getItemTypes());
+  }
+  
   public abstract @Nullable Coordinates getCenterPoint();
   public abstract @Nullable Boolean getDeregCandi();
   public abstract @Nullable Boolean getDeregRes();
@@ -51,8 +57,13 @@ public abstract class Territory {
     @JsonIgnore
     public abstract Builder setItemTypes(@Nullable TerritoryType... itemTypes);
 
-    @JsonProperty("itemTypes")
+    @JsonIgnore
     public abstract Builder setItemTypes(@Nullable ImmutableSet<TerritoryType> itemTypes);
+    
+    @JsonProperty("itemTypes")
+    public void setItemTypesAsString(String itemTypes) {
+      setItemTypes(EnumUtil.parseEnumList(itemTypes, TerritoryType.class));
+    }
 
     @JsonIgnore
     public abstract Builder setItems(@Nullable TerritoryItem... items);
