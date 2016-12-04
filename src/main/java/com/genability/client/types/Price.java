@@ -1,145 +1,73 @@
 package com.genability.client.types;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import java.math.BigDecimal;
-import java.util.List;
+
+import javax.annotation.Nullable;
 
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Price {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Price.Builder.class)
+public abstract class Price {
 
-  public static final String REST_TYPE = "TariffRateSummary";
+  public abstract @Nullable ChargeType getChargeType();
+  public abstract @Nullable String getCurrency();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ImmutableList<PriceChange> getPriceChanges();
+  public abstract @Nullable String getQuantityKey();
+  public abstract @Nullable BigDecimal getRateAmount();
+  public abstract @Nullable ImmutableList<TariffRateChangePeriod> getRateChangePeriods();
+  public abstract @Nullable BigDecimal getRelativePriceIndex();
+  public abstract @Nullable Long getTariffId();
+  public abstract @Nullable DateTime getToDateTime();
 
-  private Long tariffId;
-  private ChargeType chargeType;
-  private String quantityKey;
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-  private BigDecimal rateAmount;
-  private BigDecimal relativePriceIndex;
-  private String currency;
-  private List<PriceChange> priceChanges;
-  private List<TariffRateChangePeriod> rateChangePeriods;
-
-  public Long getTariffId() {
-    return tariffId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Price.Builder();
   }
 
-  public void setTariffId(Long tariffId) {
-    this.tariffId = tariffId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public ChargeType getChargeType() {
-    return chargeType;
-  }
+    public abstract Builder setChargeType(@Nullable ChargeType chargeType);
+    public abstract Builder setCurrency(@Nullable String currency);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setQuantityKey(@Nullable String quantityKey);
+    public abstract Builder setRateAmount(@Nullable BigDecimal rateAmount);
+    public abstract Builder setRelativePriceIndex(@Nullable BigDecimal relativePriceIndex);
+    public abstract Builder setTariffId(@Nullable Long tariffId);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
 
-  public void setChargeType(ChargeType chargeType) {
-    this.chargeType = chargeType;
-  }
+    @JsonIgnore
+    public abstract Builder setPriceChanges(@Nullable PriceChange... priceChanges);
 
-  /**
-   * When not null, the Property that defines the type of quantity this rate applies to.
-   * 
-   * @return The return value.
-   */
-  public String getQuantityKey() {
-    return quantityKey;
-  }
+    @JsonProperty("priceChanges")
+    public abstract Builder setPriceChanges(@Nullable ImmutableList<PriceChange> priceChanges);
 
-  public void setQuantityKey(String quantityKey) {
-    this.quantityKey = quantityKey;
-  }
+    @JsonIgnore
+    public abstract Builder setRateChangePeriods(@Nullable TariffRateChangePeriod... rateChangePeriods);
 
-  /**
-   * The starting date and time for this Price summary.
-   * 
-   * @return The return value.
-   */
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
+    @JsonProperty("rateChangePeriods")
+    public abstract Builder setRateChangePeriods(@Nullable ImmutableList<TariffRateChangePeriod> rateChangePeriods);
 
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
+    protected abstract ImmutableList<PriceChange> getPriceChanges();
+    protected abstract ImmutableList<TariffRateChangePeriod> getRateChangePeriods();
+    protected abstract Price autoBuild();
 
-  /**
-   * The ending date and time for this Price summary.
-   * 
-   * @return The return value.
-   */
-  public DateTime getToDateTime() {
-    return toDateTime;
+    public Price build() {
+      setPriceChanges(firstNonNull(getPriceChanges(), ImmutableList.of()));
+      setRateChangePeriods(firstNonNull(getRateChangePeriods(), ImmutableList.of()));
+      return autoBuild();
+    }
   }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  /**
-   * Currently all prices are returned in USD.
-   * 
-   * @return The return value.
-   */
-  public String getCurrency() {
-    return currency;
-  }
-
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
-
-  /**
-   * The charge amount in dollars for this Tariff at the time passed in.
-   * 
-   * @return The return value.
-   */
-  public BigDecimal getRateAmount() {
-    return rateAmount;
-  }
-
-  public void setRateAmount(BigDecimal rateAmount) {
-    this.rateAmount = rateAmount;
-  }
-
-  /**
-   * The relative price of this rateAmount compared to other rate amounts in this summary. This is
-   * useful for change in price notifications. The highest price will have an RPI of 1.0.
-   * 
-   * @return The return value.
-   */
-  public BigDecimal getRelativePriceIndex() {
-    return relativePriceIndex;
-  }
-
-  public void setRelativePriceIndex(BigDecimal relativePriceIndex) {
-    this.relativePriceIndex = relativePriceIndex;
-  }
-
-  /**
-   * List of all the price changes within the specified time period
-   * 
-   * @return The return value.
-   */
-  public List<PriceChange> getPriceChanges() {
-    return priceChanges;
-  }
-
-  public void setPriceChanges(List<PriceChange> priceChanges) {
-    this.priceChanges = priceChanges;
-  }
-
-  public List<TariffRateChangePeriod> getRateChangePeriods() {
-    return rateChangePeriods;
-  }
-
-  public void setRateChangePeriods(List<TariffRateChangePeriod> rateChangePeriods) {
-    this.rateChangePeriods = rateChangePeriods;
-  }
-
 }

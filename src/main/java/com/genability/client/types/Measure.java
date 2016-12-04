@@ -2,149 +2,43 @@ package com.genability.client.types;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Measure {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-  /**
-   * private member variable for QuantityUnit.
-   */
-  private String quantityUnit;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Measure.Builder.class)
+public abstract class Measure {
 
-  /**
-   * private member variable for QuantityAmount.
-   */
-  private BigDecimal quantityAmount;
+  public abstract @Nullable BigDecimal getCostAccuracy();
+  public abstract @Nullable BigDecimal getCostAmount();
+  public abstract @Nullable BigDecimal getQuantityAccuracy();
+  public abstract @Nullable BigDecimal getQuantityAmount();
+  public abstract @Nullable BigDecimal getQuantitySum();
+  public abstract @Nullable String getQuantityUnit();
+  public abstract @Nullable BigDecimal getRateAccuracy();
+  public abstract @Nullable BigDecimal getRateAmount();
 
-  /**
-   * private member variable for QuantitySum.
-   */
-  private BigDecimal quantitySum;
-
-  /**
-   * private member variable for QuantityAccuracy.
-   */
-  private BigDecimal quantityAccuracy;
-
-  /**
-   * private member variable for RateAmount.
-   */
-  private BigDecimal rateAmount;
-
-  /**
-   * private member variable for RateAccuracy.
-   */
-  private BigDecimal rateAccuracy;
-
-  /**
-   * private member variable for CostAmount.
-   */
-  private BigDecimal costAmount;
-
-  /**
-   * private member variable for CostAccuracy.
-   */
-  private BigDecimal costAccuracy;
-
-  public Measure() {
-
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Measure.Builder();
   }
 
-  public Measure(String quantityUnit) {
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-    this.quantityUnit = quantityUnit;
+    public abstract Builder setCostAccuracy(@Nullable BigDecimal costAccuracy);
+    public abstract Builder setCostAmount(@Nullable BigDecimal costAmount);
+    public abstract Builder setQuantityAccuracy(@Nullable BigDecimal quantityAccuracy);
+    public abstract Builder setQuantityAmount(@Nullable BigDecimal quantityAmount);
+    public abstract Builder setQuantitySum(@Nullable BigDecimal quantitySum);
+    public abstract Builder setQuantityUnit(@Nullable String quantityUnit);
+    public abstract Builder setRateAccuracy(@Nullable BigDecimal rateAccuracy);
+    public abstract Builder setRateAmount(@Nullable BigDecimal rateAmount);
 
+    public abstract Measure build();
   }
-
-  public Measure(String quantityUnit, BigDecimal quantityAmount) {
-
-    this.quantityUnit = quantityUnit;
-    this.quantityAmount = quantityAmount;
-
-  }
-
-  public Measure(Measure measure) {
-
-    this.quantityUnit = measure.getQuantityUnit();
-    this.quantityAmount = measure.getQuantityAmount();
-
-  }
-
-  public String toString() {
-    try {
-      return String.format("<%s %s>", quantityAmount, quantityUnit);
-    } catch (Exception e) {
-      return super.toString();
-    }
-  }
-
-  public String getQuantityUnit() {
-    return quantityUnit;
-  }
-
-  public void setQuantityUnit(String quantityUnit) {
-    this.quantityUnit = quantityUnit;
-  }
-
-  public BigDecimal getQuantityAmount() {
-    return quantityAmount;
-  }
-
-  public void setQuantityAmount(BigDecimal quantityAmount) {
-    this.quantityAmount = quantityAmount;
-  }
-
-  public BigDecimal getQuantitySum() {
-    return quantitySum;
-  }
-
-  public void setQuantitySum(BigDecimal quantitySum) {
-    this.quantitySum = quantitySum;
-  }
-
-  public BigDecimal getQuantityAccuracy() {
-    return quantityAccuracy;
-  }
-
-  public void setQuantityAccuracy(BigDecimal quantityAccuracy) {
-    this.quantityAccuracy = quantityAccuracy;
-  }
-
-  public BigDecimal getRateAmount() {
-    return rateAmount;
-  }
-
-  public void setRateAmount(BigDecimal rateAmount) {
-    this.rateAmount = rateAmount;
-  }
-
-  public BigDecimal getRateAccuracy() {
-    return rateAccuracy;
-  }
-
-  public void setRateAccuracy(BigDecimal rateAccuracy) {
-    this.rateAccuracy = rateAccuracy;
-  }
-
-  public BigDecimal getCostAmount() {
-    return costAmount;
-  }
-
-  public void setCostAmount(BigDecimal costAmount) {
-    this.costAmount = costAmount;
-  }
-
-  public BigDecimal getCostAccuracy() {
-    return costAccuracy;
-  }
-
-  public void setCostAccuracy(BigDecimal costAccuracy) {
-    this.costAccuracy = costAccuracy;
-  }
-
-
 }

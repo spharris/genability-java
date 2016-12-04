@@ -4,11 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
-import java.net.URL;
+import java.net.URI;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.genability.client.api.request.BulkUploadRequest;
@@ -37,35 +36,18 @@ public class BulkUploadTests extends BaseServiceTests {
   }
 
   @Test
-  public void testUploadCSV() {
+  public void testUploadCSV() throws Exception {
 
     // bulk load readings to account
     BulkUploadRequest request = new BulkUploadRequest();
 
-    URL resourceUrl = getClass().getResource("/interval_data.csv");
-    File file = new File(resourceUrl.getFile());
+    URI resourceUri = new URI(getClass().getResource("/interval_data.csv").toString());
+    File file = new File(resourceUri.getPath());
 
     request.setFileData(file);
     request.setFileFormat("csv");
     request.setUsageProfileId(profile.getProfileId());
     upload("Case upload CSV", request);
-
-  }
-
-  // This method uploads Green Button XML data
-  @Test
-  @Ignore
-  public void testUploadGreenButton() {
-
-    BulkUploadRequest request = new BulkUploadRequest();
-
-    URL resourceUrl = getClass().getResource("/green_button.xml");
-    File file = new File(resourceUrl.getFile());
-
-    request.setFileData(file);
-    request.setFileFormat("espi");
-    profile.setProfileId(profile.getProfileId());
-    upload("Case upload XML", request);
 
   }
 
@@ -75,8 +57,6 @@ public class BulkUploadTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), ReadingData.REST_TYPE);
-
   }
 
 

@@ -69,7 +69,7 @@ public class AccountAnalysisRequestTests {
   public void testFromDateWithTimezone() throws JsonProcessingException {
     AccountAnalysisRequest request = new AccountAnalysisRequest();
     request.setFromDateTime(new DateTime(2015, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific")));
-    String target = "{\"fields\":\"ext\",\"fromDateTime\":\"2015-01-01T00:00:00.000-08:00\"}";
+    String target = "{\"fields\":\"ext\",\"fromDateTime\":\"2015-01-01T08:00:00.000Z\"}";
 
     assertEquals("Didn't serialize fromDateTime correctly with a datetime", target,
         mapper.writeValueAsString(request));
@@ -79,7 +79,7 @@ public class AccountAnalysisRequestTests {
   public void testToDateWithTimezone() throws JsonProcessingException {
     AccountAnalysisRequest request = new AccountAnalysisRequest();
     request.setToDateTime(new DateTime(2015, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific")));
-    String target = "{\"fields\":\"ext\",\"toDateTime\":\"2015-01-01T00:00:00.000-08:00\"}";
+    String target = "{\"fields\":\"ext\",\"toDateTime\":\"2015-01-01T08:00:00.000Z\"}";
 
     assertEquals("Didn't serialize toDateTime correctly with a datetime", target,
         mapper.writeValueAsString(request));

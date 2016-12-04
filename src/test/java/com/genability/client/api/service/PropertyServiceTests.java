@@ -39,7 +39,6 @@ public class PropertyServiceTests extends BaseServiceTests {
     //
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), PropertyKey.REST_TYPE);
 
   }
 
@@ -87,7 +86,6 @@ public class PropertyServiceTests extends BaseServiceTests {
     //
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), PropertyKey.REST_TYPE);
 
   }
 
@@ -111,7 +109,6 @@ public class PropertyServiceTests extends BaseServiceTests {
     //
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), PropertyLookup.REST_TYPE);
     assertTrue("Didn't get any results.", restResponse.getCount() > 0);
     assertEquals("Got results for the wrong propertyKey", targetPropertyKey,
         restResponse.getResults().get(0).getPropertyKey());
@@ -141,7 +138,6 @@ public class PropertyServiceTests extends BaseServiceTests {
     //
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), PropertyLookup.REST_TYPE);
     assertEquals("Didn't get the correct number of results.", new Integer(24),
         restResponse.getCount());
     assertEquals("Got results for the wrong propertyKey", targetPropertyKey,

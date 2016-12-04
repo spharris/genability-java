@@ -1,212 +1,111 @@
 package com.genability.client.types;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Baseline {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Baseline.Builder.class)
+public abstract class Baseline {
 
-  public static final String REST_TYPE = "Baseline";
+  public abstract @Nullable String getBaselineId();
+  public abstract @Nullable BuildingType getBuildingType();
+  public abstract @Nullable Territory getClimateZone();
+  public abstract @Nullable ImmutableMap<String, BigDecimal> getFactors();
+  public abstract @Nullable Coordinates getLocation();
+  public abstract @Nullable Integer getMeasureDuration();
+  public abstract @Nullable String getMeasureUnit();
+  public abstract @Nullable String getMeasureValue();
+  public abstract @Nullable ImmutableList<BaselineMeasure> getMeasures();
+  public abstract @Nullable String getName();
+  public abstract @Nullable ImmutableList<PropertyData> getProperties();
+  public abstract @Nullable ServiceType getServiceType();
+  public abstract @Nullable String getSourceId();
+  public abstract @Nullable Integer getStartDay();
 
-  private String baselineId;
-  private BuildingType buildingType;
-  private Territory climateZone;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Baseline.Builder();
+  }
 
-  // As of 2014/08/26, factors returned are:
-  // annualConsumption
-  // buildingArea
-  // meanAnnualConsumption
-  // meanBuildingArea
-  // meanIntensity
-  // monthlyConsumption
-  // peakDemand
-  // uberAnnualConsumption
-  private Map<String, BigDecimal> factors = new HashMap<String, BigDecimal>();
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  private int measureDuration;
-  private String measureUnit;
-  private String measureValue;
-  private BaselineMeasure[] measures;
-  private String name;
-  private PropertyData[] properties;
-  private ServiceType serviceType;
-  private String sourceId;
-  private int startDay;
-  private Coordinates location;
+    public abstract Builder setBaselineId(@Nullable String baselineId);
+    public abstract Builder setBuildingType(@Nullable BuildingType buildingType);
+    public abstract Builder setClimateZone(@Nullable Territory climateZone);
+    public abstract Builder setFactors(@Nullable ImmutableMap<String, BigDecimal> factors);
+    public abstract Builder setLocation(@Nullable Coordinates location);
+    public abstract Builder setMeasureDuration(@Nullable Integer measureDuration);
+    public abstract Builder setMeasureUnit(@Nullable String measureUnit);
+    public abstract Builder setMeasureValue(@Nullable String measureValue);
+    public abstract Builder setName(@Nullable String name);
+    public abstract Builder setServiceType(@Nullable ServiceType serviceType);
+    public abstract Builder setSourceId(@Nullable String sourceId);
+    public abstract Builder setStartDay(@Nullable Integer startDay);
 
-  @JsonIgnoreProperties(ignoreUnknown = true)
-  public static class BuildingType {
+    @JsonIgnore
+    public abstract Builder setMeasures(@Nullable BaselineMeasure... measures);
 
-    private CustomerClass customerClass;
-    private String description;
-    private String id;
-    private String name;
-    private String buildingClass;
+    @JsonProperty("measures")
+    public abstract Builder setMeasures(@Nullable ImmutableList<BaselineMeasure> measures);
 
-    public CustomerClass getCustomerClass() {
-      return customerClass;
-    }
+    @JsonIgnore
+    public abstract Builder setProperties(@Nullable PropertyData... properties);
 
-    public void setCustomerClass(final CustomerClass customerClass) {
-      this.customerClass = customerClass;
-    }
+    @JsonProperty("properties")
+    public abstract Builder setProperties(@Nullable ImmutableList<PropertyData> properties);
 
-    public String getDescription() {
-      return description;
-    }
+    protected abstract ImmutableMap<String, BigDecimal> getFactors();
+    protected abstract ImmutableList<BaselineMeasure> getMeasures();
+    protected abstract ImmutableList<PropertyData> getProperties();
+    protected abstract Baseline autoBuild();
 
-    public void setDescription(final String description) {
-      this.description = description;
-    }
-
-    public String getId() {
-      return id;
-    }
-
-    public void setId(final String id) {
-      this.id = id;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public void setName(final String name) {
-      this.name = name;
-    }
-
-    public String getBuildingClass() {
-      return buildingClass;
-    }
-
-    public void setBuildingClass(final String buildingClass) {
-      this.buildingClass = buildingClass;
+    public Baseline build() {
+      setFactors(firstNonNull(getFactors(), ImmutableMap.of()));
+      setMeasures(firstNonNull(getMeasures(), ImmutableList.of()));
+      setProperties(firstNonNull(getProperties(), ImmutableList.of()));
+      return autoBuild();
     }
   }
+  
+  @AutoValue
+  @JsonDeserialize(builder = AutoValue_Baseline_BuildingType.Builder.class)
+  public abstract static class BuildingType {
 
-  public String getBaselineId() {
-    return baselineId;
-  }
+    public abstract @Nullable CustomerClass getCustomerClass();
+    public abstract @Nullable String getDescription();
+    public abstract @Nullable String getId();
+    public abstract @Nullable String getName();
+    public abstract @Nullable String getBuildingClass();
 
-  public void setBaselineId(final String baselineId) {
-    this.baselineId = baselineId;
-  }
-
-  public BuildingType getBuildingType() {
-    return buildingType;
-  }
-
-  public void setBuildingType(final BuildingType buildingType) {
-    this.buildingType = buildingType;
-  }
-
-  public Territory getClimateZone() {
-    return climateZone;
-  }
-
-  public void setClimateZone(final Territory climateZone) {
-    this.climateZone = climateZone;
-  }
-
-  public Map<String, BigDecimal> getFactors() {
-    return factors;
-  }
-
-  public void setFactors(final Map<String, BigDecimal> factors) {
-    this.factors = factors;
-  }
-
-  public int getMeasureDuration() {
-    return measureDuration;
-  }
-
-  public void setMeasureDuration(final int measureDuration) {
-    this.measureDuration = measureDuration;
-  }
-
-  public String getMeasureUnit() {
-    return measureUnit;
-  }
-
-  public void setMeasureUnit(final String measureUnit) {
-    this.measureUnit = measureUnit;
-  }
-
-  public String getMeasureValue() {
-    return measureValue;
-  }
-
-  public void setMeasureValue(final String measureValue) {
-    this.measureValue = measureValue;
-  }
-
-  public BaselineMeasure[] getMeasures() {
-    return measures;
-  }
-
-  @JsonIgnore
-  public List<BaselineMeasure> getMeasuresList() {
-    return Arrays.asList(measures);
-  }
-
-  public void setMeasures(final BaselineMeasure[] measures) {
-    this.measures = measures;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public PropertyData[] getProperties() {
-    return properties;
-  }
-
-  public void setProperties(final PropertyData[] properties) {
-    this.properties = properties;
-  }
-
-  public ServiceType getServiceType() {
-    return serviceType;
-  }
-
-  public void setServiceType(final ServiceType serviceType) {
-    this.serviceType = serviceType;
-  }
-
-  public String getSourceId() {
-    return sourceId;
-  }
-
-  public void setSourceId(final String sourceId) {
-    this.sourceId = sourceId;
-  }
-
-  public int getStartDay() {
-    return startDay;
-  }
-
-  public void setStartDay(final int startDay) {
-    this.startDay = startDay;
-  }
-
-  public Coordinates getLocation() {
-    return location;
-  }
-
-  public void setLocation(Coordinates location) {
-    this.location = location;
+    public abstract Builder toBuilder();
+    public static Builder builder() {
+      return new AutoValue_Baseline_BuildingType.Builder();
+    }
+    
+    @AutoValue.Builder
+    @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+    public abstract static class Builder {
+   
+      public abstract Builder setCustomerClass(@Nullable CustomerClass customerClass);
+      public abstract Builder setDescription(@Nullable String description);
+      public abstract Builder setId(@Nullable String id);
+      public abstract Builder setName(@Nullable String name);
+      public abstract Builder setBuildingClass(@Nullable String buildingClass);
+      
+      public abstract BuildingType build();
+    }
   }
 }

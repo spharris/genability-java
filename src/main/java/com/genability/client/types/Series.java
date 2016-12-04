@@ -2,122 +2,53 @@ package com.genability.client.types;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Series {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Series.Builder.class)
+public abstract class Series {
 
-  private Integer seriesId;
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-  private String scenario;
-  private String displayLabel;
-  private String seriesPeriod;
-  private Integer seriesDuration;
-  private String designId;
-  private String key;
-  private BigDecimal rate;
-  private BigDecimal qty;
-  private BigDecimal cost;
+  public abstract @Nullable BigDecimal getCost();
+  public abstract @Nullable String getDesignId();
+  public abstract @Nullable String getDisplayLabel();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable String getKey();
+  public abstract @Nullable BigDecimal getQty();
+  public abstract @Nullable BigDecimal getRate();
+  public abstract @Nullable String getScenario();
+  public abstract @Nullable Integer getSeriesDuration();
+  public abstract @Nullable Integer getSeriesId();
+  public abstract @Nullable String getSeriesPeriod();
+  public abstract @Nullable DateTime getToDateTime();
 
-  public Integer getSeriesId() {
-    return seriesId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Series.Builder();
   }
 
-  public void setSeriesId(Integer seriesId) {
-    this.seriesId = seriesId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
+    public abstract Builder setCost(@Nullable BigDecimal cost);
+    public abstract Builder setDesignId(@Nullable String designId);
+    public abstract Builder setDisplayLabel(@Nullable String displayLabel);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setKey(@Nullable String key);
+    public abstract Builder setQty(@Nullable BigDecimal qty);
+    public abstract Builder setRate(@Nullable BigDecimal rate);
+    public abstract Builder setScenario(@Nullable String scenario);
+    public abstract Builder setSeriesDuration(@Nullable Integer seriesDuration);
+    public abstract Builder setSeriesId(@Nullable Integer seriesId);
+    public abstract Builder setSeriesPeriod(@Nullable String seriesPeriod);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
 
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  public String getScenario() {
-    return scenario;
-  }
-
-  public void setScenario(String scenario) {
-    this.scenario = scenario;
-  }
-
-  public String getDisplayLabel() {
-    return displayLabel;
-  }
-
-  public void setDisplayLabel(String displayLabel) {
-    this.displayLabel = displayLabel;
-  }
-
-  public String getSeriesPeriod() {
-    return seriesPeriod;
-  }
-
-  public void setSeriesPeriod(String seriesPeriod) {
-    this.seriesPeriod = seriesPeriod;
-  }
-
-  public Integer getSeriesDuration() {
-    return seriesDuration;
-  }
-
-  public void setSeriesDuration(Integer seriesDuration) {
-    this.seriesDuration = seriesDuration;
-  }
-
-  public String getDesignId() {
-    return designId;
-  }
-
-  public void setDesignId(String designId) {
-    this.designId = designId;
-  }
-
-  public String getKey() {
-    return key;
-  }
-
-  public void setKey(String key) {
-    this.key = key;
-  }
-
-  public BigDecimal getRate() {
-    return rate;
-  }
-
-  public void setRate(BigDecimal rate) {
-    this.rate = rate;
-  }
-
-  public BigDecimal getQty() {
-    return qty;
-  }
-
-  public void setQty(BigDecimal qty) {
-    this.qty = qty;
-  }
-
-  public BigDecimal getCost() {
-    return cost;
-  }
-
-  public void setCost(BigDecimal cost) {
-    this.cost = cost;
+    public abstract Series build();
   }
 }

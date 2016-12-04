@@ -1,110 +1,42 @@
 package com.genability.client.types;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)
-public class CalendarEventDate {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_CalendarEventDate.Builder.class)
+public abstract class CalendarEventDate {
 
-  public static final String REST_TYPE = "CalendarDate";
+  public abstract @Nullable Long getCalendarEventId();
+  public abstract @Nullable DateTime getEndDateTime();
+  public abstract @Nullable Long getEventDateId();
+  public abstract @Nullable String getEventName();
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable DateTime getStartDateTime();
+  public abstract @Nullable String getSubKey();
 
-
-  /**
-   * private member variable for calendarEventId.
-   */
-  private Long eventDateId;
-
-  /**
-   * private member variable for subKey.
-   */
-  private String subKey;
-
-  /**
-   * private member variable for calendarEventName.
-   */
-  private String eventName;
-
-  /**
-   * private member variable for startDateTime.
-   */
-  private DateTime startDateTime;
-
-  /**
-   * private member variable for endDateTime.
-   */
-  private DateTime endDateTime;
-
-  /**
-   * private member variable for calendarEventId.
-   */
-  private Long calendarEventId;
-
-  /**
-   * private member variable for lseId.
-   */
-  private Long lseId;
-
-
-
-  public Long getEventDateId() {
-    return eventDateId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_CalendarEventDate.Builder();
   }
 
-  public void setEventDateId(Long eventDateId) {
-    this.eventDateId = eventDateId;
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
+
+    public abstract Builder setCalendarEventId(@Nullable Long calendarEventId);
+    public abstract Builder setEndDateTime(@Nullable DateTime endDateTime);
+    public abstract Builder setEventDateId(@Nullable Long eventDateId);
+    public abstract Builder setEventName(@Nullable String eventName);
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setStartDateTime(@Nullable DateTime startDateTime);
+    public abstract Builder setSubKey(@Nullable String subKey);
+
+    public abstract CalendarEventDate build();
   }
-
-  public String getSubKey() {
-    return subKey;
-  }
-
-  public void setSubKey(String subKey) {
-    this.subKey = subKey;
-  }
-
-  public String getEventName() {
-    return eventName;
-  }
-
-  public void setEventName(String eventName) {
-    this.eventName = eventName;
-  }
-
-  public DateTime getStartDateTime() {
-    return startDateTime;
-  }
-
-  public void setStartDateTime(DateTime startDateTime) {
-    this.startDateTime = startDateTime;
-  }
-
-  public DateTime getEndDateTime() {
-    return endDateTime;
-  }
-
-  public void setEndDateTime(DateTime endDateTime) {
-    this.endDateTime = endDateTime;
-  }
-
-  public Long getCalendarEventId() {
-    return calendarEventId;
-  }
-
-  public void setCalendarEventId(Long calendarEventId) {
-    this.calendarEventId = calendarEventId;
-  }
-
-  public Long getLseId() {
-    return lseId;
-  }
-
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
-
-
 }

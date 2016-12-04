@@ -2,86 +2,45 @@ package com.genability.client.types;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class SeriesMeasure {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_SeriesMeasure.Builder.class)
+public abstract class SeriesMeasure {
 
-  private Integer seriesId;
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-  private BigDecimal rate;
-  private BigDecimal qty;
-  private BigDecimal cost;
-  private String period;
-  private Long duration;
+  public abstract @Nullable BigDecimal getCost();
+  public abstract @Nullable Long getDuration();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable String getPeriod();
+  public abstract @Nullable BigDecimal getQty();
+  public abstract @Nullable BigDecimal getRate();
+  public abstract @Nullable Integer getSeriesId();
+  public abstract @Nullable DateTime getToDateTime();
 
-  public Integer getSeriesId() {
-    return seriesId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_SeriesMeasure.Builder();
   }
 
-  public void setSeriesId(final Integer seriesId) {
-    this.seriesId = seriesId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
+    public abstract Builder setCost(@Nullable BigDecimal cost);
+    public abstract Builder setDuration(@Nullable Long duration);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setPeriod(@Nullable String period);
+    public abstract Builder setQty(@Nullable BigDecimal qty);
+    public abstract Builder setRate(@Nullable BigDecimal rate);
+    public abstract Builder setSeriesId(@Nullable Integer seriesId);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
 
-  public void setFromDateTime(final DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setToDateTime(final DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  public BigDecimal getRate() {
-    return rate;
-  }
-
-  public void setRate(final BigDecimal rate) {
-    this.rate = rate;
-  }
-
-  public BigDecimal getQty() {
-    return qty;
-  }
-
-  public void setQty(final BigDecimal qty) {
-    this.qty = qty;
-  }
-
-  public BigDecimal getCost() {
-    return cost;
-  }
-
-  public void setCost(final BigDecimal cost) {
-    this.cost = cost;
-  }
-
-  public final String getPeriod() {
-    return period;
-  }
-
-  public final void setPeriod(final String period) {
-    this.period = period;
-  }
-
-  public Long getDuration() {
-    return duration;
-  }
-
-  public void setDuration(final Long duration) {
-    this.duration = duration;
+    public abstract SeriesMeasure build();
   }
 }

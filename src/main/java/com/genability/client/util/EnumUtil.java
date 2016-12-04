@@ -25,7 +25,7 @@ public class EnumUtil {
   }
 
   public static <E extends Enum<E>> String enumListString(Iterable<E> list) {
-    if (list == null) {
+    if (list == null || !list.iterator().hasNext()) {
       return null;
     }
     

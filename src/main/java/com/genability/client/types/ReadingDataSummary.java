@@ -1,60 +1,36 @@
 package com.genability.client.types;
 
-import java.io.Serializable;
+import javax.annotation.Nullable;
 
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
+@AutoValue
+@JsonDeserialize(builder = AutoValue_ReadingDataSummary.Builder.class)
+public abstract class ReadingDataSummary {
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ReadingDataSummary implements Serializable {
-  private static final long serialVersionUID = 1L;
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable Integer getNumberOfReadings();
+  public abstract @Nullable String getQuantityUnit();
+  public abstract @Nullable DateTime getToDateTime();
 
-  private String quantityUnit;
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-  private Integer numberOfReadings;
-
-  public ReadingDataSummary() {
-
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_ReadingDataSummary.Builder();
   }
 
-  public String getQuantityUnit() {
-    return quantityUnit;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public void setQuantityUnit(String quantityUnit) {
-    this.quantityUnit = quantityUnit;
-  }
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setNumberOfReadings(@Nullable Integer numberOfReadings);
+    public abstract Builder setQuantityUnit(@Nullable String quantityUnit);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
 
-  @JsonIgnore
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  @JsonIgnore
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  public Integer getNumberOfReadings() {
-    return numberOfReadings;
-  }
-
-  public void setNumberOfReadings(Integer numberOfReadings) {
-    this.numberOfReadings = numberOfReadings;
+    public abstract ReadingDataSummary build();
   }
 }

@@ -46,6 +46,7 @@ import com.genability.client.types.SeasonGroup;
 import com.genability.client.types.Series;
 import com.genability.client.types.SeriesMeasure;
 import com.genability.client.types.Source;
+import com.genability.client.types.TariffProperty;
 import com.genability.client.types.TariffRateChangePeriod;
 import com.genability.client.types.Territory;
 import com.genability.client.types.TerritoryItem;
@@ -71,7 +72,7 @@ public class TypeGenerator {
       .build();
   
   private static final ImmutableList<Class<?>> CLASSES = ImmutableList.of(
-    Account.class,
+    /*Account.class,
     AccountAnalysis.class,
     Address.class,
     Baseline.class,
@@ -112,7 +113,7 @@ public class TypeGenerator {
     TimeOfUse.class,
     TimeOfUseGroup.class,
     TimeOfUseInterval.class,
-    TimeOfUsePeriod.class);
+    TimeOfUsePeriod.class*/TariffProperty.class);
     
     
   

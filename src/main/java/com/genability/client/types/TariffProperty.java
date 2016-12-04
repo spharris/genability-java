@@ -1,277 +1,105 @@
 package com.genability.client.types;
 
-import java.util.List;
+import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TariffProperty {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-  private String keyName;
-  private String displayName;
-  private String family;
-  private String keyspace;
-  private String description;
-  private String dataType;
-  private TariffPropertyType propertyTypes;
-  private String operator;
-  private String propertyValue;
-  private String quantityUnit;
-  private String quantityKey;
-  private String minValue;
-  private String maxValue;
-  private List<Choice> choices;
-  private String period;
-  private String formulaDetail;
-  private Boolean isDefault;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_TariffProperty.Builder.class)
+public abstract class TariffProperty {
 
-  private List<PropertyLookup> lookups;
-  private Long lookbackintervalQuantity;
-  private String lookbackPeriod;
-  private Long lookbackQuantity;
-  private Long lookbackTimeOfUseId;
-  private Long lookbackSeasonId;
+  public abstract @Nullable ImmutableList<Choice> getChoices();
+  public abstract @Nullable String getDataType();
+  public abstract @Nullable String getDescription();
+  public abstract @Nullable String getDisplayName();
+  public abstract @Nullable Long getEntityId();
+  public abstract @Nullable String getEntityName();
+  public abstract @Nullable String getEntityType();
+  public abstract @Nullable String getFamily();
+  public abstract @Nullable String getFormulaDetail();
+  public abstract @Nullable Boolean getIsDefault();
+  public abstract @Nullable String getKeyName();
+  public abstract @Nullable String getKeyspace();
+  public abstract @Nullable String getLookbackPeriod();
+  public abstract @Nullable Long getLookbackQuantity();
+  public abstract @Nullable Long getLookbackSeasonId();
+  public abstract @Nullable Long getLookbackTimeOfUseId();
+  public abstract @Nullable Long getLookbackintervalQuantity();
+  public abstract @Nullable ImmutableList<PropertyLookup> getLookups();
+  public abstract @Nullable String getMaxValue();
+  public abstract @Nullable String getMinValue();
+  public abstract @Nullable String getOperator();
+  public abstract @Nullable String getPeriod();
+  public abstract @Nullable Privacy getPrivacy();
+  public abstract @Nullable TariffPropertyType getPropertyTypes();
+  public abstract @Nullable String getPropertyValue();
+  public abstract @Nullable String getQuantityKey();
+  public abstract @Nullable String getQuantityUnit();
+  public abstract @Nullable String getResourceType();
 
-  private String resourceType;
-  private Long entityId;
-  private String entityType;
-  private String entityName;
-
-  private Privacy privacy;
-
-  public String getKeyName() {
-    return keyName;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_TariffProperty.Builder();
   }
 
-  public void setKeyName(final String keyName) {
-    this.keyName = keyName;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public String getDisplayName() {
-    return displayName;
-  }
+    public abstract Builder setDataType(@Nullable String dataType);
+    public abstract Builder setDescription(@Nullable String description);
+    public abstract Builder setDisplayName(@Nullable String displayName);
+    public abstract Builder setEntityId(@Nullable Long entityId);
+    public abstract Builder setEntityName(@Nullable String entityName);
+    public abstract Builder setEntityType(@Nullable String entityType);
+    public abstract Builder setFamily(@Nullable String family);
+    public abstract Builder setFormulaDetail(@Nullable String formulaDetail);
+    public abstract Builder setIsDefault(@Nullable Boolean isDefault);
+    public abstract Builder setKeyName(@Nullable String keyName);
+    public abstract Builder setKeyspace(@Nullable String keyspace);
+    public abstract Builder setLookbackPeriod(@Nullable String lookbackPeriod);
+    public abstract Builder setLookbackQuantity(@Nullable Long lookbackQuantity);
+    public abstract Builder setLookbackSeasonId(@Nullable Long lookbackSeasonId);
+    public abstract Builder setLookbackTimeOfUseId(@Nullable Long lookbackTimeOfUseId);
+    public abstract Builder setLookbackintervalQuantity(@Nullable Long lookbackintervalQuantity);
+    public abstract Builder setMaxValue(@Nullable String maxValue);
+    public abstract Builder setMinValue(@Nullable String minValue);
+    public abstract Builder setOperator(@Nullable String operator);
+    public abstract Builder setPeriod(@Nullable String period);
+    public abstract Builder setPrivacy(@Nullable Privacy privacy);
+    public abstract Builder setPropertyTypes(@Nullable TariffPropertyType propertyTypes);
+    public abstract Builder setPropertyValue(@Nullable String propertyValue);
+    public abstract Builder setQuantityKey(@Nullable String quantityKey);
+    public abstract Builder setQuantityUnit(@Nullable String quantityUnit);
+    public abstract Builder setResourceType(@Nullable String resourceType);
 
-  public void setDisplayName(final String displayName) {
-    this.displayName = displayName;
-  }
+    @JsonIgnore
+    public abstract Builder setChoices(@Nullable Choice... choices);
 
-  public String getFamily() {
-    return family;
-  }
+    @JsonProperty("choices")
+    public abstract Builder setChoices(@Nullable ImmutableList<Choice> choices);
 
-  public void setFamily(final String family) {
-    this.family = family;
-  }
+    @JsonIgnore
+    public abstract Builder setLookups(@Nullable PropertyLookup... lookups);
 
-  public String getKeyspace() {
-    return keyspace;
-  }
+    @JsonProperty("lookups")
+    public abstract Builder setLookups(@Nullable ImmutableList<PropertyLookup> lookups);
 
-  public void setKeyspace(final String keyspace) {
-    this.keyspace = keyspace;
-  }
+    protected abstract ImmutableList<Choice> getChoices();
+    protected abstract ImmutableList<PropertyLookup> getLookups();
+    protected abstract TariffProperty autoBuild();
 
-  public String getDescription() {
-    return description;
+    public TariffProperty build() {
+      setChoices(firstNonNull(getChoices(), ImmutableList.of()));
+      setLookups(firstNonNull(getLookups(), ImmutableList.of()));
+      return autoBuild();
+    }
   }
-
-  public void setDescription(final String description) {
-    this.description = description;
-  }
-
-  public String getDataType() {
-    return dataType;
-  }
-
-  public void setDataType(final String dataType) {
-    this.dataType = dataType;
-  }
-
-  public TariffPropertyType getPropertyTypes() {
-    return propertyTypes;
-  }
-
-  public void setPropertyTypes(final TariffPropertyType propertyTypes) {
-    this.propertyTypes = propertyTypes;
-  }
-
-  public String getOperator() {
-    return operator;
-  }
-
-  public void setOperator(final String operator) {
-    this.operator = operator;
-  }
-
-  public String getPropertyValue() {
-    return propertyValue;
-  }
-
-  public void setPropertyValue(final String propertyValue) {
-    this.propertyValue = propertyValue;
-  }
-
-  public String getQuantityUnit() {
-    return quantityUnit;
-  }
-
-  public void setQuantityUnit(final String quantityUnit) {
-    this.quantityUnit = quantityUnit;
-  }
-
-  public String getMinValue() {
-    return minValue;
-  }
-
-  public void setMinValue(final String minValue) {
-    this.minValue = minValue;
-  }
-
-  public String getMaxValue() {
-    return maxValue;
-  }
-
-  public void setMaxValue(final String maxValue) {
-    this.maxValue = maxValue;
-  }
-
-  public List<Choice> getChoices() {
-    return choices;
-  }
-
-  public void setChoices(final List<Choice> choices) {
-    this.choices = choices;
-  }
-
-  public String getPeriod() {
-    return period;
-  }
-
-  public void setPeriod(final String period) {
-    this.period = period;
-  }
-
-  public String getFormulaDetail() {
-    return formulaDetail;
-  }
-
-  public void setFormulaDetail(final String formulaDetail) {
-    this.formulaDetail = formulaDetail;
-  }
-
-  public Boolean getIsDefault() {
-    return isDefault;
-  }
-
-  public void setIsDefault(final Boolean isDefault) {
-    this.isDefault = isDefault;
-  }
-
-  public Long getLookbackIntervalQuantity() {
-    return lookbackintervalQuantity;
-  }
-
-  public void setLookbackIntervalQuantity(final Long lookbackItemQuantity) {
-    this.lookbackintervalQuantity = lookbackItemQuantity;
-  }
-
-  public String getLookbackPeriod() {
-    return lookbackPeriod;
-  }
-
-  public void setLookbackPeriod(final String lookbackPeriod) {
-    this.lookbackPeriod = lookbackPeriod;
-  }
-
-  public Long getLookbackQuantity() {
-    return lookbackQuantity;
-  }
-
-  public void setLookbackQuantity(final Long lookbackQuantity) {
-    this.lookbackQuantity = lookbackQuantity;
-  }
-
-  public Long getLookbackTimeOfUseId() {
-    return lookbackTimeOfUseId;
-  }
-
-  public void setLookbackTimeOfUseId(final Long lookbackTimeOfUseId) {
-    this.lookbackTimeOfUseId = lookbackTimeOfUseId;
-  }
-
-  public Long getLookbackSeasonId() {
-    return lookbackSeasonId;
-  }
-
-  public void setLookbackSeasonId(final Long lookbackSeasonId) {
-    this.lookbackSeasonId = lookbackSeasonId;
-  }
-
-  public String getQuantityKey() {
-    return quantityKey;
-  }
-
-  public void setQuantityKey(final String quantityKey) {
-    this.quantityKey = quantityKey;
-  }
-
-  public List<PropertyLookup> getLookups() {
-    return lookups;
-  }
-
-  public void setLookups(final List<PropertyLookup> lookups) {
-    this.lookups = lookups;
-  }
-
-  public Long getLookbackintervalQuantity() {
-    return lookbackintervalQuantity;
-  }
-
-  public void setLookbackintervalQuantity(final Long lookbackintervalQuantity) {
-    this.lookbackintervalQuantity = lookbackintervalQuantity;
-  }
-
-  public String getResourceType() {
-    return resourceType;
-  }
-
-  public void setResourceType(final String resourceType) {
-    this.resourceType = resourceType;
-  }
-
-  public Long getEntityId() {
-    return entityId;
-  }
-
-  public void setEntityId(final Long entityId) {
-    this.entityId = entityId;
-  }
-
-  public String getEntityType() {
-    return entityType;
-  }
-
-  public void setEntityType(final String entityType) {
-    this.entityType = entityType;
-  }
-
-  public String getEntityName() {
-    return entityName;
-  }
-
-  public void setEntityName(final String entityName) {
-    this.entityName = entityName;
-  }
-
-  public Privacy getPrivacy() {
-    return privacy;
-  }
-
-  public void setPrivacy(final Privacy privacy) {
-    this.privacy = privacy;
-  }
-
 }

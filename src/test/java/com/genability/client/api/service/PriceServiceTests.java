@@ -28,7 +28,6 @@ public class PriceServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", Response.STATUS_SUCCESS, restResponse.getStatus());
-    assertEquals("bad type", Price.REST_TYPE, restResponse.getType());
     assertNotNull("results null", restResponse.getResults());
 
     for (Price price : restResponse.getResults()) {

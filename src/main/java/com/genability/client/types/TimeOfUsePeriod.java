@@ -1,84 +1,42 @@
 package com.genability.client.types;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TimeOfUsePeriod {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-  private Integer touPeriodId;
-  private Integer touId;
-  private Integer fromDayOfWeek;
-  private Integer fromHour;
-  private Integer fromMinute;
-  private Integer toDayOfWeek;
-  private Integer toHour;
-  private Integer toMinute;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_TimeOfUsePeriod.Builder.class)
+public abstract class TimeOfUsePeriod {
 
-  public Integer getTouPeriodId() {
-    return touPeriodId;
+  public abstract @Nullable Integer getFromDayOfWeek();
+  public abstract @Nullable Integer getFromHour();
+  public abstract @Nullable Integer getFromMinute();
+  public abstract @Nullable Integer getToDayOfWeek();
+  public abstract @Nullable Integer getToHour();
+  public abstract @Nullable Integer getToMinute();
+  public abstract @Nullable Integer getTouId();
+  public abstract @Nullable Integer getTouPeriodId();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_TimeOfUsePeriod.Builder();
   }
 
-  public void setTouPeriodId(Integer touPeriodId) {
-    this.touPeriodId = touPeriodId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public Integer getTouId() {
-    return touId;
-  }
+    public abstract Builder setFromDayOfWeek(@Nullable Integer fromDayOfWeek);
+    public abstract Builder setFromHour(@Nullable Integer fromHour);
+    public abstract Builder setFromMinute(@Nullable Integer fromMinute);
+    public abstract Builder setToDayOfWeek(@Nullable Integer toDayOfWeek);
+    public abstract Builder setToHour(@Nullable Integer toHour);
+    public abstract Builder setToMinute(@Nullable Integer toMinute);
+    public abstract Builder setTouId(@Nullable Integer touId);
+    public abstract Builder setTouPeriodId(@Nullable Integer touPeriodId);
 
-  public void setTouId(Integer touId) {
-    this.touId = touId;
+    public abstract TimeOfUsePeriod build();
   }
-
-  public Integer getFromDayOfWeek() {
-    return fromDayOfWeek;
-  }
-
-  public void setFromDayOfWeek(Integer fromDayOfWeek) {
-    this.fromDayOfWeek = fromDayOfWeek;
-  }
-
-  public Integer getFromHour() {
-    return fromHour;
-  }
-
-  public void setFromHour(Integer fromHour) {
-    this.fromHour = fromHour;
-  }
-
-  public Integer getFromMinute() {
-    return fromMinute;
-  }
-
-  public void setFromMinute(Integer fromMinute) {
-    this.fromMinute = fromMinute;
-  }
-
-  public Integer getToDayOfWeek() {
-    return toDayOfWeek;
-  }
-
-  public void setToDayOfWeek(Integer toDayOfWeek) {
-    this.toDayOfWeek = toDayOfWeek;
-  }
-
-  public Integer getToHour() {
-    return toHour;
-  }
-
-  public void setToHour(Integer toHour) {
-    this.toHour = toHour;
-  }
-
-  public Integer getToMinute() {
-    return toMinute;
-  }
-
-  public void setToMinute(Integer toMinute) {
-    this.toMinute = toMinute;
-  }
-
 }

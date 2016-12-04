@@ -1,33 +1,42 @@
 package com.genability.client.types;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountAnalysis {
-  public static final String REST_TYPE = "AccountAnalysis";
+@AutoValue
+@JsonDeserialize(builder = AutoValue_AccountAnalysis.Builder.class)
+public abstract class AccountAnalysis {
 
-  private String designId;
-  private Integer dataStatus;
-  private List<Scenario> scenarios;
-  private List<Series> series;
-  private List<SeriesMeasure> seriesData;
-  private Map<String, BigDecimal> summary;
-  private Map<Integer, CalculatedCost> seriesCosts;
+  public abstract @Nullable Integer getDataStatus();
+  public abstract @Nullable String getDesignId();
+  public abstract @Nullable ImmutableList<Scenario> getScenarios();
+  public abstract @Nullable ImmutableList<Series> getSeries();
+  public abstract @Nullable ImmutableMap<Integer, CalculatedCost> getSeriesCosts();
+  public abstract @Nullable ImmutableList<SeriesMeasure> getSeriesData();
+  public abstract @Nullable ImmutableMap<String, BigDecimal> getSummary();
 
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_AccountAnalysis.Builder();
+  }
 
   /**
    * This allows you access to the Series that you're interested in. E.g.
    *
-   * Series monthlyPreSolarUtilitySeries = accountAnalysis.getSeriesByParameters("before", "MONTH",
-   * null); // check that monthlyPreSolarUtilitySeries != null, then proceed
+   *    Series monthlyPreSolarUtilitySeries =
+   *        accountAnalysis.getSeriesByParameters("before", "MONTH", null);
+   *    // check that monthlyPreSolarUtilitySeries != null, then proceed
    * 
    * Note that the key parameter is not used at this time.
    * 
@@ -38,16 +47,22 @@ public class AccountAnalysis {
    */
   @JsonIgnore
   public Series getSeriesByParameters(String scenario, String period, String key) {
+    if (getSeries() == null) {
+      return null;
+    }
 
-    if (this.series == null) return null;
+    if (scenario == null || period == null) {
+      return null;
+    }
 
-    if (scenario == null || period == null) return null;
+    if (key != null && key.isEmpty()) {
+      key = null;
+    }
 
-    if (key != null && key.isEmpty()) key = null;
-
-    for (Series s : this.series) {
-      if (s.getScenario().equalsIgnoreCase(scenario) && s.getSeriesPeriod().equalsIgnoreCase(period)
-          && ((key == null && s.getKey() == null)
+    for (Series s : getSeries()) {
+      if (s.getScenario().equalsIgnoreCase(scenario)
+          && s.getSeriesPeriod().equalsIgnoreCase(period)
+          && ((key == null && s.getKey() == null) 
               || (key != null && key.equalsIgnoreCase(s.getKey()))))
         return s;
     }
@@ -58,110 +73,100 @@ public class AccountAnalysis {
   /**
    * This allows you access to the SeriesData that you're interested in. E.g.
    *
-   * Series monthlyPreSolarUtilitySeries = accountAnalysis.getSeriesByParameters("before", "MONTH",
-   * null); if (monthlyPreSolarUtilitySeries == null) throw SomeException();
+   *    Series monthlyPreSolarUtilitySeries =
+   *        accountAnalysis.getSeriesByParameters("before", "MONTH", null);
+   *    if (monthlyPreSolarUtilitySeries == null) throw SomeException();
    *
-   * Integer seriesId = monthlyPreSolarUtilitySeries.getSeriesId(); List&lt;SeriesMeasure&gt;
-   * monthlyPreSolarUtilitySeriesData = accountAnalysis.getSeriesDataBySeriesId(seriesId); // check
-   * that monthlyPreSolarUtilitySeriesData != null, then proceed
-   * 
+   *    Integer seriesId = monthlyPreSolarUtilitySeries.getSeriesId();
+   *    List&lt;SeriesMeasure&gt; monthlyPreSolarUtilitySeriesData =
+   *        accountAnalysis.getSeriesDataBySeriesId(seriesId);
+   *    // check that monthlyPreSolarUtilitySeriesData != null, then proceed
+   *    
    * @param seriesId The seriesId.
    * @return The return value.
    */
   @JsonIgnore
-  public List<SeriesMeasure> getSeriesDataBySeriesId(Integer seriesId) {
+  public ImmutableList<SeriesMeasure> getSeriesDataBySeriesId(Integer seriesId) {
+    if (getSeriesData() == null) {
+      return null;
+    }
 
-    if (this.seriesData == null) return null;
-
-    List<SeriesMeasure> filteredSeriesData = new ArrayList<SeriesMeasure>();
-
-    for (SeriesMeasure sm : this.seriesData) {
+    ImmutableList.Builder<SeriesMeasure> filteredSeriesData = ImmutableList.builder();
+    for (SeriesMeasure sm : getSeriesData()) {
       if (seriesId.equals(sm.getSeriesId())) {
         filteredSeriesData.add(sm);
       }
     }
 
-    return filteredSeriesData;
+    return filteredSeriesData.build();
   }
 
   @JsonIgnore
   public CalculatedCost getSeriesCostsByParameters(String scenario, String period, String key) {
-    if (seriesCosts == null) {
+    if (getSeriesCosts() == null) {
       return null;
     }
 
     Series s = getSeriesByParameters(scenario, period, key);
-
     if (s == null) {
       return null;
     }
 
-    return seriesCosts.get(s.getSeriesId());
+    return getSeriesCosts().get(s.getSeriesId());
   }
 
   @JsonIgnore
   public CalculatedCost getSeriesCostsBySeriesId(int seriesId) {
-    if (seriesCosts == null) {
+    if (getSeriesCosts() == null) {
       // if the populateCosts parameter wasn't populated
       return null;
     } else {
-      return seriesCosts.get(seriesId);
+      return getSeriesCosts().get(seriesId);
     }
   }
+  
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public String getDesignId() {
-    return designId;
-  }
+    public abstract Builder setDataStatus(@Nullable Integer dataStatus);
+    public abstract Builder setDesignId(@Nullable String designId);
+    public abstract Builder setSeriesCosts(
+        @Nullable ImmutableMap<Integer, CalculatedCost> seriesCosts);
+    public abstract Builder setSummary(@Nullable ImmutableMap<String, BigDecimal> summary);
 
-  public void setDesignId(String designId) {
-    this.designId = designId;
-  }
+    @JsonIgnore
+    public abstract Builder setScenarios(@Nullable Scenario... scenarios);
 
-  public Integer getDataStatus() {
-    return dataStatus;
-  }
+    @JsonProperty("scenarios")
+    public abstract Builder setScenarios(@Nullable ImmutableList<Scenario> scenarios);
 
-  public void setDataStatus(Integer dataStatus) {
-    this.dataStatus = dataStatus;
-  }
+    @JsonIgnore
+    public abstract Builder setSeries(@Nullable Series... series);
 
-  public List<Scenario> getScenarios() {
-    return scenarios;
-  }
+    @JsonProperty("series")
+    public abstract Builder setSeries(@Nullable ImmutableList<Series> series);
 
-  public void setScenarios(List<Scenario> scenarios) {
-    this.scenarios = scenarios;
-  }
+    @JsonIgnore
+    public abstract Builder setSeriesData(@Nullable SeriesMeasure... seriesData);
 
-  public List<Series> getSeries() {
-    return series;
-  }
+    @JsonProperty("seriesData")
+    public abstract Builder setSeriesData(@Nullable ImmutableList<SeriesMeasure> seriesData);
 
-  public void setSeries(List<Series> series) {
-    this.series = series;
-  }
+    protected abstract ImmutableList<Scenario> getScenarios();
+    protected abstract ImmutableList<Series> getSeries();
+    protected abstract ImmutableMap<Integer, CalculatedCost> getSeriesCosts();
+    protected abstract ImmutableList<SeriesMeasure> getSeriesData();
+    protected abstract ImmutableMap<String, BigDecimal> getSummary();
+    protected abstract AccountAnalysis autoBuild();
 
-  public List<SeriesMeasure> getSeriesData() {
-    return seriesData;
-  }
-
-  public void setSeriesData(List<SeriesMeasure> seriesData) {
-    this.seriesData = seriesData;
-  }
-
-  public Map<String, BigDecimal> getSummary() {
-    return summary;
-  }
-
-  public void setSummary(Map<String, BigDecimal> summary) {
-    this.summary = summary;
-  }
-
-  public Map<Integer, CalculatedCost> getSeriesCosts() {
-    return seriesCosts;
-  }
-
-  public void setSeriesCosts(Map<Integer, CalculatedCost> seriesCosts) {
-    this.seriesCosts = seriesCosts;
+    public AccountAnalysis build() {
+      setScenarios(firstNonNull(getScenarios(), ImmutableList.of()));
+      setSeries(firstNonNull(getSeries(), ImmutableList.of()));
+      setSeriesCosts(firstNonNull(getSeriesCosts(), ImmutableMap.of()));
+      setSeriesData(firstNonNull(getSeriesData(), ImmutableList.of()));
+      setSummary(firstNonNull(getSummary(), ImmutableMap.of()));
+      return autoBuild();
+    }
   }
 }

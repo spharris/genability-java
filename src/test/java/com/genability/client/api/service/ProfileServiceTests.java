@@ -13,6 +13,8 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.DeleteProfileRequest;
 import com.genability.client.api.request.GetProfileRequest;
@@ -25,7 +27,9 @@ import com.genability.client.types.GroupBy;
 import com.genability.client.types.Profile;
 import com.genability.client.types.ReadingData;
 import com.genability.client.types.Response;
+import com.genability.client.types.Source;
 
+@RunWith(JUnit4.class)
 public class ProfileServiceTests extends BaseServiceTests {
 
   private static ProfileService profileService = genabilityClient.getProfileService();
@@ -62,12 +66,14 @@ public class ProfileServiceTests extends BaseServiceTests {
     Account account = createAccount();
     try {
       Baseline solarBaseline = getSolarBaselineFor92704();
-      Profile theProfile = new Profile();
-
-      theProfile.setAccountId(account.getAccountId());
-      theProfile.setBaselineMeasures(solarBaseline.getMeasuresList());
-      theProfile.setServiceTypes("SOLAR_PV");
-      theProfile.setSourceString("BaselineModel");
+      Profile theProfile = Profile.builder()
+          .setAccountId(account.getAccountId())
+          .setBaselineMeasures(solarBaseline.getMeasures())
+          .setServiceTypes("SOLAR_PV")
+          .setSource(Source.builder()
+            .setSourceId("BaselineModel")
+            .build())
+          .build();
 
       Response<Profile> response = profileService.addProfile(theProfile);
       Profile returnedProfile = response.getResults().get(0);
@@ -90,12 +96,14 @@ public class ProfileServiceTests extends BaseServiceTests {
     Account account = createAccount();
     try {
       Baseline solarBaseline = getSolarBaselineFor92704();
-      Profile theProfile = new Profile();
-
-      theProfile.setAccountId(account.getAccountId());
-      theProfile.setBaselineMeasures(solarBaseline.getMeasuresList());
-      theProfile.setSourceString("BaselineModel");
-      theProfile.setServiceTypes("SOLAR_PV");
+      Profile theProfile = Profile.builder()
+          .setAccountId(account.getAccountId())
+          .setBaselineMeasures(solarBaseline.getMeasures())
+          .setServiceTypes("SOLAR_PV")
+          .setSource(Source.builder()
+            .setSourceId("BaselineModel")
+            .build())
+          .build();
 
       Response<Profile> addProfileResponse = profileService.addProfile(theProfile);
       Profile addedProfile = addProfileResponse.getResults().get(0);
@@ -120,13 +128,13 @@ public class ProfileServiceTests extends BaseServiceTests {
   public void testAddProfile() {
 
     Account account = createAccount();
-    Profile profile = new Profile();
-    profile.setAccountId(account.getAccountId());
+    Profile profile = Profile.builder()
+        .setAccountId(account.getAccountId())
+        .build();
     Response<Profile> newProfile = profileService.addProfile(profile);
 
     assertNotNull("new Profile is null", newProfile);
     assertEquals("bad status", newProfile.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", newProfile.getType(), Profile.REST_TYPE);
     assertTrue("bad count", newProfile.getCount() > 0);
 
     cleanup(account.getAccountId());
@@ -166,13 +174,13 @@ public class ProfileServiceTests extends BaseServiceTests {
   public void testAddUpdateReadings() {
 
     Account account = createAccount();
-    Profile profile = new Profile();
-    profile.setAccountId(account.getAccountId());
+    Profile profile = Profile.builder()
+        .setAccountId(account.getAccountId())
+        .build();
     Response<Profile> results = profileService.addProfile(profile);
 
     assertNotNull("new Profile is null", results);
     assertEquals("bad status", results.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", results.getType(), Profile.REST_TYPE);
     assertTrue("bad count", results.getCount() > 0);
 
     profile = results.getResults().get(0);
@@ -180,22 +188,24 @@ public class ProfileServiceTests extends BaseServiceTests {
     List<ReadingData> readings = new ArrayList<ReadingData>();
 
     // add two months of readings
-    ReadingData readingData1 = new ReadingData();
-    readingData1.setQuantityUnit("kWh");
     DateTime fromDateTime1 = new DateTime(2014, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime1 = new DateTime(2014, 2, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    readingData1.setFromDateTime(fromDateTime1);
-    readingData1.setToDateTime(toDateTime1);
-    readingData1.setQuantityValue(new BigDecimal("1000"));
+    ReadingData readingData1 = ReadingData.builder()
+        .setQuantityUnit("kWh")
+        .setFromDateTime(fromDateTime1)
+        .setToDateTime(toDateTime1)
+        .setQuantityValue(new BigDecimal("1000"))
+        .build();
     readings.add(readingData1);
 
-    ReadingData readingData2 = new ReadingData();
-    readingData2.setQuantityUnit("kWh");
     DateTime fromDateTime2 = new DateTime(2014, 2, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime2 = new DateTime(2014, 3, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    readingData2.setFromDateTime(fromDateTime2);
-    readingData2.setToDateTime(toDateTime2);
-    readingData2.setQuantityValue(new BigDecimal("900"));
+    ReadingData readingData2 = ReadingData.builder()
+        .setQuantityUnit("kWh")
+        .setFromDateTime(fromDateTime2)
+        .setToDateTime(toDateTime2)
+        .setQuantityValue(new BigDecimal("900"))
+        .build();
     readings.add(readingData2);
 
     ReadingDataRequest request = new ReadingDataRequest();
@@ -206,7 +216,6 @@ public class ProfileServiceTests extends BaseServiceTests {
     Response<ReadingData> addReadingResults = profileService.addReadings(request);
     assertNotNull("new Profile is null", addReadingResults);
     assertEquals("bad status", addReadingResults.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", addReadingResults.getType(), ReadingData.REST_TYPE);
     assertTrue("bad count", addReadingResults.getCount() < 2);
 
     // getProfile with readings / ensure readings are there
@@ -223,13 +232,13 @@ public class ProfileServiceTests extends BaseServiceTests {
   public void testGetProfileGroupedByHour() {
 
     Account account = createAccount();
-    Profile profile = new Profile();
-    profile.setAccountId(account.getAccountId());
+    Profile profile = Profile.builder()
+        .setAccountId(account.getAccountId())
+        .build();
     Response<Profile> results = profileService.addProfile(profile);
 
     assertNotNull("new Profile is null", results);
     assertEquals("bad status", results.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", results.getType(), Profile.REST_TYPE);
     assertTrue("bad count", results.getCount() > 0);
 
     profile = results.getResults().get(0);
@@ -237,16 +246,18 @@ public class ProfileServiceTests extends BaseServiceTests {
     List<ReadingData> readings = new ArrayList<ReadingData>();
 
     // Create one year of readings
-    ReadingData readingData1 = new ReadingData();
-    readingData1.setQuantityUnit("kWh");
     DateTime fromDateTime1 =
         new DateTime(2014, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles"));
     DateTime toDateTime1 =
         new DateTime(2015, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles"));
-    readingData1.setFromDateTime(fromDateTime1);
-    readingData1.setToDateTime(toDateTime1);
-    readingData1.setQuantityValue(new BigDecimal("3650"));
+    ReadingData readingData1 = ReadingData.builder()
+        .setQuantityUnit("kWh")
+        .setFromDateTime(fromDateTime1)
+        .setToDateTime(toDateTime1)
+        .setQuantityValue(new BigDecimal("3650"))
+        .build();
     readings.add(readingData1);
+    
 
 
 
@@ -258,7 +269,6 @@ public class ProfileServiceTests extends BaseServiceTests {
     Response<ReadingData> addReadingResults = profileService.addReadings(request);
     assertNotNull("new Profile is null", addReadingResults);
     assertEquals("bad status", addReadingResults.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", addReadingResults.getType(), ReadingData.REST_TYPE);
     assertTrue("bad count", addReadingResults.getCount() < 2);
 
     // getProfile by date range
@@ -287,13 +297,13 @@ public class ProfileServiceTests extends BaseServiceTests {
   public void testAddUpdateReadingsDST() {
 
     Account account = createAccount();
-    Profile profile = new Profile();
-    profile.setAccountId(account.getAccountId());
+    Profile profile = Profile.builder()
+        .setAccountId(account.getAccountId())
+        .build();
     Response<Profile> results = profileService.addProfile(profile);
 
     assertNotNull("new Profile is null", results);
     assertEquals("bad status", results.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", results.getType(), Profile.REST_TYPE);
     assertTrue("bad count", results.getCount() > 0);
 
     profile = results.getResults().get(0);
@@ -301,13 +311,15 @@ public class ProfileServiceTests extends BaseServiceTests {
     List<ReadingData> readings = new ArrayList<ReadingData>();
 
     // add two months of readings
-    ReadingData readingData1 = new ReadingData();
-    readingData1.setQuantityUnit("kWh");
     DateTime fromDateTime1 = new DateTime(2014, 6, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime1 = new DateTime(2014, 7, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    readingData1.setFromDateTime(fromDateTime1);
-    readingData1.setToDateTime(toDateTime1);
-    readingData1.setQuantityValue(new BigDecimal("1000"));
+
+    ReadingData readingData1 = ReadingData.builder()
+        .setQuantityUnit("kWh")
+        .setFromDateTime(fromDateTime1)
+        .setToDateTime(toDateTime1)
+        .setQuantityValue(new BigDecimal("1000"))
+        .build();
     readings.add(readingData1);
 
     ReadingDataRequest request = new ReadingDataRequest();
@@ -318,7 +330,6 @@ public class ProfileServiceTests extends BaseServiceTests {
     Response<ReadingData> addReadingResults = profileService.addReadings(request);
     assertNotNull("new Profile is null", addReadingResults);
     assertEquals("bad status", addReadingResults.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", addReadingResults.getType(), ReadingData.REST_TYPE);
     assertTrue("bad count", addReadingResults.getCount() != 1);
 
     //
@@ -343,13 +354,13 @@ public class ProfileServiceTests extends BaseServiceTests {
   public void testAddReadingsDSTRunCalc() {
 
     Account account = createAccount();
-    Profile profile = new Profile();
-    profile.setAccountId(account.getAccountId());
+    Profile profile = Profile.builder()
+        .setAccountId(account.getAccountId())
+        .build();
     Response<Profile> results = profileService.addProfile(profile);
 
     assertNotNull("new Profile is null", results);
     assertEquals("bad status", results.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", results.getType(), Profile.REST_TYPE);
     assertTrue("bad count", results.getCount() > 0);
 
     profile = results.getResults().get(0);
@@ -357,31 +368,34 @@ public class ProfileServiceTests extends BaseServiceTests {
     List<ReadingData> readings = new ArrayList<ReadingData>();
 
     // add two months of readings
-    ReadingData readingData1 = new ReadingData();
-    readingData1.setQuantityUnit("kWh");
-    readingData1.setFromDateTime(
-        new DateTime(2013, 5, 29, 10, 45, 0, 0, DateTimeZone.forID("America/New_York")));
-    readingData1.setToDateTime(
-        new DateTime(2013, 5, 29, 10, 50, 0, 0, DateTimeZone.forID("America/New_York")));
-    readingData1.setQuantityValue(new BigDecimal("30.1"));
+    ReadingData readingData1 = ReadingData.builder()
+        .setQuantityUnit("kWh")
+        .setFromDateTime(
+          new DateTime(2013, 5, 29, 10, 45, 0, 0, DateTimeZone.forID("America/New_York")))
+        .setToDateTime(
+          new DateTime(2013, 5, 29, 10, 50, 0, 0, DateTimeZone.forID("America/New_York")))
+        .setQuantityValue(new BigDecimal("30.1"))
+        .build();
     readings.add(readingData1);
 
-    ReadingData readingData2 = new ReadingData();
-    readingData2.setQuantityUnit("kWh");
-    readingData2.setFromDateTime(
-        new DateTime(2013, 5, 29, 10, 50, 0, 0, DateTimeZone.forID("America/New_York")));
-    readingData2.setToDateTime(
-        new DateTime(2013, 5, 29, 10, 55, 0, 0, DateTimeZone.forID("America/New_York")));
-    readingData2.setQuantityValue(new BigDecimal("30.2"));
+    ReadingData readingData2 = ReadingData.builder()
+        .setQuantityUnit("kWh")
+        .setFromDateTime(
+          new DateTime(2013, 5, 29, 10, 50, 0, 0, DateTimeZone.forID("America/New_York")))
+        .setToDateTime(
+          new DateTime(2013, 5, 29, 10, 55, 0, 0, DateTimeZone.forID("America/New_York")))
+        .setQuantityValue(new BigDecimal("30.2"))
+        .build();
     readings.add(readingData2);
 
-    ReadingData readingData3 = new ReadingData();
-    readingData3.setQuantityUnit("kWh");
-    readingData3.setFromDateTime(
-        new DateTime(2013, 5, 29, 10, 55, 0, 0, DateTimeZone.forID("America/New_York")));
-    readingData3.setToDateTime(
-        new DateTime(2013, 5, 29, 11, 00, 0, 0, DateTimeZone.forID("America/New_York")));
-    readingData3.setQuantityValue(new BigDecimal("30.3"));
+    ReadingData readingData3 = ReadingData.builder()
+        .setQuantityUnit("kWh")
+        .setFromDateTime(
+          new DateTime(2013, 5, 29, 10, 55, 0, 0, DateTimeZone.forID("America/New_York")))
+        .setToDateTime(
+          new DateTime(2013, 5, 29, 11, 00, 0, 0, DateTimeZone.forID("America/New_York")))
+        .setQuantityValue(new BigDecimal("30.3"))
+        .build();
     readings.add(readingData3);
 
     ReadingDataRequest request = new ReadingDataRequest();
@@ -392,7 +406,6 @@ public class ProfileServiceTests extends BaseServiceTests {
     Response<ReadingData> addReadingResults = profileService.addReadings(request);
     assertNotNull("new Profile is null", addReadingResults);
     assertEquals("bad status", addReadingResults.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", addReadingResults.getType(), ReadingData.REST_TYPE);
     assertTrue("bad count", addReadingResults.getCount() != 1);
 
     //
@@ -424,18 +437,15 @@ public class ProfileServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Profile.REST_TYPE);
     assertTrue("bad count", restResponse.getCount() == 0);
     assertNull("shouldn't have results", restResponse.getResults());
   }
 
   public Profile callGetProfile(String testCase, GetProfileRequest request) {
-
     Response<Profile> restResponse = profileService.getProfile(request);
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Profile.REST_TYPE);
     assertTrue("bad count", restResponse.getCount() > 0);
 
     Profile profile = restResponse.getResults().get(0);
@@ -444,15 +454,9 @@ public class ProfileServiceTests extends BaseServiceTests {
   }
 
   public void callGetProfiles(String testCase, GetProfilesRequest request) {
-
     Response<Profile> restResponse = profileService.getProfiles(request);
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Profile.REST_TYPE);
-
   }
-
-
-
 }

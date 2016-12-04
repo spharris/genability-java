@@ -1,11 +1,24 @@
 package com.genability.client.types;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TerritoryItem {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_TerritoryItem.Builder.class)
+public abstract class TerritoryItem {
 
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_TerritoryItem.Builder();
+  }
+
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
+
+
+    public abstract TerritoryItem build();
+  }
 }

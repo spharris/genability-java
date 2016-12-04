@@ -1,155 +1,74 @@
 package com.genability.client.types;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class CalculatedCost {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_CalculatedCost.Builder.class)
+public abstract class CalculatedCost {
 
-  public static final String REST_TYPE = "CalculatedCost";
+  public abstract @Nullable BigDecimal getAccuracy();
+  public abstract @Nullable ImmutableList<PropertyData> getAssumptions();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ImmutableList<CalculatedCostItem> getItems();
+  public abstract @Nullable Long getMasterTariffId();
+  public abstract @Nullable ImmutableMap<String, Object> getSummary();
+  public abstract @Nullable String getTariffName();
+  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable BigDecimal getTotalCost();
 
-  private Long masterTariffId;
-
-  private String tariffName;
-
-  private DateTime fromDateTime;
-
-  private DateTime toDateTime;
-
-  private BigDecimal totalCost;
-
-  private BigDecimal accuracy;
-
-  private List<CalculatedCostItem> items;
-
-  private List<PropertyData> assumptions;
-
-  private Map<String, Object> summary;
-
-  public Long getMasterTariffId() {
-    return masterTariffId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_CalculatedCost.Builder();
   }
 
-  public void setMasterTariffId(Long masterTariffId) {
-    this.masterTariffId = masterTariffId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public void setTariffName(String tariffName) {
-    this.tariffName = tariffName;
-  }
+    public abstract Builder setAccuracy(@Nullable BigDecimal accuracy);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
+    public abstract Builder setSummary(@Nullable ImmutableMap<String, Object> summary);
+    public abstract Builder setTariffName(@Nullable String tariffName);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setTotalCost(@Nullable BigDecimal totalCost);
 
-  public String getTariffName() {
-    return tariffName;
-  }
+    @JsonIgnore
+    public abstract Builder setAssumptions(@Nullable PropertyData... assumptions);
 
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
+    @JsonProperty("assumptions")
+    public abstract Builder setAssumptions(@Nullable ImmutableList<PropertyData> assumptions);
 
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
+    @JsonIgnore
+    public abstract Builder setItems(@Nullable CalculatedCostItem... items);
 
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
+    @JsonProperty("items")
+    public abstract Builder setItems(@Nullable ImmutableList<CalculatedCostItem> items);
 
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
+    protected abstract ImmutableList<PropertyData> getAssumptions();
+    protected abstract ImmutableList<CalculatedCostItem> getItems();
+    protected abstract ImmutableMap<String, Object> getSummary();
+    protected abstract CalculatedCost autoBuild();
 
-  public BigDecimal getTotalCost() {
-    return totalCost;
-  }
-
-  public void setTotalCost(BigDecimal totalCost) {
-    this.totalCost = totalCost;
-  }
-
-  /**
-   * The summary property of a calculated cost contains a summary of the calculation. This object
-   * can have up to three parts:
-   * 
-   * <ol>
-   * <li>Top level values: <code>totalCost</code>, <code>kWh</code>, and <code>kW</code>, all of
-   * which are of type BigDecimal.</li>
-   * <li>A map of values relating to the <code>ELECTRICITY</code> service type: <code>kWh</code>,
-   * and <code>kW</code></li>
-   * <li>A map of values relating to the <code>SOLAR_PV</code> service type: <code>kWh</code>,
-   * <code>kW</code>, and <code>systemSize</code></li>
-   * </ol>
-   * 
-   * Each value must be cast from type {@link java.lang.Object} to its appropriate type. An example
-   * of the summary is:
-   * 
-   * <pre>
-   * "summary": {
-   *  "ELECTRICITY": {
-   *    "kWh": 16189,
-   *    "kW": 3.74
-   *  },
-   *  "SOLAR_PV": {
-   *    "kWh": 3966.46,
-   *    "kW": 0,
-   *    "systemSize": 2.65
-   *  },
-   *  "totalCost": 3534.24,
-   *  "kWh": 12222.54,
-   *  "kW": 1.92
-   * }
-   * </pre>
-   */
-  public Map<String, Object> getSummary() {
-    return summary;
-  }
-
-  public void setSummary(Map<String, Object> summary) {
-    this.summary = summary;
-  }
-
-  public BigDecimal getAccuracy() {
-    return accuracy;
-  }
-
-  public void setAccuracy(BigDecimal accuracy) {
-    this.accuracy = accuracy;
-  }
-
-  /*
-   * Use getItems() instead.
-   */
-  @Deprecated
-  public List<CalculatedCostItem> getCalculatedCostItems() {
-    return getItems();
-  }
-
-  public List<CalculatedCostItem> getItems() {
-    return items;
-  }
-
-  public void setItems(List<CalculatedCostItem> items) {
-    this.items = items;
-  }
-
-  /**
-   * This is not currently used but is included for mapping to work.
-   * 
-   * @return The return value.
-   */
-  @JsonInclude(Include.NON_NULL)
-  public List<PropertyData> getAssumptions() {
-    return assumptions;
-  }
-
-  public void setAssumptions(List<PropertyData> assumptions) {
-    this.assumptions = assumptions;
+    public CalculatedCost build() {
+      setAssumptions(firstNonNull(getAssumptions(), ImmutableList.of()));
+      setItems(firstNonNull(getItems(), ImmutableList.of()));
+      setSummary(firstNonNull(getSummary(), ImmutableMap.of()));
+      return autoBuild();
+    }
   }
 }

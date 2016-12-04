@@ -37,7 +37,6 @@ public class CalendarServiceTests extends BaseServiceTests {
     //
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Calendar.REST_TYPE);
 
   }
 
@@ -60,7 +59,6 @@ public class CalendarServiceTests extends BaseServiceTests {
     //
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Calendar.REST_TYPE);
 
   }
 
@@ -83,7 +81,6 @@ public class CalendarServiceTests extends BaseServiceTests {
     //
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), CalendarEventDate.REST_TYPE);
 
   }
 }

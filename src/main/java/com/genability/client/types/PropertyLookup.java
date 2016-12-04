@@ -2,144 +2,57 @@ package com.genability.client.types;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)
-public class PropertyLookup {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_PropertyLookup.Builder.class)
+public abstract class PropertyLookup {
 
-	public static final String REST_TYPE = "PropertyLookup";
-	
-	private Long lookupId;
-	private String propertyKey;
-	private String subPropertyKey;
-	private LocalDateTime fromDateTime;
-	private LocalDateTime forecastDateTime;
-	private LocalDateTime toDateTime;
-	private BigDecimal value;
-	private BigDecimal bestValue;
-	private BigDecimal bestAccuracy;
-	private BigDecimal actualValue;
-	private BigDecimal lseForecastValue;
-	private BigDecimal lseForecastAccuracy;
-	private BigDecimal forecastValue;
-	private BigDecimal forecastAccuracy;
+  public abstract @Nullable BigDecimal getActualValue();
+  public abstract @Nullable BigDecimal getBestAccuracy();
+  public abstract @Nullable BigDecimal getBestValue();
+  public abstract @Nullable BigDecimal getForecastAccuracy();
+  public abstract @Nullable LocalDateTime getForecastDateTime();
+  public abstract @Nullable BigDecimal getForecastValue();
+  public abstract @Nullable LocalDateTime getFromDateTime();
+  public abstract @Nullable Long getLookupId();
+  public abstract @Nullable BigDecimal getLseForecastAccuracy();
+  public abstract @Nullable BigDecimal getLseForecastValue();
+  public abstract @Nullable String getPropertyKey();
+  public abstract @Nullable String getSubPropertyKey();
+  public abstract @Nullable LocalDateTime getToDateTime();
+  public abstract @Nullable BigDecimal getValue();
 
-	public Long getLookupId() {
-		return lookupId;
-	}
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_PropertyLookup.Builder();
+  }
 
-	public void setLookupId(Long lookupId) {
-		this.lookupId = lookupId;
-	}
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-	public String getPropertyKey() {
-		return propertyKey;
-	}
+    public abstract Builder setActualValue(@Nullable BigDecimal actualValue);
+    public abstract Builder setBestAccuracy(@Nullable BigDecimal bestAccuracy);
+    public abstract Builder setBestValue(@Nullable BigDecimal bestValue);
+    public abstract Builder setForecastAccuracy(@Nullable BigDecimal forecastAccuracy);
+    public abstract Builder setForecastDateTime(@Nullable LocalDateTime forecastDateTime);
+    public abstract Builder setForecastValue(@Nullable BigDecimal forecastValue);
+    public abstract Builder setFromDateTime(@Nullable LocalDateTime fromDateTime);
+    public abstract Builder setLookupId(@Nullable Long lookupId);
+    public abstract Builder setLseForecastAccuracy(@Nullable BigDecimal lseForecastAccuracy);
+    public abstract Builder setLseForecastValue(@Nullable BigDecimal lseForecastValue);
+    public abstract Builder setPropertyKey(@Nullable String propertyKey);
+    public abstract Builder setSubPropertyKey(@Nullable String subPropertyKey);
+    public abstract Builder setToDateTime(@Nullable LocalDateTime toDateTime);
+    public abstract Builder setValue(@Nullable BigDecimal value);
 
-	public void setPropertyKey(String propertyKey) {
-		this.propertyKey = propertyKey;
-	}
-
-	public String getSubPropertyKey() {
-		return subPropertyKey;
-	}
-
-	public void setSubPropertyKey(String subPropertyKey) {
-		this.subPropertyKey = subPropertyKey;
-	}
-
-	public LocalDateTime getFromDateTime() {
-		return fromDateTime;
-	}
-
-	public void setFromDateTime(LocalDateTime fromDateTime) {
-		this.fromDateTime = fromDateTime;
-	}
-
-	public LocalDateTime getForecastDateTime() {
-		return forecastDateTime;
-	}
-
-	public void setForecastDateTime(LocalDateTime forecastDateTime) {
-		this.forecastDateTime = forecastDateTime;
-	}
-
-	public LocalDateTime getToDateTime() {
-		return toDateTime;
-	}
-
-	public void setToDateTime(LocalDateTime toDateTime) {
-		this.toDateTime = toDateTime;
-	}
-
-	public BigDecimal getValue() {
-		return value;
-	}
-
-	public void setValue(BigDecimal value) {
-		this.value = value;
-	}
-
-	public BigDecimal getLseForecastValue() {
-		return lseForecastValue;
-	}
-
-	public void setLseForecastValue(BigDecimal lseForecastValue) {
-		this.lseForecastValue = lseForecastValue;
-	}
-
-	public BigDecimal getLseForecastAccuracy() {
-		return lseForecastAccuracy;
-	}
-
-	public void setLseForecastAccuracy(BigDecimal lseForecastAccuracy) {
-		this.lseForecastAccuracy = lseForecastAccuracy;
-	}
-
-	public BigDecimal getForecastValue() {
-		return forecastValue;
-	}
-
-	public void setForecastValue(BigDecimal forecastValue) {
-		this.forecastValue = forecastValue;
-	}
-
-	public BigDecimal getForecastAccuracy() {
-		return forecastAccuracy;
-	}
-
-	public void setForecastAccuracy(BigDecimal forecastAccuracy) {
-		this.forecastAccuracy = forecastAccuracy;
-	}
-
-	public BigDecimal getBestValue() {
-		return bestValue;
-	}
-
-	public void setBestValue(BigDecimal bestValue) {
-		this.bestValue = bestValue;
-	}
-
-	public BigDecimal getBestAccuracy() {
-		return bestAccuracy;
-	}
-
-	public void setBestAccuracy(BigDecimal bestAccuracy) {
-		this.bestAccuracy = bestAccuracy;
-	}
-
-	public BigDecimal getActualValue() {
-		return actualValue;
-	}
-
-	public void setActualValue(BigDecimal actualValue) {
-		this.actualValue = actualValue;
-	}
-
-
+    public abstract PropertyLookup build();
+  }
 }

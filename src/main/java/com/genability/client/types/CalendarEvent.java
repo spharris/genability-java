@@ -1,170 +1,52 @@
 package com.genability.client.types;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)
-public class CalendarEvent {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_CalendarEvent.Builder.class)
+public abstract class CalendarEvent {
 
-  /**
-   * private member variable for CalendarEventId.
-   */
-  private Long calendarEventId;
+  public abstract @Nullable Integer getAdjustment();
+  public abstract @Nullable Long getCalendarEventId();
+  public abstract @Nullable String getCalendarEventName();
+  public abstract @Nullable CalendarEventType getCalendarEventType();
+  public abstract @Nullable DateDefinitionType getDateDefinitionType();
+  public abstract @Nullable Integer getDayOfWeek();
+  public abstract @Nullable Integer getFixedDay();
+  public abstract @Nullable Integer getFixedMonth();
+  public abstract @Nullable String getLocale();
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable DateTime getSeededUntil();
+  public abstract @Nullable Integer getWeekOfMonth();
 
-  /**
-   * private member variable for CalendarEventName.
-   */
-  private String calendarEventName;
-
-  /**
-   * private member variable for LseId.
-   */
-  private Long lseId;
-
-  /**
-   * private member variable for CalendarEventType.
-   */
-  private CalendarEventType calendarEventType;
-
-  /**
-   * private member variable for DateDefinitionType.
-   */
-  private DateDefinitionType dateDefinitionType;
-
-  /**
-   * private member variable for Locale.
-   */
-  private String locale;
-
-  /**
-   * private member variable for SeededUntil.
-   */
-  private DateTime seededUntil;
-
-  /**
-   * private member variable for FixedMonth.
-   */
-  private Integer fixedMonth;
-
-  /**
-   * private member variable for FixedDay.
-   */
-  private Integer fixedDay;
-
-  /**
-   * private member variable for DayOfWeek.
-   */
-  private Integer dayOfWeek;
-
-  /**
-   * private member variable for WeekOfMonth.
-   */
-  private Integer weekOfMonth;
-
-  /**
-   * private member variable for Adjustment.
-   */
-  private Integer adjustment;
-
-
-  public Long getCalendarEventId() {
-    return calendarEventId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_CalendarEvent.Builder();
   }
 
-  public void setCalendarEventId(Long calendarEventId) {
-    this.calendarEventId = calendarEventId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public String getCalendarEventName() {
-    return calendarEventName;
-  }
+    public abstract Builder setAdjustment(@Nullable Integer adjustment);
+    public abstract Builder setCalendarEventId(@Nullable Long calendarEventId);
+    public abstract Builder setCalendarEventName(@Nullable String calendarEventName);
+    public abstract Builder setCalendarEventType(@Nullable CalendarEventType calendarEventType);
+    public abstract Builder setDateDefinitionType(@Nullable DateDefinitionType dateDefinitionType);
+    public abstract Builder setDayOfWeek(@Nullable Integer dayOfWeek);
+    public abstract Builder setFixedDay(@Nullable Integer fixedDay);
+    public abstract Builder setFixedMonth(@Nullable Integer fixedMonth);
+    public abstract Builder setLocale(@Nullable String locale);
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setSeededUntil(@Nullable DateTime seededUntil);
+    public abstract Builder setWeekOfMonth(@Nullable Integer weekOfMonth);
 
-  public void setCalendarEventName(String calendarEventName) {
-    this.calendarEventName = calendarEventName;
+    public abstract CalendarEvent build();
   }
-
-  public Long getLseId() {
-    return lseId;
-  }
-
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
-
-  public CalendarEventType getCalendarEventType() {
-    return calendarEventType;
-  }
-
-  public void setCalendarEventType(CalendarEventType calendarEventType) {
-    this.calendarEventType = calendarEventType;
-  }
-
-  public DateDefinitionType getDateDefinitionType() {
-    return dateDefinitionType;
-  }
-
-  public void setDateDefinitionType(DateDefinitionType dateDefinitionType) {
-    this.dateDefinitionType = dateDefinitionType;
-  }
-
-  public String getLocale() {
-    return locale;
-  }
-
-  public void setLocale(String locale) {
-    this.locale = locale;
-  }
-
-  public DateTime getSeededUntil() {
-    return seededUntil;
-  }
-
-  public void setSeededUntil(DateTime seededUntil) {
-    this.seededUntil = seededUntil;
-  }
-
-  public Integer getFixedMonth() {
-    return fixedMonth;
-  }
-
-  public void setFixedMonth(Integer fixedMonth) {
-    this.fixedMonth = fixedMonth;
-  }
-
-  public Integer getFixedDay() {
-    return fixedDay;
-  }
-
-  public void setFixedDay(Integer fixedDay) {
-    this.fixedDay = fixedDay;
-  }
-
-  public Integer getDayOfWeek() {
-    return dayOfWeek;
-  }
-
-  public void setDayOfWeek(Integer dayOfWeek) {
-    this.dayOfWeek = dayOfWeek;
-  }
-
-  public Integer getWeekOfMonth() {
-    return weekOfMonth;
-  }
-
-  public void setWeekOfMonth(Integer weekOfMonth) {
-    this.weekOfMonth = weekOfMonth;
-  }
-
-  public Integer getAdjustment() {
-    return adjustment;
-  }
-
-  public void setAdjustment(Integer adjustment) {
-    this.adjustment = adjustment;
-  }
-
 }

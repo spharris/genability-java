@@ -1,72 +1,68 @@
 package com.genability.client.types;
 
-import java.util.List;
+import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Scenario {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-  private String id;
-  private String name;
-  private ServiceType serviceType;
-  private List<PropertyData> inputs;
-  private List<TariffRate> rates;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Scenario.Builder.class)
+public abstract class Scenario {
 
-  /**
-   * If Genability had to make an assumptions (eg what service territory the location is in), they
-   * will be listed here. Often null.
-   */
-  private List<PropertyData> assumptions;
+  public abstract @Nullable ImmutableList<PropertyData> getAssumptions();
+  public abstract @Nullable String getId();
+  public abstract @Nullable ImmutableList<PropertyData> getInputs();
+  public abstract @Nullable String getName();
+  public abstract @Nullable ImmutableList<TariffRate> getRates();
+  public abstract @Nullable ServiceType getServiceType();
 
-  public String getId() {
-    return id;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Scenario.Builder();
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public String getName() {
-    return name;
-  }
+    public abstract Builder setId(@Nullable String id);
+    public abstract Builder setName(@Nullable String name);
+    public abstract Builder setServiceType(@Nullable ServiceType serviceType);
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    @JsonIgnore
+    public abstract Builder setAssumptions(@Nullable PropertyData... assumptions);
 
-  public ServiceType getServiceType() {
-    return serviceType;
-  }
+    @JsonProperty("assumptions")
+    public abstract Builder setAssumptions(@Nullable ImmutableList<PropertyData> assumptions);
 
-  public void setServiceType(ServiceType serviceType) {
-    this.serviceType = serviceType;
-  }
+    @JsonIgnore
+    public abstract Builder setInputs(@Nullable PropertyData... inputs);
 
-  public List<PropertyData> getInputs() {
-    return inputs;
-  }
+    @JsonProperty("inputs")
+    public abstract Builder setInputs(@Nullable ImmutableList<PropertyData> inputs);
 
-  public void setInputs(List<PropertyData> inputs) {
-    this.inputs = inputs;
-  }
+    @JsonIgnore
+    public abstract Builder setRates(@Nullable TariffRate... rates);
 
-  public List<TariffRate> getRates() {
-    return rates;
-  }
+    @JsonProperty("rates")
+    public abstract Builder setRates(@Nullable ImmutableList<TariffRate> rates);
 
-  public void setRates(List<TariffRate> rates) {
-    this.rates = rates;
-  }
+    protected abstract ImmutableList<PropertyData> getAssumptions();
+    protected abstract ImmutableList<PropertyData> getInputs();
+    protected abstract ImmutableList<TariffRate> getRates();
+    protected abstract Scenario autoBuild();
 
-  public List<PropertyData> getAssumptions() {
-    return assumptions;
-  }
-
-  public void setAssumptions(List<PropertyData> assumptions) {
-    this.assumptions = assumptions;
+    public Scenario build() {
+      setAssumptions(firstNonNull(getAssumptions(), ImmutableList.of()));
+      setInputs(firstNonNull(getInputs(), ImmutableList.of()));
+      setRates(firstNonNull(getRates(), ImmutableList.of()));
+      return autoBuild();
+    }
   }
 }

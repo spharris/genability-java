@@ -1,78 +1,60 @@
 package com.genability.client.types;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-/**
- * Standard response payload that comes back from REST endpoints.
- *
- * @param <T> The type parameter.
- */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Response<T> implements Serializable {
-  private static final long serialVersionUID = 1L;
+@AutoValue
+public abstract class Response<T> {
 
   public static final String STATUS_SUCCESS = "success";
   public static final String STATUS_ERROR = "error";
-  public static final String HTTP_HEADER_X_ERROR_DETAIL = "X-Error-Detail";
-
-  private String status;
-  private String type;
-  private List<T> results;
-
-  private Integer pageStart;
-  private Integer pageCount;
-  private Integer count;
-
-  public Response() {}
-
-  public void setStatus(String status) {
-    this.status = status;
+  
+  public abstract @Nullable String getStatus();
+  public abstract @Nullable String getType();
+  public abstract @Nullable ImmutableList<T> getResults();
+  public abstract @Nullable Integer getPageStart();
+  public abstract @Nullable Integer getPageCount();
+  public abstract @Nullable Integer getCount();
+  
+  // Unfortunately Jackson doesn't work with parameterized builders!
+  @JsonCreator
+  public static <T> Response<T> create(
+      @JsonProperty("status") String status,
+      @JsonProperty("type") String type,
+      @JsonProperty("results") ImmutableList<T> results,
+      @JsonProperty("pageStart") Integer pageStart,
+      @JsonProperty("pageCount") Integer pageCount,
+      @JsonProperty("count") Integer count) {
+    return new AutoValue_Response.Builder<T>()
+        .setStatus(status)
+        .setType(type)
+        .setResults(results)
+        .setPageStart(pageStart)
+        .setPageCount(pageCount)
+        .setCount(count)
+        .build();
   }
-
-  public String getStatus() {
-    return status;
+  
+  public abstract Builder<T> toBuilder();
+  public static <T> Builder<T> builder() {
+    return new AutoValue_Response.Builder<T>();
   }
-
-  public void setCount(Integer count) {
-    this.count = count;
-  }
-
-  public Integer getCount() {
-    return count;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public List<T> getResults() {
-    return results;
-  }
-
-  public void setResults(List<T> results) {
-    this.results = results;
-  }
-
-  public Integer getPageCount() {
-    return pageCount;
-  }
-
-  public void setPageCount(final Integer pageLength) {
-    this.pageCount = pageLength;
-  }
-
-  public Integer getPageStart() {
-    return pageStart;
-  }
-
-  public void setPageStart(Integer pageStart) {
-    this.pageStart = pageStart;
+  
+  @AutoValue.Builder
+  public abstract static class Builder<T> {
+    public abstract Builder<T> setStatus(@Nullable String status);
+    public abstract Builder<T> setType(@Nullable String type);
+    public abstract Builder<T> setResults(@Nullable ImmutableList<T> results);
+    public abstract Builder<T> setPageStart(@Nullable Integer pageStart);
+    public abstract Builder<T> setPageCount(@Nullable Integer pageCount);
+    public abstract Builder<T> setCount(@Nullable Integer count);
+    
+    public abstract Response<T> build();
   }
 }
+
+

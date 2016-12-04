@@ -1,262 +1,80 @@
 package com.genability.client.types;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Lse {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-  public static final String REST_TYPE = "LoadServingEntity";
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Lse.Builder.class)
+public abstract class Lse {
 
-  private Long lseId;
-  private String name;
-  private String code;
-  private String websiteHome;
-  private String lseCode;
-  private String offeringType;
-  private String ownership; // TODO: implement Ownership enum?
+  public abstract @Nullable String getCode();
+  public abstract @Nullable Integer getCommercialCustomers();
+  public abstract @Nullable Integer getCommercialRevenues();
+  public abstract @Nullable Integer getCommercialSales();
+  public abstract @Nullable String getCommercialServiceTypes();
+  public abstract @Nullable Integer getIndustrialCustomers();
+  public abstract @Nullable Integer getIndustrialRevenues();
+  public abstract @Nullable Integer getIndustrialSales();
+  public abstract @Nullable String getIndustrialServiceTypes();
+  public abstract @Nullable String getLseCode();
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable String getName();
+  public abstract @Nullable String getOfferingType();
+  public abstract @Nullable String getOwnership();
+  public abstract @Nullable Integer getResidentialCustomers();
+  public abstract @Nullable Integer getResidentialRevenues();
+  public abstract @Nullable Integer getResidentialSales();
+  public abstract @Nullable String getResidentialServiceTypes();
+  public abstract @Nullable String getServiceTypes();
+  public abstract @Nullable Integer getTotalCustomers();
+  public abstract @Nullable Integer getTotalRevenues();
+  public abstract @Nullable Integer getTotalSales();
+  public abstract @Nullable Integer getTransportationCustomers();
+  public abstract @Nullable Integer getTransportationRevenues();
+  public abstract @Nullable Integer getTransportationSales();
+  public abstract @Nullable String getTransportationServiceTypes();
+  public abstract @Nullable String getWebsiteHome();
 
-  private String serviceTypes;
-  private Integer totalRevenues;
-  private Integer totalSales;
-  private Integer totalCustomers;
-
-  private String residentialServiceTypes;
-  private Integer residentialRevenues;
-  private Integer residentialSales;
-  private Integer residentialCustomers;
-
-  private String commercialServiceTypes;
-  private Integer commercialRevenues;
-  private Integer commercialSales;
-  private Integer commercialCustomers;
-
-  private String industrialServiceTypes;
-  private Integer industrialRevenues;
-  private Integer industrialSales;
-  private Integer industrialCustomers;
-
-  private String transportationServiceTypes;
-  private Integer transportationRevenues;
-  private Integer transportationSales;
-  private Integer transportationCustomers;
-
-  public Long getLseId() {
-    return lseId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Lse.Builder();
   }
 
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public String getName() {
-    return name;
-  }
+    public abstract Builder setCode(@Nullable String code);
+    public abstract Builder setCommercialCustomers(@Nullable Integer commercialCustomers);
+    public abstract Builder setCommercialRevenues(@Nullable Integer commercialRevenues);
+    public abstract Builder setCommercialSales(@Nullable Integer commercialSales);
+    public abstract Builder setCommercialServiceTypes(@Nullable String commercialServiceTypes);
+    public abstract Builder setIndustrialCustomers(@Nullable Integer industrialCustomers);
+    public abstract Builder setIndustrialRevenues(@Nullable Integer industrialRevenues);
+    public abstract Builder setIndustrialSales(@Nullable Integer industrialSales);
+    public abstract Builder setIndustrialServiceTypes(@Nullable String industrialServiceTypes);
+    public abstract Builder setLseCode(@Nullable String lseCode);
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setName(@Nullable String name);
+    public abstract Builder setOfferingType(@Nullable String offeringType);
+    public abstract Builder setOwnership(@Nullable String ownership);
+    public abstract Builder setResidentialCustomers(@Nullable Integer residentialCustomers);
+    public abstract Builder setResidentialRevenues(@Nullable Integer residentialRevenues);
+    public abstract Builder setResidentialSales(@Nullable Integer residentialSales);
+    public abstract Builder setResidentialServiceTypes(@Nullable String residentialServiceTypes);
+    public abstract Builder setServiceTypes(@Nullable String serviceTypes);
+    public abstract Builder setTotalCustomers(@Nullable Integer totalCustomers);
+    public abstract Builder setTotalRevenues(@Nullable Integer totalRevenues);
+    public abstract Builder setTotalSales(@Nullable Integer totalSales);
+    public abstract Builder setTransportationCustomers(@Nullable Integer transportationCustomers);
+    public abstract Builder setTransportationRevenues(@Nullable Integer transportationRevenues);
+    public abstract Builder setTransportationSales(@Nullable Integer transportationSales);
+    public abstract Builder setTransportationServiceTypes(@Nullable String transportationServiceTypes);
+    public abstract Builder setWebsiteHome(@Nullable String websiteHome);
 
-  public void setName(String name) {
-    this.name = name;
+    public abstract Lse build();
   }
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getWebsiteHome() {
-    return websiteHome;
-  }
-
-  public void setWebsiteHome(final String websiteHome) {
-    this.websiteHome = websiteHome;
-  }
-
-  public String getLseCode() {
-    return lseCode;
-  }
-
-  public void setLseCode(final String lseCode) {
-    this.lseCode = lseCode;
-  }
-
-  public String getOfferingType() {
-    return offeringType;
-  }
-
-  public void setOfferingType(final String offeringType) {
-    this.offeringType = offeringType;
-  }
-
-  public String getOwnership() {
-    return ownership;
-  }
-
-  public void setOwnership(final String ownership) {
-    this.ownership = ownership;
-  }
-
-  public String getServiceTypes() {
-    return serviceTypes;
-  }
-
-  public void setServiceTypes(final String serviceTypes) {
-    this.serviceTypes = serviceTypes;
-  }
-
-  public Integer getTotalRevenues() {
-    return totalRevenues;
-  }
-
-  public void setTotalRevenues(final Integer totalRevenues) {
-    this.totalRevenues = totalRevenues;
-  }
-
-  public Integer getTotalSales() {
-    return totalSales;
-  }
-
-  public void setTotalSales(final Integer totalSales) {
-    this.totalSales = totalSales;
-  }
-
-  public Integer getTotalCustomers() {
-    return totalCustomers;
-  }
-
-  public void setTotalCustomers(final Integer totalCustomers) {
-    this.totalCustomers = totalCustomers;
-  }
-
-  public String getResidentialServiceTypes() {
-    return residentialServiceTypes;
-  }
-
-  public void setResidentialServiceTypes(final String residentialServiceTypes) {
-    this.residentialServiceTypes = residentialServiceTypes;
-  }
-
-  public Integer getResidentialRevenues() {
-    return residentialRevenues;
-  }
-
-  public void setResidentialRevenues(final Integer residentialRevenues) {
-    this.residentialRevenues = residentialRevenues;
-  }
-
-  public Integer getResidentialSales() {
-    return residentialSales;
-  }
-
-  public void setResidentialSales(final Integer residentialSales) {
-    this.residentialSales = residentialSales;
-  }
-
-  public Integer getResidentialCustomers() {
-    return residentialCustomers;
-  }
-
-  public void setResidentialCustomers(final Integer residentialCustomers) {
-    this.residentialCustomers = residentialCustomers;
-  }
-
-  public String getCommercialServiceTypes() {
-    return commercialServiceTypes;
-  }
-
-  public void setCommercialServiceTypes(final String commercialServiceTypes) {
-    this.commercialServiceTypes = commercialServiceTypes;
-  }
-
-  public Integer getCommercialRevenues() {
-    return commercialRevenues;
-  }
-
-  public void setCommercialRevenues(final Integer commercialRevenues) {
-    this.commercialRevenues = commercialRevenues;
-  }
-
-  public Integer getCommercialSales() {
-    return commercialSales;
-  }
-
-  public void setCommercialSales(final Integer commercialSales) {
-    this.commercialSales = commercialSales;
-  }
-
-  public Integer getCommercialCustomers() {
-    return commercialCustomers;
-  }
-
-  public void setCommercialCustomers(final Integer commercialCustomers) {
-    this.commercialCustomers = commercialCustomers;
-  }
-
-  public String getIndustrialServiceTypes() {
-    return industrialServiceTypes;
-  }
-
-  public void setIndustrialServiceTypes(final String industrialServiceTypes) {
-    this.industrialServiceTypes = industrialServiceTypes;
-  }
-
-  public Integer getIndustrialRevenues() {
-    return industrialRevenues;
-  }
-
-  public void setIndustrialRevenues(final Integer industrialRevenues) {
-    this.industrialRevenues = industrialRevenues;
-  }
-
-  public Integer getIndustrialSales() {
-    return industrialSales;
-  }
-
-  public void setIndustrialSales(final Integer industrialSales) {
-    this.industrialSales = industrialSales;
-  }
-
-  public Integer getIndustrialCustomers() {
-    return industrialCustomers;
-  }
-
-  public void setIndustrialCustomers(final Integer industrialCustomers) {
-    this.industrialCustomers = industrialCustomers;
-  }
-
-  public String getTransportationServiceTypes() {
-    return transportationServiceTypes;
-  }
-
-  public void setTransportationServiceTypes(final String transportationServiceTypes) {
-    this.transportationServiceTypes = transportationServiceTypes;
-  }
-
-  public Integer getTransportationRevenues() {
-    return transportationRevenues;
-  }
-
-  public void setTransportationRevenues(final Integer transportationRevenues) {
-    this.transportationRevenues = transportationRevenues;
-  }
-
-  public Integer getTransportationSales() {
-    return transportationSales;
-  }
-
-  public void setTransportationSales(final Integer transportationSales) {
-    this.transportationSales = transportationSales;
-  }
-
-  public Integer getTransportationCustomers() {
-    return transportationCustomers;
-  }
-
-  public void setTransportationCustomers(final Integer transportationCustomers) {
-    this.transportationCustomers = transportationCustomers;
-  }
-
 }

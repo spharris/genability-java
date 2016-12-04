@@ -1,34 +1,30 @@
 package com.genability.client.types;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Coordinates {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-  private double latitude;
-  private double longitude;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Coordinates.Builder.class)
+public abstract class Coordinates {
 
-  public double getLatitude() {
-    return latitude;
+  public abstract @Nullable Double getLatitude();
+  public abstract @Nullable Double getLongitude();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Coordinates.Builder();
   }
 
-  public void setLatitude(double latitude) {
-    this.latitude = latitude;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public double getLongitude() {
-    return longitude;
-  }
+    public abstract Builder setLatitude(@Nullable Double latitude);
+    public abstract Builder setLongitude(@Nullable Double longitude);
 
-  public void setLongitude(double longitude) {
-    this.longitude = longitude;
-  }
-
-  @Override
-  public String toString() {
-    return "[lat:" + latitude + ", lon:" + longitude + "]";
+    public abstract Coordinates build();
   }
 }

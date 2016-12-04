@@ -2,187 +2,55 @@ package com.genability.client.types;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class PropertyData {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_PropertyData.Builder.class)
+public abstract class PropertyData {
 
-  public static final String REST_TYPE = "PropertyData";
+  public abstract @Nullable BigDecimal getAccuracy();
+  public abstract @Nullable BigDecimal getDataFactor();
+  public abstract @Nullable DataType getDataType();
+  public abstract @Nullable String getDataValue();
+  public abstract @Nullable Long getDuration();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable String getKeyName();
+  public abstract @Nullable String getOperator();
+  public abstract @Nullable String getPeriod();
+  public abstract @Nullable String getScenarios();
+  public abstract @Nullable String getSource();
+  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable String getUnit();
 
-  protected String keyName;
-  protected String source;
-
-  protected DateTime fromDateTime;
-  protected DateTime toDateTime;
-  protected String period;
-
-  protected String unit;
-  protected String dataValue;
-
-  /**
-   * A multiplier. This can be used, for instance, to see the effect of a 10% increase in
-   * electricity usage on costs - in that case, the propertyInput for the profileId would include a
-   * dataFactor of 1.1 (for 110%).
-   */
-  protected BigDecimal dataFactor;
-
-  /**
-   * How accurately known in percent this PropertyData is, from 0 (totally unknown) to 100 (totally
-   * accurate). For instance, we may guess a customer's tariff and assign it an accuracy of, eg, 80,
-   * but if the customer has specified their tariff or we know it from a bill, we assign it an
-   * accuracy of 100. (Optional)
-   */
-  protected BigDecimal accuracy;
-
-  /**
-   * For a Savings Analysis that compares two scenarios, which scenarios (cases) this PropertyData
-   * applies to. Possibilities are "before", "after", and "solar". If more than one, join with
-   * commas. Eg "after,solar".
-   */
-  protected String scenarios;
-  protected DataType dataType;
-
-  protected Long duration;
-  private String operator;
-
-  public PropertyData() {}
-
-  public void setKeyName(String keyName) {
-    this.keyName = keyName;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_PropertyData.Builder();
   }
 
-  public String getKeyName() {
-    return keyName;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
+    public abstract Builder setAccuracy(@Nullable BigDecimal accuracy);
+    public abstract Builder setDataFactor(@Nullable BigDecimal dataFactor);
+    public abstract Builder setDataType(@Nullable DataType dataType);
+    public abstract Builder setDataValue(@Nullable String dataValue);
+    public abstract Builder setDuration(@Nullable Long duration);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setKeyName(@Nullable String keyName);
+    public abstract Builder setOperator(@Nullable String operator);
+    public abstract Builder setPeriod(@Nullable String period);
+    public abstract Builder setScenarios(@Nullable String scenarios);
+    public abstract Builder setSource(@Nullable String source);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setUnit(@Nullable String unit);
 
-  public void setFromDateTime(DateTime fromDate) {
-    this.fromDateTime = fromDate;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setToDateTime(DateTime toDate) {
-    this.toDateTime = toDate;
-  }
-
-  public void setPeriod(String period) {
-    this.period = period;
-  }
-
-  @JsonInclude(Include.NON_NULL)
-  public String getPeriod() {
-    return period;
-  }
-
-  public void setUnit(String unit) {
-    this.unit = unit;
-  }
-
-  @JsonInclude(Include.NON_NULL)
-  public String getUnit() {
-    return unit;
-  }
-
-  public void setDataValue(String dataValue) {
-    this.dataValue = dataValue;
-  }
-
-  @JsonIgnore
-  public void setDataValue(Number dataValue) {
-    this.dataValue = dataValue != null ? dataValue.toString() : null;
-  }
-
-  @JsonIgnore
-  public void setDataValue(Enum<?> dataValue) {
-    this.dataValue = dataValue != null ? dataValue.name() : null;
-  }
-
-  @JsonIgnore
-  public void setDataValue(DateTime dataValue) {
-    this.dataValue = dataValue != null ? dataValue.toString() : null;
-  }
-
-  @JsonIgnore
-  public void setDataValue(Boolean dataValue) {
-    this.dataValue = dataValue != null ? Boolean.toString(dataValue) : null;
-  }
-
-  @JsonProperty("dataValue")
-  @JsonInclude(Include.NON_NULL)
-  public String getDataValue() {
-    return dataValue;
-  }
-
-  @JsonInclude(Include.NON_NULL)
-  public BigDecimal getDataFactor() {
-    return dataFactor;
-  }
-
-  public void setDataFactor(BigDecimal dataFactor) {
-    this.dataFactor = dataFactor;
-  }
-
-  public void setAccuracy(BigDecimal accuracy) {
-    this.accuracy = accuracy;
-  }
-
-  @JsonInclude(Include.NON_NULL)
-  public BigDecimal getAccuracy() {
-    return accuracy;
-  }
-
-  @JsonInclude(Include.NON_NULL)
-  public String getScenarios() {
-    return scenarios;
-
-  }
-
-  public void setScenarios(String scenarios) {
-    this.scenarios = scenarios;
-  }
-
-  public void setDataType(DataType dataType) {
-    this.dataType = dataType;
-  }
-
-  public DataType getDataType() {
-    return dataType;
-  }
-
-  public Long getDuration() {
-    return duration;
-  }
-
-  public void setDuration(Long duration) {
-    this.duration = duration;
-  }
-
-  public String getSource() {
-    return source;
-  }
-
-  public void setSource(String source) {
-    this.source = source;
-  }
-
-  public String getOperator() {
-    return operator;
-  }
-
-  public void setOperator(String operator) {
-    this.operator = operator;
+    public abstract PropertyData build();
   }
 }

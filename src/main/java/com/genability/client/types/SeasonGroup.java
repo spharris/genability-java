@@ -1,41 +1,48 @@
 package com.genability.client.types;
 
-import java.util.List;
+import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class SeasonGroup {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-  private Long lseId;
-  private Long seasonGroupId;
-  private List<Season> seasons;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_SeasonGroup.Builder.class)
+public abstract class SeasonGroup {
 
-  public Long getLseId() {
-    return lseId;
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable Long getSeasonGroupId();
+  public abstract @Nullable ImmutableList<Season> getSeasons();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_SeasonGroup.Builder();
   }
 
-  public void setLseId(final Long lseId) {
-    this.lseId = lseId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public Long getSeasonGroupId() {
-    return seasonGroupId;
-  }
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setSeasonGroupId(@Nullable Long seasonGroupId);
 
-  public void setSeasonGroupId(final Long seasonGroupId) {
-    this.seasonGroupId = seasonGroupId;
-  }
+    @JsonIgnore
+    public abstract Builder setSeasons(@Nullable Season... seasons);
 
-  public List<Season> getSeasons() {
-    return seasons;
-  }
+    @JsonProperty("seasons")
+    public abstract Builder setSeasons(@Nullable ImmutableList<Season> seasons);
 
-  public void setSeasons(final List<Season> seasons) {
-    this.seasons = seasons;
-  }
+    protected abstract ImmutableList<Season> getSeasons();
+    protected abstract SeasonGroup autoBuild();
 
+    public SeasonGroup build() {
+      setSeasons(firstNonNull(getSeasons(), ImmutableList.of()));
+      return autoBuild();
+    }
+  }
 }

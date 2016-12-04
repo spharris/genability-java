@@ -1,69 +1,50 @@
 package com.genability.client.types;
 
-import java.util.List;
+import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)
-public class Calendar {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Calendar.Builder.class)
+public abstract class Calendar {
 
-  public static final String REST_TYPE = "Calendar";
+  public abstract @Nullable Long getCalendarId();
+  public abstract @Nullable String getCalendarName();
+  public abstract @Nullable ImmutableList<CalendarEvent> getEvents();
+  public abstract @Nullable Long getLseId();
 
-  /**
-   * private member variable for CalendarId.
-   */
-  private Long calendarId;
-
-  /**
-   * private member variable for LseId.
-   */
-  private Long lseId;
-
-  /**
-   * private member variable for CalendarName.
-   */
-  private String calendarName;
-
-  /**
-   * private member variable for events.
-   */
-  private List<CalendarEvent> events;
-
-
-  public Long getCalendarId() {
-    return calendarId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Calendar.Builder();
   }
 
-  public void setCalendarId(Long calendarId) {
-    this.calendarId = calendarId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public Long getLseId() {
-    return lseId;
-  }
+    public abstract Builder setCalendarId(@Nullable Long calendarId);
+    public abstract Builder setCalendarName(@Nullable String calendarName);
+    public abstract Builder setLseId(@Nullable Long lseId);
 
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
+    @JsonIgnore
+    public abstract Builder setEvents(@Nullable CalendarEvent... events);
 
-  public String getCalendarName() {
-    return calendarName;
-  }
+    @JsonProperty("events")
+    public abstract Builder setEvents(@Nullable ImmutableList<CalendarEvent> events);
 
-  public void setCalendarName(String calendarName) {
-    this.calendarName = calendarName;
-  }
+    protected abstract ImmutableList<CalendarEvent> getEvents();
+    protected abstract Calendar autoBuild();
 
-  public List<CalendarEvent> getEvents() {
-    return events;
+    public Calendar build() {
+      setEvents(firstNonNull(getEvents(), ImmutableList.of()));
+      return autoBuild();
+    }
   }
-
-  public void setEvents(List<CalendarEvent> events) {
-    this.events = events;
-  }
-
 }

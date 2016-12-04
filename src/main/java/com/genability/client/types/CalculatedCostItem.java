@@ -2,237 +2,77 @@ package com.genability.client.types;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class CalculatedCostItem {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_CalculatedCostItem.Builder.class)
+public abstract class CalculatedCostItem {
 
-  private Long tariffRateId;
-  private Long tariffRateBandId;
-  private Long seasonId;
-  private Long touId;
+  public abstract @Nullable String getChargeClass();
+  public abstract @Nullable ChargeType getChargeType();
+  public abstract @Nullable BigDecimal getCost();
+  public abstract @Nullable DateTime getDemandInterval();
+  public abstract @Nullable Integer getDuration();
+  public abstract @Nullable String getFamily();
+  public abstract @Nullable String getFormula();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable Double getItemQuantity();
+  public abstract @Nullable String getPeriod();
+  public abstract @Nullable String getQuantityKey();
+  public abstract @Nullable BigDecimal getRateAmount();
+  public abstract @Nullable String getRateGroupName();
+  public abstract @Nullable String getRateName();
+  public abstract @Nullable BigDecimal getRateProration();
+  public abstract @Nullable Integer getRateSequenceNumber();
+  public abstract @Nullable RateUnit getRateType();
+  public abstract @Nullable Long getSeasonId();
+  public abstract @Nullable Long getTariffRateBandId();
+  public abstract @Nullable Long getTariffRateId();
+  public abstract @Nullable BigDecimal getTierLowerLimit();
+  public abstract @Nullable BigDecimal getTierUpperLimit();
+  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable Long getTouId();
 
-  private String rateGroupName;
-  private String rateName;
-  private BigDecimal rateAmount;
-  private BigDecimal rateProration;
-  private RateUnit rateType;
-  private Integer rateSequenceNumber;
-
-  private ChargeType chargeType;
-  private String chargeClass;
-
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-
-  private String quantityKey;
-  private Double itemQuantity;
-  private BigDecimal cost;
-  private BigDecimal tierLowerLimit;
-  private BigDecimal tierUpperLimit;
-
-  private String family;
-  private String formula;
-  private DateTime demandInterval;
-  private Integer duration;
-
-  private String period;
-
-
-  public Long getTariffRateId() {
-    return tariffRateId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_CalculatedCostItem.Builder();
   }
 
-  public void setTariffRateId(Long tariffRateId) {
-    this.tariffRateId = tariffRateId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public Long getTariffRateBandId() {
-    return tariffRateBandId;
-  }
+    public abstract Builder setChargeClass(@Nullable String chargeClass);
+    public abstract Builder setChargeType(@Nullable ChargeType chargeType);
+    public abstract Builder setCost(@Nullable BigDecimal cost);
+    public abstract Builder setDemandInterval(@Nullable DateTime demandInterval);
+    public abstract Builder setDuration(@Nullable Integer duration);
+    public abstract Builder setFamily(@Nullable String family);
+    public abstract Builder setFormula(@Nullable String formula);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setItemQuantity(@Nullable Double itemQuantity);
+    public abstract Builder setPeriod(@Nullable String period);
+    public abstract Builder setQuantityKey(@Nullable String quantityKey);
+    public abstract Builder setRateAmount(@Nullable BigDecimal rateAmount);
+    public abstract Builder setRateGroupName(@Nullable String rateGroupName);
+    public abstract Builder setRateName(@Nullable String rateName);
+    public abstract Builder setRateProration(@Nullable BigDecimal rateProration);
+    public abstract Builder setRateSequenceNumber(@Nullable Integer rateSequenceNumber);
+    public abstract Builder setRateType(@Nullable RateUnit rateType);
+    public abstract Builder setSeasonId(@Nullable Long seasonId);
+    public abstract Builder setTariffRateBandId(@Nullable Long tariffRateBandId);
+    public abstract Builder setTariffRateId(@Nullable Long tariffRateId);
+    public abstract Builder setTierLowerLimit(@Nullable BigDecimal tierLowerLimit);
+    public abstract Builder setTierUpperLimit(@Nullable BigDecimal tierUpperLimit);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setTouId(@Nullable Long touId);
 
-  public void setTariffRateBandId(Long tariffRateBandId) {
-    this.tariffRateBandId = tariffRateBandId;
-  }
-
-  public String getRateGroupName() {
-    return rateGroupName;
-  }
-
-  public void setRateGroupName(String rateGroupName) {
-    this.rateGroupName = rateGroupName;
-  }
-
-  public String getRateName() {
-    return rateName;
-  }
-
-  public void setRateName(String rateName) {
-    this.rateName = rateName;
-  }
-
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  public RateUnit getRateType() {
-    return rateType;
-  }
-
-  public void setRateType(RateUnit rateType) {
-    this.rateType = rateType;
-  }
-
-  public ChargeType getChargeType() {
-    return chargeType;
-  }
-
-  public void setChargeType(ChargeType chargeType) {
-    this.chargeType = chargeType;
-  }
-
-  public String getFamily() {
-    return family;
-  }
-
-  public void setFamily(String family) {
-    this.family = family;
-  }
-
-  public String getQuantityKey() {
-    return quantityKey;
-  }
-
-  public void setQuantityKey(String quantityKey) {
-    this.quantityKey = quantityKey;
-  }
-
-  public Double getItemQuantity() {
-    return itemQuantity;
-  }
-
-  public void setItemQuantity(Double itemQuantity) {
-    this.itemQuantity = itemQuantity;
-  }
-
-  public String getPeriod() {
-    return period;
-  }
-
-  public void setPeriod(String period) {
-    this.period = period;
-  }
-
-  public BigDecimal getCost() {
-    return cost;
-  }
-
-  public void setCost(BigDecimal cost) {
-    this.cost = cost;
-  }
-
-  public BigDecimal getRateAmount() {
-    return rateAmount;
-  }
-
-  public void setRateAmount(BigDecimal rateAmount) {
-    this.rateAmount = rateAmount;
-  }
-
-  public BigDecimal getRateProration() {
-    return rateProration;
-  }
-
-  public void setRateProration(BigDecimal rateProration) {
-    this.rateProration = rateProration;
-  }
-
-  public String getFormula() {
-    return formula;
-  }
-
-  public void setFormula(String formula) {
-    this.formula = formula;
-  }
-
-  public DateTime getDemandInterval() {
-    return demandInterval;
-  }
-
-  public void setDemandInterval(DateTime demandInterval) {
-    this.demandInterval = demandInterval;
-  }
-
-  public Integer getDuration() {
-    return duration;
-  }
-
-  public void setDuration(Integer duration) {
-    this.duration = duration;
-  }
-
-  public Long getSeasonId() {
-    return seasonId;
-  }
-
-  public void setSeasonId(Long seasonId) {
-    this.seasonId = seasonId;
-  }
-
-  public Long getTouId() {
-    return touId;
-  }
-
-  public void setTouId(Long touId) {
-    this.touId = touId;
-  }
-
-  public Integer getRateSequenceNumber() {
-    return rateSequenceNumber;
-  }
-
-  public void setRateSequenceNumber(Integer rateSequenceNumber) {
-    this.rateSequenceNumber = rateSequenceNumber;
-  }
-
-  public String getChargeClass() {
-    return chargeClass;
-  }
-
-  public void setChargeClass(String chargeClass) {
-    this.chargeClass = chargeClass;
-  }
-
-  public BigDecimal getTierLowerLimit() {
-    return tierLowerLimit;
-  }
-
-  public void setTierLowerLimit(BigDecimal tierLowerLimit) {
-    this.tierLowerLimit = tierLowerLimit;
-  }
-
-  public BigDecimal getTierUpperLimit() {
-    return tierUpperLimit;
-  }
-
-  public void setTierUpperLimit(BigDecimal tierUpperLimit) {
-    this.tierUpperLimit = tierUpperLimit;
+    public abstract CalculatedCostItem build();
   }
 }

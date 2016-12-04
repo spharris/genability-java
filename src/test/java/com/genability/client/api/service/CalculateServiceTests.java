@@ -43,9 +43,10 @@ public class CalculateServiceTests extends BaseServiceTests {
     request.setZipCode("94105");
     request.setMasterTariffId(522L);
 
-    PropertyData ti = new PropertyData();
-    ti.setKeyName("baselineType");
-    ti.setDataValue("typicalElectricity");
+    PropertyData ti = PropertyData.builder()
+        .setKeyName("baselineType")
+        .setDataValue("typicalElectricity")
+        .build();
     List<PropertyData> tariffInputs = new LinkedList<PropertyData>();
     tariffInputs.add(ti);
     request.setTariffInputs(tariffInputs);
@@ -69,25 +70,28 @@ public class CalculateServiceTests extends BaseServiceTests {
     request.setMasterTariffId(512l);
 
     // Set the consumption property
-    PropertyData newProp3 = new PropertyData();
-    newProp3.setFromDateTime(fromDateTime);
-    newProp3.setToDateTime(toDateTime);
-    newProp3.setDataValue("220");
-    newProp3.setKeyName("consumption");
+    PropertyData newProp3 = PropertyData.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setDataValue("220")
+        .setKeyName("consumption")
+        .build();
 
     // Set the cityLimits property
-    PropertyData newProp = new PropertyData();
-    newProp.setFromDateTime(fromDateTime);
-    newProp.setToDateTime(toDateTime);
-    newProp.setDataValue("Inside");
-    newProp.setKeyName("cityLimits");
+    PropertyData newProp = PropertyData.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setDataValue("Inside")
+        .setKeyName("cityLimits ")
+        .build();
 
     // Set the connectionType property
-    PropertyData newProp2 = new PropertyData();
-    newProp2.setFromDateTime(fromDateTime);
-    newProp2.setToDateTime(toDateTime);
-    newProp2.setDataValue("Primary");
-    newProp2.setKeyName("connectionType");
+    PropertyData newProp2 = PropertyData.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setDataValue("Primary")
+        .setKeyName("connectionType")
+        .build();
 
     request.addTariffInput(newProp);
     request.addTariffInput(newProp2);
@@ -116,11 +120,12 @@ public class CalculateServiceTests extends BaseServiceTests {
     request.setGroupBy(GroupBy.MONTH);
 
     // Set the territoryId property
-    PropertyData newProp2 = new PropertyData();
-    newProp2.setFromDateTime(fromDateTime);
-    newProp2.setToDateTime(toDateTime);
-    newProp2.setDataValue("3534"); // Baseline Region P - 3534
-    newProp2.setKeyName("territoryId");
+    PropertyData newProp2 = PropertyData.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setDataValue("3534") // Baseline Region P - 3534
+        .setKeyName("territoryId")
+        .build();
 
     request.addTariffInput(newProp2);
 
@@ -134,21 +139,23 @@ public class CalculateServiceTests extends BaseServiceTests {
       for (int hour = 0; hour < 24; hour++) {
 
         // Set the consumption property
-        PropertyData weekdayProp = new PropertyData();
-        weekdayProp.setFromDateTime(propertyStartDateTime);
-        weekdayProp.setToDateTime(propertyStartDateTime.plusMonths(1));
-        weekdayProp.setPeriod("1:5e " + hour + "H");
-        weekdayProp.setDataValue("0.5");
-        weekdayProp.setKeyName("consumption");
+        PropertyData weekdayProp = PropertyData.builder()
+            .setFromDateTime(propertyStartDateTime)
+            .setToDateTime(propertyStartDateTime.plusMonths(1))
+            .setPeriod("1:5e " + hour + "H")
+            .setDataValue("0.5")
+            .setKeyName("consumption")
+            .build();
 
         request.addTariffInput(weekdayProp);
 
-        PropertyData weekendProp = new PropertyData();
-        weekendProp.setFromDateTime(fromDateTime);
-        weekendProp.setToDateTime(toDateTime);
-        weekendProp.setPeriod("6:7e " + hour + "H");
-        weekendProp.setDataValue("0.5");
-        weekendProp.setKeyName("consumption");
+        PropertyData weekendProp = PropertyData.builder()
+            .setFromDateTime(fromDateTime)
+            .setToDateTime(toDateTime)
+            .setPeriod("6:7e " + hour + "H")
+            .setDataValue("0.5")
+            .setKeyName("consumption")
+            .build();
 
         request.addTariffInput(weekendProp);
 
@@ -179,11 +186,12 @@ public class CalculateServiceTests extends BaseServiceTests {
     request.setGroupBy(GroupBy.MONTH);
 
     // Set the consumption property
-    PropertyData newProp = new PropertyData();
-    newProp.setFromDateTime(fromDateTime);
-    newProp.setToDateTime(toDateTime);
-    newProp.setDataValue("220");
-    newProp.setKeyName("consumption");
+    PropertyData newProp = PropertyData.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setDataValue("220")
+        .setKeyName("consumption")
+        .build();
 
     request.addTariffInput(newProp);
 
@@ -219,11 +227,12 @@ public class CalculateServiceTests extends BaseServiceTests {
 
     request.setAccountId(newAccount.getAccountId());
 
-    PropertyData newProp2 = new PropertyData();
-    newProp2.setFromDateTime(fromDateTime);
-    newProp2.setToDateTime(toDateTime);
-    newProp2.setDataValue(newAccount.getAccountId());
-    newProp2.setKeyName("accountId");
+    PropertyData newProp2 = PropertyData.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setDataValue(newAccount.getAccountId())
+        .setKeyName("accountId")
+        .build();
 
     request.addTariffInput(newProp2);
 
@@ -240,25 +249,27 @@ public class CalculateServiceTests extends BaseServiceTests {
     // create profile with readings
     List<ReadingData> readings = new ArrayList<ReadingData>();
     // add two months of readings
-    ReadingData readingData1 = new ReadingData();
-    readingData1.setQuantityUnit("kWh");
     DateTime fromDateTime1 = new DateTime(2014, 3, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime1 = new DateTime(2014, 4, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    readingData1.setFromDateTime(fromDateTime1);
-    readingData1.setToDateTime(toDateTime1);
-    readingData1.setQuantityValue(new BigDecimal("1000"));
+    ReadingData readingData1 = ReadingData.builder()
+        .setQuantityUnit("kWh")
+        .setFromDateTime(fromDateTime1)
+        .setToDateTime(toDateTime1)
+        .setQuantityValue(new BigDecimal("1000"))
+        .build();
     readings.add(readingData1);
 
     // create profile 1
-    Profile profile1 = createProfileWithReadings(readings);
-    List<ReadingData> readings2 = new ArrayList<ReadingData>();
-    ReadingData readingData2 = new ReadingData();
-    readingData2.setQuantityUnit("kWh");
     DateTime fromDateTime2 = new DateTime(2014, 3, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime2 = new DateTime(2014, 4, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    readingData2.setFromDateTime(fromDateTime2);
-    readingData2.setToDateTime(toDateTime2);
-    readingData2.setQuantityValue(new BigDecimal("900"));
+    Profile profile1 = createProfileWithReadings(readings);
+    List<ReadingData> readings2 = new ArrayList<ReadingData>();
+    ReadingData readingData2 = ReadingData.builder()
+        .setQuantityUnit("kWh")
+        .setFromDateTime(fromDateTime2)
+        .setToDateTime(toDateTime2)
+        .setQuantityValue(new BigDecimal("900"))
+        .build();
     readings2.add(readingData2);
 
     // create profile 2
@@ -274,19 +285,21 @@ public class CalculateServiceTests extends BaseServiceTests {
     request.setMasterTariffId(512l);
 
     // add profile1 input
-    PropertyData profileProp1 = new PropertyData();
-    profileProp1.setFromDateTime(fromDateTime);
-    profileProp1.setToDateTime(toDateTime);
-    profileProp1.setDataValue(profile1.getProfileId());
-    profileProp1.setKeyName("profileId");
+    PropertyData profileProp1 = PropertyData.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setDataValue(profile1.getProfileId())
+        .setKeyName("profileId")
+        .build();
     request.addTariffInput(profileProp1);
 
     // add profile2 input
-    PropertyData profileProp2 = new PropertyData();
-    profileProp2.setFromDateTime(fromDateTime);
-    profileProp2.setToDateTime(toDateTime);
-    profileProp2.setDataValue(profile2.getProfileId());
-    profileProp2.setKeyName("profileId");
+    PropertyData profileProp2 = PropertyData.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setDataValue(profile2.getProfileId())
+        .setKeyName("profileId")
+        .build();
     request.addTariffInput(profileProp2);
 
     // run calc
@@ -321,7 +334,6 @@ public class CalculateServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), PropertyData.REST_TYPE);
     assertTrue("bad count", restResponse.getCount() > 0);
     assertNotNull("results null", restResponse.getResults());
     assertTrue("results were empty", restResponse.getResults().size() != 0);
@@ -334,7 +346,6 @@ public class CalculateServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), CalculatedCost.REST_TYPE);
     assertTrue("bad count", restResponse.getCount() > 0);
     assertNotNull("results null", restResponse.getResults());
     assertEquals("results count", restResponse.getResults().size(), 1);

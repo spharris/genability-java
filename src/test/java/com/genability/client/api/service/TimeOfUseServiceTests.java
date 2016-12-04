@@ -3,8 +3,6 @@ package com.genability.client.api.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,17 +11,13 @@ import com.genability.client.api.request.GetTimeOfUseGroupsRequest;
 import com.genability.client.api.request.GetTimeOfUseIntervalsRequest;
 import com.genability.client.types.MockHttpClient;
 import com.genability.client.types.Response;
-import com.genability.client.types.TimeOfUse;
 import com.genability.client.types.TimeOfUseGroup;
 import com.genability.client.types.TimeOfUseInterval;
-import com.genability.client.types.TimeOfUsePeriod;
-import com.genability.client.types.TimeOfUseType;
 
 public class TimeOfUseServiceTests extends BaseServiceTests {
 
   private TimeOfUseService localService;
   private String publicBaseUrl = touService.getRestApiServer() + "public/timeofuses";
-  private String privateBaseUrl = touService.getRestApiServer() + "timeofuses";
 
   @Before
   public void setUp() {
@@ -140,115 +134,5 @@ public class TimeOfUseServiceTests extends BaseServiceTests {
       assertTrue("Interval is not in the correct time period",
           i.getToDateTime().compareTo(toDateTime) <= 0);
     }
-  }
-
-  @Test
-  public void addPrivateTouGroupUsesTheCorrectURL() {
-    // Arrange
-    MockHttpClient client = new MockHttpClient(privateBaseUrl);
-
-    // Expect
-    localService.setHttpClient(client);
-
-    // Act
-    localService.addPrivateTimeOfUseGroup(null);
-    client.validate();
-  }
-
-  @Test
-  public void addPrivateTouGroupWorksCorrectly() {
-    TimeOfUseGroup grp = getValidTouGroup();
-
-    Response<TimeOfUseGroup> response = touService.addPrivateTimeOfUseGroup(grp);
-    assertEquals("Didn't successfully add the private TOU", Response.STATUS_SUCCESS,
-        response.getStatus());
-
-    cleanUpPrivateTou(response.getResults().get(0));
-  }
-
-
-  @Test
-  public void updatePrivateTouGroupUsesTheCorrectUrl() {
-    MockHttpClient client = new MockHttpClient(privateBaseUrl);
-    localService.setHttpClient(client);
-    localService.updatePrivateTimeOfUseGroup(null);
-
-    client.validate();
-  }
-
-  @Test
-  public void updatePrivateTouGroupWorksCorrectly() {
-    TimeOfUseGroup grp = getValidTouGroup();
-
-    Response<TimeOfUseGroup> addResponse = touService.addPrivateTimeOfUseGroup(grp);
-    TimeOfUseGroup addedGrp = addResponse.getResults().get(0);
-    addedGrp.getTimeOfUses().get(0).setTouName("JAVA CLIENT LIB UPDATE");
-    Response<TimeOfUseGroup> updateResponse = touService.updatePrivateTimeOfUseGroup(addedGrp);
-    assertEquals("Didn't successfully add the private TOU", Response.STATUS_SUCCESS,
-        updateResponse.getStatus());
-
-    cleanUpPrivateTou(updateResponse.getResults().get(0));
-  }
-
-  @Test
-  public void deletePrivateTouGroupUsesTheCorrectUrl() {
-    long lseId = 734L;
-    long touGroupId = 1L;
-
-    String url = String.format("%s/%d/%d", privateBaseUrl, lseId, touGroupId);
-    MockHttpClient client = new MockHttpClient(url);
-    localService.setHttpClient(client);
-    localService.deletePrivateTimeOfUseGroup(lseId, touGroupId);
-
-    client.validate();
-  }
-
-  @Test
-  public void deletePrivateTouGroupWorksCorrectly() {
-    // Arrange
-    TimeOfUseGroup grp = getValidTouGroup();
-
-    // Act
-    Response<TimeOfUseGroup> response = touService.addPrivateTimeOfUseGroup(grp);
-    TimeOfUseGroup added = response.getResults().get(0);
-    cleanUpPrivateTou(added);
-
-    // Assert
-    try {
-      touService.getTimeOfUseGroup(added.getLseId(), added.getTouGroupId());
-    } catch (GenabilityException e) {
-      String message = "Trying to get a deleted TOU group should result in a 404";
-      assertEquals(message, "Failed : HTTP error code : 404", e.getMessage());
-    }
-  }
-
-  private void cleanUpPrivateTou(TimeOfUseGroup grp) {
-    touService.deletePrivateTimeOfUseGroup(grp.getLseId(), grp.getTouGroupId());
-  }
-
-  /**
-   * Returns a valid TOU group (one that covers every hour in the week and every day of the year
-   */
-  private TimeOfUseGroup getValidTouGroup() {
-    TimeOfUseGroup group = new TimeOfUseGroup();
-    group.setTimeOfUses(new ArrayList<TimeOfUse>());
-    group.setLseId(734L);
-
-    TimeOfUse tou = new TimeOfUse();
-    tou.setTouName("JAVA CLIENT LIB TOU");
-    tou.setTouPeriods(new ArrayList<TimeOfUsePeriod>());
-    tou.setTouType(String.valueOf(TimeOfUseType.OFF_PEAK));
-    group.getTimeOfUses().add(tou);
-
-    TimeOfUsePeriod period = new TimeOfUsePeriod();
-    period.setFromDayOfWeek(0);
-    period.setToDayOfWeek(6);
-    period.setFromHour(0);
-    period.setToHour(0);
-    period.setFromMinute(0);
-    period.setToMinute(0);
-    tou.getTouPeriods().add(period);
-
-    return group;
   }
 }

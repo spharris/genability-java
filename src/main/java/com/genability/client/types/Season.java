@@ -1,85 +1,42 @@
 package com.genability.client.types;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Season {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-  private Long seasonId;
-  private Long lseId;
-  private Long seasonGroupId;
-  private String seasonName;
-  private Integer seasonFromMonth;
-  private Integer seasonFromDay;
-  private Integer seasonToMonth;
-  private Integer seasonToDay;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Season.Builder.class)
+public abstract class Season {
 
-  public Long getSeasonId() {
-    return seasonId;
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable Integer getSeasonFromDay();
+  public abstract @Nullable Integer getSeasonFromMonth();
+  public abstract @Nullable Long getSeasonGroupId();
+  public abstract @Nullable Long getSeasonId();
+  public abstract @Nullable String getSeasonName();
+  public abstract @Nullable Integer getSeasonToDay();
+  public abstract @Nullable Integer getSeasonToMonth();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Season.Builder();
   }
 
-  public void setSeasonId(Long seasonId) {
-    this.seasonId = seasonId;
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
+
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setSeasonFromDay(@Nullable Integer seasonFromDay);
+    public abstract Builder setSeasonFromMonth(@Nullable Integer seasonFromMonth);
+    public abstract Builder setSeasonGroupId(@Nullable Long seasonGroupId);
+    public abstract Builder setSeasonId(@Nullable Long seasonId);
+    public abstract Builder setSeasonName(@Nullable String seasonName);
+    public abstract Builder setSeasonToDay(@Nullable Integer seasonToDay);
+    public abstract Builder setSeasonToMonth(@Nullable Integer seasonToMonth);
+
+    public abstract Season build();
   }
-
-  public Long getLseId() {
-    return lseId;
-  }
-
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
-
-  public Long getSeasonGroupId() {
-    return seasonGroupId;
-  }
-
-  public void setSeasonGroupId(Long seasonGroupId) {
-    this.seasonGroupId = seasonGroupId;
-  }
-
-  public String getSeasonName() {
-    return seasonName;
-  }
-
-  public void setSeasonName(String seasonName) {
-    this.seasonName = seasonName;
-  }
-
-  public Integer getSeasonFromMonth() {
-    return seasonFromMonth;
-  }
-
-  public void setSeasonFromMonth(Integer seasonFromMonth) {
-    this.seasonFromMonth = seasonFromMonth;
-  }
-
-  public Integer getSeasonFromDay() {
-    return seasonFromDay;
-  }
-
-  public void setSeasonFromDay(Integer seasonFromDay) {
-    this.seasonFromDay = seasonFromDay;
-  }
-
-  public Integer getSeasonToMonth() {
-    return seasonToMonth;
-  }
-
-  public void setSeasonToMonth(Integer seasonToMonth) {
-    this.seasonToMonth = seasonToMonth;
-  }
-
-  public Integer getSeasonToDay() {
-    return seasonToDay;
-  }
-
-  public void setSeasonToDay(Integer seasonToDay) {
-    this.seasonToDay = seasonToDay;
-  }
-
-
 }

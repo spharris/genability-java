@@ -1,37 +1,48 @@
 package com.genability.client.types;
 
-import java.util.List;
+import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.annotation.Nullable;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TimeOfUseGroup {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-  private Long touGroupId;
-  private Long lseId;
-  private List<TimeOfUse> timeOfUses;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_TimeOfUseGroup.Builder.class)
+public abstract class TimeOfUseGroup {
 
-  public Long getTouGroupId() {
-    return touGroupId;
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable ImmutableList<TimeOfUse> getTimeOfUses();
+  public abstract @Nullable Long getTouGroupId();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_TimeOfUseGroup.Builder();
   }
 
-  public void setTouGroupId(Long timeOfUseGroupId) {
-    touGroupId = timeOfUseGroupId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public Long getLseId() {
-    return lseId;
-  }
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setTouGroupId(@Nullable Long touGroupId);
 
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
+    @JsonIgnore
+    public abstract Builder setTimeOfUses(@Nullable TimeOfUse... timeOfUses);
 
-  public List<TimeOfUse> getTimeOfUses() {
-    return timeOfUses;
-  }
+    @JsonProperty("timeOfUses")
+    public abstract Builder setTimeOfUses(@Nullable ImmutableList<TimeOfUse> timeOfUses);
 
-  public void setTimeOfUses(List<TimeOfUse> timeOfUses) {
-    this.timeOfUses = timeOfUses;
+    protected abstract ImmutableList<TimeOfUse> getTimeOfUses();
+    protected abstract TimeOfUseGroup autoBuild();
+
+    public TimeOfUseGroup build() {
+      setTimeOfUses(firstNonNull(getTimeOfUses(), ImmutableList.of()));
+      return autoBuild();
+    }
   }
 }

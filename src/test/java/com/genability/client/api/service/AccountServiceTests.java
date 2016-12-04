@@ -5,9 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +21,7 @@ import com.genability.client.types.PropertyData;
 import com.genability.client.types.Response;
 import com.genability.client.types.Tariff;
 import com.genability.client.types.TariffRate;
+import com.google.common.collect.ImmutableMap;
 import com.google.inject.Guice;
 
 @RunWith(JUnit4.class)
@@ -39,8 +37,9 @@ public class AccountServiceTests extends BaseServiceTests {
   @Test
   public void testAddAccount() {
     // test
-    Account newAccount = new Account();
-    newAccount.setAccountName("Java Client Lib Test Add Account - CAN DELETE");
+    Account newAccount = Account.builder()
+        .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
+        .build();
 
     // call add account helper method
     Response<Account> accountResponse = accountService.addAccount(newAccount);
@@ -55,18 +54,18 @@ public class AccountServiceTests extends BaseServiceTests {
   public void testUpdateAccount() {
     String org = "Test Org";
 
-    Account unsavedAccount = new Account();
-    unsavedAccount.setAccountName("Java Client Lib Test Add Account - CAN DELETE");
+    Account unsavedAccount = Account.builder()
+        .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
+        .build();
 
     // call add account helper method
     Account savedAccount = addAccount(unsavedAccount);
     try {
-      savedAccount.setCustomerOrgName(org);
+      savedAccount = savedAccount.toBuilder().setCustomerOrgName(org).build();
 
       Response<Account> restResponse = accountService.updateAccount(savedAccount);
       assertNotNull("restResponse null", restResponse);
       assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-      assertEquals("bad type", restResponse.getType(), Account.REST_TYPE);
       assertTrue("bad count", restResponse.getCount() == 1);
 
       Account updatedAccount = restResponse.getResults().get(0);
@@ -82,15 +81,15 @@ public class AccountServiceTests extends BaseServiceTests {
     String accountName = "Java Client Lib Test Add Account - CAN DELETE";
     String providerAccountId = "javaapi-test-id-01";
 
-    Account newAccount = new Account();
-    newAccount.setAccountName(accountName);
-    newAccount.setProviderAccountId(providerAccountId);
+    Account newAccount = Account.builder()
+        .setAccountName(accountName)
+        .setProviderAccountId(providerAccountId)
+        .build();
 
     Response<Account> restResponse = accountService.updateAccount(newAccount);
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Account.REST_TYPE);
     assertTrue("bad count", restResponse.getCount() == 1);
     Account returnedAccount = null;
 
@@ -123,8 +122,6 @@ public class AccountServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Account.REST_TYPE);
-
   }
 
   @Test
@@ -134,8 +131,9 @@ public class AccountServiceTests extends BaseServiceTests {
     String[] createdAccountIds = new String[numberOfAccountsToCreate];
 
     for (int i = 0; i < numberOfAccountsToCreate; i++) {
-      Account newAccount = new Account();
-      newAccount.setAccountName(String.format("JAVA CLIENT TEST ACCOUNT #%d - CAN DELETE", i));
+      Account newAccount = Account.builder()
+          .setAccountName(String.format("JAVA CLIENT TEST ACCOUNT #%d - CAN DELETE", i))
+          .build();
 
       Account addedAccount = addAccount(newAccount);
       createdAccountIds[i] = addedAccount.getAccountId();
@@ -185,15 +183,15 @@ public class AccountServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Account.REST_TYPE);
 
   }
 
   @Test
   public void testDeleteAccount() {
 
-    Account addAccount = new Account();
-    addAccount.setAccountName("Java Client Lib Test Delete Account - CAN DELETE");
+     Account addAccount = Account.builder()
+        .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
+        .build();
 
     // call add account helper method
     addAccount = addAccount(addAccount);
@@ -207,13 +205,15 @@ public class AccountServiceTests extends BaseServiceTests {
   public void testGetAccountProperties() {
 
     // Add account with properties
-    Account addAccount = new Account();
-    addAccount.setAccountName("Java Client Lib Test Account Get Properties - CAN DELETE");
-
-    PropertyData property1 = new PropertyData();
-    property1.setKeyName("territoryId");
-    property1.setDataValue("123");
-    addAccount.setProperty("territoryId", property1);
+    Account addAccount = Account.builder()
+        .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
+        .setProperties(ImmutableMap.<String, PropertyData>builder()
+          .put("territoryId", PropertyData.builder()
+            .setKeyName("territoryId")
+            .setDataValue("123")
+            .build())
+          .build())
+        .build();
 
     addAccount = addAccount(addAccount);
 
@@ -224,7 +224,6 @@ public class AccountServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), PropertyData.REST_TYPE);
     assertNotNull("Properties null", restResponse.getResults());
 
     // ensure territoryId property is on account
@@ -240,13 +239,12 @@ public class AccountServiceTests extends BaseServiceTests {
   @Test
   public void testInterviewAccount() {
 
-    Account addAccount = new Account();
-    addAccount.setAccountName("Java Client Lib Test Interview Account - CAN DELETE");
-
-    // set address
-    Address address = new Address();
-    address.setAddressString("94105");
-    addAccount.setAddress(address);
+    Account addAccount = Account.builder()
+        .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
+        .setAddress(Address.builder()
+           .setAddressString("94105")
+           .build())
+        .build();
 
     // call add account helper method
     addAccount = addAccount(addAccount);
@@ -257,7 +255,6 @@ public class AccountServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), PropertyData.REST_TYPE);
     assertNotNull("Properties null", restResponse.getResults());
 
     // ensure territoryId property is on account
@@ -270,16 +267,12 @@ public class AccountServiceTests extends BaseServiceTests {
   @Test
   public void testGetAccountTariffs() {
 
-    Account addAccount = new Account();
-    addAccount.setAccountName("Java Client Lib Test Interview Account - CAN DELETE");
-
-    // set tariff
-    Tariff tariff = Tariff.builder()
-        .setMasterTariffId(512L)
+    Account addAccount = Account.builder()
+        .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
+        .setTariffs(Tariff.builder()
+          .setMasterTariffId(512L)
+          .build())
         .build();
-    List<Tariff> tariffs = new ArrayList<Tariff>();
-    tariffs.add(tariff);
-    addAccount.setTariffs(tariffs);
 
     // call add account helper method
     addAccount = addAccount(addAccount);
@@ -302,16 +295,12 @@ public class AccountServiceTests extends BaseServiceTests {
   @Test
   public void testGetAccountRates() {
 
-    Account account = new Account();
-    account.setAccountName("Java Client Lib Test Interview Account - CAN DELETE");
-
-    // set tariff
-    Tariff tariff = Tariff.builder()
-        .setMasterTariffId(512L)
+    Account account = Account.builder()
+        .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
+        .setTariffs(Tariff.builder()
+          .setMasterTariffId(512L)
+          .build())
         .build();
-    List<Tariff> tariffs = new ArrayList<Tariff>();
-    tariffs.add(tariff);
-    account.setTariffs(tariffs);
 
     // call add account helper method
     account = addAccount(account);
@@ -336,10 +325,6 @@ public class AccountServiceTests extends BaseServiceTests {
 
   }
 
-  //
-  // TODO - switch to use helper methods on baseServiceTests
-  //
-
   /**
    * Private helper method to call add account and test for success
    * 
@@ -352,7 +337,6 @@ public class AccountServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Account.REST_TYPE);
     assertTrue("bad count", restResponse.getCount() > 0);
 
     Account newAccount = null;
@@ -379,7 +363,6 @@ public class AccountServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", deleteResponse);
     assertEquals("bad status", deleteResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", deleteResponse.getType(), Account.REST_TYPE);
 
   }
 
@@ -392,7 +375,6 @@ public class AccountServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Account.REST_TYPE);
 
     Account getAccount = null;
     for (Account account : restResponse.getResults()) {

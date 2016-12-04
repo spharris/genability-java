@@ -139,7 +139,7 @@ public class AccountService extends BaseService {
     // Workaround so the route catches. A null request payload will hit the
     // wrong route.
     if (interviewAnswer == null) {
-      interviewAnswer = new PropertyData();
+      interviewAnswer = PropertyData.builder().build();
     }
 
     Response<PropertyData> response =

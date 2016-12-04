@@ -21,6 +21,11 @@ public abstract class TariffRate {
 
   public static final String REST_TYPE = "TariffRate";
 
+  @JsonProperty("chargeClass")
+  public String getChargeClassString() {
+    return EnumUtil.enumListString(getChargeClass());
+  }
+  
   public abstract @Nullable Long getTariffRateId();
   public abstract @Nullable Long getTariffId();
   public abstract @Nullable Long getRiderId();
@@ -61,6 +66,7 @@ public abstract class TariffRate {
     @JsonIgnore public abstract Builder setChargeClass(
         @Nullable ImmutableSet<ChargeClass> chargeClass);
     @JsonIgnore public abstract Builder setChargeClass(@Nullable ChargeClass... chargeClass);
+    
     @JsonProperty("chargeClass")
     public Builder setChargeClassString(String chargeClass) {
       setChargeClass(EnumUtil.parseEnumList(chargeClass, ChargeClass.class));

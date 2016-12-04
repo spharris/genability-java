@@ -1,95 +1,60 @@
 package com.genability.client.types;
 
-import java.util.List;
+import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TimeOfUse {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-  private Integer touId;
-  private Integer touGroupId;
-  private Long lseId;
-  private String touName;
-  private Integer calendarId;
-  private Boolean isDynamic;
-  private Season season;
-  private String touType;
-  private List<TimeOfUsePeriod> touPeriods;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_TimeOfUse.Builder.class)
+public abstract class TimeOfUse {
 
-  public Integer getTouId() {
-    return touId;
+  public abstract @Nullable Integer getCalendarId();
+  public abstract @Nullable Boolean getIsDynamic();
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable Season getSeason();
+  public abstract @Nullable Integer getTouGroupId();
+  public abstract @Nullable Integer getTouId();
+  public abstract @Nullable String getTouName();
+  public abstract @Nullable ImmutableList<TimeOfUsePeriod> getTouPeriods();
+  public abstract @Nullable String getTouType();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_TimeOfUse.Builder();
   }
 
-  public void setTouId(Integer touId) {
-    this.touId = touId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public Integer getTouGroupId() {
-    return touGroupId;
-  }
+    public abstract Builder setCalendarId(@Nullable Integer calendarId);
+    public abstract Builder setIsDynamic(@Nullable Boolean isDynamic);
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setSeason(@Nullable Season season);
+    public abstract Builder setTouGroupId(@Nullable Integer touGroupId);
+    public abstract Builder setTouId(@Nullable Integer touId);
+    public abstract Builder setTouName(@Nullable String touName);
+    public abstract Builder setTouType(@Nullable String touType);
 
-  public void setTouGroupId(Integer touGroupId) {
-    this.touGroupId = touGroupId;
-  }
+    @JsonIgnore
+    public abstract Builder setTouPeriods(@Nullable TimeOfUsePeriod... touPeriods);
 
-  public Long getLseId() {
-    return lseId;
-  }
+    @JsonProperty("touPeriods")
+    public abstract Builder setTouPeriods(@Nullable ImmutableList<TimeOfUsePeriod> touPeriods);
 
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
+    protected abstract ImmutableList<TimeOfUsePeriod> getTouPeriods();
+    protected abstract TimeOfUse autoBuild();
 
-  public String getTouName() {
-    return touName;
+    public TimeOfUse build() {
+      setTouPeriods(firstNonNull(getTouPeriods(), ImmutableList.of()));
+      return autoBuild();
+    }
   }
-
-  public void setTouName(String touName) {
-    this.touName = touName;
-  }
-
-  public Integer getCalendarId() {
-    return calendarId;
-  }
-
-  public void setCalendarId(Integer calendarId) {
-    this.calendarId = calendarId;
-  }
-
-  public Boolean getIsDynamic() {
-    return isDynamic;
-  }
-
-  public void setIsDynamic(Boolean isDynamic) {
-    this.isDynamic = isDynamic;
-  }
-
-  public Season getSeason() {
-    return season;
-  }
-
-  public void setSeason(Season season) {
-    this.season = season;
-  }
-
-  public String getTouType() {
-    return touType;
-  }
-
-  public void setTouType(String touType) {
-    this.touType = touType;
-  }
-
-  public List<TimeOfUsePeriod> getTouPeriods() {
-    return touPeriods;
-  }
-
-  public void setTouPeriods(List<TimeOfUsePeriod> touPeriods) {
-    this.touPeriods = touPeriods;
-  }
-
 }

@@ -1,255 +1,93 @@
 package com.genability.client.types;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
+import static com.google.common.base.MoreObjects.firstNonNull;
+
+import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Profile implements Serializable {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Profile.Builder.class)
+public abstract class Profile {
 
-	public static final String REST_TYPE = "UsageProfile";
-	private static final long serialVersionUID = 1L;
+  public abstract @Nullable String getAccountId();
+  public abstract @Nullable ImmutableList<BaselineMeasure> getBaselineMeasures();
+  public abstract @Nullable Integer getDataStatus();
+  public abstract @Nullable String getDescription();
+  public abstract @Nullable PagedList<IntervalInfo> getIntervals();
+  public abstract @Nullable Boolean getIsDefault();
+  public abstract @Nullable String getMeterId();
+  public abstract @Nullable String getProfileId();
+  public abstract @Nullable String getProfileName();
+  public abstract @Nullable ImmutableMap<String, PropertyData> getProperties();
+  public abstract @Nullable String getProviderAccountId();
+  public abstract @Nullable String getProviderProfileId();
+  public abstract @Nullable ImmutableList<ReadingData> getReadingData();
+  public abstract @Nullable PagedList<ReadingData> getReadings();
+  public abstract @Nullable ImmutableList<ReadingDataSummary> getReadingDataSummaries();
+  public abstract @Nullable String getServiceTypes();
+  public abstract @Nullable Source getSource();
 
-	private String profileId;
-	private String providerProfileId;
-	private String profileName;
-	private String providerAccountId;
-	private String accountId;
-	private String meterId;
-	private String description;
-	private Source source;
-	private List<ReadingDataSummary> readingDataSummaries;
-	private List<ReadingData> readingData;
-	private List<BaselineMeasure> baselineMeasures;
-	private PagedList<IntervalInfo> intervals;
-	private PagedList<ReadingData> readings;
-	private Map<String, PropertyData> properties;
-	//private PagedList<Bill> bills; // TODO: implement this
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Profile.Builder();
+  }
 
-	private Integer dataStatus;
-	private Boolean isDefault;
-	private String serviceTypes;
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-	public Profile() {
-		// no-op
-	}
+    public abstract Builder setAccountId(@Nullable String accountId);
+    public abstract Builder setDataStatus(@Nullable Integer dataStatus);
+    public abstract Builder setDescription(@Nullable String description);
+    public abstract Builder setIntervals(@Nullable PagedList<IntervalInfo> intervals);
+    public abstract Builder setIsDefault(@Nullable Boolean isDefault);
+    public abstract Builder setMeterId(@Nullable String meterId);
+    public abstract Builder setProfileId(@Nullable String profileId);
+    public abstract Builder setProfileName(@Nullable String profileName);
+    public abstract Builder setProperties(@Nullable ImmutableMap<String, PropertyData> properties);
+    public abstract Builder setProviderAccountId(@Nullable String providerAccountId);
+    public abstract Builder setProviderProfileId(@Nullable String providerProfileId);
+    public abstract Builder setReadings(@Nullable PagedList<ReadingData> readings);
+    public abstract Builder setServiceTypes(@Nullable String serviceTypes);
+    public abstract Builder setSource(@Nullable Source source);
 
-	public Profile(final String profileId) {
-		this.profileId = profileId;
+    @JsonIgnore
+    public abstract Builder setBaselineMeasures(@Nullable BaselineMeasure... baselineMeasures);
 
-	}
+    @JsonProperty("baselineMeasures")
+    public abstract Builder setBaselineMeasures(@Nullable ImmutableList<BaselineMeasure> baselineMeasures);    
 
-	public String getProfileId() {
-		return profileId;
-	}
+    @JsonIgnore
+    public abstract Builder setReadingData(@Nullable ReadingData... readingData);
 
-	public void setProfileId(final String profileId) {
-		this.profileId = profileId;
-	}
+    @JsonProperty("readingData")
+    public abstract Builder setReadingData(@Nullable ImmutableList<ReadingData> readingData);
 
-	public String getProviderProfileId() {
-		return providerProfileId;
-	}
+    @JsonIgnore
+    public abstract Builder setReadingDataSummaries(@Nullable ReadingDataSummary... readingDataSummaries);
 
-	public void setProviderProfileId(final String providerProfileId) {
-		this.providerProfileId = providerProfileId;
-	}
+    @JsonProperty("readingDataSummaries")
+    public abstract Builder setReadingDataSummaries(@Nullable ImmutableList<ReadingDataSummary> readingDataSummaries);
 
-	public String getProfileName() {
-		return profileName;
-	}
+    protected abstract ImmutableList<BaselineMeasure> getBaselineMeasures();
+    protected abstract ImmutableMap<String, PropertyData> getProperties();
+    protected abstract ImmutableList<ReadingData> getReadingData();
+    protected abstract ImmutableList<ReadingDataSummary> getReadingDataSummaries();
+    protected abstract Profile autoBuild();
 
-	public void setProfileName(final String profileName) {
-		this.profileName = profileName;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
-	@JsonIgnore
-	public String getSourceString() {
-		return source.getSourceId();
-	}
-	
-	@JsonIgnore
-	public void setSourceString(final String sourceId) {
-		Source newSource = new Source();
-		newSource.setSourceId(sourceId);
-		
-		this.source = newSource;
-	}
-
-	public Source getSource() {
-		return source;
-	}
-	
-	public void setSource(final Source source) {
-		this.source = source;
-	}
-
-	public List<ReadingDataSummary> getReadingDataSummaries() {
-		return readingDataSummaries;
-	}
-
-	public void setReadingDataSummaries(
-			List<ReadingDataSummary> readingDataSummaries) {
-		this.readingDataSummaries = readingDataSummaries;
-	}
-
-	public List<ReadingData> getReadingData() {
-		return readingData;
-	}
-
-	public void setReadingData(final List<ReadingData> readingData) {
-		this.readingData = readingData;
-	}
-
-	public List<BaselineMeasure> getBaselineMeasures() {
-		return baselineMeasures;
-	}
-
-	public void setBaselineMeasures(final List<BaselineMeasure> baselineMeasures) {
-		this.baselineMeasures = baselineMeasures;
-	}
-
-	public PagedList<ReadingData> getReadings() {
-		return readings;
-	}
-
-	public void setReadings(final PagedList<ReadingData> readings) {
-		this.readings = readings;
-	}
-
-	public PagedList<IntervalInfo> getIntervals() {
-		return intervals;
-	}
-
-	public void setIntervals(final PagedList<IntervalInfo> intervals) {
-		this.intervals = intervals;
-	}
-
-	public String getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(final String accountId) {
-		this.accountId = accountId;
-	}
-
-	public String getProviderAccountId() {
-		return providerAccountId;
-	}
-
-	public void setProviderAccountId(final String providerAccountId) {
-		this.providerAccountId = providerAccountId;
-	}
-
-	@JsonIgnore
-	public Integer getDataStatus() {
-		return dataStatus;
-	}
-
-	public void setDataStatus(final Integer dataStatus) {
-		this.dataStatus = dataStatus;
-	}
-
-	public Boolean getIsDefault() {
-		return isDefault;
-	}
-
-	public void setIsDefault(final Boolean isDefault) {
-		this.isDefault = isDefault;
-	}
-
-	public String getServiceTypes() {
-		return serviceTypes;
-	}
-
-	public void setServiceTypes(final String serviceTypes) {
-		this.serviceTypes = serviceTypes;
-	}
-
-	public String getMeterId() {
-		return meterId;
-	}
-
-	public void setMeterId(final String meterId) {
-		this.meterId = meterId;
-	}
-
-	public Map<String, PropertyData> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(final Map<String, PropertyData> properties) {
-		this.properties = properties;
-	}
-
-	/**
-	 * Pass in a quantityUnit value and this will tell you whether there is 1 or
-	 * more readings for it.
-	 * 
-	 * @param quantityUnit The quantityUnit.
-	 * @return true if has readings, false otherwise
-	 */
-	public boolean hasReadingsFor(String quantityUnit) {
-
-		if (quantityUnit == null || quantityUnit.isEmpty())
-			return false;
-		if (this.readingDataSummaries == null)
-			return false;
-
-		for (ReadingDataSummary summary : this.getReadingDataSummaries()) {
-			if (quantityUnit.equals(summary.getQuantityUnit())
-					&& summary.getNumberOfReadings() != null
-					&& summary.getNumberOfReadings() > 0)
-				return true;
-		}
-		return false;
-
-	} // end of hasReadingsFor
-
-	/**
-	 * Implementation of the compareTo.
-	 * 
-	 * @param anotherClass The anotherClass.
-	 * @return The return value.
-	 */
-	public int compareTo(Object anotherClass) {
-
-		if (!(anotherClass instanceof Profile)) {
-			throw new ClassCastException("Object is not Profile expected.");
-		}
-		return this.profileId
-				.compareTo(((Profile) anotherClass).getProfileId());
-
-	}
-
-	/**
-	 * Helper method to make a copy of the profile. Note it doesn't make a copy
-	 * of the readings, reading summaries, or properties
-	 * 
-	 * @param toCopyToProfile The toCopyToProfile.
-	 *            to copy data into
-	 */
-	public void copy(Profile toCopyToProfile) {
-		toCopyToProfile.setProfileId(this.profileId);
-		toCopyToProfile.setProviderProfileId(this.providerProfileId);
-		toCopyToProfile.setProfileName(this.profileName);
-		toCopyToProfile.setAccountId(this.accountId);
-		toCopyToProfile.setProviderAccountId(this.providerAccountId);
-		toCopyToProfile.setDescription(this.description);
-		toCopyToProfile.setSource(this.source);
-		toCopyToProfile.setIsDefault(this.isDefault);
-		toCopyToProfile.setMeterId(this.meterId);
-	}
+    public Profile build() {
+      setBaselineMeasures(firstNonNull(getBaselineMeasures(), ImmutableList.of()));
+      setProperties(firstNonNull(getProperties(), ImmutableMap.of()));
+      setReadingData(firstNonNull(getReadingData(), ImmutableList.of()));
+      setReadingDataSummaries(firstNonNull(getReadingDataSummaries(), ImmutableList.of()));
+      return autoBuild();
+    }
+  }
 }
-

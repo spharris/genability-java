@@ -1,103 +1,64 @@
 package com.genability.client.types;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import java.math.BigDecimal;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.annotation.Nullable;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public final class IncentiveApplicability {
-  private String applicabilityKey;
-  private String displayName;
-  private String description;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-  private String requiredValue;
-  private BigDecimal minValue;
-  private BigDecimal maxValue;
-  private List<PropertyChoice> choices;
-  private String quantityUnit;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_IncentiveApplicability.Builder.class)
+public abstract class IncentiveApplicability {
 
-  private String operator;
-  private String quantityKey;
+  public abstract @Nullable String getApplicabilityKey();
+  public abstract @Nullable ImmutableList<PropertyChoice> getChoices();
+  public abstract @Nullable String getDescription();
+  public abstract @Nullable String getDisplayName();
+  public abstract @Nullable BigDecimal getMaxValue();
+  public abstract @Nullable BigDecimal getMinValue();
+  public abstract @Nullable String getOperator();
+  public abstract @Nullable String getQuantityKey();
+  public abstract @Nullable String getQuantityUnit();
+  public abstract @Nullable String getRequiredValue();
 
-  public String getApplicabilityKey() {
-    return applicabilityKey;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_IncentiveApplicability.Builder();
   }
 
-  public void setApplicabilityKey(String applicabilityKey) {
-    this.applicabilityKey = applicabilityKey;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public String getDisplayName() {
-    return displayName;
-  }
+    public abstract Builder setApplicabilityKey(@Nullable String applicabilityKey);
+    public abstract Builder setDescription(@Nullable String description);
+    public abstract Builder setDisplayName(@Nullable String displayName);
+    public abstract Builder setMaxValue(@Nullable BigDecimal maxValue);
+    public abstract Builder setMinValue(@Nullable BigDecimal minValue);
+    public abstract Builder setOperator(@Nullable String operator);
+    public abstract Builder setQuantityKey(@Nullable String quantityKey);
+    public abstract Builder setQuantityUnit(@Nullable String quantityUnit);
+    public abstract Builder setRequiredValue(@Nullable String requiredValue);
 
-  public void setDisplayName(String displayName) {
-    this.displayName = displayName;
-  }
+    @JsonIgnore
+    public abstract Builder setChoices(@Nullable PropertyChoice... choices);
 
-  public String getDescription() {
-    return description;
-  }
+    @JsonProperty("choices")
+    public abstract Builder setChoices(@Nullable ImmutableList<PropertyChoice> choices);
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    protected abstract ImmutableList<PropertyChoice> getChoices();
+    protected abstract IncentiveApplicability autoBuild();
 
-  public String getRequiredValue() {
-    return requiredValue;
-  }
-
-  public void setRequiredValue(String requiredValue) {
-    this.requiredValue = requiredValue;
-  }
-
-  public BigDecimal getMinValue() {
-    return minValue;
-  }
-
-  public void setMinValue(BigDecimal minValue) {
-    this.minValue = minValue;
-  }
-
-  public BigDecimal getMaxValue() {
-    return maxValue;
-  }
-
-  public void setMaxValue(BigDecimal maxValue) {
-    this.maxValue = maxValue;
-  }
-
-  public List<PropertyChoice> getChoices() {
-    return choices;
-  }
-
-  public void setChoices(List<PropertyChoice> choices) {
-    this.choices = choices;
-  }
-
-  public String getQuantityUnit() {
-    return quantityUnit;
-  }
-
-  public void setQuantityUnit(String quantityUnit) {
-    this.quantityUnit = quantityUnit;
-  }
-
-  public String getOperator() {
-    return operator;
-  }
-
-  public void setOperator(String operator) {
-    this.operator = operator;
-  }
-
-  public String getQuantityKey() {
-    return quantityKey;
-  }
-
-  public void setQuantityKey(String quantityKey) {
-    this.quantityKey = quantityKey;
+    public IncentiveApplicability build() {
+      setChoices(firstNonNull(getChoices(), ImmutableList.of()));
+      return autoBuild();
+    }
   }
 }
-

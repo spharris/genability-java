@@ -1,71 +1,58 @@
 package com.genability.client.types;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import java.math.BigDecimal;
-import java.util.List;
+
+import javax.annotation.Nullable;
 
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class PriceChange {
-  private String changeName;
-  private DateTime changeDateTime;
-  private BigDecimal rateAmount;
-  private BigDecimal relativePriceIndex;
-  private BigDecimal accuracy;
-  private List<TariffRateChangePeriod> rateChangePeriods;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_PriceChange.Builder.class)
+public abstract class PriceChange {
 
+  public abstract @Nullable BigDecimal getAccuracy();
+  public abstract @Nullable DateTime getChangeDateTime();
+  public abstract @Nullable String getChangeName();
+  public abstract @Nullable BigDecimal getRateAmount();
+  public abstract @Nullable ImmutableList<TariffRateChangePeriod> getRateChangePeriods();
+  public abstract @Nullable BigDecimal getRelativePriceIndex();
 
-  public String getChangeName() {
-    return changeName;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_PriceChange.Builder();
   }
 
-  public void setChangeName(String changeName) {
-    this.changeName = changeName;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public DateTime getChangeDateTime() {
-    return changeDateTime;
-  }
+    public abstract Builder setAccuracy(@Nullable BigDecimal accuracy);
+    public abstract Builder setChangeDateTime(@Nullable DateTime changeDateTime);
+    public abstract Builder setChangeName(@Nullable String changeName);
+    public abstract Builder setRateAmount(@Nullable BigDecimal rateAmount);
+    public abstract Builder setRelativePriceIndex(@Nullable BigDecimal relativePriceIndex);
 
-  public void setChangeDateTime(DateTime changeDateTime) {
-    this.changeDateTime = changeDateTime;
-  }
+    @JsonIgnore
+    public abstract Builder setRateChangePeriods(@Nullable TariffRateChangePeriod... rateChangePeriods);
 
-  public BigDecimal getRateAmount() {
-    return rateAmount;
-  }
+    @JsonProperty("rateChangePeriods")
+    public abstract Builder setRateChangePeriods(@Nullable ImmutableList<TariffRateChangePeriod> rateChangePeriods);
 
-  public void setRateAmount(BigDecimal rateAmount) {
-    this.rateAmount = rateAmount;
-  }
+    protected abstract ImmutableList<TariffRateChangePeriod> getRateChangePeriods();
+    protected abstract PriceChange autoBuild();
 
-  public BigDecimal getRelativePriceIndex() {
-    return relativePriceIndex;
+    public PriceChange build() {
+      setRateChangePeriods(firstNonNull(getRateChangePeriods(), ImmutableList.of()));
+      return autoBuild();
+    }
   }
-
-  public void setRelativePriceIndex(BigDecimal relativePriceIndex) {
-    this.relativePriceIndex = relativePriceIndex;
-  }
-
-  public BigDecimal getAccuracy() {
-    return accuracy;
-  }
-
-  public void setAccuracy(BigDecimal accuracy) {
-    this.accuracy = accuracy;
-  }
-
-  public List<TariffRateChangePeriod> getRateChangePeriods() {
-    return rateChangePeriods;
-  }
-
-  public void setRateChangePeriods(List<TariffRateChangePeriod> rateChangePeriods) {
-    this.rateChangePeriods = rateChangePeriods;
-  }
-
 }

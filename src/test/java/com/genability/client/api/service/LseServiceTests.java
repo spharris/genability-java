@@ -40,7 +40,6 @@ public class LseServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Territory.REST_TYPE);
     assertTrue("bad count", restResponse.getCount() > 0);
 
     for (Territory territory : restResponse.getResults()) {

@@ -2,36 +2,33 @@ package com.genability.client.types;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.annotation.Nullable;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public final class PropertyChoice {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-  private String displayValue;
-  private String dataValue;
-  private BigDecimal likelihood;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_PropertyChoice.Builder.class)
+public abstract class PropertyChoice {
 
-  public String getDisplayValue() {
-    return displayValue;
+  public abstract @Nullable String getDataValue();
+  public abstract @Nullable String getDisplayValue();
+  public abstract @Nullable BigDecimal getLikelihood();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_PropertyChoice.Builder();
   }
 
-  public void setDisplayValue(String displayValue) {
-    this.displayValue = displayValue;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public String getDataValue() {
-    return dataValue;
-  }
+    public abstract Builder setDataValue(@Nullable String dataValue);
+    public abstract Builder setDisplayValue(@Nullable String displayValue);
+    public abstract Builder setLikelihood(@Nullable BigDecimal likelihood);
 
-  public void setDataValue(String dataValue) {
-    this.dataValue = dataValue;
-  }
-
-  public BigDecimal getLikelihood() {
-    return likelihood;
-  }
-
-  public void setLikelihood(BigDecimal likelihood) {
-    this.likelihood = likelihood;
+    public abstract PropertyChoice build();
   }
 }

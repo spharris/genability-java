@@ -2,97 +2,47 @@ package com.genability.client.types;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)
-public class PropertyLookupStats {
-  public static final String REST_TYPE = "PropertyLookupStats";
+@AutoValue
+@JsonDeserialize(builder = AutoValue_PropertyLookupStats.Builder.class)
+public abstract class PropertyLookupStats {
 
-  private String keyName;
-  private DateTime minFromDateTime;
-  private DateTime maxToDateTime;
-  private Integer lookupCount;
-  private BigDecimal meanValue;
+  public abstract @Nullable String getKeyName();
+  public abstract @Nullable DateTime getLastUpdatedDate();
+  public abstract @Nullable Integer getLookupCount();
+  public abstract @Nullable DateTime getMaxToDateTime();
+  public abstract @Nullable Long getMeanDuration();
+  public abstract @Nullable BigDecimal getMeanValue();
+  public abstract @Nullable DateTime getMinFromDateTime();
+  public abstract @Nullable Long getMissingDuration();
+  public abstract @Nullable Long getTotalDuration();
 
-  private Long totalDuration;
-  private Long meanDuration;
-  private Long missingDuration;
-  private DateTime lastUpdatedDate;
-
-  public String getKeyName() {
-    return keyName;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_PropertyLookupStats.Builder();
   }
 
-  public void setKeyName(String keyName) {
-    this.keyName = keyName;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public DateTime getMinFromDateTime() {
-    return minFromDateTime;
-  }
+    public abstract Builder setKeyName(@Nullable String keyName);
+    public abstract Builder setLastUpdatedDate(@Nullable DateTime lastUpdatedDate);
+    public abstract Builder setLookupCount(@Nullable Integer lookupCount);
+    public abstract Builder setMaxToDateTime(@Nullable DateTime maxToDateTime);
+    public abstract Builder setMeanDuration(@Nullable Long meanDuration);
+    public abstract Builder setMeanValue(@Nullable BigDecimal meanValue);
+    public abstract Builder setMinFromDateTime(@Nullable DateTime minFromDateTime);
+    public abstract Builder setMissingDuration(@Nullable Long missingDuration);
+    public abstract Builder setTotalDuration(@Nullable Long totalDuration);
 
-  public void setMinFromDateTime(DateTime minFromDateTime) {
-    this.minFromDateTime = minFromDateTime;
-  }
-
-  public DateTime getMaxToDateTime() {
-    return maxToDateTime;
-  }
-
-  public void setMaxToDateTime(DateTime maxToDateTime) {
-    this.maxToDateTime = maxToDateTime;
-  }
-
-  public Integer getLookupCount() {
-    return lookupCount;
-  }
-
-  public void setLookupCount(Integer lookupCount) {
-    this.lookupCount = lookupCount;
-  }
-
-  public BigDecimal getMeanValue() {
-    return meanValue;
-  }
-
-  public void setMeanValue(BigDecimal meanValue) {
-    this.meanValue = meanValue;
-  }
-
-  public Long getTotalDuration() {
-    return totalDuration;
-  }
-
-  public void setTotalDuration(Long totalDuration) {
-    this.totalDuration = totalDuration;
-  }
-
-  public Long getMeanDuration() {
-    return meanDuration;
-  }
-
-  public void setMeanDuration(Long meanDuration) {
-    this.meanDuration = meanDuration;
-  }
-
-  public Long getMissingDuration() {
-    return missingDuration;
-  }
-
-  public void setMissingDuration(Long missingDuration) {
-    this.missingDuration = missingDuration;
-  }
-
-  public DateTime getLastUpdatedDate() {
-    return lastUpdatedDate;
-  }
-
-  public void setLastUpdatedDate(DateTime lastUpdatedDate) {
-    this.lastUpdatedDate = lastUpdatedDate;
+    public abstract PropertyLookupStats build();
   }
 }

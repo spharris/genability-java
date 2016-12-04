@@ -2,116 +2,51 @@ package com.genability.client.types;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TariffRateChangePeriod {
-  private Long tariffRateId;
-  private Long touGroupId;
-  private String quantityKey;
-  private String rateName;
-  private ChargeType chargeType;
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-  private BigDecimal rateAmount;
-  private RateUnit rateUnit;
-  private String changeName;
-  private String chargePeriod;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_TariffRateChangePeriod.Builder.class)
+public abstract class TariffRateChangePeriod {
 
-  public TariffRateChangePeriod() {
-    // no-op
+  public abstract @Nullable String getChangeName();
+  public abstract @Nullable String getChargePeriod();
+  public abstract @Nullable ChargeType getChargeType();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable String getQuantityKey();
+  public abstract @Nullable BigDecimal getRateAmount();
+  public abstract @Nullable String getRateName();
+  public abstract @Nullable RateUnit getRateUnit();
+  public abstract @Nullable Long getTariffRateId();
+  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable Long getTouGroupId();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_TariffRateChangePeriod.Builder();
   }
 
-  public void setTariffRateId(final Long tariffRateId_) {
-    this.tariffRateId = tariffRateId_;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public Long getTariffRateId() {
-    return tariffRateId;
-  }
+    public abstract Builder setChangeName(@Nullable String changeName);
+    public abstract Builder setChargePeriod(@Nullable String chargePeriod);
+    public abstract Builder setChargeType(@Nullable ChargeType chargeType);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setQuantityKey(@Nullable String quantityKey);
+    public abstract Builder setRateAmount(@Nullable BigDecimal rateAmount);
+    public abstract Builder setRateName(@Nullable String rateName);
+    public abstract Builder setRateUnit(@Nullable RateUnit rateUnit);
+    public abstract Builder setTariffRateId(@Nullable Long tariffRateId);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setTouGroupId(@Nullable Long touGroupId);
 
-  public void setRateName(final String rateName) {
-    this.rateName = rateName;
-  }
-
-  public String getRateName() {
-    return rateName;
-  }
-
-  public void setChargeType(final ChargeType chargeType) {
-    this.chargeType = chargeType;
-  }
-
-  public ChargeType getChargeType() {
-    return chargeType;
-  }
-
-  public void setQuantityKey(final String quantityKey) {
-    this.quantityKey = quantityKey;
-  }
-
-  public String getQuantityKey() {
-    return quantityKey;
-  }
-
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setFromDateTime(final DateTime date) {
-    this.fromDateTime = date;
-  }
-
-  public void setToDateTime(final DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public BigDecimal getRateAmount() {
-    return rateAmount;
-  }
-
-  public void setRateAmount(final BigDecimal rateAmount) {
-    this.rateAmount = rateAmount;
-  }
-
-  public void setRateUnit(final RateUnit rateUnit_) {
-    this.rateUnit = rateUnit_;
-  }
-
-  public RateUnit getRateUnit() {
-    return rateUnit;
-  }
-
-  public void setChargePeriod(final String chargePeriod) {
-    this.chargePeriod = chargePeriod;
-  }
-
-  public String getChargePeriod() {
-    return chargePeriod;
-  }
-
-  public void setChangeName(final String changeName) {
-    this.changeName = changeName;
-  }
-
-  public String getChangeName() {
-    return changeName;
-  }
-
-  public Long getTouGroupId() {
-    return touGroupId;
-  }
-
-  public void setTouGroupId(final Long touGroupId) {
-    this.touGroupId = touGroupId;
+    public abstract TariffRateChangePeriod build();
   }
 }

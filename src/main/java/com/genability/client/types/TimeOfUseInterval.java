@@ -1,73 +1,42 @@
 package com.genability.client.types;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TimeOfUseInterval {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_TimeOfUseInterval.Builder.class)
+public abstract class TimeOfUseInterval {
 
-  private Long touGroupId_;
-  private Long touId_;
-  private TimeOfUseType touType;
-  private String touName_;
-  private DateTime fromDateTime_;
-  private DateTime toDateTime_;
-  private Long calendarId_;
+  public abstract @Nullable Long getCalendarId();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable Long getTouGroupId();
+  public abstract @Nullable Long getTouId();
+  public abstract @Nullable String getTouName();
+  public abstract @Nullable TimeOfUseType getTouType();
 
-  public Long getTouGroupId() {
-    return touGroupId_;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_TimeOfUseInterval.Builder();
   }
 
-  public void setTouGroupId(Long touGroupId) {
-    this.touGroupId_ = touGroupId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public Long getTouId() {
-    return touId_;
-  }
+    public abstract Builder setCalendarId(@Nullable Long calendarId);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setTouGroupId(@Nullable Long touGroupId);
+    public abstract Builder setTouId(@Nullable Long touId);
+    public abstract Builder setTouName(@Nullable String touName);
+    public abstract Builder setTouType(@Nullable TimeOfUseType touType);
 
-  public void setTouId(Long touId) {
-    this.touId_ = touId;
-  }
-
-  public TimeOfUseType getTouType() {
-    return touType;
-  }
-
-  public void setTouType(TimeOfUseType touType) {
-    this.touType = touType;
-  }
-
-  public String getTouName() {
-    return touName_;
-  }
-
-  public void setTouName(String touName) {
-    this.touName_ = touName;
-  }
-
-  public DateTime getFromDateTime() {
-    return fromDateTime_;
-  }
-
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime_ = fromDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime_;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime_ = toDateTime;
-  }
-
-  public void setCalendarId(Long calendarId) {
-    this.calendarId_ = calendarId;
-  }
-
-  public Long getCalendarId() {
-    return calendarId_;
+    public abstract TimeOfUseInterval build();
   }
 }

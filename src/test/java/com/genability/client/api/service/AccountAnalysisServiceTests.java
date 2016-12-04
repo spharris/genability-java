@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,6 +15,8 @@ import java.util.UUID;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.genability.client.api.request.AccountAnalysisRequest;
@@ -34,10 +35,13 @@ import com.genability.client.types.Series;
 import com.genability.client.types.SeriesMeasure;
 import com.genability.client.types.TariffRate;
 import com.genability.client.types.TariffRateBand;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Created by nsingh on 11/20/14.
  */
+@RunWith(JUnit4.class)
 public class AccountAnalysisServiceTests extends BaseServiceTests {
 
   private AccountAnalysis testAnalysisWithCosts;
@@ -60,22 +64,22 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
   @Test
   public void testSavingsAnalysis() {
 
-    Account account = new Account();
-    account.setAccountName("test-api");
-    account.setProviderAccountId("test-api" + UUID.randomUUID());
-    Address address = new Address();
-    address.setAddressString("221 Main Street, San Francisco, CA 94105");
-    account.setAddress(address);
-    Map<String, PropertyData> propertyDataMap = new HashMap<String, PropertyData>();
-    PropertyData propertyData = new PropertyData();
-    propertyData.setKeyName("customerClass");
-    propertyData.setDataValue("1");
-    propertyDataMap.put(propertyData.getKeyName(), propertyData);
-    account.setProperties(propertyDataMap);
+    Account account = Account.builder()
+        .setAccountName("test-api")
+        .setProviderAccountId("test-api" + UUID.randomUUID())
+        .setAddress(Address.builder()
+          .setAddressString("221 Main Street, San Francisco, CA 94105")
+          .build())
+        .setProperties(ImmutableMap.<String, PropertyData>builder()
+          .put(
+            "customerClass",
+            PropertyData.builder().setKeyName("customerClass").setDataValue("1").build())
+          .build())
+        .build();
+
     Response<Account> restResponse = accountService.addAccount(account);
     assertNotNull("new account response is null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Account.REST_TYPE);
     assertTrue("bad count", restResponse.getCount() == 1);
 
     Account newAccount = restResponse.getResults().get(0);
@@ -85,37 +89,41 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
 
     DateTime baseFromDateTime = new DateTime("2013-01-01");
 
-    Profile usageProfile = new Profile();
-    usageProfile.setAccountId(newAccount.getAccountId());
-    List<ReadingData> readingDataList = new ArrayList<ReadingData>();
+    Profile.Builder usageProfile = Profile.builder()
+        .setAccountId(newAccount.getAccountId());
+    
+    ImmutableList.Builder<ReadingData> readingDataList = ImmutableList.builder();
     for (int i = 0; i < 8760; i++) {
-      ReadingData readingData = new ReadingData();
-      readingData.setFromDateTime(baseFromDateTime.plusHours(i));
-      readingData.setToDateTime(baseFromDateTime.plusHours(i + 1));
-      readingData.setQuantityUnit("kWh");
-      readingData.setQuantityValue(BigDecimal.valueOf(250));
+      ReadingData readingData = ReadingData.builder()
+          .setFromDateTime(baseFromDateTime.plusHours(i))
+          .setToDateTime(baseFromDateTime.plusHours(i + 1))
+          .setQuantityUnit("kWh")
+          .setQuantityValue(BigDecimal.valueOf(250))
+          .build();
       readingDataList.add(readingData);
     }
-    usageProfile.setReadingData(readingDataList);
+    usageProfile.setReadingData(readingDataList.build());
     usageProfile.setProviderProfileId("USAGE_RESIDENTIAL_CA_V5" + UUID.randomUUID());
-    profileService.addProfile(usageProfile);
+    profileService.addProfile(usageProfile.build());
 
-    Profile productionProfile = new Profile();
-    productionProfile.setAccountId(newAccount.getAccountId());
-    List<ReadingData> production = new ArrayList<ReadingData>();
+    Profile.Builder productionProfile = Profile.builder()
+        .setAccountId(newAccount.getAccountId());
+    readingDataList = ImmutableList.builder();
     for (int i = 0; i < 8760; i++) {
-      ReadingData readingData = new ReadingData();
-      readingData.setFromDateTime(baseFromDateTime.plusHours(i));
-      readingData.setToDateTime(baseFromDateTime.plusHours(i + 1));
-      readingData.setQuantityUnit("kWh");
-      readingData.setQuantityValue(BigDecimal.valueOf(200));
-      production.add(readingData);
+      ReadingData readingData = ReadingData.builder()
+          .setFromDateTime(baseFromDateTime.plusHours(i))
+          .setToDateTime(baseFromDateTime.plusHours(i + 1))
+          .setQuantityUnit("kWh")
+          .setQuantityValue(BigDecimal.valueOf(200))
+          .build();
+      readingDataList.add(readingData);
     }
-    productionProfile.setReadingData(production);
+    usageProfile.setReadingData(readingDataList.build());
     productionProfile.setProviderProfileId("PRODUCTION_RESIDENTIAL_CA_V5" + UUID.randomUUID());
-    profileService.addProfile(productionProfile);
+    profileService.addProfile(productionProfile.build());
 
-    AccountAnalysisRequest request = createSavingsAnalysis(usageProfile, productionProfile);
+    AccountAnalysisRequest request = createSavingsAnalysis(usageProfile.build(),
+      productionProfile.build());
     request.setProviderAccountId(newAccount.getProviderAccountId());
 
     try {
@@ -124,7 +132,6 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
 
       assertNotNull("restResponse null", aaResponse);
       assertEquals("bad status", Response.STATUS_SUCCESS, aaResponse.getStatus());
-      assertEquals("bad type", AccountAnalysis.REST_TYPE, aaResponse.getType());
       assertNotNull("results null", aaResponse.getResults());
       assertEquals("results should be length one", 1, aaResponse.getResults().size());
 
@@ -166,22 +173,21 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
 
   @Test
   public void testPopulateCosts() {
-    Account account = new Account();
-    account.setAccountName("test-api");
-    account.setProviderAccountId("test-api" + UUID.randomUUID());
-    Address address = new Address();
-    address.setAddressString("221 Main Street, San Francisco, CA 94105");
-    account.setAddress(address);
-    Map<String, PropertyData> propertyDataMap = new HashMap<String, PropertyData>();
-    PropertyData propertyData = new PropertyData();
-    propertyData.setKeyName("customerClass");
-    propertyData.setDataValue("1");
-    propertyDataMap.put(propertyData.getKeyName(), propertyData);
-    account.setProperties(propertyDataMap);
+    Account account = Account.builder()
+        .setAccountName("test-api")
+        .setProviderAccountId("test-api" + UUID.randomUUID())
+        .setAddress(Address.builder()
+          .setAddressString("221 Main Street, San Francisco, CA 94105")
+          .build())
+        .setProperties(ImmutableMap.<String, PropertyData>builder()
+          .put(
+            "customerClass",
+            PropertyData.builder().setKeyName("customerClass").setDataValue("1").build())
+          .build())
+        .build();
     Response<Account> restResponse = accountService.addAccount(account);
     assertNotNull("new account response is null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", restResponse.getType(), Account.REST_TYPE);
     assertTrue("bad count", restResponse.getCount() == 1);
 
     Account newAccount = restResponse.getResults().get(0);
@@ -189,39 +195,42 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
     assertNotNull("accountId null", accountId);
 
     try {
-      DateTime baseFromDateTime = new DateTime("2013-01-01");
+      Profile.Builder usageProfile = Profile.builder()
+          .setAccountId(newAccount.getAccountId());
 
-      Profile usageProfile = new Profile();
-      usageProfile.setAccountId(newAccount.getAccountId());
-      List<ReadingData> readingDataList = new ArrayList<ReadingData>();
+      DateTime baseFromDateTime = new DateTime("2013-01-01");
+      ImmutableList.Builder<ReadingData> readingDataList = ImmutableList.builder();
       for (int i = 0; i < 8760; i++) {
-        ReadingData readingData = new ReadingData();
-        readingData.setFromDateTime(baseFromDateTime.plusHours(i));
-        readingData.setToDateTime(baseFromDateTime.plusHours(i + 1));
-        readingData.setQuantityUnit("kWh");
-        readingData.setQuantityValue(BigDecimal.valueOf(250));
+        ReadingData readingData = ReadingData.builder()
+            .setFromDateTime(baseFromDateTime.plusHours(i))
+            .setToDateTime(baseFromDateTime.plusHours(i + 1))
+            .setQuantityUnit("kWh")
+            .setQuantityValue(BigDecimal.valueOf(250))
+            .build();
         readingDataList.add(readingData);
       }
-      usageProfile.setReadingData(readingDataList);
-      usageProfile.setProviderProfileId("USAGE_RESIDENTIAL_CA_V5_" + UUID.randomUUID());
-      profileService.addProfile(usageProfile);
+      usageProfile.setReadingData(readingDataList.build());
+      usageProfile.setProviderProfileId("USAGE_RESIDENTIAL_CA_V5" + UUID.randomUUID());
+      profileService.addProfile(usageProfile.build());
 
-      Profile productionProfile = new Profile();
-      productionProfile.setAccountId(newAccount.getAccountId());
-      List<ReadingData> production = new ArrayList<ReadingData>();
+      Profile.Builder productionProfile = Profile.builder()
+          .setAccountId(newAccount.getAccountId());
+      readingDataList = ImmutableList.builder();
       for (int i = 0; i < 8760; i++) {
-        ReadingData readingData = new ReadingData();
-        readingData.setFromDateTime(baseFromDateTime.plusHours(i));
-        readingData.setToDateTime(baseFromDateTime.plusHours(i + 1));
-        readingData.setQuantityUnit("kWh");
-        readingData.setQuantityValue(BigDecimal.valueOf(200));
-        production.add(readingData);
+        ReadingData readingData = ReadingData.builder()
+            .setFromDateTime(baseFromDateTime.plusHours(i))
+            .setToDateTime(baseFromDateTime.plusHours(i + 1))
+            .setQuantityUnit("kWh")
+            .setQuantityValue(BigDecimal.valueOf(200))
+            .build();
+        readingDataList.add(readingData);
       }
-      productionProfile.setReadingData(production);
-      productionProfile.setProviderProfileId("PRODUCTION_RESIDENTIAL_CA_V5_" + UUID.randomUUID());
-      profileService.addProfile(productionProfile);
+      usageProfile.setReadingData(readingDataList.build());
+      productionProfile.setProviderProfileId("PRODUCTION_RESIDENTIAL_CA_V5" + UUID.randomUUID());
+      profileService.addProfile(productionProfile.build());
 
-      AccountAnalysisRequest request = createSavingsAnalysis(usageProfile, productionProfile);
+      AccountAnalysisRequest request = createSavingsAnalysis(usageProfile.build(),
+        productionProfile.build());
       request.setProviderAccountId(newAccount.getProviderAccountId());
       request.setPopulateCosts(true);
 
@@ -230,7 +239,6 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
 
       assertNotNull("restResponse null", aaResponse);
       assertEquals("bad status", Response.STATUS_SUCCESS, aaResponse.getStatus());
-      assertEquals("bad type", AccountAnalysis.REST_TYPE, aaResponse.getType());
       assertNotNull("results null", aaResponse.getResults());
       assertEquals("results should be length one", 1, aaResponse.getResults().size());
 
@@ -379,50 +387,42 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
     AccountAnalysisRequest request = new AccountAnalysisRequest();
     request.setFromDateTime(new DateTime("2014-10-10"));
 
-    List<PropertyData> properties = new ArrayList<PropertyData>();
-    PropertyData propertyData = new PropertyData();
-    propertyData.setScenarios("before");
-    propertyData.setKeyName("masterTariffId");
-    propertyData.setDataValue("522");
-    properties.add(propertyData);
-
-    propertyData = new PropertyData();
-    propertyData.setScenarios("after");
-    propertyData.setKeyName("masterTariffId");
-    propertyData.setDataValue("522");
-    properties.add(propertyData);
-
-    propertyData = new PropertyData();
-    propertyData.setScenarios("before,after");
-    propertyData.setKeyName("rateInflation");
-    propertyData.setDataValue("3.5");
-    properties.add(propertyData);
-
-
-    propertyData = new PropertyData();
-    propertyData.setScenarios("solar");
-    propertyData.setKeyName("rateInflation");
-    propertyData.setDataValue("1.9");
-    properties.add(propertyData);
-
-
-    propertyData = new PropertyData();
-    propertyData.setScenarios("after,solar");
-    propertyData.setKeyName("solarDegradation");
-    propertyData.setDataValue("1.5");
-    properties.add(propertyData);
-
-    propertyData = new PropertyData();
-    propertyData.setScenarios("before");
-    propertyData.setKeyName("providerProfileId");
-    propertyData.setDataValue(usageProfile.getProviderProfileId());
-    properties.add(propertyData);
-
-    propertyData = new PropertyData();
-    propertyData.setScenarios("after,solar");
-    propertyData.setKeyName("providerProfileId");
-    propertyData.setDataValue(productionProfile.getProviderProfileId());
-    properties.add(propertyData);
+    ImmutableList<PropertyData> properties = ImmutableList.of(
+        PropertyData.builder()
+            .setScenarios("before")
+            .setKeyName("masterTariffId")
+            .setDataValue("522")
+            .build(),
+        PropertyData.builder()
+            .setScenarios("after")
+            .setKeyName("masterTariffId")
+            .setDataValue("522")
+            .build(),
+        PropertyData.builder()
+            .setScenarios("before,after")
+            .setKeyName("rateInflation")
+            .setDataValue("3.5")
+            .build(),
+        PropertyData.builder()
+            .setScenarios("solar")
+            .setKeyName("rateInflation")
+            .setDataValue("1.9")
+            .build(),
+        PropertyData.builder()
+            .setScenarios("after,solar")
+            .setKeyName("solarDegradation")
+            .setDataValue("1.5")
+            .build(),
+        PropertyData.builder()
+            .setScenarios("before")
+            .setKeyName("providerProfileId")
+            .setDataValue(usageProfile.getProviderProfileId())
+            .build(),
+        PropertyData.builder()
+            .setScenarios("after,solar")
+            .setKeyName("providerProfileId")
+            .setDataValue(productionProfile.getProviderProfileId())
+            .build());
 
     request.setPropertyInputs(properties);
 
@@ -451,8 +451,6 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
 
     assertNotNull("restResponse null", deleteResponse);
     assertEquals("bad status", deleteResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertEquals("bad type", deleteResponse.getType(), Account.REST_TYPE);
-
   }
 
 }

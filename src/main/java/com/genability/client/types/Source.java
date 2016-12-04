@@ -1,43 +1,34 @@
 package com.genability.client.types;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.annotation.Nullable;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Source {
-  private String sourceId;
-  private String name;
-  private String type;
-  private String sourceVersion;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
 
-  public String getSourceId() {
-    return sourceId;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Source.Builder.class)
+public abstract class Source {
+
+  public abstract @Nullable String getName();
+  public abstract @Nullable String getSourceId();
+  public abstract @Nullable String getSourceVersion();
+  public abstract @Nullable String getType();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Source.Builder();
   }
 
-  public void setSourceId(String sourceId) {
-    this.sourceId = sourceId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  public String getName() {
-    return name;
-  }
+    public abstract Builder setName(@Nullable String name);
+    public abstract Builder setSourceId(@Nullable String sourceId);
+    public abstract Builder setSourceVersion(@Nullable String sourceVersion);
+    public abstract Builder setType(@Nullable String type);
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public String getSourceVersion() {
-    return sourceVersion;
-  }
-
-  public void setSourceVersion(String sourceVersion) {
-    this.sourceVersion = sourceVersion;
+    public abstract Source build();
   }
 }

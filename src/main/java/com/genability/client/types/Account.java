@@ -1,190 +1,69 @@
 package com.genability.client.types;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import static com.google.common.base.MoreObjects.firstNonNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.annotation.Nullable;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)
-public class Account {
-  public static final String REST_TYPE = "Account";
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
-  private String accountId;
-  private String providerAccountId;
-  private String accountName;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Account.Builder.class)
+public abstract class Account {
 
-  private String customerOrgId;
-  private String customerOrgName;
-  private CustomerClass customerClass;
-  private String owner;
+  public abstract @Nullable String getAccountId();
+  public abstract @Nullable String getAccountName();
+  public abstract @Nullable Address getAddress();
+  public abstract @Nullable CustomerClass getCustomerClass();
+  public abstract @Nullable String getCustomerOrgId();
+  public abstract @Nullable String getCustomerOrgName();
+  public abstract @Nullable String getOwner();
+  public abstract @Nullable ImmutableMap<String, PropertyData> getProperties();
+  public abstract @Nullable String getProviderAccountId();
+  public abstract @Nullable AccountStatus getStatus();
+  public abstract @Nullable ImmutableList<Tariff> getTariffs();
+  public abstract @Nullable AccountType getType();
 
-  private AccountStatus status;
-  private AccountType type;
-  private Address address;
-
-  private List<Tariff> tariffs;
-  private Map<String, PropertyData> properties;
-
-  /**
-   * @return the accountId
-   */
-  public String getAccountId() {
-    return accountId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_Account.Builder();
   }
 
-  /**
-   * @param accountId the accountId to set
-   */
-  public void setAccountId(String accountId) {
-    this.accountId = accountId;
-  }
+  @AutoValue.Builder
+  @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "set")
+  public abstract static class Builder {
 
-  /**
-   * @return the providerAccountId
-   */
-  public String getProviderAccountId() {
-    return providerAccountId;
-  }
+    public abstract Builder setAccountId(@Nullable String accountId);
+    public abstract Builder setAccountName(@Nullable String accountName);
+    public abstract Builder setAddress(@Nullable Address address);
+    public abstract Builder setCustomerClass(@Nullable CustomerClass customerClass);
+    public abstract Builder setCustomerOrgId(@Nullable String customerOrgId);
+    public abstract Builder setCustomerOrgName(@Nullable String customerOrgName);
+    public abstract Builder setOwner(@Nullable String owner);
+    public abstract Builder setProperties(@Nullable ImmutableMap<String, PropertyData> properties);
+    public abstract Builder setProviderAccountId(@Nullable String providerAccountId);
+    public abstract Builder setStatus(@Nullable AccountStatus status);
+    public abstract Builder setType(@Nullable AccountType type);
 
-  /**
-   * @param providerAccountId the providerAccountId to set
-   */
-  public void setProviderAccountId(String providerAccountId) {
-    this.providerAccountId = providerAccountId;
-  }
+    @JsonIgnore
+    public abstract Builder setTariffs(@Nullable Tariff... tariffs);
 
-  /**
-   * @return the accountName
-   */
-  public String getAccountName() {
-    return accountName;
-  }
+    @JsonProperty("tariffs")
+    public abstract Builder setTariffs(@Nullable ImmutableList<Tariff> tariffs);
 
-  /**
-   * @param accountName the accountName to set
-   */
-  public void setAccountName(String accountName) {
-    this.accountName = accountName;
-  }
+    protected abstract ImmutableMap<String, PropertyData> getProperties();
+    protected abstract ImmutableList<Tariff> getTariffs();
+    protected abstract Account autoBuild();
 
-  /**
-   * @return the customerOrgId
-   */
-  public String getCustomerOrgId() {
-    return customerOrgId;
-  }
-
-  /**
-   * @param customerOrgId the customerOrgId to set
-   */
-  public void setCustomerOrgId(String customerOrgId) {
-    this.customerOrgId = customerOrgId;
-  }
-
-  /**
-   * @return the customerOrgName
-   */
-  public String getCustomerOrgName() {
-    return customerOrgName;
-  }
-
-  /**
-   * @param customerOrgName the customerOrgName to set
-   */
-  public void setCustomerOrgName(String customerOrgName) {
-    this.customerOrgName = customerOrgName;
-  }
-
-  @Deprecated
-  public String getOwner() {
-    return owner;
-  }
-
-  @Deprecated
-  public void setOwner(String owner) {
-    this.owner = owner;
-  }
-
-  /**
-   * @return the status
-   */
-  public AccountStatus getStatus() {
-    return status;
-  }
-
-  /**
-   * @param status the status to set
-   */
-  public void setStatus(AccountStatus status) {
-    this.status = status;
-  }
-
-  public AccountType getType() {
-    return type;
-  }
-
-  public void setType(AccountType type) {
-    this.type = type;
-  }
-
-  public Address getAddress() {
-    return address;
-  }
-
-  public void setAddress(Address address) {
-    this.address = address;
-  }
-
-  public Map<String, PropertyData> getProperties() {
-    return properties;
-  }
-
-  public void setProperties(Map<String, PropertyData> properties) {
-    this.properties = properties;
-  }
-
-  public PropertyData getProperty(String key) {
-    if (this.properties == null) {
-      return null;
+    public Account build() {
+      setProperties(firstNonNull(getProperties(), ImmutableMap.of()));
+      setTariffs(firstNonNull(getTariffs(), ImmutableList.of()));
+      return autoBuild();
     }
-    return this.properties.get(key);
   }
-
-  public void setProperty(PropertyData value) {
-    this.setProperty(value.getKeyName(), value);
-  }
-
-  public void setProperty(String key, PropertyData value) {
-    if (this.properties == null) {
-      this.properties = new HashMap<String, PropertyData>();
-    }
-    this.properties.put(key, value);
-  }
-
-  /**
-   * @return the tariffs
-   */
-  public List<Tariff> getTariffs() {
-    return tariffs;
-  }
-
-  /**
-   * @param tariffs The tariffs. the tariffs to set
-   */
-  public void setTariffs(List<Tariff> tariffs) {
-    this.tariffs = tariffs;
-  }
-
-  public CustomerClass getCustomerClass() {
-    return customerClass;
-  }
-
-  public void setCustomerClass(CustomerClass customerClass) {
-    this.customerClass = customerClass;
-  }
-
 }

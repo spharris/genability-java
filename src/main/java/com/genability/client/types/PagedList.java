@@ -1,96 +1,38 @@
 package com.genability.client.types;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
+@AutoValue
+public abstract class PagedList<T> {
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class PagedList<T> {
-  /**
-   * 
-   */
-  protected PaginationInfo paginationInfo_;
-
-  protected List<T> list_;
-
-
-  public PagedList() {
-    this.paginationInfo_ = new PaginationInfo();
+  public abstract @Nullable ImmutableList<T> getList();
+  public abstract @Nullable PaginationInfo getPaginationInfo();
+  
+  public abstract Builder<T> toBuilder();
+  public static <T> Builder<T> builder() {
+    return new AutoValue_PagedList.Builder<T>();
   }
 
-  public PagedList(List<T> list) {
-    this.paginationInfo_ = new PaginationInfo();
-    this.list_ = list;
-    if (list != null) this.paginationInfo_.setTotalCount(this.list_.size());
+  @JsonCreator
+  public static <T> PagedList<T> create(
+      @JsonProperty("list") ImmutableList<T> list,
+      @JsonProperty("paginationInfo") PaginationInfo paginationInfo) {
+    return new AutoValue_PagedList.Builder<T>()
+        .setList(list)
+        .setPaginationInfo(paginationInfo)
+        .build();
   }
-
-  public PagedList(PaginationInfo paginationInfo) {
-    if (paginationInfo == null) {
-      this.paginationInfo_ = new PaginationInfo();
-    } else {
-      this.paginationInfo_ = paginationInfo;
-    }
+  
+  @AutoValue.Builder
+  public abstract static class Builder<T> {
+    public abstract Builder<T> setList(@Nullable ImmutableList<T> list);
+    public abstract Builder<T> setPaginationInfo(@Nullable PaginationInfo paginationInfo);
+    
+    public abstract PagedList<T> build();
   }
-
-  public PagedList(List<T> list, PaginationInfo paginationInfo) {
-    this.list_ = list;
-    if (paginationInfo == null) {
-      this.paginationInfo_ = new PaginationInfo();
-      if (list != null) this.paginationInfo_.setTotalCount(this.list_.size());
-    } else {
-      this.paginationInfo_ = paginationInfo;
-    }
-  }
-
-  public PaginationInfo getPaginationInfo() {
-    return paginationInfo_;
-  }
-
-  public void setPaginationInfo(PaginationInfo paginationInfo) {
-    this.paginationInfo_ = paginationInfo;
-  }
-
-  public int getTotalCount() {
-    return paginationInfo_.getTotalCount();
-  }
-
-
-  public void setTotalCount(int totalCount) {
-    if (paginationInfo_ == null) {
-      paginationInfo_ = new PaginationInfo(totalCount);
-    } else {
-
-      paginationInfo_.setTotalCount(totalCount);
-    }
-
-  }
-
-  public int getPageCount() {
-    return paginationInfo_.getPageCount();
-  }
-
-  public void setPageCount(int pageCount) {
-    this.paginationInfo_.setPageCount(pageCount);
-  }
-
-  public int getPageStart() {
-    return paginationInfo_.getPageStart();
-  }
-
-  public void setPageStart(int pageStart) {
-    this.paginationInfo_.setPageStart(pageStart);
-  }
-
-  public List<T> getList() {
-    return list_;
-  }
-
-  public void setList(List<T> list) {
-    this.list_ = list;
-  }
-
-  public void addAll(PagedList<T> list) {
-    this.list_.addAll(list.getList());
-  }
-} // end of class PagedList
+}
