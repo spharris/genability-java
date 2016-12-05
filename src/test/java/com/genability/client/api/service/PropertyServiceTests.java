@@ -26,8 +26,9 @@ public class PropertyServiceTests extends BaseServiceTests {
     //
     // Assign
     //
-    GetPropertyKeyRequest request = new GetPropertyKeyRequest();
-    request.setKeyName("qosVariableRateKeyHourlyWithSubkey");
+    GetPropertyKeyRequest request = GetPropertyKeyRequest.builder()
+        .setKeyName("qosVariableRateKeyHourlyWithSubkey")
+        .build();
 
     //
     // Act
@@ -44,10 +45,11 @@ public class PropertyServiceTests extends BaseServiceTests {
 
   @Test
   public void testPaginatedPropertyKeysList() {
-    GetPropertyKeysRequest request = new GetPropertyKeysRequest();
     // PG&E, since it has a lot of property keys
-    request.setEntityId(734L);
-    request.setEntityType("LSE");
+    GetPropertyKeysRequest request = GetPropertyKeysRequest.builder()
+        .setEntityId(734L)
+        .setEntityType("LSE")
+        .build();
     Response<PropertyKey> restResponse = propertyService.getPropertyKeys(request);
 
     int totalPropertyKeys = restResponse.getCount();
@@ -59,7 +61,8 @@ public class PropertyServiceTests extends BaseServiceTests {
 
       propertyKeysVisited += restResponse.getResults().size();
 
-      request.setPageStart(restResponse.getPageStart() + restResponse.getPageCount());
+      request = request.toBuilder().setPageStart(
+        restResponse.getPageStart() + restResponse.getPageCount()).build();
       restResponse = propertyService.getPropertyKeys(request);
     }
 
@@ -72,9 +75,10 @@ public class PropertyServiceTests extends BaseServiceTests {
     //
     // Assign
     //
-    GetPropertyKeysRequest request = new GetPropertyKeysRequest();
-    request.setFamily("market");
-    request.setDataType(DataType.LOOKUP);
+    GetPropertyKeysRequest request = GetPropertyKeysRequest.builder()
+        .setFamily("market")
+        .setDataType(DataType.LOOKUP)
+        .build();
 
     //
     // Act
@@ -95,9 +99,10 @@ public class PropertyServiceTests extends BaseServiceTests {
     //
     // Assign
     //
-    GetPropertyLookupsRequest request = new GetPropertyLookupsRequest();
     String targetPropertyKey = "hourlyPricingDayAheadPJM";
-    request.setKeyName(targetPropertyKey);
+    GetPropertyLookupsRequest request = GetPropertyLookupsRequest.builder()
+        .setKeyName(targetPropertyKey)
+        .build();
 
     //
     // Act
@@ -120,13 +125,14 @@ public class PropertyServiceTests extends BaseServiceTests {
     //
     // Assign
     //
-    GetPropertyLookupsRequest request = new GetPropertyLookupsRequest();
     String targetPropertyKey = "hourlyPricingDayAheadPJM";
     String targetSubPropertyKey = "51291";
-    request.setKeyName(targetPropertyKey);
-    request.setSubKeyName(targetSubPropertyKey);
-    request.setFromDateTime(new DateTime("2014-01-01"));
-    request.setToDateTime(new DateTime("2014-01-02"));
+    GetPropertyLookupsRequest request = GetPropertyLookupsRequest.builder()
+        .setKeyName(targetPropertyKey)
+        .setSubKeyName(targetSubPropertyKey)
+        .setFromDateTime(new DateTime("2014-01-01"))
+        .setToDateTime(new DateTime("2014-01-02"))
+        .build();
 
     //
     // Act

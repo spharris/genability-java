@@ -1,37 +1,41 @@
 package com.genability.client.api.request;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetCalendarsRequest extends AbstractRequest {
+@AutoValue
+public abstract class GetCalendarsRequest extends AbstractRequest {
 
-  /**
-   * Private member variable for LseId.
-   */
-  private Long lseId;
+  GetCalendarsRequest() {}
 
-  public Long getLseId() {
-    return lseId;
+  public abstract @Nullable Long getLseId();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetCalendarsRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
 
+    public abstract Builder setLseId(@Nullable Long lseId);
+
+    public abstract GetCalendarsRequest build();
+  }
 
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-    addParam(qparams, "lseId", lseId);
-
-    return qparams;
-
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("lseId", getLseId())
+        .build();
   }
-
 }

@@ -1,42 +1,45 @@
 package com.genability.client.api.request;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetTimeOfUseIntervalsRequest extends AbstractGetNRequest {
+@AutoValue
+public abstract class GetTimeOfUseIntervalsRequest extends AbstractGetNRequest {
 
-  private DateTime toDateTime;
-  private DateTime fromDateTime;
+  GetTimeOfUseIntervalsRequest() {}
 
-  public DateTime getToDateTime() {
-    return toDateTime;
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable DateTime getToDateTime();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetTimeOfUseIntervalsRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
+
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+
+    public abstract GetTimeOfUseIntervalsRequest build();
   }
 
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    addParam(qparams, "fromDateTime", fromDateTime);
-    addParam(qparams, "toDateTime", toDateTime);
-
-    return qparams;
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("fromDateTime", getFromDateTime())
+        .addParam("toDateTime", getToDateTime())
+        .build();
   }
-
 }

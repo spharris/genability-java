@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -24,6 +23,7 @@ import com.genability.client.types.Profile;
 import com.genability.client.types.PropertyData;
 import com.genability.client.types.ReadingData;
 import com.genability.client.types.Response;
+import com.google.common.collect.ImmutableList;
 
 public class CalculateServiceTests extends BaseServiceTests {
 
@@ -35,21 +35,18 @@ public class CalculateServiceTests extends BaseServiceTests {
     DateTime fromDateTime = new DateTime(2015, 3, 1, 0, 0, 0, tz);
     DateTime toDateTime = new DateTime(2015, 4, 1, 0, 0, 0, tz);
 
-    GetCalculatedCostRequest request = new GetCalculatedCostRequest();
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
-    request.setGroupBy(GroupBy.ALL);
-    request.setDetailLevel(DetailLevel.TOTAL);
-    request.setZipCode("94105");
-    request.setMasterTariffId(522L);
-
-    PropertyData ti = PropertyData.builder()
-        .setKeyName("baselineType")
-        .setDataValue("typicalElectricity")
+    GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setGroupBy(GroupBy.ALL)
+        .setDetailLevel(DetailLevel.TOTAL)
+        .setZipCode("94105")
+        .setMasterTariffId(522L)
+        .setTariffInputs(PropertyData.builder()
+            .setKeyName("baselineType")
+            .setDataValue("typicalElectricity")
+            .build())
         .build();
-    List<PropertyData> tariffInputs = new LinkedList<PropertyData>();
-    tariffInputs.add(ti);
-    request.setTariffInputs(tariffInputs);
 
     Response<CalculatedCost> resp = calculateService.getCalculatedCost(request);
     if (resp.getStatus().equals("SUCCESS")) {
@@ -63,42 +60,30 @@ public class CalculateServiceTests extends BaseServiceTests {
     DateTime fromDateTime = new DateTime("2011-12-01T00:00:00.000-05:00");
     DateTime toDateTime = new DateTime("2012-01-01T00:00:00.000-05:00");
 
-    GetCalculatedCostRequest request = new GetCalculatedCostRequest();
-
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
-    request.setMasterTariffId(512l);
-
-    // Set the consumption property
-    PropertyData newProp3 = PropertyData.builder()
+    GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
         .setFromDateTime(fromDateTime)
         .setToDateTime(toDateTime)
-        .setDataValue("220")
-        .setKeyName("consumption")
+        .setMasterTariffId(512l)
+        .setTariffInputs(PropertyData.builder()
+            .setFromDateTime(fromDateTime)
+            .setToDateTime(toDateTime)
+            .setDataValue("220")
+            .setKeyName("consumption")
+            .build(),
+          PropertyData.builder()
+            .setFromDateTime(fromDateTime)
+            .setToDateTime(toDateTime)
+            .setDataValue("Inside")
+            .setKeyName("cityLimits ")
+            .build(),
+          PropertyData.builder()
+            .setFromDateTime(fromDateTime)
+            .setToDateTime(toDateTime)
+            .setDataValue("Primary")
+            .setKeyName("connectionType")
+            .build())
         .build();
-
-    // Set the cityLimits property
-    PropertyData newProp = PropertyData.builder()
-        .setFromDateTime(fromDateTime)
-        .setToDateTime(toDateTime)
-        .setDataValue("Inside")
-        .setKeyName("cityLimits ")
-        .build();
-
-    // Set the connectionType property
-    PropertyData newProp2 = PropertyData.builder()
-        .setFromDateTime(fromDateTime)
-        .setToDateTime(toDateTime)
-        .setDataValue("Primary")
-        .setKeyName("connectionType")
-        .build();
-
-    request.addTariffInput(newProp);
-    request.addTariffInput(newProp2);
-    request.addTariffInput(newProp3);
-
     callRunCalc("Test for master tariff 512", request);
-
   }
 
 
@@ -111,13 +96,12 @@ public class CalculateServiceTests extends BaseServiceTests {
     DateTime fromDateTime = new DateTime(2012, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime = new DateTime(2013, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
 
-    GetCalculatedCostRequest request = new GetCalculatedCostRequest();
-
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
-    request.setMasterTariffId(522l); // PGE E1 - residential tariff
-    request.setDetailLevel(DetailLevel.CHARGE_TYPE);
-    request.setGroupBy(GroupBy.MONTH);
+    GetCalculatedCostRequest.Builder request = GetCalculatedCostRequest.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setMasterTariffId(522l) // PGE E1 - residential tariff
+        .setDetailLevel(DetailLevel.CHARGE_TYPE)
+        .setGroupBy(GroupBy.MONTH);
 
     // Set the territoryId property
     PropertyData newProp2 = PropertyData.builder()
@@ -127,7 +111,8 @@ public class CalculateServiceTests extends BaseServiceTests {
         .setKeyName("territoryId")
         .build();
 
-    request.addTariffInput(newProp2);
+    ImmutableList.Builder<PropertyData> builder = ImmutableList.<PropertyData>builder()
+        .add(newProp2);
 
     //
     // Create consumption inputs for each hour of the day, first for
@@ -147,7 +132,7 @@ public class CalculateServiceTests extends BaseServiceTests {
             .setKeyName("consumption")
             .build();
 
-        request.addTariffInput(weekdayProp);
+        builder.add(weekdayProp);
 
         PropertyData weekendProp = PropertyData.builder()
             .setFromDateTime(fromDateTime)
@@ -157,14 +142,14 @@ public class CalculateServiceTests extends BaseServiceTests {
             .setKeyName("consumption")
             .build();
 
-        request.addTariffInput(weekendProp);
+        builder.add(weekendProp);
 
         propertyStartDateTime = propertyStartDateTime.plusMonths(1);
 
       }
     }
 
-    callRunCalc("Test for master tariff 522", request);
+    callRunCalc("Test for master tariff 522", request.setTariffInputs(builder.build()).build());
 
   }
 
@@ -176,24 +161,19 @@ public class CalculateServiceTests extends BaseServiceTests {
     DateTime toDateTime =
         new DateTime(2014, 2, 1, 0, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles"));
 
-    GetCalculatedCostRequest request = new GetCalculatedCostRequest();
-
-    // Group by chargeType
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
-    request.setMasterTariffId(522l);
-    request.setDetailLevel(DetailLevel.CHARGE_TYPE);
-    request.setGroupBy(GroupBy.MONTH);
-
-    // Set the consumption property
-    PropertyData newProp = PropertyData.builder()
+    GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
         .setFromDateTime(fromDateTime)
         .setToDateTime(toDateTime)
-        .setDataValue("220")
-        .setKeyName("consumption")
+        .setMasterTariffId(522l)
+        .setDetailLevel(DetailLevel.CHARGE_TYPE)
+        .setGroupBy(GroupBy.MONTH)
+        .setTariffInputs(PropertyData.builder()
+            .setFromDateTime(fromDateTime)
+            .setToDateTime(toDateTime)
+            .setDataValue("220")
+            .setKeyName("consumption")
+            .build())
         .build();
-
-    request.addTariffInput(newProp);
 
     CalculatedCost calculatedCost = callRunCalc("Test for grouping master tariff 522", request);
 
@@ -219,22 +199,18 @@ public class CalculateServiceTests extends BaseServiceTests {
     DateTime fromDateTime = new DateTime(2012, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime = new DateTime(2013, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
 
-    GetCalculatedCostRequest request = new GetCalculatedCostRequest();
-
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
-    request.setDetailLevel(DetailLevel.ALL);
-
-    request.setAccountId(newAccount.getAccountId());
-
-    PropertyData newProp2 = PropertyData.builder()
+    GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
         .setFromDateTime(fromDateTime)
         .setToDateTime(toDateTime)
-        .setDataValue(newAccount.getAccountId())
-        .setKeyName("accountId")
+        .setDetailLevel(DetailLevel.ALL)
+        .setAccountId(newAccount.getAccountId())
+        .setTariffInputs(PropertyData.builder()
+            .setFromDateTime(fromDateTime)
+            .setToDateTime(toDateTime)
+            .setDataValue(newAccount.getAccountId())
+            .setKeyName("accountId")
+            .build())
         .build();
-
-    request.addTariffInput(newProp2);
 
     callRunCalc("Test for calculateForAccount", request);
 
@@ -278,29 +254,24 @@ public class CalculateServiceTests extends BaseServiceTests {
     DateTime toDateTime = new DateTime(2014, 4, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
 
     // set up calculation request
-    GetCalculatedCostRequest request = new GetCalculatedCostRequest();
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
-    request.setDetailLevel(DetailLevel.ALL);
-    request.setMasterTariffId(512l);
-
-    // add profile1 input
-    PropertyData profileProp1 = PropertyData.builder()
+    GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
         .setFromDateTime(fromDateTime)
         .setToDateTime(toDateTime)
-        .setDataValue(profile1.getProfileId())
-        .setKeyName("profileId")
+        .setDetailLevel(DetailLevel.ALL)
+        .setMasterTariffId(512l)
+        .setTariffInputs(PropertyData.builder()
+            .setFromDateTime(fromDateTime)
+            .setToDateTime(toDateTime)
+            .setDataValue(profile1.getProfileId())
+            .setKeyName("profileId")
+            .build(),
+          PropertyData.builder()
+            .setFromDateTime(fromDateTime)
+            .setToDateTime(toDateTime)
+            .setDataValue(profile2.getProfileId())
+            .setKeyName("profileId")
+            .build())
         .build();
-    request.addTariffInput(profileProp1);
-
-    // add profile2 input
-    PropertyData profileProp2 = PropertyData.builder()
-        .setFromDateTime(fromDateTime)
-        .setToDateTime(toDateTime)
-        .setDataValue(profile2.getProfileId())
-        .setKeyName("profileId")
-        .build();
-    request.addTariffInput(profileProp2);
 
     // run calc
     callRunCalc("Test for calculateForAccount", request);
@@ -323,12 +294,12 @@ public class CalculateServiceTests extends BaseServiceTests {
     DateTime fromDateTime = new DateTime(2012, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime = new DateTime(2013, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
 
-    GetCalculationInputsRequest request = new GetCalculationInputsRequest();
-
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
-    request.setMasterTariffId(522l);
-    request.setTerritoryId(3534l);
+    GetCalculationInputsRequest request = GetCalculationInputsRequest.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setMasterTariffId(522L)
+        .setTerritoryId(3534L)
+        .build();
 
     Response<PropertyData> restResponse = calculateService.getCalculationInputs(request);
 

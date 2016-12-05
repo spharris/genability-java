@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.GetTerritoriesRequest;
 import com.genability.client.api.request.GetTerritoryRequest;
@@ -12,6 +14,7 @@ import com.genability.client.types.MockHttpClient;
 import com.genability.client.types.Response;
 import com.genability.client.types.Territory;
 
+@RunWith(JUnit4.class)
 public class TerritoryServiceTests extends BaseServiceTests {
 
   private String baseUrl = territoryService.getRestApiServer() + "public/territories/";
@@ -34,8 +37,9 @@ public class TerritoryServiceTests extends BaseServiceTests {
     localService.setHttpClient(client);
 
     // Act
-    GetTerritoryRequest request = new GetTerritoryRequest();
-    request.setTerritoryId(territoryId);
+    GetTerritoryRequest request = GetTerritoryRequest.builder()
+        .setTerritoryId(territoryId)
+        .build();
 
     localService.getTerritory(request);
     client.validate();
@@ -54,10 +58,11 @@ public class TerritoryServiceTests extends BaseServiceTests {
     localService.setHttpClient(client);
 
     // Act
-    GetTerritoryRequest request = new GetTerritoryRequest();
-    request.setTerritoryId(territoryId);
-    request.setPopulateItems(true);
-    request.setPopulateLses(true);
+    GetTerritoryRequest request = GetTerritoryRequest.builder()
+        .setTerritoryId(territoryId)
+        .setPopulateItems(true)
+        .setPopulateLses(true)
+        .build();
 
     localService.getTerritory(request);
     client.validate();
@@ -79,13 +84,14 @@ public class TerritoryServiceTests extends BaseServiceTests {
     localService.setHttpClient(client);
 
     // Act
-    GetTerritoriesRequest request = new GetTerritoriesRequest();
-    request.setPopulateItems(true);
-    request.setPopulateLses(true);
-    request.setLseId(1234L);
-    request.setMasterTariffId(5L);
-    request.setContainsItemType("itemType");
-    request.setContainsItemValue("itemValue");
+    GetTerritoriesRequest request = GetTerritoriesRequest.builder()
+        .setPopulateItems(true)
+        .setPopulateLses(true)
+        .setLseId(1234L)
+        .setMasterTariffId(5L)
+        .setContainsItemType("itemType")
+        .setContainsItemValue("itemValue")
+        .build();
 
     localService.getTerritories(request);
     client.validate();
@@ -95,8 +101,9 @@ public class TerritoryServiceTests extends BaseServiceTests {
   public void testGetOneTerritoryFromServer() {
     Long territoryId = Long.valueOf(807L);
 
-    GetTerritoryRequest request = new GetTerritoryRequest();
-    request.setTerritoryId(territoryId);
+    GetTerritoryRequest request = GetTerritoryRequest.builder()
+        .setTerritoryId(territoryId)
+        .build();
 
     Response<Territory> result = territoryService.getTerritory(request);
     Territory t = result.getResults().get(0);
@@ -109,9 +116,10 @@ public class TerritoryServiceTests extends BaseServiceTests {
   public void testGetOneTerritoryFromServerWithParameters() {
     Long territoryId = Long.valueOf(807L);
 
-    GetTerritoryRequest request = new GetTerritoryRequest();
-    request.setTerritoryId(territoryId);
-    request.setPopulateItems(true);
+    GetTerritoryRequest request = GetTerritoryRequest.builder()
+        .setTerritoryId(territoryId)
+        .setPopulateItems(true)
+        .build();
 
     Response<Territory> result = territoryService.getTerritory(request);
     Territory t = result.getResults().get(0);
@@ -124,8 +132,9 @@ public class TerritoryServiceTests extends BaseServiceTests {
   public void testGetTerritoriesFromServer() {
     Long lseId = Long.valueOf(734L);
 
-    GetTerritoriesRequest request = new GetTerritoriesRequest();
-    request.setLseId(lseId);
+    GetTerritoriesRequest request = GetTerritoriesRequest.builder()
+        .setLseId(lseId)
+        .build();
 
     Response<Territory> result = territoryService.getTerritories(request);
 

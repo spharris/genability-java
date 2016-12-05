@@ -1,19 +1,36 @@
-/**
- * 
- */
 package com.genability.client.api.request;
 
-import java.io.Serializable;
+import org.apache.http.NameValuePair;
 
-/**
- * @author ebaizel
- * 
- */
-public class GetAccountsRequest extends AbstractGetNRequest implements Serializable {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-  /**
-   * private member variable for serial version
-   */
-  private static final long serialVersionUID = 1L;
+@AutoValue
+public abstract class GetAccountsRequest extends AbstractGetNRequest {
 
+  GetAccountsRequest() {}
+
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetAccountsRequest.Builder()
+        .setFields(Fields.EXT);
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
+
+
+    public abstract GetAccountsRequest build();
+  }
+
+
+  @Override
+  @JsonIgnore
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .build();
+  }
 }

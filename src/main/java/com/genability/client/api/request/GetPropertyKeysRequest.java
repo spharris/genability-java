@@ -1,106 +1,62 @@
 package com.genability.client.api.request;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.DataType;
+import com.genability.client.types.Fields;
 import com.genability.client.types.Privacy;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
+@AutoValue
+public abstract class GetPropertyKeysRequest extends AbstractGetNRequest {
 
-public class GetPropertyKeysRequest extends AbstractGetNRequest {
+  GetPropertyKeysRequest() {}
 
+  public abstract @Nullable DataType getDataType();
+  public abstract @Nullable Long getEntityId();
+  public abstract @Nullable String getEntityType();
+  public abstract @Nullable Boolean getExcludeGlobal();
+  public abstract @Nullable String getFamily();
+  public abstract @Nullable String getKeySpace();
+  public abstract @Nullable ImmutableList<Privacy> getPrivacy();
 
-  private String keySpace;
-
-  private String family;
-
-  private DataType dataType;
-
-  private Long entityId;
-
-  private String entityType;
-
-  private Boolean excludeGlobal;
-
-  private Privacy[] privacy;
-
-
-
-  public String getKeySpace() {
-    return keySpace;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetPropertyKeysRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setKeySpace(String keySpace) {
-    this.keySpace = keySpace;
-  }
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
 
-  public String getFamily() {
-    return family;
-  }
+    public abstract Builder setDataType(@Nullable DataType dataType);
+    public abstract Builder setEntityId(@Nullable Long entityId);
+    public abstract Builder setEntityType(@Nullable String entityType);
+    public abstract Builder setExcludeGlobal(@Nullable Boolean excludeGlobal);
+    public abstract Builder setFamily(@Nullable String family);
+    public abstract Builder setKeySpace(@Nullable String keySpace);
+    public abstract Builder setPrivacy(@Nullable Privacy... privacy);
+    public abstract Builder setPrivacy(@Nullable ImmutableList<Privacy> privacy);
 
-  public void setFamily(String family) {
-    this.family = family;
+    public abstract GetPropertyKeysRequest build();
   }
-
-  public DataType getDataType() {
-    return dataType;
-  }
-
-  public void setDataType(DataType dataType) {
-    this.dataType = dataType;
-  }
-
-  public Long getEntityId() {
-    return entityId;
-  }
-
-  public void setEntityId(Long entityId) {
-    this.entityId = entityId;
-  }
-
-  public String getEntityType() {
-    return entityType;
-  }
-
-  public void setEntityType(String entityType) {
-    this.entityType = entityType;
-  }
-
-  public Boolean getExcludeGlobal() {
-    return excludeGlobal;
-  }
-
-  public void setExcludeGlobal(Boolean excludeGlobal) {
-    this.excludeGlobal = excludeGlobal;
-  }
-
-  public Privacy[] getPrivacy() {
-    return privacy;
-  }
-
-  public void setPrivacy(Privacy[] privacy) {
-    this.privacy = privacy;
-  }
-
 
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-    addParam(qparams, "keySpace", keySpace);
-    addParam(qparams, "family", family);
-    addParam(qparams, "dataType", dataType);
-    addParam(qparams, "entityId", entityId);
-    addParam(qparams, "entityType", entityType);
-    addParam(qparams, "excludeGlobal", excludeGlobal);
-    addParam(qparams, "privacy", privacy);
-    return qparams;
-
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("dataType", getDataType())
+        .addParam("entityId", getEntityId())
+        .addParam("entityType", getEntityType())
+        .addParam("excludeGlobal", getExcludeGlobal())
+        .addParam("family", getFamily())
+        .addParam("keySpace", getKeySpace())
+        .addParam("privacy", getPrivacy())
+        .build();
   }
-
-
 }

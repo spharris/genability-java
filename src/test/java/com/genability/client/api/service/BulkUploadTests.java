@@ -39,14 +39,14 @@ public class BulkUploadTests extends BaseServiceTests {
   public void testUploadCSV() throws Exception {
 
     // bulk load readings to account
-    BulkUploadRequest request = new BulkUploadRequest();
-
     URI resourceUri = new URI(getClass().getResource("/interval_data.csv").toString());
     File file = new File(resourceUri.getPath());
 
-    request.setFileData(file);
-    request.setFileFormat("csv");
-    request.setUsageProfileId(profile.getProfileId());
+    BulkUploadRequest request = BulkUploadRequest.builder()
+        .setFileData(file)
+        .setFileFormat("csv")
+        .setUsageProfileId(profile.getProfileId())
+        .build();
     upload("Case upload CSV", request);
 
   }

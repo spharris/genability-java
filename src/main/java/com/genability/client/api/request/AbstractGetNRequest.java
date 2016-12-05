@@ -1,123 +1,47 @@
 package com.genability.client.api.request;
 
-import java.util.List;
-
-import org.apache.http.NameValuePair;
+import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.SortOrder;
 
-public abstract class AbstractGetNRequest extends AbstractRequest {
+abstract class AbstractGetNRequest extends AbstractRequest {
 
+  public abstract @Nullable Integer getPageStart();
+  public abstract @Nullable Integer getPageCount();
+  public abstract @Nullable String getSearch();
+  public abstract @Nullable String getSearchOn();
+  public abstract @Nullable Boolean getStartsWith();
+  public abstract @Nullable Boolean getEndsWith();
+  public abstract @Nullable Boolean getIsRegex();
+  public abstract @Nullable String getSortOn();
+  public abstract @Nullable SortOrder getSortOrder();
 
-  private Integer pageStart;
-
-  private Integer pageCount;
-
-  protected String search;
-
-  protected String searchOn;
-
-  protected Boolean startsWith;
-
-  protected Boolean endsWith;
-
-  protected Boolean isRegex;
-
-  protected String sortOn;
-
-  protected SortOrder sortOrder;
-
-
-  public void setPageStart(Integer pageStart) {
-    this.pageStart = pageStart;
-  }
-
-  public Integer getPageStart() {
-    return pageStart;
-  }
-
-  public void setPageCount(Integer pageCount) {
-    this.pageCount = pageCount;
-  }
-
-  public String getSearch() {
-    return search;
-  }
-
-  public void setSearch(String search) {
-    this.search = search;
-  }
-
-  public String getSearchOn() {
-    return searchOn;
-  }
-
-  public void setSearchOn(String searchOn) {
-    this.searchOn = searchOn;
-  }
-
-  public Boolean getStartsWith() {
-    return startsWith;
-  }
-
-  public void setStartsWith(Boolean startsWithWildCard) {
-    this.startsWith = startsWithWildCard;
-  }
-
-  public Boolean getEndsWith() {
-    return endsWith;
-  }
-
-  public void setEndsWith(Boolean endsWith) {
-    this.endsWith = endsWith;
-  }
-
-  public Boolean getIsRegex() {
-    return isRegex;
-  }
-
-  public void setIsRegex(Boolean isRegex) {
-    this.isRegex = isRegex;
-  }
-
-  public Integer getPageCount() {
-    return pageCount;
-  }
-
-  public String getSortOn() {
-    return sortOn;
-  }
-
-  public void setSortOn(String sortOn) {
-    this.sortOn = sortOn;
-  }
-
-  public SortOrder getSortOrder() {
-    return sortOrder;
-  }
-
-  public void setSortOrder(SortOrder sortOrder) {
-    this.sortOrder = sortOrder;
+  public abstract static class Builder<T extends Builder<T>> extends AbstractRequest.Builder<T> {
+   
+    public abstract T setPageStart(@Nullable Integer pageStart);
+    public abstract T setPageCount(@Nullable Integer pageCount);
+    public abstract T setSearch(@Nullable String search);
+    public abstract T setSearchOn(@Nullable String searchOn);
+    public abstract T setStartsWith(@Nullable Boolean startsWith);
+    public abstract T setEndsWith(@Nullable Boolean endsWith);
+    public abstract T setIsRegex(@Nullable Boolean isRegex);
+    public abstract T setSortOn(@Nullable String sortOn);
+    public abstract T setSortOrder(@Nullable SortOrder sortOrder);
   }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-    addParam(qparams, "pageStart", pageStart);
-    addParam(qparams, "pageCount", pageCount);
-    addParam(qparams, "search", search);
-    addParam(qparams, "searchOn", searchOn);
-    addParam(qparams, "startsWith", startsWith);
-    addParam(qparams, "endsWith", endsWith);
-    addParam(qparams, "isRegex", isRegex);
-    addParam(qparams, "sortOn", sortOn);
-    addParam(qparams, "sortOrder", sortOrder == null ? null : sortOrder.getValue());
-
-    return qparams;
-
+  protected QueryParamsBuilder getBaseQueryParams() {
+    return super.getBaseQueryParams()
+        .addParam("pageStart", getPageStart())
+        .addParam("pageCount", getPageCount())
+        .addParam("search", getSearch())
+        .addParam("searchOn", getSearchOn())
+        .addParam("startsWith", getStartsWith())
+        .addParam("endsWith", getEndsWith())
+        .addParam("isRegex", getIsRegex())
+        .addParam("sortOn", getSortOn())
+        .addParam("sortOrder", getSortOrder() == null ? null : getSortOrder().getValue());
   }
-
 }

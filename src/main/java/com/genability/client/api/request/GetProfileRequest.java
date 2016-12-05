@@ -1,135 +1,73 @@
 package com.genability.client.api.request;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.ClipBy;
+import com.genability.client.types.Fields;
 import com.genability.client.types.GroupBy;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetProfileRequest extends AbstractGetNRequest implements Serializable {
+@AutoValue
+public abstract class GetProfileRequest extends AbstractGetNRequest {
 
-  private static final long serialVersionUID = 1L;
+  GetProfileRequest() {}
 
-  private String profileId;
-  private String providerProfileId;
+  public abstract @Nullable ClipBy getClipBy();
+  public abstract @Nullable Long getDemandInterval();
+  public abstract @Nullable Boolean getDeriveConsumption();
+  public abstract @Nullable Boolean getDeriveDemand();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable GroupBy getGroupBy();
+  public abstract @Nullable Boolean getPopulateBaseline();
+  public abstract @Nullable Boolean getPopulateReadings();
+  public abstract @Nullable String getProfileId();
+  public abstract @Nullable String getProviderProfileId();
+  public abstract @Nullable DateTime getToDateTime();
 
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-
-  private Boolean populateReadings;
-  private Boolean populateBaseline;
-
-  private Boolean deriveDemand;
-  private Boolean deriveConsumption;
-  private Long demandInterval;
-
-  private GroupBy groupBy;
-  private ClipBy clipBy;
-
-
-  public String getProfileId() {
-    return profileId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetProfileRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setProfileId(String profileId) {
-    this.profileId = profileId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
+
+    public abstract Builder setClipBy(@Nullable ClipBy clipBy);
+    public abstract Builder setDemandInterval(@Nullable Long demandInterval);
+    public abstract Builder setDeriveConsumption(@Nullable Boolean deriveConsumption);
+    public abstract Builder setDeriveDemand(@Nullable Boolean deriveDemand);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setGroupBy(@Nullable GroupBy groupBy);
+    public abstract Builder setPopulateBaseline(@Nullable Boolean populateBaseline);
+    public abstract Builder setPopulateReadings(@Nullable Boolean populateReadings);
+    public abstract Builder setProfileId(@Nullable String profileId);
+    public abstract Builder setProviderProfileId(@Nullable String providerProfileId);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+
+    public abstract GetProfileRequest build();
   }
 
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public Boolean getPopulateReadings() {
-    return populateReadings;
-  }
-
-  public void setPopulateReadings(Boolean populateReadings) {
-    this.populateReadings = populateReadings;
-  }
-
-  public Boolean getPopulateBaseline() {
-    return populateBaseline;
-  }
-
-  public void setPopulateBaseline(Boolean populateBaseline) {
-    this.populateBaseline = populateBaseline;
-  }
-
-  public Boolean getDeriveDemand() {
-    return deriveDemand;
-  }
-
-  public void setDeriveDemand(Boolean deriveDemand) {
-    this.deriveDemand = deriveDemand;
-  }
-
-  public Boolean getDeriveConsumption() {
-    return deriveConsumption;
-  }
-
-  public void setDeriveConsumption(Boolean deriveConsumption) {
-    this.deriveConsumption = deriveConsumption;
-  }
-
-  public Long getDemandInterval() {
-    return demandInterval;
-  }
-
-  public void setDemandInterval(Long demandInterval) {
-    this.demandInterval = demandInterval;
-  }
-
-  public GroupBy getGroupBy() {
-    return groupBy;
-  }
-
-  public void setGroupBy(GroupBy groupBy) {
-    this.groupBy = groupBy;
-  }
-
-  public ClipBy getClipBy() {
-    return clipBy;
-  }
-
-  public void setClipBy(ClipBy clipBy) {
-    this.clipBy = clipBy;
-  }
-
-  public String getProviderProfileId() {
-    return providerProfileId;
-  }
-
-  public void setProviderProfileId(String providerProfileId) {
-    this.providerProfileId = providerProfileId;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    addParam(qparams, "fromDateTime", fromDateTime);
-    addParam(qparams, "toDateTime", toDateTime);
-    addParam(qparams, "populateReadings", populateReadings);
-    addParam(qparams, "populateBaseline", populateBaseline);
-    addParam(qparams, "groupBy", groupBy);
-    addParam(qparams, "clipBy", clipBy);
-    return qparams;
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("clipBy", getClipBy())
+        .addParam("demandInterval", getDemandInterval())
+        .addParam("deriveConsumption", getDeriveConsumption())
+        .addParam("deriveDemand", getDeriveDemand())
+        .addParam("fromDateTime", getFromDateTime())
+        .addParam("groupBy", getGroupBy())
+        .addParam("populateBaseline", getPopulateBaseline())
+        .addParam("populateReadings", getPopulateReadings())
+        .addParam("providerProfileId", getProviderProfileId())
+        .addParam("toDateTime", getToDateTime())
+        .build();
   }
 }

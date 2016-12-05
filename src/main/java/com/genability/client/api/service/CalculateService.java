@@ -33,10 +33,10 @@ public class CalculateService extends BaseService {
     String uri = "public/calculate";
     if (request.getAccountId() != null) {
       uri += "/account/" + request.getAccountId();
-      request.setAccountId(null);
+      request = request.toBuilder().setAccountId(null).build();
     } else if (request.getMasterTariffId() != null) {
       uri += "/" + request.getMasterTariffId();
-      request.setMasterTariffId(null);
+      request = request.toBuilder().setMasterTariffId(null).build();
     } else {
       // This will use only query string parameters to run the calc.
       // Not currently doing this anywhere in the test suite.
@@ -105,13 +105,14 @@ public class CalculateService extends BaseService {
       uri = MessageFormat.format(uri, accountId);
     }
 
-    GetCalculatedCostRequest request = new GetCalculatedCostRequest();
-    request.setMasterTariffId(masterTariffId);
-    request.setAccountId(accountId);
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
-    request.setDetailLevel(detailLevel);
-    request.setGroupBy(groupBy);
+    GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
+        .setMasterTariffId(masterTariffId)
+        .setAccountId(accountId)
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .setDetailLevel(detailLevel)
+        .setGroupBy(groupBy)
+        .build();
 
     Response<CalculatedCost> response =
         this.callGet(uri, request.getQueryParams(), CALCULATEDCOST_RESPONSE_TYPEREF);

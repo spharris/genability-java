@@ -24,8 +24,9 @@ public class CalendarServiceTests extends BaseServiceTests {
     //
     // Assign
     //
-    GetCalendarRequest request = new GetCalendarRequest();
-    request.setCalendarId((long) 2);
+    GetCalendarRequest request = GetCalendarRequest.builder()
+        .setCalendarId(2L)
+        .build();
 
     //
     // Act
@@ -46,8 +47,9 @@ public class CalendarServiceTests extends BaseServiceTests {
     //
     // Assign
     //
-    GetCalendarsRequest request = new GetCalendarsRequest();
-    request.setLseId(new Long(734));// Pacific Gas & Electric
+    GetCalendarsRequest request = GetCalendarsRequest.builder()
+        .setLseId(new Long(734)) // Pacific Gas & Electric
+        .build();
 
     //
     // Act
@@ -68,8 +70,9 @@ public class CalendarServiceTests extends BaseServiceTests {
     //
     // Assign
     //
-    GetCalendarDatesRequest request = new GetCalendarDatesRequest();
-    request.setLseId(new Long(734));// Pacific Gas & Electric
+    GetCalendarDatesRequest request = GetCalendarDatesRequest.builder()
+        .setLseId(new Long(734)) // Pacific Gas & Electric
+        .build();
 
     //
     // Act

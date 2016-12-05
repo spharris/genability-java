@@ -11,7 +11,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 @AutoValue
-public abstract class GetTariffRequest extends AbstractRequest2 {
+public abstract class GetTariffRequest extends AbstractRequest {
 
   GetTariffRequest() {}
   
@@ -36,7 +36,7 @@ public abstract class GetTariffRequest extends AbstractRequest2 {
   }
 
   @AutoValue.Builder
-  public abstract static class Builder extends AbstractRequest2.Builder<Builder> {
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
     
     public abstract Builder setTerritoryId(@Nullable Long territoryId);
     public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);

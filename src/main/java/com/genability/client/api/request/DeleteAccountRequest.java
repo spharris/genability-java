@@ -1,95 +1,45 @@
-/**
- * 
- */
 package com.genability.client.api.request;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-/**
- * @author ebaizel
- * 
- */
-public class DeleteAccountRequest extends AbstractRequest implements Serializable {
+@AutoValue
+public abstract class DeleteAccountRequest extends AbstractRequest {
 
-  /**
-   * private member variable for serial version
-   */
-  private static final long serialVersionUID = 1L;
+  DeleteAccountRequest() {}
 
-  /**
-   * private field accountId
-   */
-  private String accountId;
+  public abstract @Nullable String getAccountId();
+  public abstract @Nullable Boolean getHardDelete();
+  public abstract @Nullable String getProviderAccountId();
 
-  /**
-   * private field providerAccountId
-   */
-  private String providerAccountId;
-
-  /**
-   * private field hardDelete -- unpublished functionality --
-   */
-  private Boolean hardDelete;
-
-  /**
-   * @return the accountId
-   */
-  public String getAccountId() {
-    return accountId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_DeleteAccountRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  /**
-   * @return the providerAccountId
-   */
-  public String getProviderAccountId() {
-    return providerAccountId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setAccountId(@Nullable String accountId);
+    public abstract Builder setHardDelete(@Nullable Boolean hardDelete);
+    public abstract Builder setProviderAccountId(@Nullable String providerAccountId);
+
+    public abstract DeleteAccountRequest build();
   }
 
-  public Boolean getHardDelete() {
-    return hardDelete;
-  }
-
-  /**
-   * @param accountId The accountId. the accountId to set
-   */
-  public void setAccountId(String accountId) {
-    this.accountId = accountId;
-  }
-
-  /**
-   * @param providerAccountId The providerAccountId. the providerAccountId to set
-   */
-  public void setProviderAccountId(String providerAccountId) {
-    this.providerAccountId = providerAccountId;
-  }
-
-
-  /**
-   * @param hardDelete The hardDelete.
-   * 
-   *        If true, fully delete the account, otherwise the account just has its status changed to
-   *        DELETED.
-   */
-  public void setHardDelete(Boolean hardDelete) {
-    this.hardDelete = hardDelete;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    addParam(qparams, "providerAccountId", providerAccountId);
-    addParam(qparams, "hardDelete", hardDelete);
-
-    return qparams;
-
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("hardDelete", getHardDelete())
+        .build();
   }
-
 }

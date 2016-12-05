@@ -1,49 +1,46 @@
 package com.genability.client.api.request;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetTerritoryRequest extends AbstractRequest {
-  private Long territoryId;
-  private Boolean populateItems;
-  private Boolean populateLses;
+@AutoValue
+public abstract class GetTerritoryRequest extends AbstractRequest {
 
-  public Long getTerritoryId() {
-    return territoryId;
+  GetTerritoryRequest() {}
+
+  public abstract @Nullable Boolean getPopulateItems();
+  public abstract @Nullable Boolean getPopulateLses();
+  public abstract @Nullable Long getTerritoryId();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetTerritoryRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setTerritoryId(final Long territoryId) {
-    this.territoryId = territoryId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setPopulateItems(@Nullable Boolean populateItems);
+    public abstract Builder setPopulateLses(@Nullable Boolean populateLses);
+    public abstract Builder setTerritoryId(@Nullable Long territoryId);
+
+    public abstract GetTerritoryRequest build();
   }
 
-  public Boolean getPopulateItems() {
-    return populateItems;
-  }
-
-  public void setPopulateItems(final Boolean populateItems) {
-    this.populateItems = populateItems;
-  }
-
-  public Boolean getPopulateLses() {
-    return populateLses;
-  }
-
-  public void setPopulateLses(final Boolean populateLses) {
-    this.populateLses = populateLses;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    addParam(qparams, "populateItems", populateItems);
-    addParam(qparams, "populateLses", populateLses);
-
-    return qparams;
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("populateItems", getPopulateItems())
+        .addParam("populateLses", getPopulateLses())
+        .build();
   }
 }

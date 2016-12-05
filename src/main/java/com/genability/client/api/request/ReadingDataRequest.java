@@ -1,42 +1,46 @@
 package com.genability.client.api.request;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
 import com.genability.client.types.ReadingData;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class ReadingDataRequest extends AbstractRequest implements Serializable {
-  private static final long serialVersionUID = 1L;
+@AutoValue
+public abstract class ReadingDataRequest extends AbstractRequest {
 
-  private String usageProfileId;
-  private List<ReadingData> readings;
+  ReadingDataRequest() {}
 
-  public String getUsageProfileId() {
-    return usageProfileId;
+  public abstract @Nullable ImmutableList<ReadingData> getReadings();
+  public abstract @Nullable String getUsageProfileId();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_ReadingDataRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setUsageProfileId(String profileId) {
-    this.usageProfileId = profileId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setReadings(@Nullable ReadingData... readings);
+    public abstract Builder setReadings(@Nullable ImmutableList<ReadingData> readings);
+    public abstract Builder setUsageProfileId(@Nullable String usageProfileId);
+
+    public abstract ReadingDataRequest build();
   }
 
-  public List<ReadingData> getReadings() {
-    return readings;
-  }
-
-  public void setReadings(List<ReadingData> readings) {
-    this.readings = readings;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    addParam(qparams, "usageProfileId", usageProfileId);
-
-    return qparams;
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("readings", getReadings())
+        .addParam("usageProfileId", getUsageProfileId())
+        .build();
   }
 }

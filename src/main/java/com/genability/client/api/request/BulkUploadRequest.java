@@ -1,91 +1,55 @@
-/**
- * 
- */
 package com.genability.client.api.request;
 
 import java.io.File;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
-public class BulkUploadRequest extends AbstractRequest implements Serializable {
+import javax.annotation.Nullable;
 
-  /**
-   * private member variable for serial version
-   */
-  private static final long serialVersionUID = 1L;
+import org.apache.http.NameValuePair;
 
-  /**
-   * private member variable for UsageProfileId
-   */
-  private String usageProfileId;
-  /**
-   * private member variable for Name
-   */
-  private String name;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-  private String fileFormat;
+@AutoValue
+public abstract class BulkUploadRequest extends AbstractRequest {
 
-  private File fileData;
+  BulkUploadRequest() {}
 
-  private String contentType;
+  public abstract @Nullable String getContentType();
+  public abstract @Nullable File getFileData();
+  public abstract @Nullable String getFileFormat();
+  public abstract @Nullable String getName();
+  public abstract @Nullable String getUsageProfileId();
 
-  public String getName() {
-    return name;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_BulkUploadRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setName(String name) {
-    this.name = name;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setContentType(@Nullable String contentType);
+    public abstract Builder setFileData(@Nullable File fileData);
+    public abstract Builder setFileFormat(@Nullable String fileFormat);
+    public abstract Builder setName(@Nullable String name);
+    public abstract Builder setUsageProfileId(@Nullable String usageProfileId);
+
+    public abstract BulkUploadRequest build();
   }
 
-  public String getFileFormat() {
-    return fileFormat;
-  }
 
-  public void setFileFormat(String fileFormat) {
-    this.fileFormat = fileFormat;
-  }
-
-  public File getFileData() {
-    return fileData;
-  }
-
-  public void setFileData(File file) {
-    this.fileData = file;
-  }
-
-  /**
-   * @return the usageProfileId_
-   */
-  public String getUsageProfileId() {
-    return usageProfileId;
-  }
-
-  /**
-   * @param usageProfileId The usageProfileId. the usageProfileId to set
-   */
-  public void setUsageProfileId(String usageProfileId) {
-    this.usageProfileId = usageProfileId;
-  }
-
-  public String getProfileId() {
-    return usageProfileId;
-  }
-
-  public void setContentType(String contentType) {
-    this.contentType = contentType;
-  }
-
-  public String getContentType() {
-    return contentType;
-  }
-
-  public Map<String, String> getFormFields() {
-    Map<String, String> fields = new HashMap<String, String>();
-
-    fields.put("profileName", getName());
-    fields.put("profileId", getProfileId());
-
-    return fields;
+  @Override
+  @JsonIgnore
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("contentType", getContentType())
+        .addParam("fileData", getFileData())
+        .addParam("fileFormat", getFileFormat())
+        .addParam("name", getName())
+        .addParam("usageProfileId", getUsageProfileId())
+        .build();
   }
 }

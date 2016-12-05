@@ -1,65 +1,44 @@
 package com.genability.client.api.request;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetProfilesRequest extends AbstractGetNRequest implements Serializable {
+@AutoValue
+public abstract class GetProfilesRequest extends AbstractGetNRequest {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
+  GetProfilesRequest() {}
 
-  /**
-   * Private member variable for accountId.
-   */
-  private String accountId;
+  public abstract @Nullable String getAccountId();
+  public abstract @Nullable String getProviderAccountId();
 
-  /**
-   * Private member variable for providerAccountId.
-   */
-  private String providerAccountId;
-
-  /**
-   * @return the accountId
-   */
-  public String getAccountId() {
-    return accountId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetProfilesRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  /**
-   * @param accountId The accountId. the accountId to set
-   */
-  public void setAccountId(String accountId) {
-    this.accountId = accountId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
+
+    public abstract Builder setAccountId(@Nullable String accountId);
+    public abstract Builder setProviderAccountId(@Nullable String providerAccountId);
+
+    public abstract GetProfilesRequest build();
   }
 
-  /**
-   * @return providerAccountId
-   */
-  public String getProviderAccountId() {
-    return providerAccountId;
-  }
-
-  /**
-   * @param providerAccountId The providerAccountId. the providerAccountId to set
-   */
-  public void setProviderAccountId(String providerAccountId) {
-    this.providerAccountId = providerAccountId;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-    List<NameValuePair> qparams = super.getQueryParams();
-    addParam(qparams, "accountId", accountId);
-    addParam(qparams, "providerAccountId", providerAccountId);
-    return qparams;
-
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("accountId", getAccountId())
+        .addParam("providerAccountId", getProviderAccountId())
+        .build();
   }
-
 }

@@ -59,8 +59,9 @@ public class TimeOfUseServiceTests extends BaseServiceTests {
     Long lseId = Long.valueOf(734);
     String expectedUrl = publicBaseUrl;
 
-    GetTimeOfUseGroupsRequest request = new GetTimeOfUseGroupsRequest();
-    request.setLseId(lseId);
+    GetTimeOfUseGroupsRequest request = GetTimeOfUseGroupsRequest.builder()
+        .setLseId(lseId)
+        .build();
 
     MockHttpClient client = new MockHttpClient(expectedUrl);
     client.addExpectedParameter("lseId", lseId.toString());
@@ -75,8 +76,9 @@ public class TimeOfUseServiceTests extends BaseServiceTests {
   public void testGetTouGroups() {
     Long lseId = Long.valueOf(734);
 
-    GetTimeOfUseGroupsRequest request = new GetTimeOfUseGroupsRequest();
-    request.setLseId(lseId);
+    GetTimeOfUseGroupsRequest request = GetTimeOfUseGroupsRequest.builder()
+        .setLseId(lseId)
+        .build();
 
     Response<TimeOfUseGroup> response = touService.getTimeOfUseGroups(request);
 
@@ -95,9 +97,10 @@ public class TimeOfUseServiceTests extends BaseServiceTests {
     DateTime toDateTime = new DateTime(2015, 2, 1, 0, 0);
     String expectedUrl = String.format("%s/%d/%d/intervals", publicBaseUrl, lseId, touGroupId);
 
-    GetTimeOfUseIntervalsRequest request = new GetTimeOfUseIntervalsRequest();
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
+    GetTimeOfUseIntervalsRequest request = GetTimeOfUseIntervalsRequest.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .build();
 
     MockHttpClient client = new MockHttpClient(expectedUrl);
     client.addExpectedParameter("fromDateTime", fromDateTime.toString());
@@ -116,9 +119,10 @@ public class TimeOfUseServiceTests extends BaseServiceTests {
     DateTime fromDateTime = new DateTime(2015, 1, 1, 0, 0);
     DateTime toDateTime = new DateTime(2015, 1, 4, 0, 0);
 
-    GetTimeOfUseIntervalsRequest request = new GetTimeOfUseIntervalsRequest();
-    request.setFromDateTime(fromDateTime);
-    request.setToDateTime(toDateTime);
+    GetTimeOfUseIntervalsRequest request = GetTimeOfUseIntervalsRequest.builder()
+        .setFromDateTime(fromDateTime)
+        .setToDateTime(toDateTime)
+        .build();
 
     Response<TimeOfUseInterval> response =
         touService.getTimeOfUseIntervals(lseId, touGroupId, request);

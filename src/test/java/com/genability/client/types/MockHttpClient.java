@@ -36,7 +36,7 @@ public class MockHttpClient implements HttpClient {
   public MockHttpClient(final String expectedUri) {
     this.expectedUriBase = expectedUri;
     expectedParameters = new ArrayList<NameValuePair>();
-    addExpectedParameter("fields", "ext");
+    addExpectedParameter("fields", "EXT");
   }
 
   @Override

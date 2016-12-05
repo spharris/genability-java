@@ -17,8 +17,9 @@ public class LseServiceTests extends BaseServiceTests {
   @Test
   public void testGetTerritories() {
 
-    GetTerritoriesRequest request = new GetTerritoriesRequest();
-    request.setLseId(734l); // This is PG&E
+    GetTerritoriesRequest request = GetTerritoriesRequest.builder()
+        .setLseId(734L) // This is PG&E
+        .build();
     callGetTerritories("Case 1", request);
 
   }
@@ -26,9 +27,10 @@ public class LseServiceTests extends BaseServiceTests {
   @Test
   public void testGetTerritoryItems() {
 
-    GetTerritoriesRequest request = new GetTerritoriesRequest();
-    request.setLseId(734l);
-    request.setPopulateItems(true);
+    GetTerritoriesRequest request = GetTerritoriesRequest.builder()
+        .setLseId(734l)
+        .setPopulateItems(true)
+        .build();
     callGetTerritories("Case 2", request);
 
   }

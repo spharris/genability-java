@@ -1,169 +1,79 @@
 package com.genability.client.api.request;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.genability.client.types.CustomerClass;
+import com.genability.client.types.Fields;
 import com.genability.client.types.ServiceType;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-@JsonInclude(Include.NON_NULL)
-public class BaselineRequest extends AbstractRequest implements Serializable {
+@AutoValue
+public abstract class BaselineRequest extends AbstractRequest {
 
-  private static final long serialVersionUID = 1L;
+  BaselineRequest() {}
 
-  private String addressString;
-  private String zipCode;
-  private String country;
-  private Double latitude;
-  private Double longitude;
-  private CustomerClass customerClass;
-  private String buildingType;
-  private ServiceType serviceType;
-  private Long buildingArea; // in sq ft
-  private String buildingVintage;
-  private Boolean excludeMeasures;
+  public abstract @Nullable String getAddressString();
+  public abstract @Nullable Long getBuildingArea();
+  public abstract @Nullable String getBuildingType();
+  public abstract @Nullable String getBuildingVintage();
+  public abstract @Nullable String getCountry();
+  public abstract @Nullable CustomerClass getCustomerClass();
+  public abstract @Nullable Boolean getExcludeMeasures();
+  public abstract @Nullable String getGroupBy();
+  public abstract @Nullable Double getLatitude();
+  public abstract @Nullable Double getLongitude();
+  public abstract @Nullable String getMeasuresUnit();
+  public abstract @Nullable ServiceType getServiceType();
+  public abstract @Nullable String getZipCode();
 
-  // "intensity", "proportion", or "total" (default)
-  private String measuresUnit;
-
-  // (optional) "MONTH", "DAY", or "YEAR"
-  private String groupBy;
-
-  public String getAddressString() {
-    return addressString;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_BaselineRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setAddressString(final String addressString) {
-    this.addressString = addressString;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setAddressString(@Nullable String addressString);
+    public abstract Builder setBuildingArea(@Nullable Long buildingArea);
+    public abstract Builder setBuildingType(@Nullable String buildingType);
+    public abstract Builder setBuildingVintage(@Nullable String buildingVintage);
+    public abstract Builder setCountry(@Nullable String country);
+    public abstract Builder setCustomerClass(@Nullable CustomerClass customerClass);
+    public abstract Builder setExcludeMeasures(@Nullable Boolean excludeMeasures);
+    public abstract Builder setGroupBy(@Nullable String groupBy);
+    public abstract Builder setLatitude(@Nullable Double latitude);
+    public abstract Builder setLongitude(@Nullable Double longitude);
+    public abstract Builder setMeasuresUnit(@Nullable String measuresUnit);
+    public abstract Builder setServiceType(@Nullable ServiceType serviceType);
+    public abstract Builder setZipCode(@Nullable String zipCode);
+
+    public abstract BaselineRequest build();
   }
 
-  public String getZipCode() {
-    return zipCode;
-  }
-
-  public void setZipCode(final String zipCode) {
-    this.zipCode = zipCode;
-  }
-
-  public String getCountry() {
-    return country;
-  }
-
-  public void setCountry(final String country) {
-    this.country = country;
-  }
-
-  @JsonProperty("lat")
-  public Double getLatitude() {
-    return latitude;
-  }
-
-  public void setLatitude(final Double latitude) {
-    this.latitude = latitude;
-  }
-
-  @JsonProperty("lng")
-  public Double getLongitude() {
-    return longitude;
-  }
-
-  public void setLongitude(final Double longitude) {
-    this.longitude = longitude;
-  }
-
-  public CustomerClass getCustomerClass() {
-    return customerClass;
-  }
-
-  public void setCustomerClass(final CustomerClass customerClass) {
-    this.customerClass = customerClass;
-  }
-
-  public String getBuildingType() {
-    return buildingType;
-  }
-
-  public void setBuildingType(final String buildingType) {
-    this.buildingType = buildingType;
-  }
-
-  public ServiceType getServiceType() {
-    return serviceType;
-  }
-
-  public void setServiceType(final ServiceType serviceType) {
-    this.serviceType = serviceType;
-  }
-
-  public Long getBuildingArea() {
-    return buildingArea;
-  }
-
-  public void setBuildingArea(final Long buildingArea) {
-    this.buildingArea = buildingArea;
-  }
-
-  public String getBuildingVintage() {
-    return buildingVintage;
-  }
-
-  public void setBuildingVintage(final String buildingVintage) {
-    this.buildingVintage = buildingVintage;
-  }
-
-  public Boolean getExcludeMeasures() {
-    return excludeMeasures;
-  }
-
-  public void setExcludeMeasures(final Boolean excludeMeasures) {
-    this.excludeMeasures = excludeMeasures;
-  }
-
-  public String getMeasuresUnit() {
-    return measuresUnit;
-  }
-
-  public void setMeasuresUnit(final String measuresUnit) {
-    this.measuresUnit = measuresUnit;
-  }
-
-  public String getGroupBy() {
-    return groupBy;
-  }
-
-  public void setGroupBy(final String groupBy) {
-    this.groupBy = groupBy;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-    final List<NameValuePair> queryParams = super.getQueryParams();
-
-    addParam(queryParams, "addressString", addressString);
-    addParam(queryParams, "zipCode", zipCode);
-    addParam(queryParams, "country", country);
-    if (latitude != null) {
-      addParam(queryParams, "lat", latitude);
-    }
-    if (longitude != null) {
-      addParam(queryParams, "lng", longitude);
-    }
-    addParam(queryParams, "customerClass", customerClass);
-    addParam(queryParams, "buildingType", customerClass);
-    addParam(queryParams, "serviceType", customerClass);
-    addParam(queryParams, "buildingArea", buildingArea);
-    addParam(queryParams, "buildingVintage", buildingVintage);
-    addParam(queryParams, "excludeMeasures", excludeMeasures);
-    addParam(queryParams, "measuresUnit", measuresUnit);
-    addParam(queryParams, "groupBy", groupBy);
-
-    return queryParams;
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("addressString", getAddressString())
+        .addParam("buildingArea", getBuildingArea())
+        .addParam("buildingType", getBuildingType())
+        .addParam("buildingVintage", getBuildingVintage())
+        .addParam("country", getCountry())
+        .addParam("customerClass", getCustomerClass())
+        .addParam("excludeMeasures", getExcludeMeasures())
+        .addParam("groupBy", getGroupBy())
+        .addParam("latitude", getLatitude())
+        .addParam("longitude", getLongitude())
+        .addParam("measuresUnit", getMeasuresUnit())
+        .addParam("serviceType", getServiceType())
+        .addParam("zipCode", getZipCode())
+        .build();
   }
 }

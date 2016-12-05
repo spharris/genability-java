@@ -1,101 +1,64 @@
 package com.genability.client.api.request;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetLsesRequest extends AbstractGetNRequest implements Serializable {
+@AutoValue
+public abstract class GetLsesRequest extends AbstractGetNRequest {
 
-  private static final long serialVersionUID = 1L;
+  GetLsesRequest() {}
 
-  private String accountId;
+  public abstract @Nullable String getAccountId();
+  public abstract @Nullable ImmutableList<String> getCommercialServiceTypes();
+  public abstract @Nullable ImmutableList<String> getIndustrialServiceTypes();
+  public abstract @Nullable ImmutableList<String> getResidentialServiceTypes();
+  public abstract @Nullable ImmutableList<String> getServiceTypes();
+  public abstract @Nullable ImmutableList<String> getTransportationServiceTypes();
+  public abstract @Nullable String getZipCode();
 
-  private String zipCode;
-
-  private String[] serviceTypes;
-
-  private String[] residentialServiceTypes;
-
-  private String[] commercialServiceTypes;
-
-  private String[] industrialServiceTypes;
-
-  private String[] transportationServiceTypes;
-
-  public String getAccountId() {
-    return accountId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetLsesRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setAccountId(String accountId) {
-    this.accountId = accountId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
+
+    public abstract Builder setAccountId(@Nullable String accountId);
+    public abstract Builder setCommercialServiceTypes(@Nullable String... commercialServiceTypes);
+    public abstract Builder setCommercialServiceTypes(@Nullable ImmutableList<String> commercialServiceTypes);
+    public abstract Builder setIndustrialServiceTypes(@Nullable String... industrialServiceTypes);
+    public abstract Builder setIndustrialServiceTypes(@Nullable ImmutableList<String> industrialServiceTypes);
+    public abstract Builder setResidentialServiceTypes(@Nullable String... residentialServiceTypes);
+    public abstract Builder setResidentialServiceTypes(@Nullable ImmutableList<String> residentialServiceTypes);
+    public abstract Builder setServiceTypes(@Nullable String... serviceTypes);
+    public abstract Builder setServiceTypes(@Nullable ImmutableList<String> serviceTypes);
+    public abstract Builder setTransportationServiceTypes(@Nullable String... transportationServiceTypes);
+    public abstract Builder setTransportationServiceTypes(@Nullable ImmutableList<String> transportationServiceTypes);
+    public abstract Builder setZipCode(@Nullable String zipCode);
+
+    public abstract GetLsesRequest build();
   }
 
-  public String getZipCode() {
-    return zipCode;
-  }
-
-  public void setZipCode(String zipCode) {
-    this.zipCode = zipCode;
-  }
-
-  public String[] getServiceTypes() {
-    return serviceTypes;
-  }
-
-  public void setServiceTypes(String[] serviceTypes) {
-    this.serviceTypes = serviceTypes;
-  }
-
-  public String[] getResidentialServiceTypes() {
-    return residentialServiceTypes;
-  }
-
-  public void setResidentialServiceTypes(String[] residentialServiceTypes) {
-    this.residentialServiceTypes = residentialServiceTypes;
-  }
-
-  public String[] getCommercialServiceTypes() {
-    return commercialServiceTypes;
-  }
-
-  public void setCommercialServiceTypes(String[] commercialServiceTypes) {
-    this.commercialServiceTypes = commercialServiceTypes;
-  }
-
-  public String[] getIndustrialServiceTypes() {
-    return industrialServiceTypes;
-  }
-
-  public void setIndustrialServiceTypes(String[] industrialServiceTypes) {
-    this.industrialServiceTypes = industrialServiceTypes;
-  }
-
-  public String[] getTransportationServiceTypes() {
-    return transportationServiceTypes;
-  }
-
-  public void setTransportationServiceTypes(String[] transportationServiceTypes) {
-    this.transportationServiceTypes = transportationServiceTypes;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-    addParam(qparams, "accountId", accountId);
-    addParam(qparams, "zipCode", zipCode);
-    addParam(qparams, "serviceTypes", serviceTypes);
-    addParam(qparams, "residentialServiceTypes", residentialServiceTypes);
-    addParam(qparams, "commercialServiceTypes", commercialServiceTypes);
-    addParam(qparams, "industrialServiceTypes", industrialServiceTypes);
-    addParam(qparams, "transportationServiceTypes", transportationServiceTypes);
-
-    return qparams;
-
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("accountId", getAccountId())
+        .addParam("commercialServiceTypes", getCommercialServiceTypes())
+        .addParam("industrialServiceTypes", getIndustrialServiceTypes())
+        .addParam("residentialServiceTypes", getResidentialServiceTypes())
+        .addParam("serviceTypes", getServiceTypes())
+        .addParam("transportationServiceTypes", getTransportationServiceTypes())
+        .addParam("zipCode", getZipCode())
+        .build();
   }
-
 }

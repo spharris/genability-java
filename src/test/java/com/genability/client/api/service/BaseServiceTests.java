@@ -201,9 +201,10 @@ public class BaseServiceTests {
   // Delete the accounts we create to keep things clean; this also cleans up profiles
   // on the account
   protected void cleanup(String accountId) {
-    DeleteAccountRequest deleteAccountRequest = new DeleteAccountRequest();
-    deleteAccountRequest.setHardDelete(Boolean.TRUE);
-    deleteAccountRequest.setAccountId(accountId);
+    DeleteAccountRequest deleteAccountRequest = DeleteAccountRequest.builder()
+        .setHardDelete(Boolean.TRUE)
+        .setAccountId(accountId)
+        .build();
     Response<Account> deleteResponse = accountService.deleteAccount(deleteAccountRequest);
     assertEquals("bad status", deleteResponse.getStatus(), Response.STATUS_SUCCESS);
   }
@@ -211,8 +212,9 @@ public class BaseServiceTests {
   // get a baseline. will be used to upload along with a profile
   protected Baseline getSolarBaselineFor92704() {
     TypicalService service = genabilityClient.getTypicalService();
-    BaselineRequest request = new BaselineRequest();
-    request.setZipCode("92704");
+    BaselineRequest request = BaselineRequest.builder()
+        .setZipCode("92704")
+        .build();
 
     Response<Baseline> response = service.getSolarBaseline(request);
 

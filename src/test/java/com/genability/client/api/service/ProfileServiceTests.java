@@ -28,6 +28,7 @@ import com.genability.client.types.Profile;
 import com.genability.client.types.ReadingData;
 import com.genability.client.types.Response;
 import com.genability.client.types.Source;
+import com.google.common.collect.ImmutableList;
 
 @RunWith(JUnit4.class)
 public class ProfileServiceTests extends BaseServiceTests {
@@ -38,13 +39,12 @@ public class ProfileServiceTests extends BaseServiceTests {
   public void testGetProfile() {
 
     Profile newProfile = createProfile();
-    GetProfileRequest request = new GetProfileRequest();
-
-    // set a valid usageProfileId
-    request.setProfileId(newProfile.getProfileId());
-    request.setGroupBy(GroupBy.MONTH);
-    request.setClipBy(ClipBy.OUTER);
-    request.setPopulateReadings(true);
+    GetProfileRequest request = GetProfileRequest.builder()
+        .setProfileId(newProfile.getProfileId())
+        .setGroupBy(GroupBy.MONTH)
+        .setClipBy(ClipBy.OUTER)
+        .setPopulateReadings(true)
+        .build();
     callGetProfile("Test get one profile", request);
 
     cleanup(newProfile.getAccountId());
@@ -54,8 +54,9 @@ public class ProfileServiceTests extends BaseServiceTests {
   public void testGetProfiles() {
 
     Profile newProfile = createProfile();
-    GetProfilesRequest request = new GetProfilesRequest();
-    request.setAccountId(newProfile.getAccountId());
+    GetProfilesRequest request = GetProfilesRequest.builder()
+        .setAccountId(newProfile.getAccountId())
+        .build();
     callGetProfiles("Test get all profiles", request);
 
     cleanup(newProfile.getAccountId());
@@ -108,9 +109,10 @@ public class ProfileServiceTests extends BaseServiceTests {
       Response<Profile> addProfileResponse = profileService.addProfile(theProfile);
       Profile addedProfile = addProfileResponse.getResults().get(0);
 
-      GetProfileRequest request = new GetProfileRequest();
-      request.setProfileId(addedProfile.getProfileId());
-      request.setPopulateBaseline(true);
+      GetProfileRequest request = GetProfileRequest.builder()
+          .setProfileId(addedProfile.getProfileId())
+          .setPopulateBaseline(true)
+          .build();
       Response<Profile> getProfileResponse = profileService.getProfile(request);
 
       Profile retrievedProfile = getProfileResponse.getResults().get(0);
@@ -146,15 +148,17 @@ public class ProfileServiceTests extends BaseServiceTests {
     try {
       String profileId = newProfile.getProfileId();
 
-      GetProfileRequest request = new GetProfileRequest();
-      request.setProfileId(profileId);
+      GetProfileRequest request = GetProfileRequest.builder()
+          .setProfileId(profileId)
+          .build();
       Profile returnedProfile = callGetProfile("testDeleteProfileByProfileId first get", request);
       assertEquals("profileId mismatch on first get", profileId, returnedProfile.getProfileId());
 
       callDeleteProfile(profileId);
 
-      GetProfileRequest request2 = new GetProfileRequest();
-      request2.setProfileId(profileId);
+      GetProfileRequest request2 = GetProfileRequest.builder()
+          .setProfileId(profileId)
+          .build();
       try {
         profileService.getProfile(request2);
         fail("second get (after delete) should 404");
@@ -208,9 +212,10 @@ public class ProfileServiceTests extends BaseServiceTests {
         .build();
     readings.add(readingData2);
 
-    ReadingDataRequest request = new ReadingDataRequest();
-    request.setUsageProfileId(profile.getProfileId());
-    request.setReadings(readings);
+    ReadingDataRequest request = ReadingDataRequest.builder()
+        .setUsageProfileId(profile.getProfileId())
+        .setReadings(ImmutableList.copyOf(readings))
+        .build();
 
     // add readings to profile
     Response<ReadingData> addReadingResults = profileService.addReadings(request);
@@ -219,9 +224,10 @@ public class ProfileServiceTests extends BaseServiceTests {
     assertTrue("bad count", addReadingResults.getCount() < 2);
 
     // getProfile with readings / ensure readings are there
-    GetProfileRequest profileRequest = new GetProfileRequest();
-    profileRequest.setProfileId(profile.getProfileId());
-    profileRequest.setPopulateReadings(true);
+    GetProfileRequest profileRequest = GetProfileRequest.builder()
+        .setProfileId(profile.getProfileId())
+        .setPopulateReadings(true)
+        .build();
 
     profile = callGetProfile("Test get one profile", profileRequest);
 
@@ -261,9 +267,10 @@ public class ProfileServiceTests extends BaseServiceTests {
 
 
 
-    ReadingDataRequest request = new ReadingDataRequest();
-    request.setUsageProfileId(profile.getProfileId());
-    request.setReadings(readings);
+    ReadingDataRequest request = ReadingDataRequest.builder()
+        .setUsageProfileId(profile.getProfileId())
+        .setReadings(ImmutableList.copyOf(readings))
+        .build();
 
     // add readings to profile
     Response<ReadingData> addReadingResults = profileService.addReadings(request);
@@ -272,16 +279,16 @@ public class ProfileServiceTests extends BaseServiceTests {
     assertTrue("bad count", addReadingResults.getCount() < 2);
 
     // getProfile by date range
-    GetProfileRequest profileRequest = new GetProfileRequest();
-    profileRequest.setProfileId(profile.getProfileId());
-    profileRequest.setFromDateTime(
-        new DateTime(2014, 6, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles")));
-    profileRequest.setToDateTime(
-        new DateTime(2014, 7, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles")));
-
-    profileRequest.setPopulateReadings(Boolean.TRUE);
-    profileRequest.setGroupBy(GroupBy.DAY);
-    profileRequest.setPageCount(100);
+    GetProfileRequest profileRequest = GetProfileRequest.builder()
+        .setProfileId(profile.getProfileId())
+        .setFromDateTime(
+          new DateTime(2014, 6, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles")))
+        .setToDateTime(
+          new DateTime(2014, 7, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles")))
+        .setPopulateReadings(Boolean.TRUE)
+        .setGroupBy(GroupBy.DAY)
+        .setPageCount(100)
+        .build();
 
     profile = callGetProfile("Test get one profile", profileRequest);
 
@@ -322,9 +329,10 @@ public class ProfileServiceTests extends BaseServiceTests {
         .build();
     readings.add(readingData1);
 
-    ReadingDataRequest request = new ReadingDataRequest();
-    request.setUsageProfileId(profile.getProfileId());
-    request.setReadings(readings);
+    ReadingDataRequest request = ReadingDataRequest.builder()
+        .setUsageProfileId(profile.getProfileId())
+        .setReadings(ImmutableList.copyOf(readings))
+        .build();
 
     // add readings to profile
     Response<ReadingData> addReadingResults = profileService.addReadings(request);
@@ -398,9 +406,10 @@ public class ProfileServiceTests extends BaseServiceTests {
         .build();
     readings.add(readingData3);
 
-    ReadingDataRequest request = new ReadingDataRequest();
-    request.setUsageProfileId(profile.getProfileId());
-    request.setReadings(readings);
+    ReadingDataRequest request = ReadingDataRequest.builder()
+        .setUsageProfileId(profile.getProfileId())
+        .setReadings(ImmutableList.copyOf(readings))
+        .build();
 
     // add readings to profile
     Response<ReadingData> addReadingResults = profileService.addReadings(request);
@@ -431,8 +440,9 @@ public class ProfileServiceTests extends BaseServiceTests {
    */
 
   public void callDeleteProfile(String profileId) {
-    DeleteProfileRequest request = new DeleteProfileRequest();
-    request.setProfileId(profileId);
+    DeleteProfileRequest request = DeleteProfileRequest.builder()
+        .setProfileId(profileId)
+        .build();
     Response<Profile> restResponse = profileService.deleteProfile(request);
 
     assertNotNull("restResponse null", restResponse);

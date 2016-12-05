@@ -1,110 +1,60 @@
-/**
- * 
- */
 package com.genability.client.api.request;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetCalculationInputsRequest extends AbstractRequest implements Serializable {
+@AutoValue
+public abstract class GetCalculationInputsRequest extends AbstractRequest {
 
-  private static final long serialVersionUID = 1L;
+  GetCalculationInputsRequest() {}
 
-  private Long masterTariffId;
+  public abstract @Nullable String getAccountId();
+  public abstract @Nullable String getEstimate();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable Long getMasterTariffId();
+  public abstract @Nullable String getProviderAccountId();
+  public abstract @Nullable Long getTerritoryId();
+  public abstract @Nullable DateTime getToDateTime();
 
-  private DateTime fromDateTime;
-
-  private DateTime toDateTime;
-
-  private Long territoryId;
-
-  private String accountId;
-
-  private String providerAccountId;
-
-  private String estimate;
-
-  public Long getMasterTariffId() {
-    return masterTariffId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetCalculationInputsRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setMasterTariffId(Long masterTariffId) {
-    this.masterTariffId = masterTariffId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setAccountId(@Nullable String accountId);
+    public abstract Builder setEstimate(@Nullable String estimate);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
+    public abstract Builder setProviderAccountId(@Nullable String providerAccountId);
+    public abstract Builder setTerritoryId(@Nullable Long territoryId);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+
+    public abstract GetCalculationInputsRequest build();
   }
 
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  /**
-   * @return the toDate
-   */
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setTerritoryId(Long territoryId) {
-    this.territoryId = territoryId;
-  }
-
-  public Long getTerritoryId() {
-    return territoryId;
-
-  }
-
-  public String getAccountId() {
-    return accountId;
-  }
-
-  public void setAccountId(String accountId) {
-    this.accountId = accountId;
-  }
-
-  public String getProviderAccountId() {
-    return providerAccountId;
-  }
-
-  public void setProviderAccountId(String providerAccountId) {
-    this.providerAccountId = providerAccountId;
-  }
-
-
-  public String getEstimate() {
-    return estimate;
-  }
-
-  public void setEstimate(String estimate) {
-    this.estimate = estimate;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    addParam(qparams, "fromDateTime", fromDateTime);
-    addParam(qparams, "toDateTime", toDateTime);
-    addParam(qparams, "accountId", accountId);
-    addParam(qparams, "masterTariffId", masterTariffId);
-    addParam(qparams, "estimate", estimate);
-    addParam(qparams, "territoryId", territoryId);
-
-    return qparams;
-
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("accountId", getAccountId())
+        .addParam("estimate", getEstimate())
+        .addParam("fromDateTime", getFromDateTime())
+        .addParam("masterTariffId", getMasterTariffId())
+        .addParam("providerAccountId", getProviderAccountId())
+        .addParam("territoryId", getTerritoryId())
+        .addParam("toDateTime", getToDateTime())
+        .build();
   }
-
 }

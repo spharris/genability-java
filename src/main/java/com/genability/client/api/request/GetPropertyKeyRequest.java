@@ -1,92 +1,53 @@
 package com.genability.client.api.request;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetPropertyKeyRequest extends AbstractRequest {
+@AutoValue
+public abstract class GetPropertyKeyRequest extends AbstractRequest {
 
-  /**
-   * Private member variable for KeyName.
-   */
-  private String keyName;
+  GetPropertyKeyRequest() {}
 
-  /**
-   * Private member variable for subPropertyKeyName.
-   */
-  private String subPropertyKeyName;
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable String getKeyName();
+  public abstract @Nullable Boolean getPopulatePropertyLookups();
+  public abstract @Nullable String getSubPropertyKeyName();
+  public abstract @Nullable DateTime getToDateTime();
 
-  /**
-   * Private member variable for populatePropertyLookups.
-   */
-  private Boolean populatePropertyLookups;
-
-  /**
-   * Private member variable for fromDateTime.
-   */
-  private DateTime fromDateTime;
-
-  /**
-   * Private member variable for toDateTime.
-   */
-  private DateTime toDateTime;
-
-
-  public String getKeyName() {
-    return keyName;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetPropertyKeyRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setKeyName(String keyName) {
-    this.keyName = keyName;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setKeyName(@Nullable String keyName);
+    public abstract Builder setPopulatePropertyLookups(@Nullable Boolean populatePropertyLookups);
+    public abstract Builder setSubPropertyKeyName(@Nullable String subPropertyKeyName);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+
+    public abstract GetPropertyKeyRequest build();
   }
 
-  public String getSubPropertyKeyName() {
-    return subPropertyKeyName;
-  }
-
-  public void setSubPropertyKeyName(String subPropertyKeyName) {
-    this.subPropertyKeyName = subPropertyKeyName;
-  }
-
-  public Boolean getPopulatePropertyLookups() {
-    return populatePropertyLookups;
-  }
-
-  public void setPopulatePropertyLookups(Boolean populatePropertyLookups) {
-    this.populatePropertyLookups = populatePropertyLookups;
-  }
-
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-    addParam(qparams, "keyName", keyName);
-    addParam(qparams, "subPropertyKeyName", subPropertyKeyName);
-    addParam(qparams, "populatePropertyLookups", populatePropertyLookups);
-    addParam(qparams, "fromDateTime", fromDateTime);
-    addParam(qparams, "toDateTime", toDateTime);
-    return qparams;
-
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("fromDateTime", getFromDateTime())
+        .addParam("populatePropertyLookups", getPopulatePropertyLookups())
+        .addParam("subPropertyKeyName", getSubPropertyKeyName())
+        .addParam("toDateTime", getToDateTime())
+        .build();
   }
-
 }

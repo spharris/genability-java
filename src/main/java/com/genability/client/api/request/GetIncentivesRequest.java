@@ -1,164 +1,77 @@
 package com.genability.client.api.request;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.CustomerClass;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
-public class GetIncentivesRequest extends AbstractGetNRequest {
+@AutoValue
+public abstract class GetIncentivesRequest extends AbstractGetNRequest {
 
-  private CustomerClass customerClass;
-  private String projectType;
-  private String incentiveType;
+  GetIncentivesRequest() {}
 
-  private Long lseId;
-  private String addressString;
-  private String zipCode;
-  private String state;
+  public abstract @Nullable String getAddressString();
+  public abstract @Nullable ImmutableMap<String, String> getApplicabilityParameters();
+  public abstract @Nullable CustomerClass getCustomerClass();
+  public abstract @Nullable DateTime getEffectiveOn();
+  public abstract @Nullable DateTime getFromDate();
+  public abstract @Nullable String getIncentiveType();
+  public abstract @Nullable Boolean getIsExhausted();
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable String getProjectType();
+  public abstract @Nullable String getState();
+  public abstract @Nullable DateTime getToDate();
+  public abstract @Nullable String getZipCode();
 
-  private DateTime effectiveOn;
-  private DateTime fromDate;
-  private DateTime toDate;
-  private Boolean isExhausted;
-
-  private Map<String, String> applicabilityParameters = new HashMap<String, String>();
-
-  public Long getLseId() {
-    return lseId;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetIncentivesRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
+
+    public abstract Builder setAddressString(@Nullable String addressString);
+    public abstract Builder setApplicabilityParameters(@Nullable ImmutableMap<String, String> applicabilityParameters);
+    public abstract Builder setCustomerClass(@Nullable CustomerClass customerClass);
+    public abstract Builder setEffectiveOn(@Nullable DateTime effectiveOn);
+    public abstract Builder setFromDate(@Nullable DateTime fromDate);
+    public abstract Builder setIncentiveType(@Nullable String incentiveType);
+    public abstract Builder setIsExhausted(@Nullable Boolean isExhausted);
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setProjectType(@Nullable String projectType);
+    public abstract Builder setState(@Nullable String state);
+    public abstract Builder setToDate(@Nullable DateTime toDate);
+    public abstract Builder setZipCode(@Nullable String zipCode);
+
+    public abstract GetIncentivesRequest build();
   }
 
-  public String getAddressString() {
-    return addressString;
-  }
 
-  public void setAddressString(String addressString) {
-    this.addressString = addressString;
-  }
-
-  public String getZipCode() {
-    return zipCode;
-  }
-
-  public void setZipCode(String zipCode) {
-    this.zipCode = zipCode;
-  }
-
-  public DateTime getEffectiveOn() {
-    return effectiveOn;
-  }
-
-  public void setEffectiveOn(DateTime effectiveOn) {
-    this.effectiveOn = effectiveOn;
-  }
-
-  public String getProjectType() {
-    return projectType;
-  }
-
-  public void setProjectType(String projectType) {
-    this.projectType = projectType;
-  }
-
-  public String getIncentiveType() {
-    return incentiveType;
-  }
-
-  public void setIncentiveType(String incentiveType) {
-    this.incentiveType = incentiveType;
-  }
-
-  public CustomerClass getCustomerClass() {
-    return customerClass;
-  }
-
-  public void setCustomerClass(CustomerClass customerClass) {
-    this.customerClass = customerClass;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public void setState(String state) {
-    this.state = state;
-  }
-
-  public DateTime getFromDate() {
-    return fromDate;
-  }
-
-  public void setFromDate(DateTime fromDate) {
-    this.fromDate = fromDate;
-  }
-
-  public DateTime getToDate() {
-    return toDate;
-  }
-
-  public void setToDate(DateTime toDate) {
-    this.toDate = toDate;
-  }
-
-  public Boolean getIsExhausted() {
-    return isExhausted;
-  }
-
-  public void setIsExhausted(Boolean isExhausted) {
-    this.isExhausted = isExhausted;
-  }
-
-  public String getApplicabilityValue(String applicabilityName) {
-    return applicabilityParameters.get(applicabilityName);
-  }
-
-  public void setApplicabilityValue(String applicabilityName, String value) {
-    applicabilityParameters.put(applicabilityName, value);
-  }
-
-  /**
-   * Return a list of query parameters for the request. Named parameters (e.g. zipCode) will take
-   * precedence over values set via setApplicabilityValue
-   * 
-   * @return The query parameters
-   */
   @Override
-  public List<NameValuePair> getQueryParams() {
-
-    Map<String, Object> uniqueParameters = new HashMap<String, Object>();
-    for (Map.Entry<String, String> ap : applicabilityParameters.entrySet()) {
-      uniqueParameters.put(ap.getKey(), ap.getValue());
-    }
-
-    // Called out parameters are preferred over applicability values, to prevent
-    // setting values twice.
-    uniqueParameters.put("customerClasses", customerClass);
-    uniqueParameters.put("fromDate", fromDate);
-    uniqueParameters.put("toDate", toDate);
-    uniqueParameters.put("state", state);
-    uniqueParameters.put("isExhausted", isExhausted);
-    uniqueParameters.put("lseId", lseId);
-    uniqueParameters.put("projectType", projectType);
-    uniqueParameters.put("incentiveType", incentiveType);
-    uniqueParameters.put("addressString", addressString);
-    uniqueParameters.put("zipCode", zipCode);
-    uniqueParameters.put("effectiveOn", effectiveOn);
-
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    for (Map.Entry<String, Object> parameter : uniqueParameters.entrySet()) {
-      if (parameter.getValue() != null) {
-        addParam(qparams, parameter.getKey(), String.valueOf(parameter.getValue()));
-      }
-    }
-
-    return qparams;
+  @JsonIgnore
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("addressString", getAddressString())
+        .addParam("applicabilityParameters", getApplicabilityParameters())
+        .addParam("customerClass", getCustomerClass())
+        .addParam("effectiveOn", getEffectiveOn())
+        .addParam("fromDate", getFromDate())
+        .addParam("incentiveType", getIncentiveType())
+        .addParam("isExhausted", getIsExhausted())
+        .addParam("lseId", getLseId())
+        .addParam("projectType", getProjectType())
+        .addParam("state", getState())
+        .addParam("toDate", getToDate())
+        .addParam("zipCode", getZipCode())
+        .build();
   }
 }

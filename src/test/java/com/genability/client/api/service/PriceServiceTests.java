@@ -18,11 +18,12 @@ public class PriceServiceTests extends BaseServiceTests {
   @Test
   public void testGetPrice() {
 
-    GetPriceRequest request = new GetPriceRequest();
-
-    request.setMasterTariffId(520l);// PGE residential tariff
-    request.setFromDateTime(DateTime.now());
-    request.setToDateTime(request.getFromDateTime().plusDays(1));
+    DateTime start = DateTime.now();
+    GetPriceRequest request = GetPriceRequest.builder()
+        .setMasterTariffId(520L) // PGE residential tariff
+        .setFromDateTime(start)
+        .setToDateTime(start.plusDays(1))
+        .build();
 
     Response<Price> restResponse = priceService.getPrice(request);
 

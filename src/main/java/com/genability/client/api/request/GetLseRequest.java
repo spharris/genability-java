@@ -1,17 +1,40 @@
 package com.genability.client.api.request;
 
-import java.io.Serializable;
+import javax.annotation.Nullable;
 
-public class GetLseRequest extends AbstractRequest implements Serializable {
-  private static final long serialVersionUID = 1L;
+import org.apache.http.NameValuePair;
 
-  private Long lseId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-  public Long getLseId() {
-    return lseId;
+@AutoValue
+public abstract class GetLseRequest extends AbstractRequest {
+
+  GetLseRequest() {}
+
+  public abstract @Nullable Long getLseId();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetLseRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setLseId(@Nullable Long lseId);
+
+    public abstract GetLseRequest build();
+  }
+
+
+  @Override
+  @JsonIgnore
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .build();
   }
 }

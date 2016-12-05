@@ -1,133 +1,73 @@
 package com.genability.client.api.request;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.CustomerClass;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetIncentiveApplicabilitiesRequest extends AbstractRequest {
+@AutoValue
+public abstract class GetIncentiveApplicabilitiesRequest extends AbstractRequest {
 
-  private CustomerClass customerClass;
-  private String projectType;
-  private String incentiveType;
+  GetIncentiveApplicabilitiesRequest() {}
 
-  private Long lseId;
-  private String addressString;
-  private String zipCode;
-  private String state;
+  public abstract @Nullable String getAddressString();
+  public abstract @Nullable CustomerClass getCustomerClass();
+  public abstract @Nullable DateTime getEffectiveOn();
+  public abstract @Nullable DateTime getFromDate();
+  public abstract @Nullable String getIncentiveType();
+  public abstract @Nullable Boolean getIsExhausted();
+  public abstract @Nullable Long getLseId();
+  public abstract @Nullable String getProjectType();
+  public abstract @Nullable String getState();
+  public abstract @Nullable DateTime getToDate();
+  public abstract @Nullable String getZipCode();
 
-  private DateTime effectiveOn;
-  private DateTime fromDate;
-  private DateTime toDate;
-  private Boolean isExhausted;
-
-  public CustomerClass getCustomerClass() {
-    return customerClass;
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetIncentiveApplicabilitiesRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setCustomerClass(CustomerClass customerClass) {
-    this.customerClass = customerClass;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setAddressString(@Nullable String addressString);
+    public abstract Builder setCustomerClass(@Nullable CustomerClass customerClass);
+    public abstract Builder setEffectiveOn(@Nullable DateTime effectiveOn);
+    public abstract Builder setFromDate(@Nullable DateTime fromDate);
+    public abstract Builder setIncentiveType(@Nullable String incentiveType);
+    public abstract Builder setIsExhausted(@Nullable Boolean isExhausted);
+    public abstract Builder setLseId(@Nullable Long lseId);
+    public abstract Builder setProjectType(@Nullable String projectType);
+    public abstract Builder setState(@Nullable String state);
+    public abstract Builder setToDate(@Nullable DateTime toDate);
+    public abstract Builder setZipCode(@Nullable String zipCode);
+
+    public abstract GetIncentiveApplicabilitiesRequest build();
   }
 
-  public String getProjectType() {
-    return projectType;
-  }
-
-  public void setProjectType(String projectType) {
-    this.projectType = projectType;
-  }
-
-  public String getIncentiveType() {
-    return incentiveType;
-  }
-
-  public void setIncentiveType(String incentiveType) {
-    this.incentiveType = incentiveType;
-  }
-
-  public Long getLseId() {
-    return lseId;
-  }
-
-  public void setLseId(Long lseId) {
-    this.lseId = lseId;
-  }
-
-  public String getAddressString() {
-    return addressString;
-  }
-
-  public void setAddressString(String addressString) {
-    this.addressString = addressString;
-  }
-
-  public String getZipCode() {
-    return zipCode;
-  }
-
-  public void setZipCode(String zipCode) {
-    this.zipCode = zipCode;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public void setState(String state) {
-    this.state = state;
-  }
-
-  public DateTime getEffectiveOn() {
-    return effectiveOn;
-  }
-
-  public void setEffectiveOn(DateTime effectiveOn) {
-    this.effectiveOn = effectiveOn;
-  }
-
-  public DateTime getFromDate() {
-    return fromDate;
-  }
-
-  public void setFromDate(DateTime fromDate) {
-    this.fromDate = fromDate;
-  }
-
-  public DateTime getToDate() {
-    return toDate;
-  }
-
-  public void setToDate(DateTime toDate) {
-    this.toDate = toDate;
-  }
-
-  public Boolean getIsExhausted() {
-    return isExhausted;
-  }
-
-  public void setIsExhausted(Boolean isExhausted) {
-    this.isExhausted = isExhausted;
-  }
 
   @Override
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    addParam(qparams, "customerClasses", customerClass);
-    addParam(qparams, "fromDate", fromDate);
-    addParam(qparams, "toDate", toDate);
-    addParam(qparams, "state", state);
-    addParam(qparams, "isExhausted", isExhausted);
-    addParam(qparams, "lseId", lseId);
-    addParam(qparams, "projectType", projectType);
-    addParam(qparams, "incentiveType", incentiveType);
-    addParam(qparams, "addressString", addressString);
-    addParam(qparams, "zipCode", zipCode);
-    addParam(qparams, "effectiveOn", effectiveOn);
-
-    return qparams;
+  @JsonIgnore
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("addressString", getAddressString())
+        .addParam("customerClass", getCustomerClass())
+        .addParam("effectiveOn", getEffectiveOn())
+        .addParam("fromDate", getFromDate())
+        .addParam("incentiveType", getIncentiveType())
+        .addParam("isExhausted", getIsExhausted())
+        .addParam("lseId", getLseId())
+        .addParam("projectType", getProjectType())
+        .addParam("state", getState())
+        .addParam("toDate", getToDate())
+        .addParam("zipCode", getZipCode())
+        .build();
   }
 }

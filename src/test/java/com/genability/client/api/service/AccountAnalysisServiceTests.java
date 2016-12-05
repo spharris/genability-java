@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -123,8 +122,9 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
     profileService.addProfile(productionProfile.build());
 
     AccountAnalysisRequest request = createSavingsAnalysis(usageProfile.build(),
-      productionProfile.build());
-    request.setProviderAccountId(newAccount.getProviderAccountId());
+      productionProfile.build()).toBuilder()
+        .setProviderAccountId(newAccount.getProviderAccountId())
+        .build();
 
     try {
       Response<AccountAnalysis> aaResponse =
@@ -230,9 +230,10 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
       profileService.addProfile(productionProfile.build());
 
       AccountAnalysisRequest request = createSavingsAnalysis(usageProfile.build(),
-        productionProfile.build());
-      request.setProviderAccountId(newAccount.getProviderAccountId());
-      request.setPopulateCosts(true);
+        productionProfile.build()).toBuilder()
+          .setProviderAccountId(newAccount.getProviderAccountId())
+          .setPopulateCosts(true)
+          .build();
 
       Response<AccountAnalysis> aaResponse =
           accountAnalysisService.calculateSavingsAnalysis(request);
@@ -384,59 +385,52 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
 
   private AccountAnalysisRequest createSavingsAnalysis(Profile usageProfile,
       Profile productionProfile) {
-    AccountAnalysisRequest request = new AccountAnalysisRequest();
-    request.setFromDateTime(new DateTime("2014-10-10"));
-
-    ImmutableList<PropertyData> properties = ImmutableList.of(
-        PropertyData.builder()
-            .setScenarios("before")
-            .setKeyName("masterTariffId")
-            .setDataValue("522")
-            .build(),
-        PropertyData.builder()
-            .setScenarios("after")
-            .setKeyName("masterTariffId")
-            .setDataValue("522")
-            .build(),
-        PropertyData.builder()
-            .setScenarios("before,after")
-            .setKeyName("rateInflation")
-            .setDataValue("3.5")
-            .build(),
-        PropertyData.builder()
-            .setScenarios("solar")
-            .setKeyName("rateInflation")
-            .setDataValue("1.9")
-            .build(),
-        PropertyData.builder()
-            .setScenarios("after,solar")
-            .setKeyName("solarDegradation")
-            .setDataValue("1.5")
-            .build(),
-        PropertyData.builder()
-            .setScenarios("before")
-            .setKeyName("providerProfileId")
-            .setDataValue(usageProfile.getProviderProfileId())
-            .build(),
-        PropertyData.builder()
-            .setScenarios("after,solar")
-            .setKeyName("providerProfileId")
-            .setDataValue(productionProfile.getProviderProfileId())
-            .build());
-
-    request.setPropertyInputs(properties);
-
-    List<TariffRate> tariffRates = new ArrayList<TariffRate>();
-    TariffRate tariffRate = TariffRate.builder()
-        .setChargeType(ChargeType.FIXED_PRICE)
-        .setScenarios("solar")
-        .setRateBands(TariffRateBand.builder()
-          .setRateAmount(BigDecimal.valueOf(137.05))
+    AccountAnalysisRequest request = AccountAnalysisRequest.builder()
+        .setFromDateTime(new DateTime("2014-10-10"))
+        .setPropertyInputs(
+          PropertyData.builder()
+              .setScenarios("before")
+              .setKeyName("masterTariffId")
+              .setDataValue("522")
+              .build(),
+          PropertyData.builder()
+              .setScenarios("after")
+              .setKeyName("masterTariffId")
+              .setDataValue("522")
+              .build(),
+          PropertyData.builder()
+              .setScenarios("before,after")
+              .setKeyName("rateInflation")
+              .setDataValue("3.5")
+              .build(),
+          PropertyData.builder()
+              .setScenarios("solar")
+              .setKeyName("rateInflation")
+              .setDataValue("1.9")
+              .build(),
+          PropertyData.builder()
+              .setScenarios("after,solar")
+              .setKeyName("solarDegradation")
+              .setDataValue("1.5")
+              .build(),
+          PropertyData.builder()
+              .setScenarios("before")
+              .setKeyName("providerProfileId")
+              .setDataValue(usageProfile.getProviderProfileId())
+              .build(),
+          PropertyData.builder()
+              .setScenarios("after,solar")
+              .setKeyName("providerProfileId")
+              .setDataValue(productionProfile.getProviderProfileId())
+              .build())
+        .setRateInputs(TariffRate.builder()
+          .setChargeType(ChargeType.FIXED_PRICE)
+          .setScenarios("solar")
+          .setRateBands(TariffRateBand.builder()
+            .setRateAmount(BigDecimal.valueOf(137.05))
+            .build())
           .build())
         .build();
-    tariffRates.add(tariffRate);
-
-    request.setRateInputs(tariffRates);
 
     return request;
   }
@@ -444,9 +438,10 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
   private void deleteAccount(String accountId) {
 
     // delete account so we keep things clean
-    DeleteAccountRequest request = new DeleteAccountRequest();
-    request.setHardDelete(Boolean.TRUE);
-    request.setAccountId(accountId);
+    DeleteAccountRequest request = DeleteAccountRequest.builder()
+        .setHardDelete(Boolean.TRUE)
+        .setAccountId(accountId)
+        .build();
     Response<Account> deleteResponse = accountService.deleteAccount(request);
 
     assertNotNull("restResponse null", deleteResponse);

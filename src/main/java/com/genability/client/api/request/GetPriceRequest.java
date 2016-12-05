@@ -1,73 +1,56 @@
 package com.genability.client.api.request;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+
+import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.genability.client.types.Fields;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
-public class GetPriceRequest extends AbstractRequest implements Serializable {
-  private static final long serialVersionUID = 1L;
+@AutoValue
+public abstract class GetPriceRequest extends AbstractRequest {
 
-  private Long masterTariffId;
-  private DateTime fromDateTime;
-  private DateTime toDateTime;
-  private BigDecimal consumptionAmount;
-  private BigDecimal demandAmount;
+  GetPriceRequest() {}
 
-  public Long getMasterTariffId() {
-    return masterTariffId;
+  public abstract @Nullable BigDecimal getConsumptionAmount();
+  public abstract @Nullable BigDecimal getDemandAmount();
+  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable Long getMasterTariffId();
+  public abstract @Nullable DateTime getToDateTime();
+
+  public abstract Builder toBuilder();
+  public static Builder builder() {
+    return new AutoValue_GetPriceRequest.Builder()
+        .setFields(Fields.EXT);
   }
 
-  public void setMasterTariffId(Long masterTariffId) {
-    this.masterTariffId = masterTariffId;
+  @AutoValue.Builder
+  public abstract static class Builder extends AbstractRequest.Builder<Builder> {
+
+    public abstract Builder setConsumptionAmount(@Nullable BigDecimal consumptionAmount);
+    public abstract Builder setDemandAmount(@Nullable BigDecimal demandAmount);
+    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
+    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+
+    public abstract GetPriceRequest build();
   }
 
-  public DateTime getFromDateTime() {
-    return fromDateTime;
-  }
-
-  public void setFromDateTime(DateTime fromDateTime) {
-    this.fromDateTime = fromDateTime;
-  }
-
-  public DateTime getToDateTime() {
-    return toDateTime;
-  }
-
-  public void setToDateTime(DateTime toDateTime) {
-    this.toDateTime = toDateTime;
-  }
-
-  public BigDecimal getConsumptionAmount() {
-    return consumptionAmount;
-  }
-
-  public void setConsumptionAmount(BigDecimal consumptionAmount) {
-    this.consumptionAmount = consumptionAmount;
-  }
-
-  public BigDecimal getDemandAmount() {
-    return demandAmount;
-  }
-
-  public void setDemandAmount(BigDecimal demandAmount) {
-    this.demandAmount = demandAmount;
-  }
 
   @Override
   @JsonIgnore
-  public List<NameValuePair> getQueryParams() {
-
-    List<NameValuePair> qparams = super.getQueryParams();
-
-    addParam(qparams, "fromDateTime", fromDateTime, ISO_8601_SHORT_DATE_FORMATTER);
-    addParam(qparams, "toDateTime", toDateTime, ISO_8601_SHORT_DATE_FORMATTER);
-    addParam(qparams, "consumptionAmount", consumptionAmount);
-    addParam(qparams, "demandAmount", demandAmount);
-    return qparams;
+  public ImmutableList<NameValuePair> getQueryParams() {
+    return getBaseQueryParams()
+        .addParam("consumptionAmount", getConsumptionAmount())
+        .addParam("demandAmount", getDemandAmount())
+        .addParam("fromDateTime", getFromDateTime())
+        .addParam("masterTariffId", getMasterTariffId())
+        .addParam("toDateTime", getToDateTime())
+        .build();
   }
 }

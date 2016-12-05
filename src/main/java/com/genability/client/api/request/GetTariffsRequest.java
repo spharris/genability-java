@@ -19,7 +19,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 @AutoValue
-public abstract class GetTariffsRequest extends AbstractGetNRequest2 {
+public abstract class GetTariffsRequest extends AbstractGetNRequest {
 
   GetTariffsRequest() {}
 
@@ -52,7 +52,7 @@ public abstract class GetTariffsRequest extends AbstractGetNRequest2 {
   }
   
   @AutoValue.Builder
-  public abstract static class Builder extends AbstractGetNRequest2.Builder<Builder> {
+  public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
 
     public abstract Builder setLseId(@Nullable Long lseId);
     public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);

@@ -45,8 +45,9 @@ public class AccountServiceTests extends BaseServiceTests {
     Response<Account> accountResponse = accountService.addAccount(newAccount);
 
     // delete account so we keep things clean
-    DeleteAccountRequest dar = new DeleteAccountRequest();
-    dar.setAccountId(getOnlyElement(accountResponse.getResults()).getAccountId());
+    DeleteAccountRequest dar = DeleteAccountRequest.builder()
+        .setAccountId(getOnlyElement(accountResponse.getResults()).getAccountId())
+        .build();
     accountService.deleteAccount(dar);
   }
 
@@ -111,7 +112,7 @@ public class AccountServiceTests extends BaseServiceTests {
   @Test
   public void testGetAccounts() {
 
-    GetAccountsRequest request = new GetAccountsRequest();
+    GetAccountsRequest request = GetAccountsRequest.builder().build();
 
     // A few examples of how to search and sort
     // request.setSortOn("customerOrgName");
@@ -140,10 +141,11 @@ public class AccountServiceTests extends BaseServiceTests {
     }
 
     try {
-      GetAccountsRequest request = new GetAccountsRequest();
-      request.setPageCount(pageCount);
-      request.setSearch("JAVA CLIENT TEST ACCOUNT");
-      request.setSearchOn("accountName");
+      GetAccountsRequest request = GetAccountsRequest.builder()
+          .setPageCount(pageCount)
+          .setSearch("JAVA CLIENT TEST ACCOUNT")
+          .setSearchOn("accountName")
+          .build();
       Response<Account> restResponse = accountService.getAccounts(request);
 
       int totalAccounts = restResponse.getCount();
@@ -157,7 +159,8 @@ public class AccountServiceTests extends BaseServiceTests {
 
         accountsVisited += restResponse.getResults().size();
 
-        request.setPageStart(restResponse.getPageStart() + restResponse.getPageCount());
+        request = request.toBuilder().setPageStart(
+          restResponse.getPageStart() + restResponse.getPageCount()).build();
         restResponse = accountService.getAccounts(request);
       }
 
@@ -173,7 +176,7 @@ public class AccountServiceTests extends BaseServiceTests {
   @Test
   public void testGetAccount() {
 
-    GetAccountRequest request = new GetAccountRequest();
+    GetAccountRequest request = GetAccountRequest.builder().build();
 
     // Uncomment one of the below to retrieve a particular Account
 
@@ -218,8 +221,9 @@ public class AccountServiceTests extends BaseServiceTests {
     addAccount = addAccount(addAccount);
 
     // get account with properties
-    GetAccountRequest request = new GetAccountRequest();
-    request.setAccountId(addAccount.getAccountId());
+    GetAccountRequest request = GetAccountRequest.builder()
+        .setAccountId(addAccount.getAccountId())
+        .build();
     Response<PropertyData> restResponse = accountService.getAccountProperties(request);
 
     assertNotNull("restResponse null", restResponse);
@@ -306,8 +310,9 @@ public class AccountServiceTests extends BaseServiceTests {
     account = addAccount(account);
 
     // retrieve account rates based on added account tariff
-    GetAccountRatesRequest request = new GetAccountRatesRequest();
-    request.setAccountId(account.getAccountId());
+    GetAccountRatesRequest request = GetAccountRatesRequest.builder()
+        .setAccountId(account.getAccountId())
+        .build();
 
     Response<TariffRate> restResponse = accountService.getAccountRates(request);
 
@@ -356,9 +361,10 @@ public class AccountServiceTests extends BaseServiceTests {
   private void deleteAccount(String accountId) {
 
     // delete account so we keep things clean
-    DeleteAccountRequest request = new DeleteAccountRequest();
-    request.setHardDelete(Boolean.TRUE);
-    request.setAccountId(accountId);
+    DeleteAccountRequest request = DeleteAccountRequest.builder()
+        .setHardDelete(Boolean.TRUE)
+        .setAccountId(accountId)
+        .build();
     Response<Account> deleteResponse = accountService.deleteAccount(request);
 
     assertNotNull("restResponse null", deleteResponse);
@@ -368,8 +374,9 @@ public class AccountServiceTests extends BaseServiceTests {
 
   private Account getAccount(String accountId) {
 
-    GetAccountRequest request = new GetAccountRequest();
-    request.setAccountId(accountId);
+    GetAccountRequest request = GetAccountRequest.builder()
+        .setAccountId(accountId)
+        .build();
 
     Response<Account> restResponse = accountService.getAccount(request);
 
