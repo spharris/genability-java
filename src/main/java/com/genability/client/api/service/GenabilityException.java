@@ -29,5 +29,4 @@ public class GenabilityException extends RuntimeException {
   public String getResponse() {
     return response;
   }
-
 }

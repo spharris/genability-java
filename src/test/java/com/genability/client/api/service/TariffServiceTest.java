@@ -27,7 +27,7 @@ import com.genability.client.types.TariffType;
 import com.google.inject.Guice;
 
 @RunWith(JUnit4.class)
-public class TariffServiceTests {
+public class TariffServiceTest {
 
   @Inject private TariffService tariffService;
   

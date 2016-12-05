@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +22,7 @@ import org.junit.runners.JUnit4;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.genability.client.api.request.AccountAnalysisRequest;
 import com.genability.client.api.request.DeleteAccountRequest;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Account;
 import com.genability.client.types.AccountAnalysis;
 import com.genability.client.types.Address;
@@ -36,6 +39,7 @@ import com.genability.client.types.TariffRate;
 import com.genability.client.types.TariffRateBand;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.inject.Guice;
 
 /**
  * Created by nsingh on 11/20/14.
@@ -48,6 +52,13 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
   private static final TypeReference<Response<AccountAnalysis>> ACCOUNT_ANALYSIS_RESPONSE_TYPEREF =
       new TypeReference<Response<AccountAnalysis>>() {};
 
+  @Inject private AccountService accountService;
+     
+  @Before
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
+  }
+      
   @Before
   public void setUp() {
     Response<AccountAnalysis> responseWithCosts =
@@ -61,7 +72,7 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testSavingsAnalysis() {
+  public void testSavingsAnalysis() throws Exception {
 
     Account account = Account.builder()
         .setAccountName("test-api")
@@ -76,7 +87,7 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
           .build())
         .build();
 
-    Response<Account> restResponse = accountService.addAccount(account);
+    Response<Account> restResponse = accountService.addAccount(account).get();
     assertNotNull("new account response is null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
     assertTrue("bad count", restResponse.getCount() == 1);
@@ -172,7 +183,7 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testPopulateCosts() {
+  public void testPopulateCosts() throws Exception {
     Account account = Account.builder()
         .setAccountName("test-api")
         .setProviderAccountId("test-api" + UUID.randomUUID())
@@ -185,7 +196,7 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
             PropertyData.builder().setKeyName("customerClass").setDataValue("1").build())
           .build())
         .build();
-    Response<Account> restResponse = accountService.addAccount(account);
+    Response<Account> restResponse = accountService.addAccount(account).get();
     assertNotNull("new account response is null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
     assertTrue("bad count", restResponse.getCount() == 1);
@@ -435,14 +446,14 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
     return request;
   }
 
-  private void deleteAccount(String accountId) {
+  private void deleteAccount(String accountId) throws Exception {
 
     // delete account so we keep things clean
     DeleteAccountRequest request = DeleteAccountRequest.builder()
         .setHardDelete(Boolean.TRUE)
         .setAccountId(accountId)
         .build();
-    Response<Account> deleteResponse = accountService.deleteAccount(request);
+    Response<Account> deleteResponse = accountService.deleteAccount(request).get();
 
     assertNotNull("restResponse null", deleteResponse);
     assertEquals("bad status", deleteResponse.getStatus(), Response.STATUS_SUCCESS);

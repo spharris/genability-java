@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import javax.inject.Inject;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,9 +27,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.inject.Guice;
 
 @RunWith(JUnit4.class)
-public class AccountServiceTests extends BaseServiceTests {
+public class AccountServiceTest {
 
-  //@Inject private AccountService accountService;
+  @Inject private AccountService accountService;
   
   @Before
   public void createInjector() {
@@ -35,24 +37,24 @@ public class AccountServiceTests extends BaseServiceTests {
   }
   
   @Test
-  public void testAddAccount() {
+  public void testAddAccount() throws Exception {
     // test
     Account newAccount = Account.builder()
         .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
         .build();
 
     // call add account helper method
-    Response<Account> accountResponse = accountService.addAccount(newAccount);
+    Response<Account> accountResponse = accountService.addAccount(newAccount).get();
 
     // delete account so we keep things clean
     DeleteAccountRequest dar = DeleteAccountRequest.builder()
         .setAccountId(getOnlyElement(accountResponse.getResults()).getAccountId())
         .build();
-    accountService.deleteAccount(dar);
+    accountService.deleteAccount(dar).get();
   }
 
   @Test
-  public void testUpdateAccount() {
+  public void testUpdateAccount() throws Exception {
     String org = "Test Org";
 
     Account unsavedAccount = Account.builder()
@@ -64,7 +66,7 @@ public class AccountServiceTests extends BaseServiceTests {
     try {
       savedAccount = savedAccount.toBuilder().setCustomerOrgName(org).build();
 
-      Response<Account> restResponse = accountService.updateAccount(savedAccount);
+      Response<Account> restResponse = accountService.updateAccount(savedAccount).get();
       assertNotNull("restResponse null", restResponse);
       assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
       assertTrue("bad count", restResponse.getCount() == 1);
@@ -78,7 +80,7 @@ public class AccountServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testUpsertWithNewAccount() {
+  public void testUpsertWithNewAccount() throws Exception {
     String accountName = "Java Client Lib Test Add Account - CAN DELETE";
     String providerAccountId = "javaapi-test-id-01";
 
@@ -87,7 +89,7 @@ public class AccountServiceTests extends BaseServiceTests {
         .setProviderAccountId(providerAccountId)
         .build();
 
-    Response<Account> restResponse = accountService.updateAccount(newAccount);
+    Response<Account> restResponse = accountService.updateAccount(newAccount).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -110,7 +112,7 @@ public class AccountServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testGetAccounts() {
+  public void testGetAccounts() throws Exception {
 
     GetAccountsRequest request = GetAccountsRequest.builder().build();
 
@@ -119,14 +121,14 @@ public class AccountServiceTests extends BaseServiceTests {
     // request.setSearch("acme");
     // request.setSearchOn("customerOrgName");
 
-    Response<Account> restResponse = accountService.getAccounts(request);
+    Response<Account> restResponse = accountService.getAccounts(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
   }
 
   @Test
-  public void testPaginatedAccountList() {
+  public void testPaginatedAccountList() throws Exception {
     int numberOfAccountsToCreate = 10;
     int pageCount = 5;
     String[] createdAccountIds = new String[numberOfAccountsToCreate];
@@ -146,7 +148,7 @@ public class AccountServiceTests extends BaseServiceTests {
           .setSearch("JAVA CLIENT TEST ACCOUNT")
           .setSearchOn("accountName")
           .build();
-      Response<Account> restResponse = accountService.getAccounts(request);
+      Response<Account> restResponse = accountService.getAccounts(request).get();
 
       int totalAccounts = restResponse.getCount();
       int accountsVisited = 0;
@@ -161,7 +163,7 @@ public class AccountServiceTests extends BaseServiceTests {
 
         request = request.toBuilder().setPageStart(
           restResponse.getPageStart() + restResponse.getPageCount()).build();
-        restResponse = accountService.getAccounts(request);
+        restResponse = accountService.getAccounts(request).get();
       }
 
       assertEquals("Visited too many accounts.", accountsVisited, totalAccounts);
@@ -174,23 +176,21 @@ public class AccountServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testGetAccount() {
-
-    GetAccountRequest request = GetAccountRequest.builder().build();
-
-    // Uncomment one of the below to retrieve a particular Account
-
-    // request.setAccountId("account_id_here");
-    // request.setProviderAccountId("your_own_account_id_here");
-    Response<Account> restResponse = accountService.getAccount(request);
+  public void testGetAccount() throws Exception {
+    Account account = accountService.addAccount(
+      Account.builder().build()).get().getResults()
+        .get(0);
+    Response<Account> restResponse = accountService.getAccount(GetAccountRequest.builder()
+      .setAccountId(account.getAccountId())
+      .build())
+        .get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-
   }
 
   @Test
-  public void testDeleteAccount() {
+  public void testDeleteAccount() throws Exception {
 
      Account addAccount = Account.builder()
         .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
@@ -205,7 +205,7 @@ public class AccountServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testGetAccountProperties() {
+  public void testGetAccountProperties() throws Exception {
 
     // Add account with properties
     Account addAccount = Account.builder()
@@ -224,7 +224,7 @@ public class AccountServiceTests extends BaseServiceTests {
     GetAccountRequest request = GetAccountRequest.builder()
         .setAccountId(addAccount.getAccountId())
         .build();
-    Response<PropertyData> restResponse = accountService.getAccountProperties(request);
+    Response<PropertyData> restResponse = accountService.getAccountProperties(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -241,7 +241,7 @@ public class AccountServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testInterviewAccount() {
+  public void testInterviewAccount() throws Exception {
 
     Account addAccount = Account.builder()
         .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
@@ -255,7 +255,8 @@ public class AccountServiceTests extends BaseServiceTests {
 
     // call interview account
     Response<PropertyData> restResponse =
-        accountService.interviewAccount(addAccount.getAccountId(), null);
+        accountService.interviewAccount(addAccount.getAccountId(), PropertyData.builder().build())
+        .get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -269,7 +270,7 @@ public class AccountServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testGetAccountTariffs() {
+  public void testGetAccountTariffs() throws Exception {
 
     Account addAccount = Account.builder()
         .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
@@ -297,7 +298,7 @@ public class AccountServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testGetAccountRates() {
+  public void testGetAccountRates() throws Exception {
 
     Account account = Account.builder()
         .setAccountName("Java Client Lib Test Add Account - CAN DELETE")
@@ -314,7 +315,7 @@ public class AccountServiceTests extends BaseServiceTests {
         .setAccountId(account.getAccountId())
         .build();
 
-    Response<TariffRate> restResponse = accountService.getAccountRates(request);
+    Response<TariffRate> restResponse = accountService.getAccountRates(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -336,9 +337,9 @@ public class AccountServiceTests extends BaseServiceTests {
    * @param addAccount The addAccount.
    * @return The return value.
    */
-  private Account addAccount(Account addAccount) {
+  private Account addAccount(Account addAccount) throws Exception {
 
-    Response<Account> restResponse = accountService.addAccount(addAccount);
+    Response<Account> restResponse = accountService.addAccount(addAccount).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -358,27 +359,27 @@ public class AccountServiceTests extends BaseServiceTests {
    * 
    * @param accountId The accountId.
    */
-  private void deleteAccount(String accountId) {
+  private void deleteAccount(String accountId) throws Exception {
 
     // delete account so we keep things clean
     DeleteAccountRequest request = DeleteAccountRequest.builder()
         .setHardDelete(Boolean.TRUE)
         .setAccountId(accountId)
         .build();
-    Response<Account> deleteResponse = accountService.deleteAccount(request);
+    Response<Account> deleteResponse = accountService.deleteAccount(request).get();
 
     assertNotNull("restResponse null", deleteResponse);
     assertEquals("bad status", deleteResponse.getStatus(), Response.STATUS_SUCCESS);
 
   }
 
-  private Account getAccount(String accountId) {
+  private Account getAccount(String accountId) throws Exception {
 
     GetAccountRequest request = GetAccountRequest.builder()
         .setAccountId(accountId)
         .build();
 
-    Response<Account> restResponse = accountService.getAccount(request);
+    Response<Account> restResponse = accountService.getAccount(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -392,5 +393,4 @@ public class AccountServiceTests extends BaseServiceTests {
     return getAccount;
 
   }
-
 }

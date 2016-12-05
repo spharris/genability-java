@@ -10,21 +10,20 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
+import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.genability.client.api.GenabilityClient;
 import com.genability.client.api.request.BaselineRequest;
 import com.genability.client.api.request.DeleteAccountRequest;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Account;
 import com.genability.client.types.Baseline;
 import com.genability.client.types.Profile;
@@ -34,13 +33,13 @@ import com.genability.client.types.Response;
 import com.genability.client.types.Tariff;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.inject.Guice;
 
 public class BaseServiceTests {
 
   protected Logger log = LoggerFactory.getLogger(this.getClass());
 
   protected static final GenabilityClient genabilityClient;
-  protected static final AccountService accountService;
   protected static final AccountAnalysisService accountAnalysisService;
   protected static final ProfileService profileService;
   protected static final PropertyService propertyService;
@@ -49,17 +48,15 @@ public class BaseServiceTests {
   protected static final TerritoryService territoryService;
   protected static final TimeOfUseService touService;
 
-  private static final ObjectMapper mapper;
-
+  @Inject private ObjectMapper mapper;
+  @Inject protected AccountService accountService;
+  
+  @Before
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
+  }
+  
   static {
-
-    // Mapper object for de-serializing canned tests
-    mapper = new ObjectMapper()
-      .registerModule(new JodaModule())
-      .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-      .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-      .setSerializationInclusion(Include.NON_NULL)
-      .registerModule(new GuavaModule());
 
     //
     // Very simple configuration of logging to console.
@@ -106,7 +103,6 @@ public class BaseServiceTests {
       genabilityClient.setRestApiServer(restApiServer);
     }
 
-    accountService = genabilityClient.getAccountService();
     accountAnalysisService = genabilityClient.getAccountAnalysisService();
     profileService = genabilityClient.getProfileService();
     propertyService = genabilityClient.getPropertyService();
@@ -140,19 +136,23 @@ public class BaseServiceTests {
           .build())
         .build();
 
-    Response<Account> restResponse = accountService.addAccount(addAccount);
+    try {
+      Response<Account> restResponse = accountService.addAccount(addAccount).get();
 
-    assertNotNull("new account response is null", restResponse);
-    assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-    assertTrue("bad count", restResponse.getCount() > 0);
+      assertNotNull("new account response is null", restResponse);
+      assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
+      assertTrue("bad count", restResponse.getCount() > 0);
 
-    Account newAccount = null;
-    for (Account account : restResponse.getResults()) {
-      newAccount = account;
-      assertNotNull("accountId null", account.getAccountId());
+      Account newAccount = null;
+      for (Account account : restResponse.getResults()) {
+        newAccount = account;
+        assertNotNull("accountId null", account.getAccountId());
+      }
+
+      return newAccount;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-
-    return newAccount;
   }
 
   protected Profile createProfile() {
@@ -205,8 +205,13 @@ public class BaseServiceTests {
         .setHardDelete(Boolean.TRUE)
         .setAccountId(accountId)
         .build();
-    Response<Account> deleteResponse = accountService.deleteAccount(deleteAccountRequest);
-    assertEquals("bad status", deleteResponse.getStatus(), Response.STATUS_SUCCESS);
+    
+    try {
+      Response<Account> deleteResponse = accountService.deleteAccount(deleteAccountRequest).get();
+      assertEquals("bad status", deleteResponse.getStatus(), Response.STATUS_SUCCESS);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   // get a baseline. will be used to upload along with a profile

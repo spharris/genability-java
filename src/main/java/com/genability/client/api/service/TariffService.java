@@ -10,7 +10,7 @@ import com.genability.client.types.Response;
 import com.genability.client.types.Tariff;
 import com.google.common.util.concurrent.ListenableFuture;
 
-public class TariffService extends BaseService {
+public class TariffService {
 
   private static final TypeReference<Response<Tariff>> TARIFF_RESPONSE_TYPEREF =
       new TypeReference<Response<Tariff>>() {};

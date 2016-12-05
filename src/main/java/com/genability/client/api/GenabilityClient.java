@@ -18,12 +18,19 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.GzipCompressingEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.util.EntityUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -31,8 +38,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.genability.client.api.Annotations.AppId;
 import com.genability.client.api.Annotations.AppKey;
 import com.genability.client.api.Annotations.ServerAddress;
+import com.genability.client.api.request.BulkUploadRequest;
 import com.genability.client.api.service.AccountAnalysisService;
-import com.genability.client.api.service.AccountService;
 import com.genability.client.api.service.BaseService;
 import com.genability.client.api.service.BulkUploadService;
 import com.genability.client.api.service.CalculateService;
@@ -106,6 +113,99 @@ public class GenabilityClient {
     return execute(getRequest, resultTypeReference);
   }
   
+  public <T extends Response<R>, R> ListenableFuture<T> putAsync(String endpointPath,
+      Object requestPayload,
+      TypeReference<T> resultTypeReference) {
+    return executor.submit(() -> put(endpointPath, requestPayload, resultTypeReference));
+  }
+  
+  public <T extends Response<R>, R> T put(String endpointPath,
+      Object requestPayload,
+      TypeReference<T> resultTypeReference) {
+    checkNotNull(endpointPath);
+    checkNotNull(requestPayload);
+    checkNotNull(resultTypeReference);
+
+    String url = serverAddress + endpointPath;
+    HttpPut putRequest = new HttpPut(url);
+    putRequest.setEntity(getEntity(requestPayload));
+
+    return execute(putRequest, resultTypeReference);
+  }
+  
+  public <T extends Response<R>, R> ListenableFuture<T> postAsync(String endpointPath,
+      Object requestPayload,
+      TypeReference<T> resultTypeReference) {
+    return executor.submit(() -> post(endpointPath, requestPayload, resultTypeReference));
+  }
+  
+  public <T extends Response<R>, R> T post(String endpointPath,
+      Object requestPayload,
+      TypeReference<T> resultTypeReference) {
+    checkNotNull(endpointPath);
+    checkNotNull(requestPayload);
+    checkNotNull(resultTypeReference);
+    
+    String url = serverAddress + endpointPath; 
+    HttpPost postRequest = new HttpPost(url);
+    postRequest.setEntity(getEntity(requestPayload));
+
+    return execute(postRequest, resultTypeReference);
+  }
+  
+  public <T extends Response<R>, R> ListenableFuture<T> deleteAsync(String endpointPath,
+      Collection<NameValuePair> queryParams,
+      TypeReference<T> resultTypeReference) {
+    return executor.submit(() -> delete(endpointPath, queryParams, resultTypeReference));
+  }
+  
+  public <T extends Response<R>, R> T delete(String endpointPath,
+      Collection<NameValuePair> queryParams,
+      TypeReference<T> resultTypeReference) {
+    checkNotNull(endpointPath);
+    checkNotNull(queryParams);
+    checkNotNull(resultTypeReference);
+
+    String url = serverAddress + endpointPath;
+    if (!queryParams.isEmpty()) {
+      url += "?" + URLEncodedUtils.format(queryParams, StandardCharsets.UTF_8);
+    }
+
+    HttpDelete deleteRequest = new HttpDelete(url);
+
+    return execute(deleteRequest, resultTypeReference);
+  }
+  
+  public <T extends Response<R>, R> ListenableFuture<T> fileUploadAsync(String endpointPath,
+      BulkUploadRequest request,
+      TypeReference<T> resultTypeReference) {
+    return executor.submit(() -> fileUpload(endpointPath, request, resultTypeReference));
+  }
+  
+  public <T extends Response<R>, R> T fileUpload(String endpointPath,
+      BulkUploadRequest request,
+      TypeReference<T> resultTypeReference) {
+    checkNotNull(endpointPath);
+    checkNotNull(request);
+    checkNotNull(resultTypeReference);
+    
+    String url = serverAddress + endpointPath;
+    HttpPost postRequest = new HttpPost(url);
+    RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
+    requestConfigBuilder.setSocketTimeout(300000); // 5 minutes
+    postRequest.setConfig(requestConfigBuilder.build());
+
+    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+    builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+    FileBody fileBody = new FileBody(request.getFileData());
+    builder.addPart("fileData", fileBody);
+    builder.addTextBody("fileFormat", request.getFileFormat(), ContentType.TEXT_XML);
+    postRequest.setEntity(getEntity(builder.build()));
+
+    return execute(postRequest, resultTypeReference);
+  }
+  
   private <T extends Response<R>, R> T execute(HttpRequestBase request,
       final TypeReference<T> resultTypeReference) {
     try {
@@ -131,9 +231,6 @@ public class GenabilityClient {
                 responseBody);
           }
 
-          //
-          // Convert the JSON pay-load to the standard Response object.
-          //
           return objectMapper.readValue(httpResponse.getEntity().getContent(), resultTypeReference);
         }
       });
@@ -259,10 +356,6 @@ public class GenabilityClient {
       service.setHttpClient(httpClient);
     }
     return service;
-  }
-
-  public AccountService getAccountService() {
-    return initializeService(new AccountService());
   }
 
   public BulkUploadService getBulkUploadService() {

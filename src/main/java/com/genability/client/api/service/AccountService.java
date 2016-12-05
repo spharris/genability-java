@@ -1,8 +1,11 @@
 package com.genability.client.api.service;
 
-import java.text.MessageFormat;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.inject.Inject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.genability.client.api.GenabilityClient;
 import com.genability.client.api.request.DeleteAccountRequest;
 import com.genability.client.api.request.GetAccountRatesRequest;
 import com.genability.client.api.request.GetAccountRequest;
@@ -13,8 +16,9 @@ import com.genability.client.types.PropertyData;
 import com.genability.client.types.Response;
 import com.genability.client.types.Tariff;
 import com.genability.client.types.TariffRate;
+import com.google.common.util.concurrent.ListenableFuture;
 
-public class AccountService extends BaseService {
+public class AccountService {
 
   private static final TypeReference<Response<Account>> ACCOUNT_RESPONSE_TYPEREF =
       new TypeReference<Response<Account>>() {};
@@ -28,166 +32,77 @@ public class AccountService extends BaseService {
   private static final TypeReference<Response<Tariff>> TARIFF_RESPONSE_TYPEREF =
       new TypeReference<Response<Tariff>>() {};
 
-  public Response<Account> getAccounts(GetAccountsRequest request) {
-    if (log.isDebugEnabled()) log.debug("getAccounts called");
+  private final GenabilityClient client;
+      
+  @Inject
+  AccountService(GenabilityClient client) {
+    this.client = client;
+  }
+      
+  public ListenableFuture<Response<Account>> getAccounts(GetAccountsRequest request) {
+    checkNotNull(request);
 
-    Response<Account> response =
-        this.callGet("v1/accounts", request.getQueryParams(), ACCOUNT_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getAccounts completed");
-
-    return response;
+    return client.getAsync("/rest/v1/accounts", request.getQueryParams(), ACCOUNT_RESPONSE_TYPEREF);
   }
 
-
-  public Response<Account> getAccount(GetAccountRequest request) {
-
-    if (log.isDebugEnabled()) log.debug("getAccount called");
-
-    String uri = "v1/accounts";
-    if (request.getAccountId() != null && request.getAccountId().length() != 0) {
-      uri += "/" + request.getAccountId();
-    }
-
-    Response<Account> response =
-        this.callGet(uri, request.getQueryParams(), ACCOUNT_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getAccount completed");
-
-    return response;
-
+  public ListenableFuture<Response<Account>> getAccount(GetAccountRequest request) {
+    checkNotNull(request.getAccountId());
+    
+    String uri = String.format("/rest/v1/accounts/%s", request.getAccountId());
+    return client.getAsync(uri, request.getQueryParams(), ACCOUNT_RESPONSE_TYPEREF);
   }
 
-
-  public Response<Account> deleteAccount(DeleteAccountRequest request) {
-
-    if (log.isDebugEnabled()) log.debug("deleteAccount called");
-
-    String uri = "v1/accounts";
-    if (request.getAccountId() != null && request.getAccountId().length() != 0) {
-      uri += "/" + request.getAccountId();
-    }
-
-    Response<Account> response =
-        this.callDelete(uri, request.getQueryParams(), ACCOUNT_RESPONSE_TYPEREF);
-    if (log.isDebugEnabled()) log.debug("deleteAccount completed");
-
-    return response;
-
+  public ListenableFuture<Response<Account>> deleteAccount(DeleteAccountRequest request) {
+    checkNotNull(request.getAccountId());
+    
+    String uri = String.format("/rest/v1/accounts/%s", request.getAccountId());
+    return client.deleteAsync(uri, request.getQueryParams(), ACCOUNT_RESPONSE_TYPEREF);
   }
 
-  public Response<PropertyData> getAccountProperties(GetAccountRequest request) {
+  public ListenableFuture<Response<PropertyData>> getAccountProperties(GetAccountRequest request) {
+    checkNotNull(request.getAccountId());
 
-    if (log.isDebugEnabled()) log.debug("getAccountProperties called");
-
-    String uri = "v1/accounts";
-    if (request.getAccountId() != null && request.getAccountId().length() != 0) {
-      uri += "/" + request.getAccountId();
-      uri += "/properties";
-    }
-
-    Response<PropertyData> response =
-        this.callGet(uri, request.getQueryParams(), PROPERTY_DATA_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getAccountProperties completed");
-
-    return response;
-
+    String uri = String.format("/rest/v1/accounts/%s/properties", request.getAccountId());
+    return client.getAsync(uri, request.getQueryParams(), PROPERTY_DATA_RESPONSE_TYPEREF);
   }
 
-  public Response<Account> addAccount(Account account) {
+  public ListenableFuture<Response<Account>> addAccount(Account account) {
+    checkNotNull(account);
 
-
-    if (log.isDebugEnabled()) log.debug("addAccount called");
-
-    Response<Account> response = this.callPost("v1/accounts", account, ACCOUNT_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("addAccount completed");
-
-    return response;
-
+    return client.postAsync("/rest/v1/accounts", account, ACCOUNT_RESPONSE_TYPEREF);
   }
 
-  public Response<Account> updateAccount(Account account) {
-
-    if (log.isDebugEnabled()) log.debug("updateAccount called");
-
-    String uri = "v1/accounts";
-
-    if (account.getAccountId() != null && account.getAccountId().length() != 0) {
+  public ListenableFuture<Response<Account>> updateAccount(Account account) {
+    checkNotNull(account);
+    
+    String uri = "/rest/v1/accounts";
+    if (account.getAccountId() != null) {
       uri += "/" + account.getAccountId();
     }
 
-    Response<Account> response = this.callPut(uri, account, ACCOUNT_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("updateAccount completed");
-
-    return response;
-
+    return client.putAsync(uri, account, ACCOUNT_RESPONSE_TYPEREF);
   }
 
-  public Response<PropertyData> interviewAccount(String accountId, PropertyData interviewAnswer) {
+  public ListenableFuture<Response<PropertyData>> interviewAccount(
+      String accountId, PropertyData interviewAnswer) {
+    checkNotNull(accountId);
+    checkNotNull(interviewAnswer);
 
-    if (log.isDebugEnabled()) log.debug("interviewAccount called");
-
-    String uri = "v1/accounts/{0}/interview";
-
-    if (accountId != null && accountId.length() != 0) {
-      uri = MessageFormat.format(uri, accountId);
-    }
-
-    // Workaround so the route catches. A null request payload will hit the
-    // wrong route.
-    if (interviewAnswer == null) {
-      interviewAnswer = PropertyData.builder().build();
-    }
-
-    Response<PropertyData> response =
-        this.callPut(uri, interviewAnswer, PROPERTY_DATA_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("interviewAccount completed");
-
-    return response;
-
+    String uri = String.format("/rest/v1/accounts/%s/interview", accountId);
+    return client.putAsync(uri, interviewAnswer, PROPERTY_DATA_RESPONSE_TYPEREF);
   }
 
-  public Response<TariffRate> getAccountRates(GetAccountRatesRequest request) {
+  public ListenableFuture<Response<TariffRate>> getAccountRates(GetAccountRatesRequest request) {
+    checkNotNull(request.getAccountId());
 
-    if (log.isDebugEnabled()) log.debug("getAccountRates called");
-
-    String uri = "v1/accounts/{0}/rates";
-
-    if (request.getAccountId() != null && request.getAccountId().length() != 0) {
-      uri = MessageFormat.format(uri, request.getAccountId());
-    }
-
-    Response<TariffRate> response =
-        this.callGet(uri, request.getQueryParams(), TARIFF_RATE_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getAccountRates completed");
-
-    return response;
-
+    String uri = String.format("/rest/v1/accounts/%s/rates", request.getAccountId());
+    return client.getAsync(uri, request.getQueryParams(), TARIFF_RATE_RESPONSE_TYPEREF);
   }
 
-  public Response<Tariff> getAccountTariffs(GetAccountTariffsRequest request) {
+  public ListenableFuture<Response<Tariff>> getAccountTariffs(GetAccountTariffsRequest request) {
+    checkNotNull(request.getAccountId());
 
-    if (log.isDebugEnabled()) log.debug("getAccountTariffs called");
-
-    String uri = "v1/accounts/{0}/tariffs";
-
-    if (request.getAccountId() != null && request.getAccountId().length() != 0) {
-      uri = MessageFormat.format(uri, request.getAccountId());
-    }
-
-    Response<Tariff> response =
-        this.callGet(uri, request.getQueryParams(), TARIFF_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getAccountTariffs completed");
-
-    return response;
-
+    String uri = String.format("/rest/v1/accounts/%s/tariffs", request.getAccountId());
+    return client.getAsync(uri, request.getQueryParams(), TARIFF_RESPONSE_TYPEREF);
   }
-
-
 }
