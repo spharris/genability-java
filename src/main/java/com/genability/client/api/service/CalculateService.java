@@ -1,10 +1,15 @@
 package com.genability.client.api.service;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.text.MessageFormat;
+
+import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.genability.client.api.GenabilityClient;
 import com.genability.client.api.request.GetCalculatedCostRequest;
 import com.genability.client.api.request.GetCalculationInputsRequest;
 import com.genability.client.types.CalculatedCost;
@@ -12,6 +17,7 @@ import com.genability.client.types.DetailLevel;
 import com.genability.client.types.GroupBy;
 import com.genability.client.types.PropertyData;
 import com.genability.client.types.Response;
+import com.google.common.util.concurrent.ListenableFuture;
 
 public class CalculateService extends BaseService {
 
@@ -20,35 +26,23 @@ public class CalculateService extends BaseService {
   private static final TypeReference<Response<PropertyData>> PROPERTYDATA_RESPONSE_TYPEREF =
       new TypeReference<Response<PropertyData>>() {};
 
+  private final GenabilityClient client;
+      
+  @Inject
+  CalculateService(GenabilityClient client) {
+    this.client = client;
+  }
+      
   /**
    * Calls the REST service to run a calculation
    * 
    * @param request The request.
    * @return The return value.
    */
-  public Response<CalculatedCost> getCalculatedCost(GetCalculatedCostRequest request) {
-
-    if (log.isDebugEnabled()) log.debug("getCalculatedCost called");
-
-    String uri = "public/calculate";
-    if (request.getAccountId() != null) {
-      uri += "/account/" + request.getAccountId();
-      request = request.toBuilder().setAccountId(null).build();
-    } else if (request.getMasterTariffId() != null) {
-      uri += "/" + request.getMasterTariffId();
-      request = request.toBuilder().setMasterTariffId(null).build();
-    } else {
-      // This will use only query string parameters to run the calc.
-      // Not currently doing this anywhere in the test suite.
-    }
-
-    Response<CalculatedCost> response =
-        this.callPost(uri, request, CALCULATEDCOST_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getCalculatedCost completed");
-
-    return response;
-
+  public ListenableFuture<Response<CalculatedCost>> getCalculatedCost(
+      GetCalculatedCostRequest request) {
+    String uri = "/rest/public/calculate";
+    return client.postAsync(uri, request, CALCULATEDCOST_RESPONSE_TYPEREF);
   }
 
   /**
@@ -59,11 +53,9 @@ public class CalculateService extends BaseService {
    * @param request The request.
    * @return The return value.
    */
-  public Response<PropertyData> getCalculationInputs(GetCalculationInputsRequest request) {
-
-    if (log.isDebugEnabled()) log.debug("getCalculationInputs called");
-
-    String uri = "public/calculate";
+  public ListenableFuture<Response<PropertyData>> getCalculationInputs(
+      GetCalculationInputsRequest request) {
+    String uri = "/rest/public/calculate";
     if (request.getMasterTariffId() != null) {
       uri += "/" + request.getMasterTariffId();
     } else {
@@ -71,12 +63,7 @@ public class CalculateService extends BaseService {
       // Do nothing.
     }
 
-    Response<PropertyData> response =
-        this.callGet(uri, request.getQueryParams(), PROPERTYDATA_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getCalculationInputs completed");
-
-    return response;
+    return client.getAsync(uri, request.getQueryParams(), PROPERTYDATA_RESPONSE_TYPEREF);
   }
 
   /**
@@ -90,21 +77,15 @@ public class CalculateService extends BaseService {
    * @param groupBy The groupBy.
    * @return The return value.
    */
-  public Response<CalculatedCost> runCalculationOnAccount(String accountId,
+  public ListenableFuture<Response<CalculatedCost>> runCalculationOnAccount(String accountId,
       Long masterTariffId,
       DateTime fromDateTime,
       DateTime toDateTime,
       DetailLevel detailLevel,
       GroupBy groupBy) {
-
-    if (log.isDebugEnabled()) log.debug("runCalculationOnAccount called");
-
-    String uri = "public/calculate/account/{accountId}";
-
-    if (accountId != null) {
-      uri = MessageFormat.format(uri, accountId);
-    }
-
+    checkNotNull(accountId);
+    
+    String uri = String.format("/rest/public/calculate/account/%s", accountId);
     GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
         .setMasterTariffId(masterTariffId)
         .setAccountId(accountId)
@@ -114,12 +95,7 @@ public class CalculateService extends BaseService {
         .setGroupBy(groupBy)
         .build();
 
-    Response<CalculatedCost> response =
-        this.callGet(uri, request.getQueryParams(), CALCULATEDCOST_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("runCalculationOnAccount completed");
-
-    return response;
+    return client.getAsync(uri, request.getQueryParams(), CALCULATEDCOST_RESPONSE_TYPEREF);
   }
 
 }

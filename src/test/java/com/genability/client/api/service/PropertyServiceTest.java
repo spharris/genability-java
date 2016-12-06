@@ -16,7 +16,7 @@ import com.genability.client.types.PropertyLookup;
 import com.genability.client.types.PropertyLookupStats;
 import com.genability.client.types.Response;
 
-public class PropertyServiceTests extends BaseServiceTests {
+public class PropertyServiceTest extends BaseServiceTest {
 
   private static PropertyService propertyService = genabilityClient.getPropertyService();
 

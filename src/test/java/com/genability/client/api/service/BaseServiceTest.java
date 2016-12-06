@@ -35,12 +35,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Guice;
 
-public class BaseServiceTests {
+public class BaseServiceTest {
 
   protected Logger log = LoggerFactory.getLogger(this.getClass());
 
   protected static final GenabilityClient genabilityClient;
-  protected static final AccountAnalysisService accountAnalysisService;
   protected static final PropertyService propertyService;
   protected static final CalendarService calendarService;
   protected static final IncentiveService incentiveService;
@@ -62,7 +61,7 @@ public class BaseServiceTests {
     //
     // Very simple configuration of logging to console.
     //
-    Logger logger = LoggerFactory.getLogger(BaseServiceTests.class);
+    Logger logger = LoggerFactory.getLogger(BaseServiceTest.class);
 
     //
     // Very simple configuration of API keys etc.
@@ -74,7 +73,7 @@ public class BaseServiceTests {
       // load the properties file from in the classpath
       //
       InputStream inputStream =
-          BaseServiceTests.class.getClassLoader().getResourceAsStream("genability.properties");
+          BaseServiceTest.class.getClassLoader().getResourceAsStream("genability.properties");
       if (inputStream == null) {
         logger.error("Can't find genability.properties");
         throw new RuntimeException("Can't find genability.properties");
@@ -104,7 +103,6 @@ public class BaseServiceTests {
       genabilityClient.setRestApiServer(restApiServer);
     }
 
-    accountAnalysisService = genabilityClient.getAccountAnalysisService();
     propertyService = genabilityClient.getPropertyService();
     calendarService = genabilityClient.getCalendarService();
     territoryService = genabilityClient.getTerritoryService();

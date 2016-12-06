@@ -10,12 +10,12 @@ import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.GetTerritoriesRequest;
 import com.genability.client.api.request.GetTerritoryRequest;
-import com.genability.client.types.MockHttpClient;
+import com.genability.client.testing.MockHttpClient;
 import com.genability.client.types.Response;
 import com.genability.client.types.Territory;
 
 @RunWith(JUnit4.class)
-public class TerritoryServiceTests extends BaseServiceTests {
+public class TerritoryServiceTest extends BaseServiceTest {
 
   private String baseUrl = territoryService.getRestApiServer() + "public/territories/";
   private TerritoryService localService;

@@ -17,7 +17,7 @@ import com.genability.client.testing.TestClientModule;
 import com.google.inject.Guice;
 
 @RunWith(JUnit4.class)
-public class TimeOfUseTypeTests {
+public class TimeOfUseTypeTest {
   
   @Inject private ObjectMapper mapper = new ObjectMapper();
   

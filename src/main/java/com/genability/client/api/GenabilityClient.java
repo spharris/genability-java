@@ -39,9 +39,7 @@ import com.genability.client.api.Annotations.AppId;
 import com.genability.client.api.Annotations.AppKey;
 import com.genability.client.api.Annotations.ServerAddress;
 import com.genability.client.api.request.BulkUploadRequest;
-import com.genability.client.api.service.AccountAnalysisService;
 import com.genability.client.api.service.BaseService;
-import com.genability.client.api.service.BulkUploadService;
 import com.genability.client.api.service.CalculateService;
 import com.genability.client.api.service.CalendarService;
 import com.genability.client.api.service.GenabilityException;
@@ -359,24 +357,12 @@ public class GenabilityClient {
     return service;
   }
 
-  public BulkUploadService getBulkUploadService() {
-    return initializeService(new BulkUploadService());
-  }
-
-  public CalculateService getCalculateService() {
-    return initializeService(new CalculateService());
-  }
-
   public LseService getLseService() {
     return initializeService(new LseService());
   }
 
   public PriceService getPriceService() {
     return initializeService(new PriceService());
-  }
-
-  public AccountAnalysisService getAccountAnalysisService() {
-    return initializeService(new AccountAnalysisService());
   }
 
   public PropertyService getPropertyService() {

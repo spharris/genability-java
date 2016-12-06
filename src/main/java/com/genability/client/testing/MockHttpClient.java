@@ -1,4 +1,4 @@
-package com.genability.client.types;
+package com.genability.client.testing;
 
 import static org.junit.Assert.assertEquals;
 

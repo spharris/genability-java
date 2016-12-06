@@ -9,12 +9,12 @@ import org.junit.Test;
 
 import com.genability.client.api.request.GetTimeOfUseGroupsRequest;
 import com.genability.client.api.request.GetTimeOfUseIntervalsRequest;
-import com.genability.client.types.MockHttpClient;
+import com.genability.client.testing.MockHttpClient;
 import com.genability.client.types.Response;
 import com.genability.client.types.TimeOfUseGroup;
 import com.genability.client.types.TimeOfUseInterval;
 
-public class TimeOfUseServiceTests extends BaseServiceTests {
+public class TimeOfUseServiceTest extends BaseServiceTest {
 
   private TimeOfUseService localService;
   private String publicBaseUrl = touService.getRestApiServer() + "public/timeofuses";

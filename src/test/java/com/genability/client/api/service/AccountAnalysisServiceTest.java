@@ -45,7 +45,7 @@ import com.google.inject.Guice;
  * Created by nsingh on 11/20/14.
  */
 @RunWith(JUnit4.class)
-public class AccountAnalysisServiceTests extends BaseServiceTests {
+public class AccountAnalysisServiceTest extends BaseServiceTest {
 
   private AccountAnalysis testAnalysisWithCosts;
   private AccountAnalysis testAnalysisNoCosts;
@@ -53,6 +53,7 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
       new TypeReference<Response<AccountAnalysis>>() {};
 
   @Inject private AccountService accountService;
+  @Inject private AccountAnalysisService accountAnalysisService;
      
   @Before
   public void createInjector() {
@@ -139,7 +140,7 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
 
     try {
       Response<AccountAnalysis> aaResponse =
-          accountAnalysisService.calculateSavingsAnalysis(request);
+          accountAnalysisService.calculateSavingsAnalysis(request).get();
 
       assertNotNull("restResponse null", aaResponse);
       assertEquals("bad status", Response.STATUS_SUCCESS, aaResponse.getStatus());
@@ -247,7 +248,7 @@ public class AccountAnalysisServiceTests extends BaseServiceTests {
           .build();
 
       Response<AccountAnalysis> aaResponse =
-          accountAnalysisService.calculateSavingsAnalysis(request);
+          accountAnalysisService.calculateSavingsAnalysis(request).get();
 
       assertNotNull("restResponse null", aaResponse);
       assertEquals("bad status", Response.STATUS_SUCCESS, aaResponse.getStatus());

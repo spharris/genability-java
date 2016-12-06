@@ -8,12 +8,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.genability.client.api.request.GetCalculatedCostRequest;
 import com.genability.client.api.request.GetCalculationInputsRequest;
+import com.genability.client.testing.DataLoaderUtil;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Account;
 import com.genability.client.types.CalculatedCost;
 import com.genability.client.types.CalculatedCostItem;
@@ -24,13 +29,20 @@ import com.genability.client.types.PropertyData;
 import com.genability.client.types.ReadingData;
 import com.genability.client.types.Response;
 import com.google.common.collect.ImmutableList;
+import com.google.inject.Guice;
 
-public class CalculateServiceTests extends BaseServiceTests {
+public class CalculateServiceTest {
 
-  private static CalculateService calculateService = genabilityClient.getCalculateService();
-
+  @Inject private CalculateService calculateService;
+  @Inject private DataLoaderUtil dataLoader;
+     
+  @Before
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
+  }
+  
   @Test
-  public void testZipCode() {
+  public void testZipCode() throws Exception {
     DateTimeZone tz = DateTimeZone.forID("America/Los_Angeles");
     DateTime fromDateTime = new DateTime(2015, 3, 1, 0, 0, 0, tz);
     DateTime toDateTime = new DateTime(2015, 4, 1, 0, 0, 0, tz);
@@ -48,14 +60,14 @@ public class CalculateServiceTests extends BaseServiceTests {
             .build())
         .build();
 
-    Response<CalculatedCost> resp = calculateService.getCalculatedCost(request);
+    Response<CalculatedCost> resp = calculateService.getCalculatedCost(request).get();
     if (resp.getStatus().equals("SUCCESS")) {
       System.out.println("Hello, world!");
     }
   }
 
   @Test
-  public void testCalculateTariff512() {
+  public void testCalculateTariff512() throws Exception {
 
     DateTime fromDateTime = new DateTime("2011-12-01T00:00:00.000-05:00");
     DateTime toDateTime = new DateTime("2012-01-01T00:00:00.000-05:00");
@@ -89,7 +101,7 @@ public class CalculateServiceTests extends BaseServiceTests {
 
 
   @Test
-  public void testCalculateTariff522() {
+  public void testCalculateTariff522() throws Exception {
 
     // Where the tariff has a time zone (most do) you can use it to make sure your dates are the
     // same
@@ -154,7 +166,7 @@ public class CalculateServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testCalculateTariff522GroupBy() {
+  public void testCalculateTariff522GroupBy() throws Exception {
 
     DateTime fromDateTime =
         new DateTime(2014, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles"));
@@ -188,9 +200,9 @@ public class CalculateServiceTests extends BaseServiceTests {
   }
 
   @Test
-  public void testCalculateForAccount() {
+  public void testCalculateForAccount() throws Exception {
 
-    Account newAccount = createAccount();
+    Account newAccount = dataLoader.createAccount();
     // Now we run the calculation for the new Account. We set the date
     // range for which to run the calc.
 
@@ -214,7 +226,7 @@ public class CalculateServiceTests extends BaseServiceTests {
 
     callRunCalc("Test for calculateForAccount", request);
 
-    cleanup(newAccount.getAccountId());
+    dataLoader.cleanup(newAccount.getAccountId());
 
   }
 
@@ -238,7 +250,7 @@ public class CalculateServiceTests extends BaseServiceTests {
     // create profile 1
     DateTime fromDateTime2 = new DateTime(2014, 3, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime2 = new DateTime(2014, 4, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    Profile profile1 = createProfileWithReadings(readings);
+    Profile profile1 = dataLoader.createProfileWithReadings(readings);
     List<ReadingData> readings2 = new ArrayList<ReadingData>();
     ReadingData readingData2 = ReadingData.builder()
         .setQuantityUnit("kWh")
@@ -249,7 +261,7 @@ public class CalculateServiceTests extends BaseServiceTests {
     readings2.add(readingData2);
 
     // create profile 2
-    Profile profile2 = createProfileWithReadings(readings2);
+    Profile profile2 = dataLoader.createProfileWithReadings(readings2);
     DateTime fromDateTime = new DateTime(2014, 3, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
     DateTime toDateTime = new DateTime(2014, 4, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
 
@@ -281,13 +293,13 @@ public class CalculateServiceTests extends BaseServiceTests {
     //
 
     // clean up data
-    cleanup(profile1.getAccountId());
-    cleanup(profile2.getAccountId());
+    dataLoader.cleanup(profile1.getAccountId());
+    dataLoader.cleanup(profile2.getAccountId());
 
   }
 
   @Test
-  public void testGetCalculationInputs() {
+  public void testGetCalculationInputs() throws Exception {
 
     // Where the tariff has a time zone (most do) you can use it to make sure your dates are the
     // same
@@ -301,7 +313,7 @@ public class CalculateServiceTests extends BaseServiceTests {
         .setTerritoryId(3534L)
         .build();
 
-    Response<PropertyData> restResponse = calculateService.getCalculationInputs(request);
+    Response<PropertyData> restResponse = calculateService.getCalculationInputs(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -311,9 +323,10 @@ public class CalculateServiceTests extends BaseServiceTests {
   }
 
 
-  public CalculatedCost callRunCalc(String testCase, GetCalculatedCostRequest request) {
+  public CalculatedCost callRunCalc(
+      String testCase, GetCalculatedCostRequest request) throws Exception {
 
-    Response<CalculatedCost> restResponse = calculateService.getCalculatedCost(request);
+    Response<CalculatedCost> restResponse = calculateService.getCalculatedCost(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -324,7 +337,6 @@ public class CalculateServiceTests extends BaseServiceTests {
     CalculatedCost calculatedCost = restResponse.getResults().get(0);
 
     assertNotNull("calculatedCost total", calculatedCost.getTotalCost());
-    log.debug("totalCost:" + calculatedCost.getTotalCost().toPlainString());
 
     for (CalculatedCostItem costItem : calculatedCost.getItems()) {
 

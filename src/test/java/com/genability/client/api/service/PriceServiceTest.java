@@ -11,7 +11,7 @@ import com.genability.client.types.Price;
 import com.genability.client.types.PriceChange;
 import com.genability.client.types.Response;
 
-public class PriceServiceTests extends BaseServiceTests {
+public class PriceServiceTest extends BaseServiceTest {
 
   private static PriceService priceService = genabilityClient.getPriceService();
 

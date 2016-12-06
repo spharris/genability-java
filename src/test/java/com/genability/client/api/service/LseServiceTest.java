@@ -10,7 +10,7 @@ import com.genability.client.api.request.GetTerritoriesRequest;
 import com.genability.client.types.Response;
 import com.genability.client.types.Territory;
 
-public class LseServiceTests extends BaseServiceTests {
+public class LseServiceTest extends BaseServiceTest {
 
   private static LseService lseService = genabilityClient.getLseService();
 

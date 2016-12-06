@@ -6,32 +6,41 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.net.URI;
 
+import javax.inject.Inject;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.genability.client.api.request.BulkUploadRequest;
+import com.genability.client.testing.DataLoaderUtil;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Profile;
 import com.genability.client.types.ReadingData;
 import com.genability.client.types.Response;
+import com.google.inject.Guice;
 
-public class BulkUploadTests extends BaseServiceTests {
-
-  private static BulkUploadService bulkUploadService = genabilityClient.getBulkUploadService();
+public class BulkUploadTests {
 
   private Profile profile;
 
+  @Inject private BulkUploadService bulkUploadService;
+  @Inject private DataLoaderUtil dataLoader;
+     
+  @Before
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
+  }
+  
   @Before
   public void setUp() throws Exception {
-    // create test profile
-    profile = createProfile();
+    profile = dataLoader.createProfile();
   }
 
   @After
   public void tearDown() {
-    // clean up test data
     if (profile != null) {
-      this.cleanup(profile.getAccountId());
+      dataLoader.cleanup(profile.getAccountId());
     }
   }
 
@@ -51,9 +60,8 @@ public class BulkUploadTests extends BaseServiceTests {
 
   }
 
-  private void upload(String testCase, BulkUploadRequest request) {
-
-    Response<ReadingData> restResponse = bulkUploadService.uploadFile(request);
+  private void upload(String testCase, BulkUploadRequest request) throws Exception {
+    Response<ReadingData> restResponse = bulkUploadService.uploadFile(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
