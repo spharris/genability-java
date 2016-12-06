@@ -220,7 +220,7 @@ public class CalculateServiceTests extends BaseServiceTests {
 
 
   @Test
-  public void testCalculateMultipleProfiles() {
+  public void testCalculateMultipleProfiles() throws Exception {
 
     // create profile with readings
     List<ReadingData> readings = new ArrayList<ReadingData>();

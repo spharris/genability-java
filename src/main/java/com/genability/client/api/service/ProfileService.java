@@ -1,8 +1,14 @@
 package com.genability.client.api.service;
 
-import java.text.MessageFormat;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.Optional;
+
+import javax.inject.Inject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.genability.client.api.GenabilityClient;
 import com.genability.client.api.request.DeleteProfileRequest;
 import com.genability.client.api.request.GetProfileRequest;
 import com.genability.client.api.request.GetProfilesRequest;
@@ -10,7 +16,7 @@ import com.genability.client.api.request.ReadingDataRequest;
 import com.genability.client.types.Profile;
 import com.genability.client.types.ReadingData;
 import com.genability.client.types.Response;
-
+import com.google.common.util.concurrent.ListenableFuture;
 
 public class ProfileService extends BaseService {
 
@@ -19,34 +25,33 @@ public class ProfileService extends BaseService {
   private static final TypeReference<Response<ReadingData>> READING_DATA_RESPONSE_TYPEREF =
       new TypeReference<Response<ReadingData>>() {};
 
+  private final GenabilityClient client;
+      
+  @Inject
+  ProfileService(GenabilityClient client) {
+    this.client = client;
+  }
+      
   /**
    * Calls the REST service to get a Profile based on the arguments passed in.
    * 
    * @param request The request.
    * @return The return value.
    */
-  public Response<Profile> getProfile(GetProfileRequest request) {
-
-    if (log.isDebugEnabled()) log.debug("getProfile called");
+  public ListenableFuture<Response<Profile>> getProfile(GetProfileRequest request) {
+    checkArgument(request.getProfileId() != null || request.getProviderProfileId() != null, "Either"
+        + " profileId or providerProfileId must be provided");
+    checkArgument(request.getProfileId() == null || request.getProviderProfileId() == null, "Only"
+        + " one of profileId and providerProfileId may be provided");
 
     // Set uri based on if providerProfileId was used
-    String uri = "v1/profiles";
-    if (request.getProviderProfileId() != null && request.getProviderProfileId().length() != 0) {
-
-      uri += "/pid/" + request.getProviderProfileId();
-
-    } else if (request.getProfileId() != null && request.getProfileId().length() != 0) {
-
-      uri += "/" + request.getProfileId();
+    String uri = "/rest/v1/profiles/";
+    if (request.getProviderProfileId() != null) {
+      uri += "pid/";
     }
 
-    Response<Profile> response =
-        this.callGet(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getProfile completed");
-
-    return response;
-
+    uri += Optional.ofNullable(request.getProfileId()).orElse(request.getProviderProfileId());
+    return client.getAsync(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
   }
 
   /**
@@ -55,46 +60,19 @@ public class ProfileService extends BaseService {
    * @param request The request.
    * @return The return value.
    */
-  public Response<Profile> getProfiles(GetProfilesRequest request) {
-
-    if (log.isDebugEnabled()) log.debug("getProfiles called");
-
-    String uri = "v1/profiles";
-
-    Response<Profile> response =
-        this.callGet(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getProfiles completed");
-
-    return response;
-
+  public ListenableFuture<Response<Profile>> getProfiles(GetProfilesRequest request) {
+    String uri = "/rest/v1/profiles";
+    return client.getAsync(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
   }
 
-  public Response<Profile> addProfile(Profile profile) {
-
-    if (log.isDebugEnabled()) log.debug("addProfile called");
-
-    Response<Profile> response =
-        this.callPost("v1/usage/profiles", profile, PROFILE_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("addProfile completed");
-
-    return response;
-
+  public ListenableFuture<Response<Profile>> addProfile(Profile profile) {
+    String uri = "/rest/v1/profiles";
+    return client.postAsync(uri, profile, PROFILE_RESPONSE_TYPEREF);
   }
 
-  public Response<Profile> updateProfile(Profile profile) {
-
-    if (log.isDebugEnabled()) log.debug("updateProfile called");
-
-    String uri = "v1/profiles";
-
-    Response<Profile> response = this.callPut(uri, profile, PROFILE_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("updateProfile completed");
-
-    return response;
-
+  public ListenableFuture<Response<Profile>> updateProfile(Profile profile) {
+    String uri = "/rest/v1/profiles";
+    return client.putAsync(uri, profile, PROFILE_RESPONSE_TYPEREF);
   }
 
   /**
@@ -103,57 +81,24 @@ public class ProfileService extends BaseService {
    * @param request The request.
    * @return The return value.
    */
-  public Response<Profile> deleteProfile(DeleteProfileRequest request) {
-    if (log.isDebugEnabled()) log.debug("deleteProfile called");
+  public ListenableFuture<Response<Profile>> deleteProfile(DeleteProfileRequest request) {
+    checkNotNull(request.getProfileId(), "profileId must be set");
 
-    String profileId = request.getProfileId();
-
-    if (profileId == null || profileId.isEmpty()) {
-      throw new GenabilityException("profileId must be set");
-    }
-
-    String uri = "v1/profiles/" + profileId;
-
-    Response<Profile> response =
-        this.callDelete(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("deleteProfile completed");
-
-    return response;
+    String uri = String.format("/rest/v1/profiles/%s", request.getProfileId());
+    return client.deleteAsync(uri, request.getQueryParams(), PROFILE_RESPONSE_TYPEREF);
   }
 
-  public Response<ReadingData> updateReadings(ReadingDataRequest request) {
+  public ListenableFuture<Response<ReadingData>> updateReadings(ReadingDataRequest request) {
+    checkNotNull(request.getUsageProfileId(), "usageProfileId must be set");
 
-    if (log.isDebugEnabled()) log.debug("updateReadings called");
-
-    String uri = "v1/profiles/{0}/readings";
-
-    if (request.getUsageProfileId() != null) {
-      uri = MessageFormat.format(uri, request.getUsageProfileId());
-    }
-
-    Response<ReadingData> response = this.callPut(uri, request, READING_DATA_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("updateReadings completed");
-
-    return response;
-
+    String uri = String.format("/rest/v1/profiles/%s/readings", request.getUsageProfileId());
+    return client.putAsync(uri, request, READING_DATA_RESPONSE_TYPEREF);
   }
 
-  public Response<ReadingData> addReadings(ReadingDataRequest request) {
+  public ListenableFuture<Response<ReadingData>> addReadings(ReadingDataRequest request) {
+    checkNotNull(request.getUsageProfileId(), "usageProfileId must be set");
 
-    if (log.isDebugEnabled()) log.debug("addReadings called");
-
-    String uri = "v1/profiles/{0}/readings";
-
-    if (request.getUsageProfileId() != null) {
-      uri = MessageFormat.format(uri, request.getUsageProfileId());
-    }
-
-    Response<ReadingData> response = this.callPost(uri, request, READING_DATA_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("addReadings completed");
-
-    return response;
+    String uri = String.format("/rest/v1/profiles/%s/readings", request.getUsageProfileId());
+    return client.postAsync(uri, request, READING_DATA_RESPONSE_TYPEREF);
   }
 }

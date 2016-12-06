@@ -48,11 +48,9 @@ import com.genability.client.api.service.GenabilityException;
 import com.genability.client.api.service.IncentiveService;
 import com.genability.client.api.service.LseService;
 import com.genability.client.api.service.PriceService;
-import com.genability.client.api.service.ProfileService;
 import com.genability.client.api.service.PropertyService;
 import com.genability.client.api.service.TerritoryService;
 import com.genability.client.api.service.TimeOfUseService;
-import com.genability.client.api.service.TypicalService;
 import com.genability.client.types.Response;
 import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -227,7 +225,10 @@ public class GenabilityClient {
             } catch (IOException ex) {}
 
             throw new GenabilityException(
-                "Failed : HTTP error code : " + httpResponse.getStatusLine().getStatusCode(),
+                String.format(
+                  "Failed (HTTP %d): %s",
+                  httpResponse.getStatusLine().getStatusCode(),
+                  responseBody),
                 responseBody);
           }
 
@@ -374,10 +375,6 @@ public class GenabilityClient {
     return initializeService(new PriceService());
   }
 
-  public ProfileService getProfileService() {
-    return initializeService(new ProfileService());
-  }
-
   public AccountAnalysisService getAccountAnalysisService() {
     return initializeService(new AccountAnalysisService());
   }
@@ -388,10 +385,6 @@ public class GenabilityClient {
 
   public CalendarService getCalendarService() {
     return initializeService(new CalendarService());
-  }
-
-  public TypicalService getTypicalService() {
-    return initializeService(new TypicalService());
   }
 
   public TerritoryService getTerritoryService() {

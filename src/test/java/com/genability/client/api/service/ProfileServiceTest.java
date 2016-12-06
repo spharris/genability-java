@@ -1,5 +1,6 @@
 package com.genability.client.api.service;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -9,9 +10,13 @@ import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -20,6 +25,8 @@ import com.genability.client.api.request.DeleteProfileRequest;
 import com.genability.client.api.request.GetProfileRequest;
 import com.genability.client.api.request.GetProfilesRequest;
 import com.genability.client.api.request.ReadingDataRequest;
+import com.genability.client.testing.DataLoaderUtil;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Account;
 import com.genability.client.types.Baseline;
 import com.genability.client.types.ClipBy;
@@ -29,16 +36,23 @@ import com.genability.client.types.ReadingData;
 import com.genability.client.types.Response;
 import com.genability.client.types.Source;
 import com.google.common.collect.ImmutableList;
+import com.google.inject.Guice;
 
 @RunWith(JUnit4.class)
-public class ProfileServiceTests extends BaseServiceTests {
+public class ProfileServiceTest {
 
-  private static ProfileService profileService = genabilityClient.getProfileService();
+  @Inject private ProfileService profileService;
+  @Inject private DataLoaderUtil dataLoader;
+  
+  @Before
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
+  }
 
   @Test
-  public void testGetProfile() {
+  public void testGetProfile() throws Exception {
 
-    Profile newProfile = createProfile();
+    Profile newProfile = dataLoader.createProfile();
     GetProfileRequest request = GetProfileRequest.builder()
         .setProfileId(newProfile.getProfileId())
         .setGroupBy(GroupBy.MONTH)
@@ -47,26 +61,26 @@ public class ProfileServiceTests extends BaseServiceTests {
         .build();
     callGetProfile("Test get one profile", request);
 
-    cleanup(newProfile.getAccountId());
+    dataLoader.cleanup(newProfile.getAccountId());
   }
 
   @Test
-  public void testGetProfiles() {
+  public void testGetProfiles() throws Exception {
 
-    Profile newProfile = createProfile();
+    Profile newProfile = dataLoader.createProfile();
     GetProfilesRequest request = GetProfilesRequest.builder()
         .setAccountId(newProfile.getAccountId())
         .build();
     callGetProfiles("Test get all profiles", request);
 
-    cleanup(newProfile.getAccountId());
+    dataLoader.cleanup(newProfile.getAccountId());
   }
 
   @Test
-  public void testAddProfileWithBaseline() {
-    Account account = createAccount();
+  public void testAddProfileWithBaseline() throws Exception {
+    Account account = dataLoader.createAccount();
     try {
-      Baseline solarBaseline = getSolarBaselineFor92704();
+      Baseline solarBaseline = dataLoader.getSolarBaselineFor92704();
       Profile theProfile = Profile.builder()
           .setAccountId(account.getAccountId())
           .setBaselineMeasures(solarBaseline.getMeasures())
@@ -76,7 +90,7 @@ public class ProfileServiceTests extends BaseServiceTests {
             .build())
           .build();
 
-      Response<Profile> response = profileService.addProfile(theProfile);
+      Response<Profile> response = profileService.addProfile(theProfile).get();
       Profile returnedProfile = response.getResults().get(0);
 
       assertEquals("Did not successfully add the Baseline Profile", Response.STATUS_SUCCESS,
@@ -88,15 +102,15 @@ public class ProfileServiceTests extends BaseServiceTests {
           returnedProfile.getBaselineMeasures().size());
 
     } finally {
-      cleanup(account.getAccountId());
+      dataLoader.cleanup(account.getAccountId());
     }
   }
 
   @Test
-  public void testPopulateBaselineParameter() {
-    Account account = createAccount();
+  public void testPopulateBaselineParameter() throws Exception {
+    Account account = dataLoader.createAccount();
     try {
-      Baseline solarBaseline = getSolarBaselineFor92704();
+      Baseline solarBaseline = dataLoader.getSolarBaselineFor92704();
       Profile theProfile = Profile.builder()
           .setAccountId(account.getAccountId())
           .setBaselineMeasures(solarBaseline.getMeasures())
@@ -106,14 +120,14 @@ public class ProfileServiceTests extends BaseServiceTests {
             .build())
           .build();
 
-      Response<Profile> addProfileResponse = profileService.addProfile(theProfile);
+      Response<Profile> addProfileResponse = profileService.addProfile(theProfile).get();
       Profile addedProfile = addProfileResponse.getResults().get(0);
 
       GetProfileRequest request = GetProfileRequest.builder()
           .setProfileId(addedProfile.getProfileId())
           .setPopulateBaseline(true)
           .build();
-      Response<Profile> getProfileResponse = profileService.getProfile(request);
+      Response<Profile> getProfileResponse = profileService.getProfile(request).get();
 
       Profile retrievedProfile = getProfileResponse.getResults().get(0);
 
@@ -122,29 +136,29 @@ public class ProfileServiceTests extends BaseServiceTests {
       assertEquals("Wrong number of baseline measures", 8760,
           retrievedProfile.getBaselineMeasures().size());
     } finally {
-      cleanup(account.getAccountId());
+      dataLoader.cleanup(account.getAccountId());
     }
   }
 
   @Test
-  public void testAddProfile() {
+  public void testAddProfile() throws Exception {
 
-    Account account = createAccount();
+    Account account = dataLoader.createAccount();
     Profile profile = Profile.builder()
         .setAccountId(account.getAccountId())
         .build();
-    Response<Profile> newProfile = profileService.addProfile(profile);
+    Response<Profile> newProfile = profileService.addProfile(profile).get();
 
     assertNotNull("new Profile is null", newProfile);
     assertEquals("bad status", newProfile.getStatus(), Response.STATUS_SUCCESS);
     assertTrue("bad count", newProfile.getCount() > 0);
 
-    cleanup(account.getAccountId());
+    dataLoader.cleanup(account.getAccountId());
   }
 
   @Test
-  public void testDeleteProfileByProfileId() {
-    Profile newProfile = createProfile();
+  public void testDeleteProfileByProfileId() throws Exception {
+    Profile newProfile = dataLoader.createProfile();
     try {
       String profileId = newProfile.getProfileId();
 
@@ -160,28 +174,27 @@ public class ProfileServiceTests extends BaseServiceTests {
           .setProfileId(profileId)
           .build();
       try {
-        profileService.getProfile(request2);
+        profileService.getProfile(request2).get();
         fail("second get (after delete) should 404");
-      } catch (GenabilityException e) {
+      } catch (ExecutionException e) {
         // XXX should handle HTTP codes cleanly in the exception
         // 2015-04-16: Error code on server side is now incorrect.
-        if (!"Failed : HTTP error code : 400".equals(e.getMessage())) {
-          throw e;
-        }
+        assertThat(e.getCause()).isInstanceOf(GenabilityException.class);
+        assertThat(e.getCause().getMessage()).contains("400");
       }
     } finally {
-      cleanup(newProfile.getAccountId());
+      dataLoader.cleanup(newProfile.getAccountId());
     }
   }
 
   @Test
-  public void testAddUpdateReadings() {
+  public void testAddUpdateReadings() throws Exception {
 
-    Account account = createAccount();
+    Account account = dataLoader.createAccount();
     Profile profile = Profile.builder()
         .setAccountId(account.getAccountId())
         .build();
-    Response<Profile> results = profileService.addProfile(profile);
+    Response<Profile> results = profileService.addProfile(profile).get();
 
     assertNotNull("new Profile is null", results);
     assertEquals("bad status", results.getStatus(), Response.STATUS_SUCCESS);
@@ -218,7 +231,7 @@ public class ProfileServiceTests extends BaseServiceTests {
         .build();
 
     // add readings to profile
-    Response<ReadingData> addReadingResults = profileService.addReadings(request);
+    Response<ReadingData> addReadingResults = profileService.addReadings(request).get();
     assertNotNull("new Profile is null", addReadingResults);
     assertEquals("bad status", addReadingResults.getStatus(), Response.STATUS_SUCCESS);
     assertTrue("bad count", addReadingResults.getCount() < 2);
@@ -231,17 +244,17 @@ public class ProfileServiceTests extends BaseServiceTests {
 
     profile = callGetProfile("Test get one profile", profileRequest);
 
-    cleanup(account.getAccountId());
+    dataLoader.cleanup(account.getAccountId());
   }
 
   @Test
-  public void testGetProfileGroupedByHour() {
+  public void testGetProfileGroupedByHour() throws Exception {
 
-    Account account = createAccount();
+    Account account = dataLoader.createAccount();
     Profile profile = Profile.builder()
         .setAccountId(account.getAccountId())
         .build();
-    Response<Profile> results = profileService.addProfile(profile);
+    Response<Profile> results = profileService.addProfile(profile).get();
 
     assertNotNull("new Profile is null", results);
     assertEquals("bad status", results.getStatus(), Response.STATUS_SUCCESS);
@@ -273,7 +286,7 @@ public class ProfileServiceTests extends BaseServiceTests {
         .build();
 
     // add readings to profile
-    Response<ReadingData> addReadingResults = profileService.addReadings(request);
+    Response<ReadingData> addReadingResults = profileService.addReadings(request).get();
     assertNotNull("new Profile is null", addReadingResults);
     assertEquals("bad status", addReadingResults.getStatus(), Response.STATUS_SUCCESS);
     assertTrue("bad count", addReadingResults.getCount() < 2);
@@ -297,17 +310,17 @@ public class ProfileServiceTests extends BaseServiceTests {
     // profile.getIntervals().getList().get(0).getkWh().getQuantityAmount()
     // .equals(new BigDecimal("1.34408602150537650000")));
 
-    cleanup(account.getAccountId());
+    dataLoader.cleanup(account.getAccountId());
   }
 
   @Test
-  public void testAddUpdateReadingsDST() {
+  public void testAddUpdateReadingsDST() throws Exception {
 
-    Account account = createAccount();
+    Account account = dataLoader.createAccount();
     Profile profile = Profile.builder()
         .setAccountId(account.getAccountId())
         .build();
-    Response<Profile> results = profileService.addProfile(profile);
+    Response<Profile> results = profileService.addProfile(profile).get();
 
     assertNotNull("new Profile is null", results);
     assertEquals("bad status", results.getStatus(), Response.STATUS_SUCCESS);
@@ -335,7 +348,7 @@ public class ProfileServiceTests extends BaseServiceTests {
         .build();
 
     // add readings to profile
-    Response<ReadingData> addReadingResults = profileService.addReadings(request);
+    Response<ReadingData> addReadingResults = profileService.addReadings(request).get();
     assertNotNull("new Profile is null", addReadingResults);
     assertEquals("bad status", addReadingResults.getStatus(), Response.STATUS_SUCCESS);
     assertTrue("bad count", addReadingResults.getCount() != 1);
@@ -355,17 +368,17 @@ public class ProfileServiceTests extends BaseServiceTests {
     // profile.getReadings().getList().get(0).getQuantityValue().equals(new
     // BigDecimal("1000")));
 
-    cleanup(account.getAccountId());
+    dataLoader.cleanup(account.getAccountId());
   }
 
   @Test
-  public void testAddReadingsDSTRunCalc() {
+  public void testAddReadingsDSTRunCalc() throws Exception {
 
-    Account account = createAccount();
+    Account account = dataLoader.createAccount();
     Profile profile = Profile.builder()
         .setAccountId(account.getAccountId())
         .build();
-    Response<Profile> results = profileService.addProfile(profile);
+    Response<Profile> results = profileService.addProfile(profile).get();
 
     assertNotNull("new Profile is null", results);
     assertEquals("bad status", results.getStatus(), Response.STATUS_SUCCESS);
@@ -412,7 +425,7 @@ public class ProfileServiceTests extends BaseServiceTests {
         .build();
 
     // add readings to profile
-    Response<ReadingData> addReadingResults = profileService.addReadings(request);
+    Response<ReadingData> addReadingResults = profileService.addReadings(request).get();
     assertNotNull("new Profile is null", addReadingResults);
     assertEquals("bad status", addReadingResults.getStatus(), Response.STATUS_SUCCESS);
     assertTrue("bad count", addReadingResults.getCount() != 1);
@@ -432,18 +445,18 @@ public class ProfileServiceTests extends BaseServiceTests {
     // profile.getReadings().getList().get(0).getQuantityValue().equals(new
     // BigDecimal("1000")));
 
-    cleanup(account.getAccountId());
+    dataLoader.cleanup(account.getAccountId());
   }
 
   /*
    * Helper functions
    */
 
-  public void callDeleteProfile(String profileId) {
+  public void callDeleteProfile(String profileId) throws Exception {
     DeleteProfileRequest request = DeleteProfileRequest.builder()
         .setProfileId(profileId)
         .build();
-    Response<Profile> restResponse = profileService.deleteProfile(request);
+    Response<Profile> restResponse = profileService.deleteProfile(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -451,8 +464,8 @@ public class ProfileServiceTests extends BaseServiceTests {
     assertNull("shouldn't have results", restResponse.getResults());
   }
 
-  public Profile callGetProfile(String testCase, GetProfileRequest request) {
-    Response<Profile> restResponse = profileService.getProfile(request);
+  public Profile callGetProfile(String testCase, GetProfileRequest request) throws Exception {
+    Response<Profile> restResponse = profileService.getProfile(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
@@ -463,8 +476,8 @@ public class ProfileServiceTests extends BaseServiceTests {
 
   }
 
-  public void callGetProfiles(String testCase, GetProfilesRequest request) {
-    Response<Profile> restResponse = profileService.getProfiles(request);
+  public void callGetProfiles(String testCase, GetProfilesRequest request) throws Exception {
+    Response<Profile> restResponse = profileService.getProfiles(request).get();
 
     assertNotNull("restResponse null", restResponse);
     assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);

@@ -22,9 +22,9 @@ public class BulkUploadTests extends BaseServiceTests {
   private Profile profile;
 
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     // create test profile
-    profile = this.createProfile();
+    profile = createProfile();
   }
 
   @After

@@ -46,8 +46,6 @@ public class AccountService {
   }
 
   public ListenableFuture<Response<Account>> getAccount(GetAccountRequest request) {
-    checkNotNull(request.getAccountId());
-    
     String uri = String.format("/rest/v1/accounts/%s", request.getAccountId());
     return client.getAsync(uri, request.getQueryParams(), ACCOUNT_RESPONSE_TYPEREF);
   }
