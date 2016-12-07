@@ -39,7 +39,6 @@ import com.genability.client.api.Annotations.AppId;
 import com.genability.client.api.Annotations.AppKey;
 import com.genability.client.api.Annotations.ServerAddress;
 import com.genability.client.api.request.BulkUploadRequest;
-import com.genability.client.api.service.BaseService;
 import com.genability.client.api.service.GenabilityException;
 import com.genability.client.types.Response;
 import com.google.common.base.Joiner;
