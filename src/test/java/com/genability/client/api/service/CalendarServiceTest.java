@@ -3,23 +3,34 @@ package com.genability.client.api.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import javax.inject.Inject;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.GetCalendarDatesRequest;
 import com.genability.client.api.request.GetCalendarRequest;
 import com.genability.client.api.request.GetCalendarsRequest;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Calendar;
 import com.genability.client.types.CalendarEventDate;
 import com.genability.client.types.Response;
+import com.google.inject.Guice;
 
-public class CalendarServiceTest extends BaseServiceTest {
+@RunWith(JUnit4.class)
+public class CalendarServiceTest {
 
-
-  private static CalendarService calendarService = genabilityClient.getCalendarService();
-
+  @Inject private CalendarService calendarService;
+     
+  @Before
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
+  }
 
   @Test
-  public void testGetCalendar() {
+  public void testGetCalendar() throws Exception {
 
     //
     // Assign
@@ -31,7 +42,7 @@ public class CalendarServiceTest extends BaseServiceTest {
     //
     // Act
     //
-    Response<Calendar> restResponse = calendarService.getCalendar(request);
+    Response<Calendar> restResponse = calendarService.getCalendar(request).get();
 
     //
     // Assert
@@ -42,7 +53,7 @@ public class CalendarServiceTest extends BaseServiceTest {
   }
 
   @Test
-  public void testGetCalendars() {
+  public void testGetCalendars() throws Exception {
 
     //
     // Assign
@@ -54,7 +65,7 @@ public class CalendarServiceTest extends BaseServiceTest {
     //
     // Act
     //
-    Response<Calendar> restResponse = calendarService.getCalendars(request);
+    Response<Calendar> restResponse = calendarService.getCalendars(request).get();
 
     //
     // Assert
@@ -65,7 +76,7 @@ public class CalendarServiceTest extends BaseServiceTest {
   }
 
   @Test
-  public void testGetCalendarDates() {
+  public void testGetCalendarDates() throws Exception {
 
     //
     // Assign
@@ -77,7 +88,7 @@ public class CalendarServiceTest extends BaseServiceTest {
     //
     // Act
     //
-    Response<CalendarEventDate> restResponse = calendarService.getCalendarEventDates(request);
+    Response<CalendarEventDate> restResponse = calendarService.getCalendarEventDates(request).get();
 
     //
     // Assert

@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.BulkUploadRequest;
 import com.genability.client.testing.DataLoaderUtil;
@@ -20,6 +22,7 @@ import com.genability.client.types.ReadingData;
 import com.genability.client.types.Response;
 import com.google.inject.Guice;
 
+@RunWith(JUnit4.class)
 public class BulkUploadTests {
 
   private Profile profile;

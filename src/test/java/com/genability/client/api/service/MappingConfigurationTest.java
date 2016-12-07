@@ -15,7 +15,7 @@ import com.genability.client.types.ChargeType;
 import com.google.inject.Guice;
 
 @RunWith(JUnit4.class)
-public class MappingConfigurationTest extends BaseServiceTest {
+public class MappingConfigurationTest {
 
   @Inject private ObjectMapper mapper;
   

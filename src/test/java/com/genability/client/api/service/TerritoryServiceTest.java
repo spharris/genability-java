@@ -3,6 +3,8 @@ package com.genability.client.api.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import javax.inject.Inject;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,102 +12,30 @@ import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.GetTerritoriesRequest;
 import com.genability.client.api.request.GetTerritoryRequest;
-import com.genability.client.testing.MockHttpClient;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Response;
 import com.genability.client.types.Territory;
+import com.google.inject.Guice;
 
 @RunWith(JUnit4.class)
-public class TerritoryServiceTest extends BaseServiceTest {
+public class TerritoryServiceTest {
 
-  private String baseUrl = territoryService.getRestApiServer() + "public/territories/";
-  private TerritoryService localService;
-
+  @Inject private TerritoryService territoryService;
+  
   @Before
-  public void initializeTerritoryService() {
-    localService = new TerritoryService();
-    localService.setRestApiServer(territoryService.getRestApiServer());
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
   }
 
   @Test
-  public void testGetOneTerritory() {
-    // Arrange
-    long territoryId = 1234;
-    String expectedUrl = String.format("%s%d", baseUrl, territoryId);
-
-    // Expect
-    MockHttpClient client = new MockHttpClient(expectedUrl);
-    localService.setHttpClient(client);
-
-    // Act
-    GetTerritoryRequest request = GetTerritoryRequest.builder()
-        .setTerritoryId(territoryId)
-        .build();
-
-    localService.getTerritory(request);
-    client.validate();
-  }
-
-  @Test
-  public void testGetOneTerritoryWithParameters() {
-    // Arrange
-    long territoryId = 1234;
-    String expectedUrl = String.format("%s%d", baseUrl, territoryId);
-
-    // Expect
-    MockHttpClient client = new MockHttpClient(expectedUrl);
-    client.addExpectedParameter("populateItems", "true");
-    client.addExpectedParameter("populateLses", "true");
-    localService.setHttpClient(client);
-
-    // Act
-    GetTerritoryRequest request = GetTerritoryRequest.builder()
-        .setTerritoryId(territoryId)
-        .setPopulateItems(true)
-        .setPopulateLses(true)
-        .build();
-
-    localService.getTerritory(request);
-    client.validate();
-  }
-
-  @Test
-  public void testGetTerritories() {
-    // Arrange
-    String expectedUrl = baseUrl;
-
-    // Expect
-    MockHttpClient client = new MockHttpClient(expectedUrl);
-    client.addExpectedParameter("populateItems", "true");
-    client.addExpectedParameter("populateLses", "true");
-    client.addExpectedParameter("lseId", "1234");
-    client.addExpectedParameter("masterTariffId", "5");
-    client.addExpectedParameter("containsItemType", "itemType");
-    client.addExpectedParameter("containsItemValue", "itemValue");
-    localService.setHttpClient(client);
-
-    // Act
-    GetTerritoriesRequest request = GetTerritoriesRequest.builder()
-        .setPopulateItems(true)
-        .setPopulateLses(true)
-        .setLseId(1234L)
-        .setMasterTariffId(5L)
-        .setContainsItemType("itemType")
-        .setContainsItemValue("itemValue")
-        .build();
-
-    localService.getTerritories(request);
-    client.validate();
-  }
-
-  @Test
-  public void testGetOneTerritoryFromServer() {
+  public void testGetOneTerritoryFromServer() throws Exception {
     Long territoryId = Long.valueOf(807L);
 
     GetTerritoryRequest request = GetTerritoryRequest.builder()
         .setTerritoryId(territoryId)
         .build();
 
-    Response<Territory> result = territoryService.getTerritory(request);
+    Response<Territory> result = territoryService.getTerritory(request).get();
     Territory t = result.getResults().get(0);
 
     assertEquals("Unsuccessful territory request", Response.STATUS_SUCCESS, result.getStatus());
@@ -113,7 +43,7 @@ public class TerritoryServiceTest extends BaseServiceTest {
   }
 
   @Test
-  public void testGetOneTerritoryFromServerWithParameters() {
+  public void testGetOneTerritoryFromServerWithParameters() throws Exception {
     Long territoryId = Long.valueOf(807L);
 
     GetTerritoryRequest request = GetTerritoryRequest.builder()
@@ -121,7 +51,7 @@ public class TerritoryServiceTest extends BaseServiceTest {
         .setPopulateItems(true)
         .build();
 
-    Response<Territory> result = territoryService.getTerritory(request);
+    Response<Territory> result = territoryService.getTerritory(request).get();
     Territory t = result.getResults().get(0);
 
     assertEquals("Unsuccessful territory request", Response.STATUS_SUCCESS, result.getStatus());
@@ -129,14 +59,14 @@ public class TerritoryServiceTest extends BaseServiceTest {
   }
 
   @Test
-  public void testGetTerritoriesFromServer() {
+  public void testGetTerritoriesFromServer() throws Exception {
     Long lseId = Long.valueOf(734L);
 
     GetTerritoriesRequest request = GetTerritoriesRequest.builder()
         .setLseId(lseId)
         .build();
 
-    Response<Territory> result = territoryService.getTerritories(request);
+    Response<Territory> result = territoryService.getTerritories(request).get();
 
     for (Territory t : result.getResults()) {
       assertEquals("Got data for the wrong LSE", lseId, t.getLseId());

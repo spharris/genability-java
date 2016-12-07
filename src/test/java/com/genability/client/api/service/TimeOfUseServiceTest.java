@@ -3,47 +3,35 @@ package com.genability.client.api.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.genability.client.api.request.GetTimeOfUseGroupsRequest;
 import com.genability.client.api.request.GetTimeOfUseIntervalsRequest;
-import com.genability.client.testing.MockHttpClient;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Response;
 import com.genability.client.types.TimeOfUseGroup;
 import com.genability.client.types.TimeOfUseInterval;
+import com.google.inject.Guice;
 
-public class TimeOfUseServiceTest extends BaseServiceTest {
+public class TimeOfUseServiceTest {
 
-  private TimeOfUseService localService;
-  private String publicBaseUrl = touService.getRestApiServer() + "public/timeofuses";
-
+  @Inject private TimeOfUseService touService;
+  
   @Before
-  public void setUp() {
-    localService = new TimeOfUseService();
-    localService.setRestApiServer(touService.getRestApiServer());
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
   }
-
+  
   @Test
-  public void testGetTouGroupUrl() {
-    long lseId = 734L;
-    long touGroupId = 1L;
-    String expectedUrl = String.format("%s/%d/%d", publicBaseUrl, lseId, touGroupId);
-
-    MockHttpClient client = new MockHttpClient(expectedUrl);
-    localService.setHttpClient(client);
-    localService.getTimeOfUseGroup(lseId, touGroupId);
-
-    client.validate();
-  }
-
-  @Test
-  public void testGetTouGroup() {
+  public void testGetTouGroup() throws Exception {
     long lseId = 734L;
     long touGroupId = 1L;
 
-    Response<TimeOfUseGroup> response = touService.getTimeOfUseGroup(lseId, touGroupId);
+    Response<TimeOfUseGroup> response = touService.getTimeOfUseGroup(lseId, touGroupId).get();
 
     assertEquals("Didn't successfully get a response from getTimeOfUseGroup",
         Response.STATUS_SUCCESS, response.getStatus());
@@ -55,32 +43,14 @@ public class TimeOfUseServiceTest extends BaseServiceTest {
   }
 
   @Test
-  public void testGetTouGroupsParameters() {
-    Long lseId = Long.valueOf(734);
-    String expectedUrl = publicBaseUrl;
-
-    GetTimeOfUseGroupsRequest request = GetTimeOfUseGroupsRequest.builder()
-        .setLseId(lseId)
-        .build();
-
-    MockHttpClient client = new MockHttpClient(expectedUrl);
-    client.addExpectedParameter("lseId", lseId.toString());
-    localService.setHttpClient(client);
-
-    localService.getTimeOfUseGroups(request);
-
-    client.validate();
-  }
-
-  @Test
-  public void testGetTouGroups() {
+  public void testGetTouGroups() throws Exception {
     Long lseId = Long.valueOf(734);
 
     GetTimeOfUseGroupsRequest request = GetTimeOfUseGroupsRequest.builder()
         .setLseId(lseId)
         .build();
 
-    Response<TimeOfUseGroup> response = touService.getTimeOfUseGroups(request);
+    Response<TimeOfUseGroup> response = touService.getTimeOfUseGroups(request).get();
 
     assertEquals("Didn't successfully get a response from getTimeOfUseGroups",
         Response.STATUS_SUCCESS, response.getStatus());
@@ -90,30 +60,7 @@ public class TimeOfUseServiceTest extends BaseServiceTest {
   }
 
   @Test
-  public void testGetTouIntervalsUrl() {
-    long lseId = 734L;
-    long touGroupId = 1L;
-    DateTime fromDateTime = new DateTime(2015, 1, 1, 0, 0);
-    DateTime toDateTime = new DateTime(2015, 2, 1, 0, 0);
-    String expectedUrl = String.format("%s/%d/%d/intervals", publicBaseUrl, lseId, touGroupId);
-
-    GetTimeOfUseIntervalsRequest request = GetTimeOfUseIntervalsRequest.builder()
-        .setFromDateTime(fromDateTime)
-        .setToDateTime(toDateTime)
-        .build();
-
-    MockHttpClient client = new MockHttpClient(expectedUrl);
-    client.addExpectedParameter("fromDateTime", fromDateTime.toString());
-    client.addExpectedParameter("toDateTime", toDateTime.toString());
-
-    localService.setHttpClient(client);
-    localService.getTimeOfUseIntervals(lseId, touGroupId, request);
-
-    client.validate();
-  }
-
-  @Test
-  public void testGetTouIntervals() {
+  public void testGetTouIntervals() throws Exception {
     long lseId = 734L;
     long touGroupId = 1L;
     DateTime fromDateTime = new DateTime(2015, 1, 1, 0, 0);
@@ -125,7 +72,7 @@ public class TimeOfUseServiceTest extends BaseServiceTest {
         .build();
 
     Response<TimeOfUseInterval> response =
-        touService.getTimeOfUseIntervals(lseId, touGroupId, request);
+        touService.getTimeOfUseIntervals(lseId, touGroupId, request).get();
 
     assertEquals("Didn't successfully get a response from getTimeOfUseIntervals",
         Response.STATUS_SUCCESS, response.getStatus());

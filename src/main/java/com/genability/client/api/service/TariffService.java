@@ -18,7 +18,7 @@ public class TariffService {
   private final GenabilityClient client;
       
   @Inject
-  public TariffService(GenabilityClient client) {
+  TariffService(GenabilityClient client) {
     this.client = client;
   }
       

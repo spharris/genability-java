@@ -22,6 +22,7 @@ import org.junit.runners.JUnit4;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.genability.client.api.request.AccountAnalysisRequest;
 import com.genability.client.api.request.DeleteAccountRequest;
+import com.genability.client.testing.DataLoaderUtil;
 import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.Account;
 import com.genability.client.types.AccountAnalysis;
@@ -41,11 +42,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Guice;
 
-/**
- * Created by nsingh on 11/20/14.
- */
 @RunWith(JUnit4.class)
-public class AccountAnalysisServiceTest extends BaseServiceTest {
+public class AccountAnalysisServiceTest {
 
   private AccountAnalysis testAnalysisWithCosts;
   private AccountAnalysis testAnalysisNoCosts;
@@ -53,7 +51,9 @@ public class AccountAnalysisServiceTest extends BaseServiceTest {
       new TypeReference<Response<AccountAnalysis>>() {};
 
   @Inject private AccountService accountService;
+  @Inject private ProfileService profileService;
   @Inject private AccountAnalysisService accountAnalysisService;
+  @Inject private DataLoaderUtil dataLoader;
      
   @Before
   public void createInjector() {
@@ -63,10 +63,10 @@ public class AccountAnalysisServiceTest extends BaseServiceTest {
   @Before
   public void setUp() {
     Response<AccountAnalysis> responseWithCosts =
-        loadJsonFixture("account_analysis_withcosts.json", ACCOUNT_ANALYSIS_RESPONSE_TYPEREF);
+        dataLoader.loadJsonFixture("account_analysis_withcosts.json", ACCOUNT_ANALYSIS_RESPONSE_TYPEREF);
 
     Response<AccountAnalysis> responseNoCosts =
-        loadJsonFixture("account_analysis_nocosts.json", ACCOUNT_ANALYSIS_RESPONSE_TYPEREF);
+        dataLoader.loadJsonFixture("account_analysis_nocosts.json", ACCOUNT_ANALYSIS_RESPONSE_TYPEREF);
 
     testAnalysisWithCosts = responseWithCosts.getResults().get(0);
     testAnalysisNoCosts = responseNoCosts.getResults().get(0);

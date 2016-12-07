@@ -14,6 +14,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.GetCalculatedCostRequest;
 import com.genability.client.api.request.GetCalculationInputsRequest;
@@ -31,6 +33,7 @@ import com.genability.client.types.Response;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
 
+@RunWith(JUnit4.class)
 public class CalculateServiceTest {
 
   @Inject private CalculateService calculateService;

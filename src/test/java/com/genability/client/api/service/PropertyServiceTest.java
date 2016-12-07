@@ -4,24 +4,37 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.genability.client.api.request.GetPropertyKeyRequest;
 import com.genability.client.api.request.GetPropertyKeysRequest;
 import com.genability.client.api.request.GetPropertyLookupsRequest;
+import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.DataType;
 import com.genability.client.types.PropertyKey;
 import com.genability.client.types.PropertyLookup;
 import com.genability.client.types.PropertyLookupStats;
 import com.genability.client.types.Response;
+import com.google.inject.Guice;
 
-public class PropertyServiceTest extends BaseServiceTest {
+@RunWith(JUnit4.class)
+public class PropertyServiceTest {
 
-  private static PropertyService propertyService = genabilityClient.getPropertyService();
-
+  @Inject private PropertyService propertyService;
+  
+  @Before
+  public void createInjector() {
+    Guice.createInjector(new TestClientModule()).injectMembers(this);
+  }
+  
   @Test
-  public void testGetPropertyKey() {
+  public void testGetPropertyKey() throws Exception {
 
     //
     // Assign
@@ -33,7 +46,7 @@ public class PropertyServiceTest extends BaseServiceTest {
     //
     // Act
     //
-    Response<PropertyKey> restResponse = propertyService.getPropertyKey(request);
+    Response<PropertyKey> restResponse = propertyService.getPropertyKey(request).get();
 
     //
     // Assert
@@ -44,13 +57,13 @@ public class PropertyServiceTest extends BaseServiceTest {
   }
 
   @Test
-  public void testPaginatedPropertyKeysList() {
+  public void testPaginatedPropertyKeysList() throws Exception {
     // PG&E, since it has a lot of property keys
     GetPropertyKeysRequest request = GetPropertyKeysRequest.builder()
         .setEntityId(734L)
         .setEntityType("LSE")
         .build();
-    Response<PropertyKey> restResponse = propertyService.getPropertyKeys(request);
+    Response<PropertyKey> restResponse = propertyService.getPropertyKeys(request).get();
 
     int totalPropertyKeys = restResponse.getCount();
     int propertyKeysVisited = 0;
@@ -63,14 +76,14 @@ public class PropertyServiceTest extends BaseServiceTest {
 
       request = request.toBuilder().setPageStart(
         restResponse.getPageStart() + restResponse.getPageCount()).build();
-      restResponse = propertyService.getPropertyKeys(request);
+      restResponse = propertyService.getPropertyKeys(request).get();
     }
 
     assertEquals("Visited too many property keys", propertyKeysVisited, totalPropertyKeys);
   }
 
   @Test
-  public void testGetPropertyKeys() {
+  public void testGetPropertyKeys() throws Exception {
 
     //
     // Assign
@@ -83,7 +96,7 @@ public class PropertyServiceTest extends BaseServiceTest {
     //
     // Act
     //
-    Response<PropertyKey> restResponse = propertyService.getPropertyKeys(request);
+    Response<PropertyKey> restResponse = propertyService.getPropertyKeys(request).get();
 
     //
     // Assert
@@ -94,7 +107,7 @@ public class PropertyServiceTest extends BaseServiceTest {
   }
 
   @Test
-  public void testGetPropertyLookups() {
+  public void testGetPropertyLookups() throws Exception {
 
     //
     // Assign
@@ -107,7 +120,7 @@ public class PropertyServiceTest extends BaseServiceTest {
     //
     // Act
     //
-    Response<PropertyLookup> restResponse = propertyService.getPropertyLookups(request);
+    Response<PropertyLookup> restResponse = propertyService.getPropertyLookups(request).get();
 
     //
     // Assert
@@ -120,7 +133,7 @@ public class PropertyServiceTest extends BaseServiceTest {
   }
 
   @Test
-  public void testGetPropertyLookupsWithSubkey() {
+  public void testGetPropertyLookupsWithSubkey() throws Exception {
 
     //
     // Assign
@@ -137,7 +150,7 @@ public class PropertyServiceTest extends BaseServiceTest {
     //
     // Act
     //
-    Response<PropertyLookup> restResponse = propertyService.getPropertyLookups(request);
+    Response<PropertyLookup> restResponse = propertyService.getPropertyLookups(request).get();
 
     //
     // Assert
@@ -155,7 +168,7 @@ public class PropertyServiceTest extends BaseServiceTest {
 
 
   @Test
-  public void testGetPropertyStats() {
+  public void testGetPropertyStats() throws Exception {
 
     //
     // Assign
@@ -165,7 +178,7 @@ public class PropertyServiceTest extends BaseServiceTest {
     //
     // Act
     //
-    Response<PropertyLookupStats> restResponse = propertyService.getPropertyStats(keyName);
+    Response<PropertyLookupStats> restResponse = propertyService.getPropertyStats(keyName).get();
 
     //
     // Assert

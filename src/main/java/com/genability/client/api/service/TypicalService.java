@@ -9,7 +9,7 @@ import com.genability.client.types.Baseline;
 import com.genability.client.types.Response;
 import com.google.common.util.concurrent.ListenableFuture;
 
-public class TypicalService extends BaseService {
+public class TypicalService {
 
   private static final TypeReference<Response<Baseline>> BASELINE_RESPONSE_TYPEREF =
       new TypeReference<Response<Baseline>>() {};

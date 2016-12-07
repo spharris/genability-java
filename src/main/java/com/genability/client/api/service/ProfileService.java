@@ -18,10 +18,11 @@ import com.genability.client.types.ReadingData;
 import com.genability.client.types.Response;
 import com.google.common.util.concurrent.ListenableFuture;
 
-public class ProfileService extends BaseService {
+public class ProfileService {
 
   private static final TypeReference<Response<Profile>> PROFILE_RESPONSE_TYPEREF =
       new TypeReference<Response<Profile>>() {};
+
   private static final TypeReference<Response<ReadingData>> READING_DATA_RESPONSE_TYPEREF =
       new TypeReference<Response<ReadingData>>() {};
 

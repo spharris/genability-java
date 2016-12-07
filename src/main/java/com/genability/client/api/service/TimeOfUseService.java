@@ -1,74 +1,58 @@
 package com.genability.client.api.service;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.inject.Inject;
+
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.genability.client.api.GenabilityClient;
 import com.genability.client.api.request.GetTimeOfUseGroupsRequest;
 import com.genability.client.api.request.GetTimeOfUseIntervalsRequest;
 import com.genability.client.types.Response;
 import com.genability.client.types.TimeOfUseGroup;
 import com.genability.client.types.TimeOfUseInterval;
+import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.ListenableFuture;
 
-public class TimeOfUseService extends BaseService {
+public class TimeOfUseService {
+
   private static final TypeReference<Response<TimeOfUseGroup>> TOU_GROUP_RESPONSE_TYPEREF =
       new TypeReference<Response<TimeOfUseGroup>>() {};
+
   private static final TypeReference<Response<TimeOfUseInterval>> TOU_INTERVAL_RESPONSE_TYPEREF =
       new TypeReference<Response<TimeOfUseInterval>>() {};
-  private static final String PUBLIC_URL_BASE = "public/timeofuses";
-  private static final String PRIVATE_URL_BASE = "timeofuses";
 
-  public Response<TimeOfUseGroup> getTimeOfUseGroup(long lseId, long touGroupId) {
-    if (log.isDebugEnabled()) {
-      log.debug("getTimeOfUseGroup called");
-    }
+  private static final String PUBLIC_URL_BASE = "/rest/public/timeofuses";
+  private static final String PRIVATE_URL_BASE = "/rest/timeofuses";
 
+  private final GenabilityClient client;
+      
+  @Inject
+  TimeOfUseService(GenabilityClient client) {
+    this.client = client;
+  }
+  
+  public ListenableFuture<Response<TimeOfUseGroup>> getTimeOfUseGroup(long lseId, long touGroupId) {
     String url = String.format("%s/%d/%d", PUBLIC_URL_BASE, lseId, touGroupId);
-    Response<TimeOfUseGroup> response = this.callGet(url, null, TOU_GROUP_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) {
-      log.debug("Done with getTimeOfUseGroup");
-    }
-
-    return response;
+    return client.getAsync(url, ImmutableList.of(), TOU_GROUP_RESPONSE_TYPEREF);
   }
 
   /*
-   * Get a list of TimeOfUseGroups matching the request parameters. If request is null, all
-   * TimeOfUseGroups will be returned.
+   * Get a list of TimeOfUseGroups matching the request parameters.
    */
-  public Response<TimeOfUseGroup> getTimeOfUseGroups(GetTimeOfUseGroupsRequest request) {
-    if (log.isDebugEnabled()) {
-      log.debug("getTimeOfUseGroups called");
-    }
-
-    Response<TimeOfUseGroup> response =
-        this.callGet(PUBLIC_URL_BASE, request.getQueryParams(), TOU_GROUP_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) {
-      log.debug("Done with getTimeOfUseGroups");
-    }
-
-    return response;
+  public ListenableFuture<Response<TimeOfUseGroup>> getTimeOfUseGroups(
+      GetTimeOfUseGroupsRequest request) {
+    return client.getAsync(PUBLIC_URL_BASE, request.getQueryParams(), TOU_GROUP_RESPONSE_TYPEREF);
   }
 
   /*
-   * Get a list of intervals for the specified timeOfUseGroup. If request is null, one week of
-   * intervals is returned
+   * Get a list of intervals for the specified timeOfUseGroup.
    */
-  public Response<TimeOfUseInterval> getTimeOfUseIntervals(long lseId,
+  public ListenableFuture<Response<TimeOfUseInterval>> getTimeOfUseIntervals(long lseId,
       long touGroupId,
       GetTimeOfUseIntervalsRequest request) {
-    if (log.isDebugEnabled()) {
-      log.debug("getTimeOfUseIntervals called");
-    }
-
     String url = String.format("%s/%d/%d/intervals", PUBLIC_URL_BASE, lseId, touGroupId);
-    Response<TimeOfUseInterval> response =
-        this.callGet(url, request.getQueryParams(), TOU_INTERVAL_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) {
-      log.debug("Done with getTimeOfUseIntervals");
-    }
-
-    return response;
+    return client.getAsync(url, request.getQueryParams(), TOU_INTERVAL_RESPONSE_TYPEREF);
   }
 
   /**
@@ -77,19 +61,11 @@ public class TimeOfUseService extends BaseService {
    * @param touGroup The touGroup.
    * @return The added TOU group that is sent back by the API.
    */
-  public Response<TimeOfUseGroup> addPrivateTimeOfUseGroup(TimeOfUseGroup touGroup) {
-    if (log.isDebugEnabled()) {
-      log.debug("addPrivateTouGroup called");
-    }
+  public ListenableFuture<Response<TimeOfUseGroup>> addPrivateTimeOfUseGroup(
+      TimeOfUseGroup touGroup) {
+    checkNotNull(touGroup);
 
-    Response<TimeOfUseGroup> response =
-        this.callPost(PRIVATE_URL_BASE, touGroup, TOU_GROUP_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) {
-      log.debug("Done with addPrivateTouGroup");
-    }
-
-    return response;
+    return client.postAsync(PRIVATE_URL_BASE, touGroup, TOU_GROUP_RESPONSE_TYPEREF);
   }
 
   /**
@@ -99,19 +75,11 @@ public class TimeOfUseService extends BaseService {
    * @param touGroup The touGroup.
    * @return The added TOU group that is sent back by the API.
    */
-  public Response<TimeOfUseGroup> updatePrivateTimeOfUseGroup(TimeOfUseGroup touGroup) {
-    if (log.isDebugEnabled()) {
-      log.debug("updatePrivateTouGroup called");
-    }
+  public ListenableFuture<Response<TimeOfUseGroup>> updatePrivateTimeOfUseGroup(
+      TimeOfUseGroup touGroup) {
+    checkNotNull(touGroup);
 
-    Response<TimeOfUseGroup> response =
-        this.callPut(PRIVATE_URL_BASE, touGroup, TOU_GROUP_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) {
-      log.debug("Done with updatePrivateTouGroup");
-    }
-
-    return response;
+    return client.putAsync(PRIVATE_URL_BASE, touGroup, TOU_GROUP_RESPONSE_TYPEREF);
   }
 
   /**
@@ -121,18 +89,9 @@ public class TimeOfUseService extends BaseService {
    * @param touGroupId The touGroupId.
    * @return The deleted TOU group, which is sent back by the API.
    */
-  public Response<TimeOfUseGroup> deletePrivateTimeOfUseGroup(long lseId, long touGroupId) {
-    if (log.isDebugEnabled()) {
-      log.debug("deletePrivateTouGroup called");
-    }
-
+  public ListenableFuture<Response<TimeOfUseGroup>> deletePrivateTimeOfUseGroup(long lseId,
+      long touGroupId) {
     String url = String.format("%s/%d/%d", PRIVATE_URL_BASE, lseId, touGroupId);
-    Response<TimeOfUseGroup> response = this.callDelete(url, null, TOU_GROUP_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) {
-      log.debug("Done with deletePrivateTouGroup");
-    }
-
-    return response;
+    return client.deleteAsync(url, null, TOU_GROUP_RESPONSE_TYPEREF);
   }
 }

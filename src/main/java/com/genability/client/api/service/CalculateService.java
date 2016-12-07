@@ -2,8 +2,6 @@ package com.genability.client.api.service;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.text.MessageFormat;
-
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
@@ -19,7 +17,7 @@ import com.genability.client.types.PropertyData;
 import com.genability.client.types.Response;
 import com.google.common.util.concurrent.ListenableFuture;
 
-public class CalculateService extends BaseService {
+public class CalculateService {
 
   private static final TypeReference<Response<CalculatedCost>> CALCULATEDCOST_RESPONSE_TYPEREF =
       new TypeReference<Response<CalculatedCost>>() {};

@@ -1,58 +1,49 @@
 package com.genability.client.api.service;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.inject.Inject;
+
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.genability.client.api.GenabilityClient;
 import com.genability.client.api.request.GetCalendarDatesRequest;
 import com.genability.client.api.request.GetCalendarRequest;
 import com.genability.client.api.request.GetCalendarsRequest;
 import com.genability.client.types.Calendar;
 import com.genability.client.types.CalendarEventDate;
 import com.genability.client.types.Response;
+import com.google.common.util.concurrent.ListenableFuture;
 
-public class CalendarService extends BaseService {
+public class CalendarService {
 
   private static final TypeReference<Response<Calendar>> CALENDAR_RESPONSE_TYPEREF =
       new TypeReference<Response<Calendar>>() {};
   private static final TypeReference<Response<CalendarEventDate>> CALENDAR_DATES_RESPONSE_TYPEREF =
       new TypeReference<Response<CalendarEventDate>>() {};
 
-  private static final String CALENDAR_URI = "/public/calendars";
+  private static final String CALENDAR_URI = "/rest/public/calendars";
 
-  public Response<Calendar> getCalendar(GetCalendarRequest request) {
-    if (log.isDebugEnabled()) log.debug("getCalendar called");
+  private final GenabilityClient client;
+      
+  @Inject
+  CalendarService(GenabilityClient client) {
+    this.client = client;
+  }
+  
+  public ListenableFuture<Response<Calendar>> getCalendar(GetCalendarRequest request) {
+    checkNotNull(request.getCalendarId());
 
-    String uri = CALENDAR_URI;
-    if (request.getCalendarId() != null) {
-      uri += "/" + request.getCalendarId();
-    }
-    Response<Calendar> response =
-        this.callGet(uri, request.getQueryParams(), CALENDAR_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getCalendar completed");
-
-    return response;
+    String uri = CALENDAR_URI + "/" + request.getCalendarId();
+    return client.getAsync(uri, request.getQueryParams(), CALENDAR_RESPONSE_TYPEREF);
   }
 
-  public Response<Calendar> getCalendars(GetCalendarsRequest request) {
-    if (log.isDebugEnabled()) log.debug("getCalendars called");
-
-    Response<Calendar> response =
-        this.callGet(CALENDAR_URI, request.getQueryParams(), CALENDAR_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getCalendars completed");
-
-    return response;
+  public ListenableFuture<Response<Calendar>> getCalendars(GetCalendarsRequest request) {
+    return client.getAsync(CALENDAR_URI, request.getQueryParams(), CALENDAR_RESPONSE_TYPEREF);
   }
 
-  public Response<CalendarEventDate> getCalendarEventDates(GetCalendarDatesRequest request) {
-
-    if (log.isDebugEnabled()) log.debug("getCalendarEventDates called");
-
-    Response<CalendarEventDate> response = this.callGet(CALENDAR_URI + "/dates",
-        request.getQueryParams(), CALENDAR_DATES_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getCalendarEventDates completed");
-
-    return response;
+  public ListenableFuture<Response<CalendarEventDate>> getCalendarEventDates(
+      GetCalendarDatesRequest request) {
+    return client.getAsync(CALENDAR_URI + "/dates", request.getQueryParams(),
+      CALENDAR_DATES_RESPONSE_TYPEREF);
   }
-
 }

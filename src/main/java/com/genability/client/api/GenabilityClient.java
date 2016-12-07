@@ -40,15 +40,7 @@ import com.genability.client.api.Annotations.AppKey;
 import com.genability.client.api.Annotations.ServerAddress;
 import com.genability.client.api.request.BulkUploadRequest;
 import com.genability.client.api.service.BaseService;
-import com.genability.client.api.service.CalculateService;
-import com.genability.client.api.service.CalendarService;
 import com.genability.client.api.service.GenabilityException;
-import com.genability.client.api.service.IncentiveService;
-import com.genability.client.api.service.LseService;
-import com.genability.client.api.service.PriceService;
-import com.genability.client.api.service.PropertyService;
-import com.genability.client.api.service.TerritoryService;
-import com.genability.client.api.service.TimeOfUseService;
 import com.genability.client.types.Response;
 import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -290,98 +282,5 @@ public class GenabilityClient {
       }
       objectMapper.writeValue(outstream, object);
     }
-  }
-  
-  public String getAppId() {
-    return appId;
-  }
-
-  public void setAppId(String appId) {
-    this.appId = appId;
-  }
-
-  public String getAppKey() {
-    return appKey;
-  }
-
-  public void setAppKey(String appKey) {
-    this.appKey = appKey;
-  }
-
-  public String getRestApiServer() {
-    return serverAddress;
-  }
-
-  public void setRestApiServer(String restApiServer) {
-    this.serverAddress = restApiServer;
-  }
-
-  public ObjectMapper getMapper() {
-    return objectMapper;
-  }
-
-  public void setMapper(ObjectMapper mapper) {
-    this.objectMapper = mapper;
-  }
-
-  public HttpClient getHttpClient() {
-    return httpClient;
-  }
-
-  public void setHttpClient(HttpClient httpClient) {
-    this.httpClient = httpClient;
-  }
-
-  public boolean getRequestCompression() {
-    return requestCompression;
-  }
-
-  public void setRequestCompression(boolean requestCompression) {
-    this.requestCompression = requestCompression;
-  }
-
-  protected <S extends BaseService> S initializeService(S service) {
-    service.setAppId(appId);
-    service.setAppKey(appKey);
-    service.setRequestCompression(requestCompression);
-
-    if (serverAddress != null) {
-      service.setRestApiServer(serverAddress);
-    }
-    if (objectMapper != null) {
-      service.setMapper(objectMapper);
-    }
-    if (httpClient != null) {
-      service.setHttpClient(httpClient);
-    }
-    return service;
-  }
-
-  public LseService getLseService() {
-    return initializeService(new LseService());
-  }
-
-  public PriceService getPriceService() {
-    return initializeService(new PriceService());
-  }
-
-  public PropertyService getPropertyService() {
-    return initializeService(new PropertyService());
-  }
-
-  public CalendarService getCalendarService() {
-    return initializeService(new CalendarService());
-  }
-
-  public TerritoryService getTerritoryService() {
-    return initializeService(new TerritoryService());
-  }
-
-  public TimeOfUseService getTimeOfUseService() {
-    return initializeService(new TimeOfUseService());
-  }
-
-  public IncentiveService getIncentiveService() {
-    return initializeService(new IncentiveService());
   }
 }

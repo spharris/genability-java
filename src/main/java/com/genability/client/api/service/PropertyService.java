@@ -1,6 +1,11 @@
 package com.genability.client.api.service;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.inject.Inject;
+
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.genability.client.api.GenabilityClient;
 import com.genability.client.api.request.GetPropertyKeyRequest;
 import com.genability.client.api.request.GetPropertyKeysRequest;
 import com.genability.client.api.request.GetPropertyLookupsRequest;
@@ -8,8 +13,10 @@ import com.genability.client.types.PropertyKey;
 import com.genability.client.types.PropertyLookup;
 import com.genability.client.types.PropertyLookupStats;
 import com.genability.client.types.Response;
+import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.ListenableFuture;
 
-public class PropertyService extends BaseService {
+public class PropertyService {
 
   private static final TypeReference<Response<PropertyKey>> PROPERTY_RESPONSE_TYPEREF =
       new TypeReference<Response<PropertyKey>>() {};
@@ -20,68 +27,34 @@ public class PropertyService extends BaseService {
   private static final TypeReference<Response<PropertyLookupStats>> PROPERTY_LOOKUP_STATS_RESPONSE_TYPEREF =
       new TypeReference<Response<PropertyLookupStats>>() {};
 
-
-  public Response<PropertyKey> getPropertyKey(GetPropertyKeyRequest request) {
-
-    if (log.isDebugEnabled()) log.debug("getPropertyKey called");
-
-    String uri = "public/properties";
-    if (request.getKeyName() != null && request.getKeyName().length() != 0) {
-      uri += "/" + request.getKeyName();
-    }
-    Response<PropertyKey> response =
-        this.callGet(uri, request.getQueryParams(), PROPERTY_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getPropertyKey completed");
-
-    return response;
-
+  private final GenabilityClient client;
+      
+  @Inject
+  PropertyService(GenabilityClient client) {
+    this.client = client;
   }
 
-  public Response<PropertyKey> getPropertyKeys(GetPropertyKeysRequest request) {
+  public ListenableFuture<Response<PropertyKey>> getPropertyKey(GetPropertyKeyRequest request) {
+    checkNotNull(request.getKeyName());
 
-    if (log.isDebugEnabled()) log.debug("getPropertyKeys called");
-
-    String uri = "public/properties";
-
-    Response<PropertyKey> response =
-        this.callGet(uri, request.getQueryParams(), PROPERTY_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getPropertyKeys completed");
-
-    return response;
+    String uri = "/rest/public/properties/" + request.getKeyName();
+    return client.getAsync(uri, request.getQueryParams(), PROPERTY_RESPONSE_TYPEREF);
   }
 
-  public Response<PropertyLookup> getPropertyLookups(GetPropertyLookupsRequest request) {
-
-    if (log.isDebugEnabled()) log.debug("getPropertyLookups called");
-
-    String uri = "public/properties/lookups";
-
-    Response<PropertyLookup> response =
-        this.callGet(uri, request.getQueryParams(), PROPERTY_LOOKUP_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getPropertyLookups completed");
-
-    return response;
+  public ListenableFuture<Response<PropertyKey>> getPropertyKeys(GetPropertyKeysRequest request) {
+    String uri = "/rest/public/properties";
+    return client.getAsync(uri, request.getQueryParams(), PROPERTY_RESPONSE_TYPEREF);
   }
 
-  public Response<PropertyLookupStats> getPropertyStats(String propertyKeyName) {
-
-    if (log.isDebugEnabled()) log.debug("getPropertyStats called");
-
-    String uri = "public/properties";
-    if (propertyKeyName != null && propertyKeyName.length() != 0) {
-      uri += "/" + propertyKeyName + "/stats";
-    }
-
-    Response<PropertyLookupStats> response =
-        this.callGet(uri, null, PROPERTY_LOOKUP_STATS_RESPONSE_TYPEREF);
-
-    if (log.isDebugEnabled()) log.debug("getPropertyStats completed");
-
-    return response;
+  public ListenableFuture<Response<PropertyLookup>> getPropertyLookups(GetPropertyLookupsRequest request) {
+    String uri = "/rest/public/properties/lookups";
+    return client.getAsync(uri, request.getQueryParams(), PROPERTY_LOOKUP_RESPONSE_TYPEREF);
   }
 
+  public ListenableFuture<Response<PropertyLookupStats>> getPropertyStats(String propertyKeyName) {
+    checkNotNull(propertyKeyName);
 
+    String uri = "/rest/public/properties/" + propertyKeyName + "/stats";
+    return client.getAsync(uri, ImmutableList.of(), PROPERTY_LOOKUP_STATS_RESPONSE_TYPEREF);
+  }
 }
