@@ -5,17 +5,21 @@ import java.lang.annotation.RetentionPolicy;
 
 import javax.inject.Qualifier;
 
-public class Annotations {
+final class Annotations {
 
   @Qualifier
   @Retention(RetentionPolicy.RUNTIME)
-  public @interface AppId {}
+  @interface AppId {}
   
   @Qualifier
   @Retention(RetentionPolicy.RUNTIME)
-  public @interface AppKey {}
+  @interface AppKey {}
   
   @Qualifier
   @Retention(RetentionPolicy.RUNTIME)
-  public @interface ServerAddress {}
+  @interface ServerAddress {}
+  
+  @Qualifier
+  @Retention(RetentionPolicy.RUNTIME)
+  @interface RequestCompression {}
 }

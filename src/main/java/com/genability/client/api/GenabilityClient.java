@@ -37,6 +37,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.genability.client.api.Annotations.AppId;
 import com.genability.client.api.Annotations.AppKey;
+import com.genability.client.api.Annotations.RequestCompression;
 import com.genability.client.api.Annotations.ServerAddress;
 import com.genability.client.api.request.BulkUploadRequest;
 import com.genability.client.api.service.GenabilityException;
@@ -45,34 +46,29 @@ import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 
-public class GenabilityClient {
+public final class GenabilityClient {
 
-  private String appId;
-  private String appKey;
-  private String serverAddress;
-  private ObjectMapper objectMapper;
-  private HttpClient httpClient;
-  private ListeningExecutorService executor;
-  private boolean requestCompression = false;
-
-  public GenabilityClient() {}
-
-  public GenabilityClient(String appId, String appKey) {
-    this.appId = appId;
-    this.appKey = appKey;
-  }
+  private final String appId;
+  private final String appKey;
+  private final String serverAddress;
+  private final boolean requestCompression;
+  private final ObjectMapper objectMapper;
+  private final HttpClient httpClient;
+  private final ListeningExecutorService executor;
 
   @Inject
-  public GenabilityClient(
+  GenabilityClient(
       @AppId String appId,
       @AppKey String appKey,
       @ServerAddress String restApiServer,
+      @RequestCompression boolean requestCompression,
       ObjectMapper objectMapper,
       HttpClient httpClient,
       ListeningExecutorService executor) {
     this.appId = appId;
     this.appKey = appKey;
     this.serverAddress = restApiServer;
+    this.requestCompression = requestCompression;
     this.objectMapper = objectMapper;
     this.httpClient = httpClient;
     this.executor = executor;

@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -18,6 +17,7 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.genability.client.api.Annotations.AppId;
 import com.genability.client.api.Annotations.AppKey;
+import com.genability.client.api.Annotations.RequestCompression;
 import com.genability.client.api.Annotations.ServerAddress;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -32,6 +32,7 @@ public final class GenabilityClientModule extends AbstractModule {
   private final String appId;
   private final String appKey;
   private final String serverAddress;
+  private final boolean requestCompression;
   private final ObjectMapper objectMapper;
   private final HttpClient httpClient;
   private final ListeningExecutorService executor;
@@ -40,12 +41,14 @@ public final class GenabilityClientModule extends AbstractModule {
       String appId,
       String appKey,
       String serverAddress,
+      boolean requestCompression,
       ObjectMapper objectMapper,
       HttpClient httpClient,
       ListeningExecutorService executor) {
     this.appId = appId;
     this.appKey = appKey;
     this.serverAddress = serverAddress;
+    this.requestCompression = requestCompression;
     this.objectMapper = objectMapper;
     this.httpClient = httpClient;
     this.executor = executor;
@@ -56,6 +59,7 @@ public final class GenabilityClientModule extends AbstractModule {
     bind(Key.get(String.class, AppId.class)).toInstance(appId);
     bind(Key.get(String.class, AppKey.class)).toInstance(appKey);
     bind(Key.get(String.class, ServerAddress.class)).toInstance(serverAddress);
+    bind(Key.get(boolean.class, RequestCompression.class)).toInstance(requestCompression);
     bind(ObjectMapper.class).toInstance(objectMapper);
     bind(HttpClient.class).toInstance(httpClient);
     bind(ListeningExecutorService.class).toInstance(executor);
@@ -72,6 +76,7 @@ public final class GenabilityClientModule extends AbstractModule {
     private String appId;
     private String appKey;
     private String serverAddress;
+    private boolean requestCompression;
     private Optional<ObjectMapper> objectMapper = Optional.empty();
     private Optional<HttpClient> httpClient = Optional.empty();
     private Optional<ExecutorService> executor = Optional.empty();
@@ -80,10 +85,10 @@ public final class GenabilityClientModule extends AbstractModule {
       return new GenabilityClientModule(appId,
         appKey,
         serverAddress,
+        requestCompression,
         objectMapper.orElse(defaultObjectMapper()),
         httpClient.orElse(defaultHttpClient()),
         createExecutor(executor));
-        
     }
     
     private static ObjectMapper defaultObjectMapper() {
@@ -104,19 +109,7 @@ public final class GenabilityClientModule extends AbstractModule {
       if (executor.isPresent()) {
         return MoreExecutors.listeningDecorator(executor.get());
       } else {
-        ListeningExecutorService ex = MoreExecutors.listeningDecorator(
-          Executors.newFixedThreadPool(DEFAULT_THREAD_COUNT));
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-          try {
-            ex.awaitTermination(5, TimeUnit.SECONDS);
-          } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-          } finally {
-            ex.shutdownNow();
-          }
-        }));
-        
-        return ex;
+        return MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(DEFAULT_THREAD_COUNT));
       }
     }
     
@@ -132,6 +125,11 @@ public final class GenabilityClientModule extends AbstractModule {
     
     public Builder setServerAddress(String serverAddress) {
       this.serverAddress = checkNotNull(serverAddress);
+      return this;
+    }
+    
+    public Builder setRequestCompression(boolean requestCompression) {
+      this.requestCompression = requestCompression;
       return this;
     }
     
