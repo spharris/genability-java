@@ -7,7 +7,9 @@ import javax.annotation.Nullable;
 import org.apache.http.NameValuePair;
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.genability.client.types.DetailLevel;
 import com.genability.client.types.Fields;
 import com.genability.client.types.GroupBy;
@@ -20,6 +22,53 @@ import com.google.common.collect.ImmutableList;
 public abstract class GetCalculatedCostRequest extends AbstractRequest {
 
   GetCalculatedCostRequest() {}
+  
+  @JsonCreator
+  public static GetCalculatedCostRequest create(
+      @Nullable @JsonProperty("fields") Fields fields,
+      @Nullable @JsonProperty("accountId") String accountId,
+      @Nullable @JsonProperty("accuracy") String accuracy,
+      @Nullable @JsonProperty("billingPeriod") Boolean billingPeriod,
+      @Nullable @JsonProperty("dataFactor") BigDecimal dataFactor,
+      @Nullable @JsonProperty("detailLevel") DetailLevel detailLevel,
+      @Nullable @JsonProperty("fromDateTime") DateTime fromDateTime,
+      @Nullable @JsonProperty("groupBy") GroupBy groupBy,
+      @Nullable @JsonProperty("includeDefaultProfile") Boolean includeDefaultProfile,
+      @Nullable @JsonProperty("masterTariffId") Long masterTariffId,
+      @Nullable @JsonProperty("minimums") Boolean minimums,
+      @Nullable @JsonProperty("profileId") String profileId,
+      @Nullable @JsonProperty("providerAccountId") String providerAccountId,
+      @Nullable @JsonProperty("rateInputs") ImmutableList<TariffRate> rateInputs,
+      @Nullable @JsonProperty("tariffEffectiveOn") DateTime tariffEffectiveOn,
+      @Nullable @JsonProperty("tariffInputs") ImmutableList<PropertyData> tariffInputs,
+      @Nullable @JsonProperty("tariffRateId") Long tariffRateId,
+      @Nullable @JsonProperty("territoryId") Long territoryId,
+      @Nullable @JsonProperty("toDateTime") DateTime toDateTime,
+      @Nullable @JsonProperty("useMostRecentUsageData") Boolean useMostRecentUsageData,
+      @Nullable @JsonProperty("zipCode") String zipCode) {
+    return GetCalculatedCostRequest.builder()
+        .setAccountId(accountId)
+        .setAccuracy(accuracy)
+        .setBillingPeriod(billingPeriod)
+        .setDataFactor(dataFactor)
+        .setDetailLevel(detailLevel)
+        .setFromDateTime(fromDateTime)
+        .setGroupBy(groupBy)
+        .setIncludeDefaultProfile(includeDefaultProfile)
+        .setMasterTariffId(masterTariffId)
+        .setMinimums(minimums)
+        .setProfileId(profileId)
+        .setProviderAccountId(providerAccountId)
+        .setRateInputs(rateInputs)
+        .setTariffEffectiveOn(tariffEffectiveOn)
+        .setTariffInputs(tariffInputs)
+        .setTariffRateId(tariffRateId)
+        .setTerritoryId(territoryId)
+        .setToDateTime(toDateTime)
+        .setUseMostRecentUsageData(useMostRecentUsageData)
+        .setZipCode(zipCode)
+        .build();
+  }
 
   public abstract @Nullable String getAccountId();
   public abstract @Nullable String getAccuracy();

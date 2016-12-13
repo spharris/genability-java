@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -102,7 +103,11 @@ public final class GenabilityClientModule extends AbstractModule {
     }
     
     private static HttpClient defaultHttpClient() {
-      return HttpClientBuilder.create().build();
+      PoolingHttpClientConnectionManager manager = new PoolingHttpClientConnectionManager();
+      manager.setDefaultMaxPerRoute(5);
+      return HttpClientBuilder.create()
+          .setConnectionManager(manager)
+          .build();
     }
     
     private static ListeningExecutorService createExecutor(Optional<ExecutorService> executor) {
