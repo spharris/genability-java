@@ -3,10 +3,9 @@ package com.genability.client.types;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
-
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,7 +27,7 @@ public abstract class Incentive {
   public abstract @Nullable ImmutableList<IncentiveApplicability> getApplicabilities();
   public abstract @Nullable CustomerClass getCustomerClass();
   public abstract @Nullable Eligibility getEligibility();
-  public abstract @Nullable DateTime getEndDate();
+  public abstract @Nullable ZonedDateTime getEndDate();
   public abstract @Nullable Long getIncentiveId();
   public abstract @Nullable String getIncentiveName();
   public abstract @Nullable String getIncentivePaidTo();
@@ -51,7 +50,7 @@ public abstract class Incentive {
   public abstract @Nullable ImmutableList<IncentiveApplicability> getRequiredData();
   public abstract @Nullable String getRequirements();
   public abstract @Nullable ServiceType getServiceType();
-  public abstract @Nullable DateTime getStartDate();
+  public abstract @Nullable ZonedDateTime getStartDate();
   public abstract @Nullable String getState();
   public abstract @Nullable String getSummary();
   public abstract @Nullable String getTariffCode();
@@ -68,7 +67,7 @@ public abstract class Incentive {
 
     public abstract Builder setCustomerClass(@Nullable CustomerClass customerClass);
     public abstract Builder setEligibility(@Nullable Eligibility eligibility);
-    public abstract Builder setEndDate(@Nullable DateTime endDate);
+    public abstract Builder setEndDate(@Nullable ZonedDateTime endDate);
     public abstract Builder setIncentiveId(@Nullable Long incentiveId);
     public abstract Builder setIncentiveName(@Nullable String incentiveName);
     public abstract Builder setIncentivePaidTo(@Nullable String incentivePaidTo);
@@ -90,7 +89,7 @@ public abstract class Incentive {
     public abstract Builder setRateUnit(@Nullable RateUnit rateUnit);
     public abstract Builder setRequirements(@Nullable String requirements);
     public abstract Builder setServiceType(@Nullable ServiceType serviceType);
-    public abstract Builder setStartDate(@Nullable DateTime startDate);
+    public abstract Builder setStartDate(@Nullable ZonedDateTime startDate);
     public abstract Builder setState(@Nullable String state);
     public abstract Builder setSummary(@Nullable String summary);
     public abstract Builder setTariffCode(@Nullable String tariffCode);

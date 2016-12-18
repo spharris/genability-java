@@ -1,5 +1,10 @@
 package io.github.spharris.electricity.server;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.Properties;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -11,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.genability.client.api.GenabilityClientModule;
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.CharSource;
+import com.google.common.io.Resources;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -47,10 +54,10 @@ public class ElectricityServer {
   }
 
   private static ImmutableList<Module> getModules() {
+    Properties creds = getApiCreds();
     return ImmutableList.of(
-      GenabilityClientModule.builder(
-        "3c53fcf0-7601-4a60-9a8e-a6f383d94763", "05e50099-4d3c-449a-bbc8-e27ea52737a4")
-      .build(),
+      GenabilityClientModule.builder(creds.getProperty("appId"), creds.getProperty("appKey"))
+        .build(),
       new ElectricityActionsModule(),
       new AbstractModule() {
         
@@ -62,5 +69,18 @@ public class ElectricityServer {
           return new JacksonJsonProvider(mapper);
         }
       });
+  }
+  
+  private static Properties getApiCreds() {
+    CharSource propsFile = Resources.asCharSource(
+      Resources.getResource("genability.properties"), StandardCharsets.UTF_8);
+    
+    try (Reader reader = propsFile.openStream()) {
+      Properties properties = new Properties();
+      properties.load(reader);
+      return properties;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

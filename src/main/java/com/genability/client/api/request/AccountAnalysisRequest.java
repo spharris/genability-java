@@ -1,14 +1,14 @@
 package com.genability.client.api.request;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
-import org.joda.time.tz.DateTimeZoneBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,18 +27,17 @@ import com.google.common.collect.ImmutableList;
 public abstract class AccountAnalysisRequest extends AbstractRequest {
 
   /*
-   * This special timezone is used to indicate that a particular datetime should be serialized as a
+   * This special timezone is used to indicate that a particular ZonedDateTime should be serialized as a
    * date only (i.e. exclude the time portion of the DateTime)
    */
-  private static final DateTimeZone DATE_ONLY_TIMEZONE =
-      new DateTimeZoneBuilder().toDateTimeZone("Genability LocalDate Signal", true);
+  private static final ZoneId DATE_ONLY_TIMEZONE = ZoneOffset.MAX;
 
   AccountAnalysisRequest() {}
 
   public abstract @Nullable String getAccountId();
 
   @JsonSerialize(using = DateTimeSerializer.class)
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
 
   public abstract @Nullable Boolean getPopulateCosts();
   public abstract @Nullable ImmutableList<PropertyData> getPropertyInputs();
@@ -46,7 +45,7 @@ public abstract class AccountAnalysisRequest extends AbstractRequest {
   public abstract @Nullable ImmutableList<TariffRate> getRateInputs();
 
   @JsonSerialize(using = DateTimeSerializer.class)
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
 
   public abstract @Nullable Boolean getUseIntelligentBaselining();
 
@@ -59,8 +58,8 @@ public abstract class AccountAnalysisRequest extends AbstractRequest {
   @AutoValue.Builder
   public abstract static class Builder extends AbstractRequest.Builder<Builder> {
 
-    @JsonProperty public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
-    @JsonProperty public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    @JsonProperty public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
+    @JsonProperty public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
 
     public abstract Builder setAccountId(@Nullable String accountId);
     public abstract Builder setPopulateCosts(@Nullable Boolean populateCosts);
@@ -81,7 +80,7 @@ public abstract class AccountAnalysisRequest extends AbstractRequest {
      */
     @JsonIgnore
     public Builder setFromDateTime(int year, int month, int day) {
-      setFromDateTime(new LocalDate(year, month, day));
+      setFromDateTime(LocalDate.of(year, month, day));
       return this;
     }
 
@@ -107,7 +106,7 @@ public abstract class AccountAnalysisRequest extends AbstractRequest {
      */
     @JsonIgnore
     public Builder setToDateTime(int year, int month, int day) {
-      setToDateTime(new LocalDate(year, month, day));
+      setToDateTime(LocalDate.of(year, month, day));
       return this;
     }
 
@@ -125,9 +124,8 @@ public abstract class AccountAnalysisRequest extends AbstractRequest {
 
     public abstract AccountAnalysisRequest build();
 
-    private DateTime convertLocalDate(LocalDate date) {
-      DateTime dt = new DateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), 0, 0,
-        DATE_ONLY_TIMEZONE);
+    private ZonedDateTime convertLocalDate(LocalDate date) {
+      ZonedDateTime dt = date.atStartOfDay(DATE_ONLY_TIMEZONE);
       return dt;
     }
 
@@ -135,19 +133,17 @@ public abstract class AccountAnalysisRequest extends AbstractRequest {
   }
 
   /*
-   * This class is used to serialize DateTime objects. In the special case where the timeZone is set
+   * This class is used to serialize ZonedDateTime objects. In the special case where the timeZone is set
    * to AccountAnalysisRequest.DATE_ONLY_TIMEZONE, the result will contain the date only
    */
-  protected static class DateTimeSerializer extends JsonSerializer<DateTime> {
+  protected static class DateTimeSerializer extends JsonSerializer<ZonedDateTime> {
 
     @Override
-    public void serialize(DateTime value, JsonGenerator jgen, SerializerProvider provider)
+    public void serialize(ZonedDateTime value, JsonGenerator jgen, SerializerProvider provider)
         throws IOException, JsonProcessingException {
 
       if (DATE_ONLY_TIMEZONE.equals(value.getZone())) {
-        LocalDate date =
-            new LocalDate(value.getYear(), value.getMonthOfYear(), value.getDayOfMonth());
-        jgen.writeObject(date);
+        jgen.writeObject(value.toLocalDate());
       } else {
         jgen.writeObject(value);
       }

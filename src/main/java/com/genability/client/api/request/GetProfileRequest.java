@@ -1,9 +1,10 @@
 package com.genability.client.api.request;
 
+import java.time.ZonedDateTime;
+
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.ClipBy;
@@ -21,13 +22,13 @@ public abstract class GetProfileRequest extends AbstractGetNRequest {
   public abstract @Nullable Long getDemandInterval();
   public abstract @Nullable Boolean getDeriveConsumption();
   public abstract @Nullable Boolean getDeriveDemand();
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable GroupBy getGroupBy();
   public abstract @Nullable Boolean getPopulateBaseline();
   public abstract @Nullable Boolean getPopulateReadings();
   public abstract @Nullable String getProfileId();
   public abstract @Nullable String getProviderProfileId();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
 
   public abstract Builder toBuilder();
   public static Builder builder() {
@@ -42,13 +43,13 @@ public abstract class GetProfileRequest extends AbstractGetNRequest {
     public abstract Builder setDemandInterval(@Nullable Long demandInterval);
     public abstract Builder setDeriveConsumption(@Nullable Boolean deriveConsumption);
     public abstract Builder setDeriveDemand(@Nullable Boolean deriveDemand);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setGroupBy(@Nullable GroupBy groupBy);
     public abstract Builder setPopulateBaseline(@Nullable Boolean populateBaseline);
     public abstract Builder setPopulateReadings(@Nullable Boolean populateReadings);
     public abstract Builder setProfileId(@Nullable String profileId);
     public abstract Builder setProviderProfileId(@Nullable String providerProfileId);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
 
     public abstract GetProfileRequest build();
   }

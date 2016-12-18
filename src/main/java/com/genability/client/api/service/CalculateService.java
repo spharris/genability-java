@@ -2,9 +2,9 @@ package com.genability.client.api.service;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import javax.inject.Inject;
+import java.time.ZonedDateTime;
 
-import org.joda.time.DateTime;
+import javax.inject.Inject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.genability.client.api.GenabilityClient;
@@ -17,7 +17,7 @@ import com.genability.client.types.PropertyData;
 import com.genability.client.types.Response;
 import com.google.common.util.concurrent.ListenableFuture;
 
-public class CalculateService {
+public final class CalculateService {
 
   private static final TypeReference<Response<CalculatedCost>> CALCULATEDCOST_RESPONSE_TYPEREF =
       new TypeReference<Response<CalculatedCost>>() {};
@@ -25,7 +25,7 @@ public class CalculateService {
       new TypeReference<Response<PropertyData>>() {};
 
   private final GenabilityClient client;
-      
+
   @Inject
   CalculateService(GenabilityClient client) {
     this.client = client;
@@ -77,8 +77,8 @@ public class CalculateService {
    */
   public ListenableFuture<Response<CalculatedCost>> runCalculationOnAccount(String accountId,
       Long masterTariffId,
-      DateTime fromDateTime,
-      DateTime toDateTime,
+      ZonedDateTime fromDateTime,
+      ZonedDateTime toDateTime,
       DetailLevel detailLevel,
       GroupBy groupBy) {
     checkNotNull(accountId);

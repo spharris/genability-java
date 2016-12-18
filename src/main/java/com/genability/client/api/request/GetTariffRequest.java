@@ -1,9 +1,10 @@
 package com.genability.client.api.request;
 
+import java.time.ZonedDateTime;
+
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.Fields;
@@ -20,13 +21,13 @@ public abstract class GetTariffRequest extends AbstractRequest {
   public abstract @Nullable Boolean getPopulateProperties();
   public abstract @Nullable Boolean getPopulateRates();
   public abstract @Nullable Boolean getPopulateDocuments();
-  public abstract @Nullable DateTime getEffectiveOn();
+  public abstract @Nullable ZonedDateTime getEffectiveOn();
   public abstract @Nullable Boolean getApplicableRatesOnly();
   public abstract @Nullable Boolean getApplyContractedRates();
   public abstract @Nullable Boolean getLookupVariableRates();
   public abstract @Nullable Boolean getBundleRates();
-  public abstract @Nullable DateTime getFromDateTime();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
   public abstract @Nullable Long getTerritoryId();
   
   public abstract Builder toBuilder();
@@ -44,13 +45,13 @@ public abstract class GetTariffRequest extends AbstractRequest {
     public abstract Builder setPopulateProperties(@Nullable Boolean populateProperties);
     public abstract Builder setPopulateRates(@Nullable Boolean populateRates);
     public abstract Builder setPopulateDocuments(@Nullable Boolean populateDocuments);
-    public abstract Builder setEffectiveOn(@Nullable DateTime effectiveOn);
+    public abstract Builder setEffectiveOn(@Nullable ZonedDateTime effectiveOn);
     public abstract Builder setApplicableRatesOnly(@Nullable Boolean applicableRatesOnly);
     public abstract Builder setApplyContractedRates(@Nullable Boolean applyContractedRates);
     public abstract Builder setLookupVariableRates(@Nullable Boolean lookupVariableRates);
     public abstract Builder setBundleRates(@Nullable Boolean bundleRates);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
     
     public abstract GetTariffRequest build();
   }

@@ -5,13 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,9 +47,9 @@ public class CalculateServiceTest {
   
   @Test
   public void testZipCode() throws Exception {
-    DateTimeZone tz = DateTimeZone.forID("America/Los_Angeles");
-    DateTime fromDateTime = new DateTime(2015, 3, 1, 0, 0, 0, tz);
-    DateTime toDateTime = new DateTime(2015, 4, 1, 0, 0, 0, tz);
+    ZoneId tz = ZoneId.of("America/Los_Angeles");
+    ZonedDateTime fromDateTime = ZonedDateTime.of(2015, 3, 1, 0, 0, 0, 0, tz);
+    ZonedDateTime toDateTime = ZonedDateTime.of(2015, 4, 1, 0, 0, 0, 0, tz);
 
     GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
         .setFromDateTime(fromDateTime)
@@ -72,8 +73,10 @@ public class CalculateServiceTest {
   @Test
   public void testCalculateTariff512() throws Exception {
 
-    DateTime fromDateTime = new DateTime("2011-12-01T00:00:00.000-05:00");
-    DateTime toDateTime = new DateTime("2012-01-01T00:00:00.000-05:00");
+    ZonedDateTime fromDateTime = ZonedDateTime.parse("2011-12-01T00:00:00-05:00",
+      DateTimeFormatter.ISO_DATE_TIME);
+    ZonedDateTime toDateTime = ZonedDateTime.parse("2012-01-01T00:00:00-05:00",
+      DateTimeFormatter.ISO_DATE_TIME);
 
     GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
         .setFromDateTime(fromDateTime)
@@ -108,8 +111,8 @@ public class CalculateServiceTest {
 
     // Where the tariff has a time zone (most do) you can use it to make sure your dates are the
     // same
-    DateTime fromDateTime = new DateTime(2012, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    DateTime toDateTime = new DateTime(2013, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
+    ZonedDateTime fromDateTime = ZonedDateTime.of(2012, 1, 1, 0, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime = ZonedDateTime.of(2013, 1, 1, 0, 0, 0, 0, ZoneId.of("US/Pacific"));
 
     GetCalculatedCostRequest.Builder request = GetCalculatedCostRequest.builder()
         .setFromDateTime(fromDateTime)
@@ -133,7 +136,7 @@ public class CalculateServiceTest {
     // Create consumption inputs for each hour of the day, first for
     // weekdays then for weekends.
     //
-    DateTime propertyStartDateTime = new DateTime(fromDateTime);
+    ZonedDateTime propertyStartDateTime = fromDateTime;
     while (propertyStartDateTime.isBefore(toDateTime)) {
 
       for (int hour = 0; hour < 24; hour++) {
@@ -171,10 +174,10 @@ public class CalculateServiceTest {
   @Test
   public void testCalculateTariff522GroupBy() throws Exception {
 
-    DateTime fromDateTime =
-        new DateTime(2014, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles"));
-    DateTime toDateTime =
-        new DateTime(2014, 2, 1, 0, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles"));
+    ZonedDateTime fromDateTime =
+        ZonedDateTime.of(2014, 1, 1, 0, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime =
+        ZonedDateTime.of(2014, 2, 1, 0, 0, 0, 0, ZoneId.of("US/Pacific"));
 
     GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
         .setFromDateTime(fromDateTime)
@@ -195,8 +198,9 @@ public class CalculateServiceTest {
     // Assert groupBy dates
     for (CalculatedCostItem costItem : calculatedCost.getItems()) {
 
-      assertEquals(costItem.getFromDateTime().getMillis(), fromDateTime.getMillis());
-      assertEquals(costItem.getToDateTime().getMillis(), toDateTime.getMillis());
+      assertEquals(costItem.getFromDateTime().toInstant(),
+        fromDateTime.toInstant());
+      assertEquals(costItem.getToDateTime().toInstant(), toDateTime.toInstant());
 
     }
 
@@ -211,8 +215,8 @@ public class CalculateServiceTest {
 
     // Where the tariff has a time zone (most do) you can use it to make sure your dates are the
     // same
-    DateTime fromDateTime = new DateTime(2012, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    DateTime toDateTime = new DateTime(2013, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
+    ZonedDateTime fromDateTime = ZonedDateTime.of(2012, 1, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime = ZonedDateTime.of(2013, 1, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
 
     GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
         .setFromDateTime(fromDateTime)
@@ -240,8 +244,8 @@ public class CalculateServiceTest {
     // create profile with readings
     List<ReadingData> readings = new ArrayList<ReadingData>();
     // add two months of readings
-    DateTime fromDateTime1 = new DateTime(2014, 3, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    DateTime toDateTime1 = new DateTime(2014, 4, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
+    ZonedDateTime fromDateTime1 = ZonedDateTime.of(2014, 3, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime1 = ZonedDateTime.of(2014, 4, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
     ReadingData readingData1 = ReadingData.builder()
         .setQuantityUnit("kWh")
         .setFromDateTime(fromDateTime1)
@@ -251,8 +255,8 @@ public class CalculateServiceTest {
     readings.add(readingData1);
 
     // create profile 1
-    DateTime fromDateTime2 = new DateTime(2014, 3, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    DateTime toDateTime2 = new DateTime(2014, 4, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
+    ZonedDateTime fromDateTime2 = ZonedDateTime.of(2014, 3, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime2 = ZonedDateTime.of(2014, 4, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
     Profile profile1 = dataLoader.createProfileWithReadings(readings);
     List<ReadingData> readings2 = new ArrayList<ReadingData>();
     ReadingData readingData2 = ReadingData.builder()
@@ -265,8 +269,8 @@ public class CalculateServiceTest {
 
     // create profile 2
     Profile profile2 = dataLoader.createProfileWithReadings(readings2);
-    DateTime fromDateTime = new DateTime(2014, 3, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    DateTime toDateTime = new DateTime(2014, 4, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
+    ZonedDateTime fromDateTime = ZonedDateTime.of(2014, 3, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime = ZonedDateTime.of(2014, 4, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
 
     // set up calculation request
     GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
@@ -306,8 +310,8 @@ public class CalculateServiceTest {
 
     // Where the tariff has a time zone (most do) you can use it to make sure your dates are the
     // same
-    DateTime fromDateTime = new DateTime(2012, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    DateTime toDateTime = new DateTime(2013, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
+    ZonedDateTime fromDateTime = ZonedDateTime.of(2012, 1, 1, 0, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime = ZonedDateTime.of(2013, 1, 1, 0, 0, 0, 0, ZoneId.of("US/Pacific"));
 
     GetCalculationInputsRequest request = GetCalculationInputsRequest.builder()
         .setFromDateTime(fromDateTime)

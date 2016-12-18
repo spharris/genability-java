@@ -1,9 +1,10 @@
 package com.genability.client.api.request;
 
+import java.time.ZonedDateTime;
+
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.Fields;
@@ -18,10 +19,10 @@ public abstract class GetCalendarDatesRequest extends AbstractRequest {
   public abstract @Nullable ImmutableList<String> getCalendarEventTypes();
   public abstract @Nullable Long getCalendarId();
   public abstract @Nullable ImmutableList<String> getDateDefinitionTypes();
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable String getLocale();
   public abstract @Nullable Long getLseId();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
 
   public abstract Builder toBuilder();
   public static Builder builder() {
@@ -37,10 +38,10 @@ public abstract class GetCalendarDatesRequest extends AbstractRequest {
     public abstract Builder setCalendarId(@Nullable Long calendarId);
     public abstract Builder setDateDefinitionTypes(@Nullable String... dateDefinitionTypes);
     public abstract Builder setDateDefinitionTypes(@Nullable ImmutableList<String> dateDefinitionTypes);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setLocale(@Nullable String locale);
     public abstract Builder setLseId(@Nullable Long lseId);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
 
     public abstract GetCalendarDatesRequest build();
   }

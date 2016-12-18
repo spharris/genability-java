@@ -1,9 +1,10 @@
 package com.genability.client.api.request;
 
+import java.time.ZonedDateTime;
+
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.Fields;
@@ -15,8 +16,8 @@ public abstract class GetTimeOfUseIntervalsRequest extends AbstractGetNRequest {
 
   GetTimeOfUseIntervalsRequest() {}
 
-  public abstract @Nullable DateTime getFromDateTime();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
 
   public abstract Builder toBuilder();
   public static Builder builder() {
@@ -27,8 +28,8 @@ public abstract class GetTimeOfUseIntervalsRequest extends AbstractGetNRequest {
   @AutoValue.Builder
   public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
 
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
 
     public abstract GetTimeOfUseIntervalsRequest build();
   }

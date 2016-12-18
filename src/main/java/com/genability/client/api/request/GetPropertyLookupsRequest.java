@@ -1,9 +1,10 @@
 package com.genability.client.api.request;
 
+import java.time.ZonedDateTime;
+
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.Fields;
@@ -15,10 +16,10 @@ public abstract class GetPropertyLookupsRequest extends AbstractRequest {
 
   GetPropertyLookupsRequest() {}
 
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable String getKeyName();
   public abstract @Nullable String getSubKeyName();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
 
   public abstract Builder toBuilder();
   public static Builder builder() {
@@ -29,10 +30,10 @@ public abstract class GetPropertyLookupsRequest extends AbstractRequest {
   @AutoValue.Builder
   public abstract static class Builder extends AbstractRequest.Builder<Builder> {
 
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setKeyName(@Nullable String keyName);
     public abstract Builder setSubKeyName(@Nullable String subKeyName);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
 
     public abstract GetPropertyLookupsRequest build();
   }

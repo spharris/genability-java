@@ -3,11 +3,10 @@ package com.genability.client.types;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import javax.annotation.Nullable;
-
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -50,7 +49,7 @@ public abstract class Tariff {
   public abstract @Nullable LocalDate getEffectiveDate();
   public abstract @Nullable LocalDate getEndDate();
   public abstract @Nullable LocalDate getClosedDate();
-  public abstract @Nullable DateTimeZone getTimeZone();
+  public abstract @Nullable ZoneId getTimeZone();
   public abstract @Nullable String getEffectiveOnRule();
   public abstract @Nullable Period getBillingPeriod();
   public abstract @Nullable String getCurrency();
@@ -89,11 +88,11 @@ public abstract class Tariff {
     }
 
     // TODO: DateTimeZone deserializer
-    @JsonIgnore public abstract Builder setTimeZone(@Nullable DateTimeZone timeZone);
+    @JsonIgnore public abstract Builder setTimeZone(@Nullable ZoneId timeZone);
     @JsonProperty("timeZone")
     public Builder setTimeZoneString(@Nullable String timeZone) {
       if (timeZone != null) {
-        setTimeZone(DateTimeZone.forID(timeZone));
+        setTimeZone(ZoneId.of(timeZone));
       }
       
       return this;

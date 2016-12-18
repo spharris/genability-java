@@ -1,11 +1,14 @@
 package com.genability.client.api.service;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,8 +66,10 @@ public class TimeOfUseServiceTest {
   public void testGetTouIntervals() throws Exception {
     long lseId = 734L;
     long touGroupId = 1L;
-    DateTime fromDateTime = new DateTime(2015, 1, 1, 0, 0);
-    DateTime toDateTime = new DateTime(2015, 1, 4, 0, 0);
+    ZonedDateTime fromDateTime =
+        ZonedDateTime.of(2015, 1, 1, 0, 0, 0, 0, ZoneId.of("America/Los_Angeles"));
+    ZonedDateTime toDateTime =
+        ZonedDateTime.of(2015, 1, 4, 0, 0, 0, 0, ZoneId.of("America/Los_Angeles"));
 
     GetTimeOfUseIntervalsRequest request = GetTimeOfUseIntervalsRequest.builder()
         .setFromDateTime(fromDateTime)
@@ -80,10 +85,10 @@ public class TimeOfUseServiceTest {
 
     for (TimeOfUseInterval i : response.getResults()) {
       assertEquals("Didn't get the correct TOU group", Long.valueOf(touGroupId), i.getTouGroupId());
-      assertTrue("Interval is not in the correct time period",
-          i.getFromDateTime().compareTo(fromDateTime) >= 0);
-      assertTrue("Interval is not in the correct time period",
-          i.getToDateTime().compareTo(toDateTime) <= 0);
+      assertThat(i.getFromDateTime().toInstant())
+        .named("Interval is not in the correct time period").isAtLeast(fromDateTime.toInstant());
+      assertThat(i.getToDateTime().toInstant())
+        .named("Interval is not in the correct time period").isAtMost(toDateTime.toInstant());
     }
   }
 }

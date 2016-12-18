@@ -1,10 +1,9 @@
 package com.genability.client.types;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
-
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -17,11 +16,11 @@ public abstract class CalculatedCostItem {
   public abstract @Nullable String getChargeClass();
   public abstract @Nullable ChargeType getChargeType();
   public abstract @Nullable BigDecimal getCost();
-  public abstract @Nullable DateTime getDemandInterval();
+  public abstract @Nullable ZonedDateTime getDemandInterval();
   public abstract @Nullable Integer getDuration();
   public abstract @Nullable String getFamily();
   public abstract @Nullable String getFormula();
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable Double getItemQuantity();
   public abstract @Nullable String getPeriod();
   public abstract @Nullable String getQuantityKey();
@@ -36,7 +35,7 @@ public abstract class CalculatedCostItem {
   public abstract @Nullable Long getTariffRateId();
   public abstract @Nullable BigDecimal getTierLowerLimit();
   public abstract @Nullable BigDecimal getTierUpperLimit();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
   public abstract @Nullable Long getTouId();
 
   public abstract Builder toBuilder();
@@ -51,11 +50,11 @@ public abstract class CalculatedCostItem {
     public abstract Builder setChargeClass(@Nullable String chargeClass);
     public abstract Builder setChargeType(@Nullable ChargeType chargeType);
     public abstract Builder setCost(@Nullable BigDecimal cost);
-    public abstract Builder setDemandInterval(@Nullable DateTime demandInterval);
+    public abstract Builder setDemandInterval(@Nullable ZonedDateTime demandInterval);
     public abstract Builder setDuration(@Nullable Integer duration);
     public abstract Builder setFamily(@Nullable String family);
     public abstract Builder setFormula(@Nullable String formula);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setItemQuantity(@Nullable Double itemQuantity);
     public abstract Builder setPeriod(@Nullable String period);
     public abstract Builder setQuantityKey(@Nullable String quantityKey);
@@ -70,7 +69,7 @@ public abstract class CalculatedCostItem {
     public abstract Builder setTariffRateId(@Nullable Long tariffRateId);
     public abstract Builder setTierLowerLimit(@Nullable BigDecimal tierLowerLimit);
     public abstract Builder setTierUpperLimit(@Nullable BigDecimal tierUpperLimit);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
     public abstract Builder setTouId(@Nullable Long touId);
 
     public abstract CalculatedCostItem build();

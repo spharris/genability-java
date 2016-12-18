@@ -1,12 +1,12 @@
 package com.genability.client.api.request;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.ChargeType;
@@ -25,10 +25,10 @@ public abstract class GetTariffsRequest extends AbstractGetNRequest {
 
   public abstract @Nullable Long getLseId();
   public abstract @Nullable Long getMasterTariffId();
-  public abstract @Nullable DateTime getEffectiveOn();
+  public abstract @Nullable ZonedDateTime getEffectiveOn();
   public abstract @Nullable LocalDate getOpenOn();
-  public abstract @Nullable DateTime getFromDateTime();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
   public abstract @Nullable Boolean getIsActive();
   public abstract @Nullable ImmutableSet<CustomerClass> getCustomerClasses();
   public abstract @Nullable ImmutableSet<TariffType> getTariffTypes();
@@ -56,10 +56,10 @@ public abstract class GetTariffsRequest extends AbstractGetNRequest {
 
     public abstract Builder setLseId(@Nullable Long lseId);
     public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
-    public abstract Builder setEffectiveOn(@Nullable DateTime effectiveOn);
+    public abstract Builder setEffectiveOn(@Nullable ZonedDateTime effectiveOn);
     public abstract Builder setOpenOn(@Nullable LocalDate openOn);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
     public abstract Builder setIsActive(@Nullable Boolean isActive);
     public abstract Builder setCustomerClasses(@Nullable CustomerClass... customerClasses);
     public abstract Builder setCustomerClasses(@Nullable ImmutableSet<CustomerClass> customerClasses);

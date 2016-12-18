@@ -2,9 +2,9 @@ package com.genability.client.types;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-import javax.annotation.Nullable;
+import java.time.ZonedDateTime;
 
-import org.joda.time.DateTime;
+import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,8 +36,8 @@ public abstract class TariffRate {
   public abstract @Nullable String getTariffBookRateGroupName();
   public abstract @Nullable String getRateName();
   public abstract @Nullable String getTariffBookRateName();
-  public abstract @Nullable DateTime getFromDateTime();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
   public abstract @Nullable Territory getTerritory();
   public abstract @Nullable Season getSeason();
   public abstract @Nullable TimeOfUse getTimeOfUse();
@@ -83,8 +83,8 @@ public abstract class TariffRate {
     public abstract Builder setTariffBookRateGroupName(@Nullable String tariffBookRateGroupName);
     public abstract Builder setRateName(@Nullable String rateName);
     public abstract Builder setTariffBookRateName(@Nullable String tariffBookRateName);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
     public abstract Builder setTerritory(@Nullable Territory territory);
     public abstract Builder setSeason(@Nullable Season season);
     public abstract Builder setTimeOfUse(@Nullable TimeOfUse timeOfUse);

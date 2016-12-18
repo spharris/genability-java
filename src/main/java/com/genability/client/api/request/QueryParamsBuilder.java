@@ -1,5 +1,8 @@
 package com.genability.client.api.request;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -22,6 +25,15 @@ final class QueryParamsBuilder {
     if (value != null) {
       builder.add(new BasicNameValuePair(paramName, value.toString()));
     }
+    
+    return this;
+  }
+  
+  QueryParamsBuilder addParam(String paramName, ZonedDateTime value) {
+    if (value != null) {
+      builder.add(new BasicNameValuePair(paramName,
+        value.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)));
+    } 
     
     return this;
   }

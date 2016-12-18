@@ -1,9 +1,10 @@
 package com.genability.client.api.request;
 
+import java.time.ZonedDateTime;
+
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.Fields;
@@ -17,11 +18,11 @@ public abstract class GetCalculationInputsRequest extends AbstractRequest {
 
   public abstract @Nullable String getAccountId();
   public abstract @Nullable String getEstimate();
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable Long getMasterTariffId();
   public abstract @Nullable String getProviderAccountId();
   public abstract @Nullable Long getTerritoryId();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
 
   public abstract Builder toBuilder();
   public static Builder builder() {
@@ -34,11 +35,11 @@ public abstract class GetCalculationInputsRequest extends AbstractRequest {
 
     public abstract Builder setAccountId(@Nullable String accountId);
     public abstract Builder setEstimate(@Nullable String estimate);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
     public abstract Builder setProviderAccountId(@Nullable String providerAccountId);
     public abstract Builder setTerritoryId(@Nullable Long territoryId);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
 
     public abstract GetCalculationInputsRequest build();
   }

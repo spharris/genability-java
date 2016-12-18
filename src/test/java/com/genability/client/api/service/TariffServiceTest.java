@@ -5,10 +5,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,8 +55,10 @@ public class TariffServiceTest {
     GetTariffRequest request = GetTariffRequest.builder()
         .setPopulateRates(true)
         .setLookupVariableRates(true)
-        .setFromDateTime(new DateTime("2014-12-10"))
-        .setToDateTime(new DateTime("2014-12-15"))
+        .setFromDateTime(ZonedDateTime.parse("2014-12-10T00:00:00-08:00",
+          DateTimeFormatter.ISO_DATE_TIME))
+        .setToDateTime(ZonedDateTime.parse("2014-12-15T00:00:00-08:00",
+          DateTimeFormatter.ISO_DATE_TIME))
         .setMasterTariffId(122L)
         .build();
 
@@ -96,7 +100,8 @@ public class TariffServiceTest {
 
     testCase = "Case 4 - explicit effective on";
     request = request.toBuilder()
-        .setEffectiveOn(new DateTime(DateTime.now().getYear() - 1, 11, 11, 1, 0, 0, 0))
+        .setEffectiveOn(ZonedDateTime.of(
+          ZonedDateTime.now().getYear() - 1, 11, 11, 1, 0, 0, 0, ZoneId.of("America/Los_Angeles")))
         .build();
     callGetTariffs(testCase, request);
 
@@ -104,7 +109,7 @@ public class TariffServiceTest {
     request = GetTariffsRequest.builder()
         .setCustomerClasses(CustomerClass.RESIDENTIAL)
         .setTariffTypes(TariffType.DEFAULT, TariffType.ALTERNATIVE)
-        .setEffectiveOn(DateTime.now())
+        .setEffectiveOn(ZonedDateTime.now())
         .setZipCode("94105")
         .setSortOn("tariffType")
         .setSortOrder(SortOrder.DESCENDING) // so default tariffs come before alternative

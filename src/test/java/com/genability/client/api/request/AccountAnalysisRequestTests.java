@@ -2,24 +2,29 @@ package com.genability.client.api.request;
 
 import static org.junit.Assert.assertEquals;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+@RunWith(JUnit4.class)
 public class AccountAnalysisRequestTests {
+  
   private ObjectMapper mapper = new ObjectMapper();
 
   @Before
   public void registerJodaModule() {
-    mapper.registerModule(new JodaModule());
+    mapper.registerModule(new JavaTimeModule());
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     mapper.setSerializationInclusion(Include.NON_NULL);
   }
@@ -50,7 +55,7 @@ public class AccountAnalysisRequestTests {
   @Test
   public void testFromLocalDate() throws JsonProcessingException {
     AccountAnalysisRequest request = AccountAnalysisRequest.builder()
-        .setFromDateTime(new LocalDate(2015, 1, 1))
+        .setFromDateTime(LocalDate.of(2015, 1, 1))
         .build();
     String target = "{\"fields\":\"ext\",\"fromDateTime\":\"2015-01-01\"}";
 
@@ -61,7 +66,7 @@ public class AccountAnalysisRequestTests {
   @Test
   public void testToLocalDate() throws JsonProcessingException {
     AccountAnalysisRequest request = AccountAnalysisRequest.builder()
-        .setToDateTime(new LocalDate(2015, 1, 1))
+        .setToDateTime(LocalDate.of(2015, 1, 1))
         .build();
     String target = "{\"fields\":\"ext\",\"toDateTime\":\"2015-01-01\"}";
 
@@ -72,7 +77,7 @@ public class AccountAnalysisRequestTests {
   @Test
   public void testFromDateWithTimezone() throws JsonProcessingException {
     AccountAnalysisRequest request = AccountAnalysisRequest.builder()
-        .setFromDateTime(new DateTime(2015, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific")))
+        .setFromDateTime(LocalDate.of(2015,  1,  1).atStartOfDay(ZoneId.of("US/Pacific")))
         .build();
     String target = "{\"fields\":\"ext\",\"fromDateTime\":\"2015-01-01T08:00:00.000Z\"}";
 
@@ -83,7 +88,7 @@ public class AccountAnalysisRequestTests {
   @Test
   public void testToDateWithTimezone() throws JsonProcessingException {
     AccountAnalysisRequest request = AccountAnalysisRequest.builder()
-        .setToDateTime(new DateTime(2015, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific")))
+        .setFromDateTime(LocalDate.of(2015,  1,  1).atStartOfDay(ZoneId.of("US/Pacific")))
         .build();
     String target = "{\"fields\":\"ext\",\"toDateTime\":\"2015-01-01T08:00:00.000Z\"}";
 

@@ -8,14 +8,14 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -205,8 +205,8 @@ public class ProfileServiceTest {
     List<ReadingData> readings = new ArrayList<ReadingData>();
 
     // add two months of readings
-    DateTime fromDateTime1 = new DateTime(2014, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    DateTime toDateTime1 = new DateTime(2014, 2, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
+    ZonedDateTime fromDateTime1 = ZonedDateTime.of(2014, 1, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime1 = ZonedDateTime.of(2014, 2, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
     ReadingData readingData1 = ReadingData.builder()
         .setQuantityUnit("kWh")
         .setFromDateTime(fromDateTime1)
@@ -215,8 +215,8 @@ public class ProfileServiceTest {
         .build();
     readings.add(readingData1);
 
-    DateTime fromDateTime2 = new DateTime(2014, 2, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    DateTime toDateTime2 = new DateTime(2014, 3, 1, 1, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
+    ZonedDateTime fromDateTime2 = ZonedDateTime.of(2014, 2, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime2 = ZonedDateTime.of(2014, 3, 1, 1, 0, 0, 0, ZoneId.of("US/Pacific"));
     ReadingData readingData2 = ReadingData.builder()
         .setQuantityUnit("kWh")
         .setFromDateTime(fromDateTime2)
@@ -265,10 +265,10 @@ public class ProfileServiceTest {
     List<ReadingData> readings = new ArrayList<ReadingData>();
 
     // Create one year of readings
-    DateTime fromDateTime1 =
-        new DateTime(2014, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles"));
-    DateTime toDateTime1 =
-        new DateTime(2015, 1, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles"));
+    ZonedDateTime fromDateTime1 =
+        ZonedDateTime.of(2014, 1, 1, 1, 0, 0, 0, ZoneId.of("America/Los_Angeles"));
+    ZonedDateTime toDateTime1 =
+        ZonedDateTime.of(2015, 1, 1, 1, 0, 0, 0, ZoneId.of("America/Los_Angeles"));
     ReadingData readingData1 = ReadingData.builder()
         .setQuantityUnit("kWh")
         .setFromDateTime(fromDateTime1)
@@ -295,9 +295,9 @@ public class ProfileServiceTest {
     GetProfileRequest profileRequest = GetProfileRequest.builder()
         .setProfileId(profile.getProfileId())
         .setFromDateTime(
-          new DateTime(2014, 6, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles")))
+          ZonedDateTime.of(2014, 6, 1, 1, 0, 0, 0, ZoneId.of("America/Los_Angeles")))
         .setToDateTime(
-          new DateTime(2014, 7, 1, 1, 0, 0, 0, DateTimeZone.forID("America/Los_Angeles")))
+          ZonedDateTime.of(2014, 7, 1, 1, 0, 0, 0, ZoneId.of("America/Los_Angeles")))
         .setPopulateReadings(Boolean.TRUE)
         .setGroupBy(GroupBy.DAY)
         .setPageCount(100)
@@ -331,8 +331,8 @@ public class ProfileServiceTest {
     List<ReadingData> readings = new ArrayList<ReadingData>();
 
     // add two months of readings
-    DateTime fromDateTime1 = new DateTime(2014, 6, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
-    DateTime toDateTime1 = new DateTime(2014, 7, 1, 0, 0, 0, 0, DateTimeZone.forID("US/Pacific"));
+    ZonedDateTime fromDateTime1 = ZonedDateTime.of(2014, 6, 1, 0, 0, 0, 0, ZoneId.of("US/Pacific"));
+    ZonedDateTime toDateTime1 = ZonedDateTime.of(2014, 7, 1, 0, 0, 0, 0, ZoneId.of("US/Pacific"));
 
     ReadingData readingData1 = ReadingData.builder()
         .setQuantityUnit("kWh")
@@ -392,9 +392,9 @@ public class ProfileServiceTest {
     ReadingData readingData1 = ReadingData.builder()
         .setQuantityUnit("kWh")
         .setFromDateTime(
-          new DateTime(2013, 5, 29, 10, 45, 0, 0, DateTimeZone.forID("America/New_York")))
+          ZonedDateTime.of(2013, 5, 29, 10, 45, 0, 0, ZoneId.of("America/New_York")))
         .setToDateTime(
-          new DateTime(2013, 5, 29, 10, 50, 0, 0, DateTimeZone.forID("America/New_York")))
+          ZonedDateTime.of(2013, 5, 29, 10, 50, 0, 0, ZoneId.of("America/New_York")))
         .setQuantityValue(new BigDecimal("30.1"))
         .build();
     readings.add(readingData1);
@@ -402,9 +402,9 @@ public class ProfileServiceTest {
     ReadingData readingData2 = ReadingData.builder()
         .setQuantityUnit("kWh")
         .setFromDateTime(
-          new DateTime(2013, 5, 29, 10, 50, 0, 0, DateTimeZone.forID("America/New_York")))
+          ZonedDateTime.of(2013, 5, 29, 10, 50, 0, 0, ZoneId.of("America/New_York")))
         .setToDateTime(
-          new DateTime(2013, 5, 29, 10, 55, 0, 0, DateTimeZone.forID("America/New_York")))
+          ZonedDateTime.of(2013, 5, 29, 10, 55, 0, 0, ZoneId.of("America/New_York")))
         .setQuantityValue(new BigDecimal("30.2"))
         .build();
     readings.add(readingData2);
@@ -412,9 +412,9 @@ public class ProfileServiceTest {
     ReadingData readingData3 = ReadingData.builder()
         .setQuantityUnit("kWh")
         .setFromDateTime(
-          new DateTime(2013, 5, 29, 10, 55, 0, 0, DateTimeZone.forID("America/New_York")))
+          ZonedDateTime.of(2013, 5, 29, 10, 55, 0, 0, ZoneId.of("America/New_York")))
         .setToDateTime(
-          new DateTime(2013, 5, 29, 11, 00, 0, 0, DateTimeZone.forID("America/New_York")))
+          ZonedDateTime.of(2013, 5, 29, 11, 00, 0, 0, ZoneId.of("America/New_York")))
         .setQuantityValue(new BigDecimal("30.3"))
         .build();
     readings.add(readingData3);

@@ -3,9 +3,10 @@ package com.genability.client.api.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.time.ZonedDateTime;
+
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ public class PriceServiceTest {
   
   @Test
   public void testGetPrice() throws Exception {
-    DateTime start = DateTime.now();
+    ZonedDateTime start = ZonedDateTime.now();
     GetPriceRequest request = GetPriceRequest.builder()
         .setMasterTariffId(520L) // PGE residential tariff
         .setFromDateTime(start)

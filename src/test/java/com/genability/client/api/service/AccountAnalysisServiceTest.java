@@ -7,13 +7,14 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -98,7 +99,8 @@ public class AccountAnalysisServiceTest {
     assertNotNull("accountId null", accountId);
 
 
-    DateTime baseFromDateTime = new DateTime("2013-01-01");
+    ZonedDateTime baseFromDateTime = ZonedDateTime.parse("2013-01-01T00:00:00-08:00",
+      DateTimeFormatter.ISO_DATE_TIME);
 
     Profile.Builder usageProfile = Profile.builder()
         .setAccountId(newAccount.getAccountId());
@@ -210,7 +212,8 @@ public class AccountAnalysisServiceTest {
       Profile.Builder usageProfile = Profile.builder()
           .setAccountId(newAccount.getAccountId());
 
-      DateTime baseFromDateTime = new DateTime("2013-01-01");
+      ZonedDateTime baseFromDateTime = ZonedDateTime.parse("2013-01-01T00:00:00-08:00",
+        DateTimeFormatter.ISO_DATE_TIME);
       ImmutableList.Builder<ReadingData> readingDataList = ImmutableList.builder();
       for (int i = 0; i < 8760; i++) {
         ReadingData readingData = ReadingData.builder()
@@ -398,7 +401,8 @@ public class AccountAnalysisServiceTest {
   private AccountAnalysisRequest createSavingsAnalysis(Profile usageProfile,
       Profile productionProfile) {
     AccountAnalysisRequest request = AccountAnalysisRequest.builder()
-        .setFromDateTime(new DateTime("2014-10-10"))
+        .setFromDateTime(ZonedDateTime.parse("2014-10-10T00:00:00-08:00",
+          DateTimeFormatter.ISO_DATE_TIME))
         .setPropertyInputs(
           PropertyData.builder()
               .setScenarios("before")

@@ -1,10 +1,9 @@
 package com.genability.client.types;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
-
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -19,13 +18,13 @@ public abstract class PropertyData {
   public abstract @Nullable DataType getDataType();
   public abstract @Nullable String getDataValue();
   public abstract @Nullable Long getDuration();
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable String getKeyName();
   public abstract @Nullable String getOperator();
   public abstract @Nullable String getPeriod();
   public abstract @Nullable String getScenarios();
   public abstract @Nullable String getSource();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
   public abstract @Nullable String getUnit();
 
   public abstract Builder toBuilder();
@@ -42,13 +41,13 @@ public abstract class PropertyData {
     public abstract Builder setDataType(@Nullable DataType dataType);
     public abstract Builder setDataValue(@Nullable String dataValue);
     public abstract Builder setDuration(@Nullable Long duration);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setKeyName(@Nullable String keyName);
     public abstract Builder setOperator(@Nullable String operator);
     public abstract Builder setPeriod(@Nullable String period);
     public abstract Builder setScenarios(@Nullable String scenarios);
     public abstract Builder setSource(@Nullable String source);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
     public abstract Builder setUnit(@Nullable String unit);
 
     public abstract PropertyData build();

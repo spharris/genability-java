@@ -1,10 +1,9 @@
 package com.genability.client.types;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import javax.annotation.Nullable;
-
-import org.joda.time.LocalDateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;

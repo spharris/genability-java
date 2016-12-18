@@ -1,10 +1,9 @@
 package com.genability.client.types;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
-
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -16,7 +15,7 @@ public abstract class ReadingData {
 
   public abstract @Nullable String getDataValue();
   public abstract @Nullable Long getEndTime();
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable String getKeyName();
   public abstract @Nullable String getPeriod();
   public abstract @Nullable BigDecimal getQuantityCost();
@@ -26,7 +25,7 @@ public abstract class ReadingData {
   public abstract @Nullable String getSource();
   public abstract @Nullable Long getStartTime();
   public abstract @Nullable Integer getTimeAccuracy();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
   public abstract @Nullable TimeOfUseType getTouType();
   public abstract @Nullable String getUnit();
   public abstract @Nullable String getUsageProfileId();
@@ -42,7 +41,7 @@ public abstract class ReadingData {
 
     public abstract Builder setDataValue(@Nullable String dataValue);
     public abstract Builder setEndTime(@Nullable Long endTime);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setKeyName(@Nullable String keyName);
     public abstract Builder setPeriod(@Nullable String period);
     public abstract Builder setQuantityCost(@Nullable BigDecimal quantityCost);
@@ -52,7 +51,7 @@ public abstract class ReadingData {
     public abstract Builder setSource(@Nullable String source);
     public abstract Builder setStartTime(@Nullable Long startTime);
     public abstract Builder setTimeAccuracy(@Nullable Integer timeAccuracy);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
     public abstract Builder setTouType(@Nullable TimeOfUseType touType);
     public abstract Builder setUnit(@Nullable String unit);
     public abstract Builder setUsageProfileId(@Nullable String usageProfileId);

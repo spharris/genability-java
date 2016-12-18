@@ -4,9 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +21,6 @@ import com.genability.client.testing.TestClientModule;
 import com.genability.client.types.DataType;
 import com.genability.client.types.PropertyKey;
 import com.genability.client.types.PropertyLookup;
-import com.genability.client.types.PropertyLookupStats;
 import com.genability.client.types.Response;
 import com.google.inject.Guice;
 
@@ -143,8 +144,10 @@ public class PropertyServiceTest {
     GetPropertyLookupsRequest request = GetPropertyLookupsRequest.builder()
         .setKeyName(targetPropertyKey)
         .setSubKeyName(targetSubPropertyKey)
-        .setFromDateTime(new DateTime("2014-01-01"))
-        .setToDateTime(new DateTime("2014-01-02"))
+        .setFromDateTime(ZonedDateTime.parse("2014-01-01T00:00:00-08:00",
+          DateTimeFormatter.ISO_DATE_TIME))
+        .setToDateTime(ZonedDateTime.parse("2014-01-02T00:00:00-08:00",
+          DateTimeFormatter.ISO_DATE_TIME))
         .build();
 
     //
@@ -165,27 +168,4 @@ public class PropertyServiceTest {
         restResponse.getResults().get(0).getSubPropertyKey());
 
   }
-
-
-  @Test
-  public void testGetPropertyStats() throws Exception {
-
-    //
-    // Assign
-    //
-    String keyName = "qosVariableRateKeyHourly";
-
-    //
-    // Act
-    //
-    Response<PropertyLookupStats> restResponse = propertyService.getPropertyStats(keyName).get();
-
-    //
-    // Assert
-    //
-    assertNotNull("restResponse null", restResponse);
-    assertEquals("bad status", restResponse.getStatus(), Response.STATUS_SUCCESS);
-  }
-
-
 }

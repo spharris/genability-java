@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.genability.client.api.Annotations.AppId;
 import com.genability.client.api.Annotations.AppKey;
 import com.genability.client.api.Annotations.RequestCompression;
@@ -94,12 +94,14 @@ public final class GenabilityClientModule extends AbstractModule {
     
     private static ObjectMapper defaultObjectMapper() {
       return new ObjectMapper()
-          .registerModule(new JodaModule())
+          .registerModule(new JavaTimeModule())
           .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
           .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+          .disable(SerializationFeature.WRITE_DATES_WITH_ZONE_ID)
           .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
           .setSerializationInclusion(Include.NON_NULL)
           .registerModule(new GuavaModule());
+      
     }
     
     private static HttpClient defaultHttpClient() {

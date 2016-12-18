@@ -1,9 +1,10 @@
 package com.genability.client.api.request;
 
+import java.time.ZonedDateTime;
+
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.Fields;
@@ -16,8 +17,8 @@ public abstract class GetAccountTariffsRequest extends AbstractGetNRequest {
   GetAccountTariffsRequest() {}
 
   public abstract @Nullable String getAccountId();
-  public abstract @Nullable DateTime getEffectiveOn();
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getEffectiveOn();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable Boolean getIncludeNotApplicable();
   public abstract @Nullable Boolean getIsActive();
   public abstract @Nullable Long getMasterTariffId();
@@ -27,7 +28,7 @@ public abstract class GetAccountTariffsRequest extends AbstractGetNRequest {
   public abstract @Nullable String getProviderAccountId();
   public abstract @Nullable ImmutableList<String> getServiceTypes();
   public abstract @Nullable ImmutableList<String> getTariffTypes();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
 
   public abstract Builder toBuilder();
   public static Builder builder() {
@@ -39,8 +40,8 @@ public abstract class GetAccountTariffsRequest extends AbstractGetNRequest {
   public abstract static class Builder extends AbstractGetNRequest.Builder<Builder> {
 
     public abstract Builder setAccountId(@Nullable String accountId);
-    public abstract Builder setEffectiveOn(@Nullable DateTime effectiveOn);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setEffectiveOn(@Nullable ZonedDateTime effectiveOn);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setIncludeNotApplicable(@Nullable Boolean includeNotApplicable);
     public abstract Builder setIsActive(@Nullable Boolean isActive);
     public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
@@ -53,7 +54,7 @@ public abstract class GetAccountTariffsRequest extends AbstractGetNRequest {
     public abstract Builder setServiceTypes(@Nullable ImmutableList<String> serviceTypes);
     public abstract Builder setTariffTypes(@Nullable String... tariffTypes);
     public abstract Builder setTariffTypes(@Nullable ImmutableList<String> tariffTypes);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
 
     public abstract GetAccountTariffsRequest build();
   }

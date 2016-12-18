@@ -1,11 +1,11 @@
 package com.genability.client.api.request;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,7 +31,7 @@ public abstract class GetCalculatedCostRequest extends AbstractRequest {
       @Nullable @JsonProperty("billingPeriod") Boolean billingPeriod,
       @Nullable @JsonProperty("dataFactor") BigDecimal dataFactor,
       @Nullable @JsonProperty("detailLevel") DetailLevel detailLevel,
-      @Nullable @JsonProperty("fromDateTime") DateTime fromDateTime,
+      @Nullable @JsonProperty("fromDateTime") ZonedDateTime fromDateTime,
       @Nullable @JsonProperty("groupBy") GroupBy groupBy,
       @Nullable @JsonProperty("includeDefaultProfile") Boolean includeDefaultProfile,
       @Nullable @JsonProperty("masterTariffId") Long masterTariffId,
@@ -39,11 +39,11 @@ public abstract class GetCalculatedCostRequest extends AbstractRequest {
       @Nullable @JsonProperty("profileId") String profileId,
       @Nullable @JsonProperty("providerAccountId") String providerAccountId,
       @Nullable @JsonProperty("rateInputs") ImmutableList<TariffRate> rateInputs,
-      @Nullable @JsonProperty("tariffEffectiveOn") DateTime tariffEffectiveOn,
+      @Nullable @JsonProperty("tariffEffectiveOn") ZonedDateTime tariffEffectiveOn,
       @Nullable @JsonProperty("tariffInputs") ImmutableList<PropertyData> tariffInputs,
       @Nullable @JsonProperty("tariffRateId") Long tariffRateId,
       @Nullable @JsonProperty("territoryId") Long territoryId,
-      @Nullable @JsonProperty("toDateTime") DateTime toDateTime,
+      @Nullable @JsonProperty("toDateTime") ZonedDateTime toDateTime,
       @Nullable @JsonProperty("useMostRecentUsageData") Boolean useMostRecentUsageData,
       @Nullable @JsonProperty("zipCode") String zipCode) {
     return GetCalculatedCostRequest.builder()
@@ -75,7 +75,7 @@ public abstract class GetCalculatedCostRequest extends AbstractRequest {
   public abstract @Nullable Boolean getBillingPeriod();
   public abstract @Nullable BigDecimal getDataFactor();
   public abstract @Nullable DetailLevel getDetailLevel();
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable GroupBy getGroupBy();
   public abstract @Nullable Boolean getIncludeDefaultProfile();
   public abstract @Nullable Long getMasterTariffId();
@@ -83,11 +83,11 @@ public abstract class GetCalculatedCostRequest extends AbstractRequest {
   public abstract @Nullable String getProfileId();
   public abstract @Nullable String getProviderAccountId();
   public abstract @Nullable ImmutableList<TariffRate> getRateInputs();
-  public abstract @Nullable DateTime getTariffEffectiveOn();
+  public abstract @Nullable ZonedDateTime getTariffEffectiveOn();
   public abstract @Nullable ImmutableList<PropertyData> getTariffInputs();
   public abstract @Nullable Long getTariffRateId();
   public abstract @Nullable Long getTerritoryId();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
   public abstract @Nullable Boolean getUseMostRecentUsageData();
   public abstract @Nullable String getZipCode();
 
@@ -105,7 +105,7 @@ public abstract class GetCalculatedCostRequest extends AbstractRequest {
     public abstract Builder setBillingPeriod(@Nullable Boolean billingPeriod);
     public abstract Builder setDataFactor(@Nullable BigDecimal dataFactor);
     public abstract Builder setDetailLevel(@Nullable DetailLevel detailLevel);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setGroupBy(@Nullable GroupBy groupBy);
     public abstract Builder setIncludeDefaultProfile(@Nullable Boolean includeDefaultProfile);
     public abstract Builder setMasterTariffId(@Nullable Long masterTariffId);
@@ -114,12 +114,12 @@ public abstract class GetCalculatedCostRequest extends AbstractRequest {
     public abstract Builder setProviderAccountId(@Nullable String providerAccountId);
     public abstract Builder setRateInputs(@Nullable TariffRate... rateInputs);
     public abstract Builder setRateInputs(@Nullable ImmutableList<TariffRate> rateInputs);
-    public abstract Builder setTariffEffectiveOn(@Nullable DateTime tariffEffectiveOn);
+    public abstract Builder setTariffEffectiveOn(@Nullable ZonedDateTime tariffEffectiveOn);
     public abstract Builder setTariffInputs(@Nullable PropertyData... tariffInputs);
     public abstract Builder setTariffInputs(@Nullable ImmutableList<PropertyData> tariffInputs);
     public abstract Builder setTariffRateId(@Nullable Long tariffRateId);
     public abstract Builder setTerritoryId(@Nullable Long territoryId);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
     public abstract Builder setUseMostRecentUsageData(@Nullable Boolean useMostRecentUsageData);
     public abstract Builder setZipCode(@Nullable String zipCode);
 

@@ -1,9 +1,10 @@
 package com.genability.client.api.request;
 
+import java.time.ZonedDateTime;
+
 import javax.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.genability.client.types.CustomerClass;
@@ -20,14 +21,14 @@ public abstract class GetIncentivesRequest extends AbstractGetNRequest {
   public abstract @Nullable String getAddressString();
   public abstract @Nullable ImmutableMap<String, String> getApplicabilityParameters();
   public abstract @Nullable CustomerClass getCustomerClass();
-  public abstract @Nullable DateTime getEffectiveOn();
-  public abstract @Nullable DateTime getFromDate();
+  public abstract @Nullable ZonedDateTime getEffectiveOn();
+  public abstract @Nullable ZonedDateTime getFromDate();
   public abstract @Nullable String getIncentiveType();
   public abstract @Nullable Boolean getIsExhausted();
   public abstract @Nullable Long getLseId();
   public abstract @Nullable String getProjectType();
   public abstract @Nullable String getState();
-  public abstract @Nullable DateTime getToDate();
+  public abstract @Nullable ZonedDateTime getToDate();
   public abstract @Nullable String getZipCode();
 
   public abstract Builder toBuilder();
@@ -42,14 +43,14 @@ public abstract class GetIncentivesRequest extends AbstractGetNRequest {
     public abstract Builder setAddressString(@Nullable String addressString);
     public abstract Builder setApplicabilityParameters(@Nullable ImmutableMap<String, String> applicabilityParameters);
     public abstract Builder setCustomerClass(@Nullable CustomerClass customerClass);
-    public abstract Builder setEffectiveOn(@Nullable DateTime effectiveOn);
-    public abstract Builder setFromDate(@Nullable DateTime fromDate);
+    public abstract Builder setEffectiveOn(@Nullable ZonedDateTime effectiveOn);
+    public abstract Builder setFromDate(@Nullable ZonedDateTime fromDate);
     public abstract Builder setIncentiveType(@Nullable String incentiveType);
     public abstract Builder setIsExhausted(@Nullable Boolean isExhausted);
     public abstract Builder setLseId(@Nullable Long lseId);
     public abstract Builder setProjectType(@Nullable String projectType);
     public abstract Builder setState(@Nullable String state);
-    public abstract Builder setToDate(@Nullable DateTime toDate);
+    public abstract Builder setToDate(@Nullable ZonedDateTime toDate);
     public abstract Builder setZipCode(@Nullable String zipCode);
 
     public abstract GetIncentivesRequest build();

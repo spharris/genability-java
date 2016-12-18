@@ -3,10 +3,9 @@ package com.genability.client.types;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
-
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +19,7 @@ import com.google.common.collect.ImmutableList;
 public abstract class PriceChange {
 
   public abstract @Nullable BigDecimal getAccuracy();
-  public abstract @Nullable DateTime getChangeDateTime();
+  public abstract @Nullable ZonedDateTime getChangeDateTime();
   public abstract @Nullable String getChangeName();
   public abstract @Nullable BigDecimal getRateAmount();
   public abstract @Nullable ImmutableList<TariffRateChangePeriod> getRateChangePeriods();
@@ -36,7 +35,7 @@ public abstract class PriceChange {
   public abstract static class Builder {
 
     public abstract Builder setAccuracy(@Nullable BigDecimal accuracy);
-    public abstract Builder setChangeDateTime(@Nullable DateTime changeDateTime);
+    public abstract Builder setChangeDateTime(@Nullable ZonedDateTime changeDateTime);
     public abstract Builder setChangeName(@Nullable String changeName);
     public abstract Builder setRateAmount(@Nullable BigDecimal rateAmount);
     public abstract Builder setRelativePriceIndex(@Nullable BigDecimal relativePriceIndex);

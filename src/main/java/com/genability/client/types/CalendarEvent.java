@@ -1,8 +1,8 @@
 package com.genability.client.types;
 
-import javax.annotation.Nullable;
+import java.time.LocalDate;
 
-import org.joda.time.DateTime;
+import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -22,7 +22,7 @@ public abstract class CalendarEvent {
   public abstract @Nullable Integer getFixedMonth();
   public abstract @Nullable String getLocale();
   public abstract @Nullable Long getLseId();
-  public abstract @Nullable DateTime getSeededUntil();
+  public abstract @Nullable LocalDate getSeededUntil();
   public abstract @Nullable Integer getWeekOfMonth();
 
   public abstract Builder toBuilder();
@@ -44,7 +44,7 @@ public abstract class CalendarEvent {
     public abstract Builder setFixedMonth(@Nullable Integer fixedMonth);
     public abstract Builder setLocale(@Nullable String locale);
     public abstract Builder setLseId(@Nullable Long lseId);
-    public abstract Builder setSeededUntil(@Nullable DateTime seededUntil);
+    public abstract Builder setSeededUntil(@Nullable LocalDate seededUntil);
     public abstract Builder setWeekOfMonth(@Nullable Integer weekOfMonth);
 
     public abstract CalendarEvent build();

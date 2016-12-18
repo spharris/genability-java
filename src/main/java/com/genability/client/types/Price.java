@@ -3,10 +3,9 @@ package com.genability.client.types;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
-
-import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,14 +20,14 @@ public abstract class Price {
 
   public abstract @Nullable ChargeType getChargeType();
   public abstract @Nullable String getCurrency();
-  public abstract @Nullable DateTime getFromDateTime();
+  public abstract @Nullable ZonedDateTime getFromDateTime();
   public abstract @Nullable ImmutableList<PriceChange> getPriceChanges();
   public abstract @Nullable String getQuantityKey();
   public abstract @Nullable BigDecimal getRateAmount();
   public abstract @Nullable ImmutableList<TariffRateChangePeriod> getRateChangePeriods();
   public abstract @Nullable BigDecimal getRelativePriceIndex();
   public abstract @Nullable Long getTariffId();
-  public abstract @Nullable DateTime getToDateTime();
+  public abstract @Nullable ZonedDateTime getToDateTime();
 
   public abstract Builder toBuilder();
   public static Builder builder() {
@@ -41,12 +40,12 @@ public abstract class Price {
 
     public abstract Builder setChargeType(@Nullable ChargeType chargeType);
     public abstract Builder setCurrency(@Nullable String currency);
-    public abstract Builder setFromDateTime(@Nullable DateTime fromDateTime);
+    public abstract Builder setFromDateTime(@Nullable ZonedDateTime fromDateTime);
     public abstract Builder setQuantityKey(@Nullable String quantityKey);
     public abstract Builder setRateAmount(@Nullable BigDecimal rateAmount);
     public abstract Builder setRelativePriceIndex(@Nullable BigDecimal relativePriceIndex);
     public abstract Builder setTariffId(@Nullable Long tariffId);
-    public abstract Builder setToDateTime(@Nullable DateTime toDateTime);
+    public abstract Builder setToDateTime(@Nullable ZonedDateTime toDateTime);
 
     @JsonIgnore
     public abstract Builder setPriceChanges(@Nullable PriceChange... priceChanges);
