@@ -44,6 +44,24 @@ public abstract class Response<T> {
     return new AutoValue_Response.Builder<T>();
   }
   
+  /** Static factory for a single element response */
+  public static <T> Response<T> of(T result) {
+    return Response.<T>builder()
+        .setStatus(STATUS_SUCCESS)
+        .setCount(1)
+        .setType(formatClassName(result.getClass()))
+        .setResults(ImmutableList.of(result))
+        .build();
+  }
+  
+  private static String formatClassName(Class<?> klazz) {
+    if (klazz.getSimpleName().startsWith("AutoValue")) {
+      return klazz.getSuperclass().getSimpleName();
+    } else {
+      return klazz.getSimpleName();
+    }
+  }
+  
   @AutoValue.Builder
   public abstract static class Builder<T> {
     public abstract Builder<T> setStatus(@Nullable String status);
