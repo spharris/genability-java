@@ -8,7 +8,7 @@ import com.genability.client.types.CalculatedCost;
 import com.google.inject.Guice;
 import com.google.inject.testing.fieldbinder.Bind;
 import com.google.inject.testing.fieldbinder.BoundFieldModule;
-import io.github.spharris.electricity.services.TariffCalculatorService;
+import io.github.spharris.electricity.calculator.TariffCalculator;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -32,7 +32,7 @@ public class CalculatorActionTest {
   
   @Inject private CalculatorAction action;
   
-  @Bind @Mock private TariffCalculatorService calculator;
+  @Bind @Mock private TariffCalculator calculator;
   
   @Before
   public void createInjector() {
@@ -50,6 +50,7 @@ public class CalculatorActionTest {
     thrown.expect(BadRequestException.class);
     
     action.getCalculation(GetCalculatedCostRequest.builder()
+      .setMasterTariffId(1L)
       .setToDateTime(START_TIME)
       .build());
   }
@@ -59,12 +60,24 @@ public class CalculatorActionTest {
     thrown.expect(BadRequestException.class);
     
     action.getCalculation(GetCalculatedCostRequest.builder()
+      .setMasterTariffId(1L)
       .setFromDateTime(START_TIME)
       .build());
   }
   
   @Test
   public void requiresFromBeforeStart() throws Exception {
+    thrown.expect(BadRequestException.class);
+    
+    action.getCalculation(GetCalculatedCostRequest.builder()
+      .setMasterTariffId(1L)
+      .setFromDateTime(START_TIME)
+      .setToDateTime(START_TIME)
+      .build());
+  }
+  
+  @Test
+  public void requiresMasterTariffId() throws Exception {
     thrown.expect(BadRequestException.class);
     
     action.getCalculation(GetCalculatedCostRequest.builder()
@@ -77,6 +90,7 @@ public class CalculatorActionTest {
   public void returnsResponse() throws Exception {
     // No exception thrown = passing test
     action.getCalculation(GetCalculatedCostRequest.builder()
+      .setMasterTariffId(1L)
       .setFromDateTime(START_TIME)
       .setToDateTime(START_TIME.plusDays(1L))
       .build());

@@ -5,7 +5,7 @@ import static io.github.spharris.electricity.util.ExceptionUtil.checkBadRequest;
 import com.genability.client.api.request.GetCalculatedCostRequest;
 import com.genability.client.types.CalculatedCost;
 import com.genability.client.types.Response;
-import io.github.spharris.electricity.services.TariffCalculatorService;
+import io.github.spharris.electricity.calculator.TariffCalculator;
 import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -20,10 +20,10 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 public class CalculatorAction {
   
-  private final TariffCalculatorService calculateService;
+  private final TariffCalculator calculateService;
   
   @Inject
-  public CalculatorAction(TariffCalculatorService calculateService) {
+  public CalculatorAction(TariffCalculator calculateService) {
     this.calculateService = calculateService;
   }
   
@@ -39,6 +39,7 @@ public class CalculatorAction {
   @Path("/")
   public Response<CalculatedCost> getCalculation(GetCalculatedCostRequest request)
       throws ExecutionException, InterruptedException {
+    checkBadRequest(request.getMasterTariffId() != null);
     checkBadRequest(request.getFromDateTime() != null);
     checkBadRequest(request.getToDateTime() != null);
     checkBadRequest(request.getToDateTime().isAfter(request.getFromDateTime()));
