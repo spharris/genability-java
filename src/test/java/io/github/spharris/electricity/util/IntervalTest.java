@@ -29,7 +29,8 @@ public class IntervalTest {
   
   @Test
   public void containsDate() {
-    assertThat(INTERVAL.contains(LocalDate.of(2015, 1, 15).atStartOfDay(ZoneId.of("America/Los_Angeles")))).isTrue();
+    assertThat(INTERVAL.contains(LocalDate.of(2015, 1, 15).atStartOfDay(
+      ZoneId.of("America/Los_Angeles")))).isTrue();
   }
   
   @Test

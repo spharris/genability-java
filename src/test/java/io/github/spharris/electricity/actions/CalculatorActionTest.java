@@ -1,10 +1,12 @@
 package io.github.spharris.electricity.actions;
 
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.genability.client.api.request.GetCalculatedCostRequest;
 import com.genability.client.types.CalculatedCost;
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
 import com.google.inject.testing.fieldbinder.Bind;
 import com.google.inject.testing.fieldbinder.BoundFieldModule;
@@ -40,7 +42,7 @@ public class CalculatorActionTest {
   }
   
   @Before
-  public void returnCalculatedCost() {
+  public void returnCalculatedCost() throws Exception {
     when(calculator.calculateTariffCost(isA(GetCalculatedCostRequest.class)))
         .thenReturn(CalculatedCost.builder().build());
   }
@@ -83,6 +85,22 @@ public class CalculatorActionTest {
     action.getCalculation(GetCalculatedCostRequest.builder()
       .setFromDateTime(START_TIME)
       .setToDateTime(START_TIME)
+      .build());
+  }
+  
+  @Test
+  public void normalizesRequestInputs() throws Exception {
+    GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
+      .setMasterTariffId(1L)
+      .setFromDateTime(START_TIME)
+      .setToDateTime(START_TIME.plusDays(1L))
+      .build(); 
+    
+    action.getCalculation(request);
+    
+    verify(calculator).calculateTariffCost(request.toBuilder()
+      .setTariffInputs(ImmutableList.of())
+      .setRateInputs(ImmutableList.of())
       .build());
   }
   

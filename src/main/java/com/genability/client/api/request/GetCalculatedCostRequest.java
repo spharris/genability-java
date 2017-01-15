@@ -1,12 +1,5 @@
 package com.genability.client.api.request;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-
-import javax.annotation.Nullable;
-
-import org.apache.http.NameValuePair;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,6 +10,10 @@ import com.genability.client.types.PropertyData;
 import com.genability.client.types.TariffRate;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import javax.annotation.Nullable;
+import org.apache.http.NameValuePair;
 
 @AutoValue
 public abstract class GetCalculatedCostRequest extends AbstractRequest {

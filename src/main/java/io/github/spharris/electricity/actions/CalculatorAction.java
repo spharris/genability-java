@@ -5,6 +5,8 @@ import static io.github.spharris.electricity.util.ExceptionUtil.checkBadRequest;
 import com.genability.client.api.request.GetCalculatedCostRequest;
 import com.genability.client.types.CalculatedCost;
 import com.genability.client.types.Response;
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 import io.github.spharris.electricity.calculator.TariffCalculator;
 import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
@@ -44,7 +46,17 @@ public class CalculatorAction {
     checkBadRequest(request.getToDateTime() != null);
     checkBadRequest(request.getToDateTime().isAfter(request.getFromDateTime()));
     
-    return Response.of(calculateService.calculateTariffCost(request));
+    return Response.of(calculateService.calculateTariffCost(normalizeRequestInputs(request)));
   }
-     
+  
+  private static GetCalculatedCostRequest normalizeRequestInputs(GetCalculatedCostRequest request) {
+    if (request.getTariffInputs() != null && request.getRateInputs() != null) {
+      return request;
+    }
+    
+    return request.toBuilder()
+        .setTariffInputs(MoreObjects.firstNonNull(request.getTariffInputs(), ImmutableList.of()))
+        .setRateInputs(MoreObjects.firstNonNull(request.getRateInputs(), ImmutableList.of()))
+        .build();
+  }
 }
