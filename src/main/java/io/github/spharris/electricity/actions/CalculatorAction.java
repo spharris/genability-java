@@ -4,6 +4,7 @@ import static io.github.spharris.electricity.util.ExceptionUtil.checkBadRequest;
 
 import com.genability.client.api.request.GetCalculatedCostRequest;
 import com.genability.client.types.CalculatedCost;
+import com.genability.client.types.PropertyData;
 import com.genability.client.types.Response;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -50,13 +51,31 @@ public class CalculatorAction {
   }
   
   private static GetCalculatedCostRequest normalizeRequestInputs(GetCalculatedCostRequest request) {
-    if (request.getTariffInputs() != null && request.getRateInputs() != null) {
-      return request;
+    GetCalculatedCostRequest.Builder builder = request.toBuilder()
+        .setRateInputs(MoreObjects.firstNonNull(request.getRateInputs(), ImmutableList.of()));
+
+    if (request.getTariffInputs() != null) {
+      ImmutableList.Builder<PropertyData> propertyBuilder = ImmutableList.builder();
+      for (PropertyData pd : request.getTariffInputs()) {
+        checkBadRequest(pd.getKeyName() != null);
+        checkBadRequest(pd.getDataValue() != null);
+        
+        if (pd.getFromDateTime() == null || pd.getToDateTime() == null) {
+          propertyBuilder.add(pd.toBuilder()
+            .setFromDateTime(MoreObjects.firstNonNull(pd.getFromDateTime(),
+              request.getFromDateTime()))
+            .setToDateTime(MoreObjects.firstNonNull(pd.getToDateTime(), request.getToDateTime()))
+            .build());
+        } else {
+          propertyBuilder.add(pd);
+        }
+      }
+      
+      builder.setTariffInputs(propertyBuilder.build());
+    } else {
+      builder.setTariffInputs(ImmutableList.of());
     }
     
-    return request.toBuilder()
-        .setTariffInputs(MoreObjects.firstNonNull(request.getTariffInputs(), ImmutableList.of()))
-        .setRateInputs(MoreObjects.firstNonNull(request.getRateInputs(), ImmutableList.of()))
-        .build();
+    return builder.build();
   }
 }

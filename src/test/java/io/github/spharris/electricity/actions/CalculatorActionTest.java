@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.genability.client.api.request.GetCalculatedCostRequest;
 import com.genability.client.types.CalculatedCost;
+import com.genability.client.types.PropertyData;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
 import com.google.inject.testing.fieldbinder.Bind;
@@ -111,6 +112,55 @@ public class CalculatorActionTest {
       .setMasterTariffId(1L)
       .setFromDateTime(START_TIME)
       .setToDateTime(START_TIME.plusDays(1L))
+      .build());
+  }
+  
+  @Test
+  public void requiresKeyName() throws Exception {
+    thrown.expect(BadRequestException.class);
+    
+    action.getCalculation(GetCalculatedCostRequest.builder()
+      .setMasterTariffId(1L)
+      .setFromDateTime(START_TIME)
+      .setToDateTime(START_TIME.plusDays(1L))
+      .setTariffInputs(PropertyData.builder().setDataValue("data-value").build())
+      .build());
+  }
+  
+  @Test
+  public void requiresDataValue() throws Exception {
+    thrown.expect(BadRequestException.class);
+    
+    action.getCalculation(GetCalculatedCostRequest.builder()
+      .setMasterTariffId(1L)
+      .setFromDateTime(START_TIME)
+      .setToDateTime(START_TIME.plusDays(1L))
+      .setTariffInputs(PropertyData.builder().setKeyName("key-name").build())
+      .build());
+  }
+  
+  @Test
+  public void setsPropertyDates() throws Exception {
+    PropertyData pd = PropertyData.builder()
+        .setKeyName("key-name")
+        .setDataValue("data-value")
+        .build();
+    
+    GetCalculatedCostRequest request = GetCalculatedCostRequest.builder()
+      .setMasterTariffId(1L)
+      .setFromDateTime(START_TIME)
+      .setToDateTime(START_TIME.plusDays(1L))
+      .setTariffInputs(pd)
+      .setRateInputs(ImmutableList.of())
+      .build();
+    
+    action.getCalculation(request);
+    
+    verify(calculator).calculateTariffCost(request.toBuilder()
+      .setTariffInputs(pd.toBuilder()
+        .setFromDateTime(START_TIME)
+        .setToDateTime(START_TIME.plusDays(1L))
+        .build())
       .build());
   }
 }

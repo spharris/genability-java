@@ -13,8 +13,7 @@ class RateCalculator {
   RateCalculator() {}
   
   /**
-   * Filter the rates on <code>tariff</code> based on the default values provided by the
-   * tariff and those passed in the request.
+   * Apply <code>rate</code> to <code>properties</code> over the given {@link Interval} 
    */
   public ImmutableList<CalculatedCostItem> calculateRate(Interval interval, Tariff tariff,
       TariffRate rate, ImmutableList<PropertyData> properties) {
