@@ -20,7 +20,7 @@ public abstract class TimeOfUse {
   public abstract @Nullable Long getLseId();
   public abstract @Nullable Season getSeason();
   public abstract @Nullable Integer getTouGroupId();
-  public abstract @Nullable Integer getTouId();
+  public abstract @Nullable Long getTouId();
   public abstract @Nullable String getTouName();
   public abstract @Nullable ImmutableList<TimeOfUsePeriod> getTouPeriods();
   public abstract @Nullable String getTouType();
@@ -39,7 +39,7 @@ public abstract class TimeOfUse {
     public abstract Builder setLseId(@Nullable Long lseId);
     public abstract Builder setSeason(@Nullable Season season);
     public abstract Builder setTouGroupId(@Nullable Integer touGroupId);
-    public abstract Builder setTouId(@Nullable Integer touId);
+    public abstract Builder setTouId(@Nullable Long touId);
     public abstract Builder setTouName(@Nullable String touName);
     public abstract Builder setTouType(@Nullable String touType);
 

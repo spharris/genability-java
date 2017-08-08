@@ -6,11 +6,17 @@ import com.genability.client.types.Tariff;
 import com.genability.client.types.TariffRate;
 import com.google.common.collect.ImmutableList;
 import io.github.spharris.electricity.util.Interval;
+import javax.inject.Inject;
 
 /** Class for filtering out rates on a tariff based on the passed-in applicability properties */
 class RateCalculator {
   
-  RateCalculator() {}
+  private final RateApplicabilityIntervalCalculator applicabilityCalculator;
+  
+  @Inject
+  RateCalculator(RateApplicabilityIntervalCalculator applicabilityCalculator) {
+    this.applicabilityCalculator = applicabilityCalculator;
+  }
   
   /**
    * Apply <code>rate</code> to <code>properties</code> over the given {@link Interval} 

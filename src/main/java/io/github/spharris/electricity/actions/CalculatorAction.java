@@ -12,23 +12,35 @@ import io.github.spharris.electricity.calculator.TariffCalculator;
 import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.logging.Logger;
 
 @Path("/calculator")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CalculatorAction {
+
+  private static final Logger log = Logger.getLogger(CalculatorAction.class.getName());
   
   private final TariffCalculator calculateService;
   
   @Inject
   public CalculatorAction(TariffCalculator calculateService) {
+    log.info("Creating CalculatorAction");
     this.calculateService = calculateService;
   }
+  
+  @GET
+  @Path("/test")
+  public Response<String> getData() {
+    return Response.of("Hello, world!");
+  }
+  
   
   @POST
   @Path("/{masterTariffId}")

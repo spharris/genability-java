@@ -46,7 +46,7 @@ public class TariffCalculator {
         tariffs.stream()
           .filter(tariff -> {
             ZonedDateTime effectiveDate =
-                tariff.getEffectiveDate().atStartOfDay(tariff.getTimeZone());
+                tariff.getEffectiveDate().atStartOfDay (tariff.getTimeZone());
             ZonedDateTime endDate = tariff.getEndDate() != null 
                 ? tariff.getEndDate().atStartOfDay(tariff.getTimeZone())
                 : calcRequest.getToDateTime().withZoneSameInstant(tariff.getTimeZone());
