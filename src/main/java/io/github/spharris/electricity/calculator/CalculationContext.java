@@ -1,11 +1,14 @@
 package io.github.spharris.electricity.calculator;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.genability.client.types.PropertyData;
 import com.genability.client.types.Tariff;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableRangeMap;
+import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 import io.github.spharris.electricity.util.RangeUtil;
@@ -47,18 +50,30 @@ abstract class CalculationContext {
   }
   
   Optional<PropertyData> getPropertyForInstant(String keyName, Instant instant) {
-    if (propertyCache == null) {
-      synchronized(this) {
-        initializePropertyCache();
-      }
-    }
-    
+    checkNotNull(keyName, "keyName");
+    checkNotNull(instant, "instant");
+    initializePropertyCache();
+     
     ImmutableRangeMap<Instant, PropertyData> valuesForKey = propertyCache.get(keyName);
     if (valuesForKey == null) {
       return Optional.empty();
     }
     
     return Optional.ofNullable(valuesForKey.get(instant));
+  }
+  
+  ImmutableList<PropertyData> getPropertiesForInterval(String keyName, Range<Instant> interval) {
+    checkNotNull(keyName, "keyName");
+    checkNotNull(interval, "interval");
+    initializePropertyCache();
+    
+    ImmutableRangeMap<Instant, PropertyData> valuesForKey = propertyCache.get(keyName);
+    if (valuesForKey == null) {
+      return ImmutableList.of();
+    }
+    
+    return ImmutableList.copyOf(
+      valuesForKey.subRangeMap(interval).asMapOfRanges().values());
   }
   
   private void initializePropertyCache() {
