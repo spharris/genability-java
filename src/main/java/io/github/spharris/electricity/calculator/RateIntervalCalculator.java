@@ -11,10 +11,10 @@ import javax.inject.Inject;
  * Class that calculates the time intervals over which a particular rate is active given the inputs
  * to a calculation.
  */
-class RateApplicabilityIntervalCalculator {
+class RateIntervalCalculator {
 
   @Inject
-  RateApplicabilityIntervalCalculator() {}
+  RateIntervalCalculator() {}
 
   ImmutableRangeSet<Instant> getActiveIntervalsForPeriod(TariffRate rate,
       Range<Instant> calculationInterval,

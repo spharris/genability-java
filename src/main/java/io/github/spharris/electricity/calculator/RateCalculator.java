@@ -11,10 +11,10 @@ import javax.inject.Inject;
 /** Class for filtering out rates on a tariff based on the passed-in applicability properties */
 class RateCalculator {
   
-  private final RateApplicabilityIntervalCalculator applicabilityCalculator;
+  private final RateIntervalCalculator applicabilityCalculator;
   
   @Inject
-  RateCalculator(RateApplicabilityIntervalCalculator applicabilityCalculator) {
+  RateCalculator(RateIntervalCalculator applicabilityCalculator) {
     this.applicabilityCalculator = applicabilityCalculator;
   }
   

@@ -2,6 +2,7 @@ package io.github.spharris.electricity.calculator;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.genability.client.types.PropertyData;
 import com.genability.client.types.TariffRate;
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
@@ -18,12 +19,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class RateApplicabilityIntervalCalculatorTest {
+public class RateIntervalCalculatorTest {
 
   private static final Instant NOW = Instant.now();
 
   @Inject
-  private RateApplicabilityIntervalCalculator calculator;
+  private RateIntervalCalculator calculator;
 
   @Before
   public void createInjector() {
